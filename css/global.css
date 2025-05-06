@@ -1,3 +1,13 @@
+/* =========================================================
+   For screens ≥ 769px, hide mobile nav (redundant but safe)
+   ========================================================= */
+@media screen and (min-width: 769px) {
+  .mobile-nav,
+  .mobile-services-menu {
+    display: none;
+  }
+}
+
 /* Global Reset & Basic Body Styles */
 * {
   margin: 0;
