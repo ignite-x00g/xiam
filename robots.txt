@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Sitemap: https://www.opsonlinesupport.com/sitemap.xml
+Security: https://www.opsonlinesupport.com/.well-known/security.txt
