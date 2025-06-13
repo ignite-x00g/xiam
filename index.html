@@ -7,26 +7,37 @@
 
     <!-- Recommended: Implement CSP via HTTP header and remove this meta tag. See RECOMMENDED_SECURITY_HEADERS.md -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js https://unpkg.com/openpgp@5.5.0/dist/openpgp.min.js; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css; img-src 'self'; font-src 'self' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/webfonts/; connect-src 'self' YOUR_GOOGLE_APPS_SCRIPT_URL_HERE OTHER_FORM_SUBMISSION_URLS_HERE; frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' YOUR_GOOGLE_APPS_SCRIPT_URL_HERE OTHER_FORM_SUBMISSION_URLS_HERE;">
-
-    <!-- SEO Title -->
+    <!-- ==================================================================
+                            SEO Title
+    ================================================================== -->
     <title>Ops Online Support - Secure IT Support & Remote Solutions</title>
-
-    <!-- Meta Description for SEO -->
+    <!-- ==================================================================
+                            Meta Description for SEO
+    ================================================================== -->
+  
     <meta name="description" content="Ops Online Support offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
-
-    <!-- Meta Keywords -->
+    <!-- ==================================================================
+                            Meta Keywords
+    ================================================================== -->
+   
     <meta name="keywords" content="IT Support, Remote Solutions, Contact Center, Business Operations, Professional Services, Ops Online Support, Secure IT Services">
-
-    <!-- Robots Meta Tag (SEO Enhancement) -->
+    <!-- ==================================================================
+                            Robots Meta Tag (SEO Enhancement)
+    ================================================================== -->
+   
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph for Social Media Sharing -->
+    <!-- ==================================================================
+                            Open Graph for Social Media Sharing
+    ================================================================== -->
+    
     <meta property="og:title" content="Ops Online Support - Secure IT Support & Remote Solutions">
     <meta property="og:description" content="Ops Online Support offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
     <meta property="og:image" content="assets/images/hero-image.jpg">
     <!-- TODO: SEO - Update content path once 'assets/images/hero-image.jpg' is available -->
     <meta property="og:url" content="https://www.opsonlinesupport.com">
-
+    <!-- ==================================================================
+                            TODO: SEO
+    ================================================================== -->
     <!-- TODO: SEO - In the JSON-LD schema below, update the 'logo' URL once 'assets/logo.png' is available -->
     <!-- Structured Data (Schema Markup) - Organization Schema -->
     <script type="application/ld+json">
@@ -50,7 +61,9 @@
         ]
       }
     </script>
-
+    <!-- ==================================================================
+                            External Stylesheets
+    ================================================================== -->
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" media="(max-width: 768px)" href="css/small-screens.css">
@@ -66,6 +79,9 @@
 </head>
 
 <body>
+    <!-- ==================================================================
+                    Header Section: Navigation & Toggle Buttons
+    ================================================================== -->
     <!-- Main Content - Header Section: Navigation & Toggle Buttons (Desktop Only) -->
     <div id="secure-content">
         <header>
@@ -79,15 +95,19 @@
                     <li><a href="security.html" data-en="Security" data-es="Seguridad">Security</a></li>
                 </ul>
             </nav>
-
+            <!-- ==================================================================
+                            Theme and Language Toggle for Desktop
+            ================================================================== -->
             <!-- Theme and Language Toggle for Desktop -->
             <div class="toggle-container">
                 <button id="theme-toggle-desktop">Light</button>
                 <button id="language-toggle-desktop">EN</button>
             </div>
         </header>
-
-        <!-- Hero Section -->
+            <!-- ==================================================================
+                                   Hero Section
+            ================================================================== -->
+       
         <section class="hero">
             <h2 data-en="Welcome to Ops Solutions Services" data-es="Bienvenido a OPS Solutions Services">
                 Welcome to Ops Solutions Services
@@ -97,8 +117,10 @@
             </p>
             <img src="assets/images/hero-image.jpg" alt="Hero Image" class="hero-image">
         </section>
+            <!-- ==================================================================
+                                   Services Preview Section
+            ================================================================== -->
 
-        <!-- Services Preview Section -->
         <section id="services-preview" class="services">
             <div class="service-item">
                 <h3 data-en="Business Operations" data-es="Gestión">Business Operations</h3>
@@ -129,13 +151,17 @@
                 <a href="professionals.html" class="btn" data-en="Learn More" data-es="Saber Más">Learn More</a>
             </div>
         </section>
-
-        <!-- Footer Section -->
+            <!-- ==================================================================
+                                  Footer Section
+            ================================================================== -->
+       
         <footer>
             <p>&copy; 2025 Ops Online Support. All rights reserved.</p>
         </footer>
-
-        <!-- Floating Icons (Triggers for Modals) -->
+            <!-- ==================================================================
+                                Floating Icons (Triggers for Modals)
+            ================================================================== -->
+       
         <div class="floating-icons">
             <button class="floating-icon" data-modal="join-modal" aria-label="Join Us" tabindex="0">
                 <i class="fas fa-user-plus"></i>
@@ -144,9 +170,10 @@
                 <i class="fas fa-envelope-open-text"></i>
             </button>
         </div>
-
-        <!-- Join Modal -->
-        <div id="join-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+        <!-- ==================================================================
+                                        Join Modal
+        ================================================================== -->
+              <div id="join-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 id="joinModalTitle" data-en="Join Us" data-es="Únete">Join Us</h3>
@@ -154,9 +181,6 @@
                 </div>
                 <div class="modal-body">
                     <form id="join-form">
-                        <!-- ==================================================================
-                                --->>> Basic Information <<<--- centered
-                            ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell">
                                 <label for="join-name" data-en="Name" data-es="Nombre">Name</label>
@@ -175,7 +199,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Experience <<<--- centered
+                                                        Experience
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -188,7 +212,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Skills <<<--- centered
+                                                    Skills
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -201,7 +225,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Work Roles <<<--- centered
+                                                     Work Roles
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -214,7 +238,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Education <<<--- centered
+                                                         Education
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -227,7 +251,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Certifications | Licenses <<<--- centered
+                                                    Certifications | Licenses
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -240,7 +264,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Continued Education <<<--- centered
+                                                  Continued Education
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -253,7 +277,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Hobbies <<<--- centered
+                                                    Hobbies
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -266,7 +290,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Would like to work <<<--- centered
+                                                  Would like to work
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -290,7 +314,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Cover Letter <<<--- centered
+                                                    Cover Letter
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -300,7 +324,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> About Yourself <<<--- centered
+                                                    About Yourself
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -310,7 +334,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> Reason to Hire Yourself <<<--- centered
+                                                Reason to Hire Yourself
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -320,7 +344,7 @@
                         </div>
 
                         <!-- ==================================================================
-                                --->>> ReCAPTCHA <<<--- centered
+                                                    ReCAPTCHA
                             ================================================================== -->
                         <div class="form-row">
                             <div class="form-cell form-cell-full">
@@ -334,8 +358,10 @@
                 </div>
             </div>
         </div>
-
-        <!-- Contact Modal -->
+        <!-- ==================================================================
+                                Contact Modal
+        ================================================================== -->
+      
         <div id="contact-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
             <div class="modal-content">
                 <div class="modal-header">
@@ -382,9 +408,10 @@
                 </div>
             </div>
         </div>
-
-        <!-- Mobile Bottom Navigation & Services Menu (Small Screens) -->
-        <!-- Mobile Bottom Navigation Bar -->
+        <!-- ==================================================================
+                Mobile Bottom Navigation & Services Menu (Small Screens)
+        ================================================================== -->
+                    <!-- Mobile Bottom Navigation Bar -->
         <nav class="mobile-nav">
             <a href="index.html" class="mobile-nav-item">
                 <i class="fas fa-home"></i>
@@ -409,8 +436,10 @@
                 <span>Chat</span>
             </a>
         </nav>
-
-        <!-- Hidden Mobile Services Menu -->
+        <!-- ==================================================================
+                            Hidden Mobile Services Menu
+        ================================================================== -->
+       
         <div class="mobile-services-menu" id="mobile-services-menu">
             <ul>
                 <li><a href="business-operations.html">Business Operations</a></li>
@@ -419,7 +448,9 @@
                 <li><a href="professionals.html">Professionals</a></li>
             </ul>
         </div>
-
+        <!-- ==================================================================
+                            Custom Scripts JavaScrip
+        ================================================================== -->
         <!-- Custom Scripts JavaScript: Main Functionality & Mobile Menu Toggle -->
         <script src="js/main.js" defer></script>
         <script src="js/service-worker.js" defer></script>
