@@ -163,6 +163,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   
+  // ================================================================
+  // Employment Type Toggle for Join Us Form
+  // ================================================================
+  const employmentTypeToggle = document.getElementById('employment-type-toggle');
+  const employmentTypeCheckboxes = document.getElementById('employment-type-checkboxes');
+
+  if (employmentTypeToggle && employmentTypeCheckboxes) {
+    employmentTypeToggle.addEventListener('click', () => {
+      const isExpanded = employmentTypeToggle.getAttribute('aria-expanded') === 'true';
+      employmentTypeCheckboxes.style.display = isExpanded ? 'none' : 'block'; // Or 'grid' if it's a grid container
+      employmentTypeToggle.setAttribute('aria-expanded', !isExpanded);
+
+      // Update button text (span inside the button)
+      const buttonTextSpan = employmentTypeToggle.querySelector('span');
+      if (buttonTextSpan) {
+        if (!isExpanded) {
+          buttonTextSpan.setAttribute('data-en', 'Hide Options');
+          buttonTextSpan.setAttribute('data-es', 'Ocultar Opciones');
+        } else {
+          buttonTextSpan.setAttribute('data-en', 'Show Options');
+          buttonTextSpan.setAttribute('data-es', 'Mostrar Opciones');
+        }
+        // Update text based on current language
+        const currentLang = document.body.getAttribute('lang') || 'en';
+        buttonTextSpan.textContent = buttonTextSpan.getAttribute(currentLang === 'en' ? 'data-en' : 'data-es');
+      }
+    });
+
+    // Ensure initial button text is correct based on language (if Show Options is default)
+    const initialButtonTextSpan = employmentTypeToggle.querySelector('span');
+    if (initialButtonTextSpan) {
+        const currentLang = document.body.getAttribute('lang') || 'en';
+        initialButtonTextSpan.textContent = initialButtonTextSpan.getAttribute(currentLang === 'en' ? 'data-en' : 'data-es');
+    }
+  }
+
   // =======================================================================================
   // Sanitize input function Form Submissions: Alert + Reset + Input Sanitization
   // =======================================================================================
@@ -194,7 +230,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const contact = sanitizeInput(document.getElementById("join-contact").value);
       const comment = sanitizeInput(document.getElementById("join-comment").value);
 
-      console.log("Sanitized Join Form Submission →", { name, email, contact, comment });
+      // Collect selected employment types
+      const selectedEmploymentTypes = [];
+      const employmentCheckboxes = document.querySelectorAll('input[name="employment_type"]:checked');
+      employmentCheckboxes.forEach(checkbox => {
+        selectedEmploymentTypes.push(checkbox.value);
+      });
+
+      console.log("Sanitized Join Form Submission →", {
+        name,
+        email,
+        contact,
+        comment,
+        employmentTypes: selectedEmploymentTypes
+      });
 
       alert('Thank you for joining us! Your information has been safely received.');
       joinForm.reset();
