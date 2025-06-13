@@ -368,3 +368,93 @@ body[data-theme="dark"] .modal-content form {
     z-index: 1001;
   }
 }
+
+/* Collapsible Checkbox Group for Forms */
+.collapsible-checkbox-group {
+  margin-bottom: 1rem;
+}
+
+.collapsible-trigger {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.collapsible-trigger:hover {
+  background-color: #e9e9e9;
+}
+
+.collapsible-panel {
+  display: none; /* Hidden by default */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.collapsible-panel.active {
+  display: block;
+}
+
+.checkbox-option {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.checkbox-option input[type="checkbox"] {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.checkbox-option label {
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+.collapsible-done-btn {
+  background-color: #9b87f5;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.collapsible-done-btn:hover {
+  background-color: #7e69ab;
+}
+
+/* Dark mode considerations for collapsible component */
+body[data-theme="dark"] .collapsible-trigger {
+  background-color: #333;
+  border-color: #555;
+  color: #e0e0e0;
+}
+body[data-theme="dark"] .collapsible-trigger:hover {
+  background-color: #444;
+}
+body[data-theme="dark"] .collapsible-panel {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+body[data-theme="dark"] .checkbox-option label {
+  color: #e0e0e0; /* Ensure checkbox labels are visible in dark mode */
+}
+/* Assuming .collapsible-done-btn will inherit dark mode button styles if available,
+   or specific styles can be added if needed. The provided style is theme-agnostic based on main theme colors. */
+
+.form-cell-full {
+  grid-column: 1 / -1; /* Span all columns in the parent grid */
+}
