@@ -167,7 +167,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Sanitize input function Form Submissions: Alert + Reset + Input Sanitization
   // =======================================================================================
   function sanitizeInput(input) {
-    return input.replace(/<[^>]*>/g, '').trim(); // Basic XSS protection
+    if (typeof input !== 'string') {
+      // Handle non-string inputs, e.g., by returning them as is or an empty string
+      // For form inputs, they are typically strings, but good to be safe.
+      return '';
+    }
+    const output = input.replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/&/g, "&amp;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#x27;") // Alternatively, use &#39;
+                        // .replace(/\//g, "&#x2F;") // Forward slash, less critical but sometimes included
+                        .trim();
+    return output;
   }
 
   // Join Us Form
@@ -199,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Sanitize input fields
       const contactName = sanitizeInput(document.getElementById("contact-name").value);
       const contactEmail = sanitizeInput(document.getElementById("contact-email").value);
-      const contactMessage = sanitizeInput(document.getElementById("contact-message").value);
+    const contactMessage = sanitizeInput(document.getElementById("contact-comments").value);
 
       console.log("Sanitized Contact Form Submission →", { contactName, contactEmail, contactMessage });
 

@@ -2,14 +2,13 @@ const CACHE_NAME = 'ops-solutions-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/manifest.json',
   '/css/global.css',
   '/css/small-screens.css',
   '/js/main.js',
-   '/js/service-worker.js',
   '/assets/logo.png',
   '/assets/hero-image.jpg',
-  '/assets/favicon.ico',
-  '/assets/images/hero-image.jpg',
+  '/assets/favicon.ico'
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -134,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ============================
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
+      navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
           console.log('Service Worker registered:', registration.scope);
         })

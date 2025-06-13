@@ -1,0 +1,16 @@
+{
+  "name": "Ops Online Support",
+  "short_name": "OPS",
+  "description": "Ops Online Solutions offers secure IT support, remote solutions, and professional services.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f4f4",
+  "theme_color": "#9b87f5",
+  "icons": [
+    {
+      "src": "/assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
