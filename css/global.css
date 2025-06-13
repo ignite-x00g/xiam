@@ -377,6 +377,71 @@ body[data-theme="dark"] .modal-content form {
   background-color: rgba(0,0,0,0.85);
 }
 
+/* Employment Type Section */
+.form-cell.full-width { /* Class for the label and button container */
+    grid-column: 1 / -1; /* Span full width in the grid */
+}
+
+#employment-type-checkboxes {
+    /* display: none; is handled by inline style, controlled by JS */
+    padding-top: 10px; /* Space above checkboxes */
+    padding-left: 15px; /* Horizontal padding for <--- ---> effect */
+    padding-right: 15px; /* Horizontal padding for <--- ---> effect */
+}
+
+/* Target .form-row that also has .checkbox-row for the flex layout */
+.collapsible-checkbox-group .form-row.checkbox-row {
+    display: flex; /* Arrange checkbox-cells in a row */
+    justify-content: space-between; /* Distribute space, or use gap */
+    gap: 10px; /* Space between the two checkbox cells */
+    margin-bottom: 8px; /* Spacing between checkbox rows, adjusted from 5px */
+}
+
+.checkbox-cell {
+    display: flex;
+    align-items: center; /* Align checkbox and label vertically */
+    flex: 1; /* Each cell takes equal width in the flex row */
+    /* Adding a bit of padding if needed, though label width 100% might cover it */
+    /* padding: 0 5px; */
+}
+
+.checkbox-cell label {
+    display: flex; /* Align text span and input within the label */
+    align-items: center;
+    cursor: pointer;
+    width: 100%; /* Make label take full width of cell for easier clicking */
+}
+
+.checkbox-cell input[type="checkbox"] {
+    margin-left: 10px; /* Space between text and checkbox */
+    order: 1; /* Checkbox to the right of the label text */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+
+.checkbox-cell label span {
+    flex-grow: 1; /* Text takes available space */
+    /* text-align: center; */ /* Uncomment if text itself needs to be centered */
+}
+
+.toggle-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 5px; /* Space between label and button */
+}
+
+.toggle-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Ensure the modal form styling applies within the new section if needed */
+#join-form .form-row {
+    /* Existing styles should cover this, but can be fine-tuned if necessary */
+}
+
 /* ===========================================
    Mobile Overrides (Responsive Design)
  =========================================== */
