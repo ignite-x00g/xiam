@@ -1,7 +1,0 @@
-# security.txt for OPS Online Support
-
-Contact: mailto:gabriel.servicesolutions@gmail.com
-Contact: https://www.opsonlinesupport.com/contactus
-Hiring: https://www.opsonlinesupport.com/joinus
-Preferred-Languages: en, es
-Expires: 2025-12-31T23:59:00.000Z
