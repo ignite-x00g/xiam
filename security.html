@@ -5,18 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Hardened CSP via Meta Tag -->
-    <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://cdnjs.cloudflare.com 'nonce-<random-value>';
-    style-src 'self' https://cdnjs.cloudflare.com 'nonce-<random-value>';
-    img-src 'self' https://trusted-image-cdn.com;
-    font-src 'self' https://cdnjs.cloudflare.com;
-    connect-src 'self';
-    frame-ancestors 'none';
-    object-src 'none';
-    base-uri 'self';
-  ">
+    <!-- Recommended: Implement CSP via HTTP header and remove this meta tag. See RECOMMENDED_SECURITY_HEADERS.md -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://unpkg.com/openpgp@5.5.0/dist/openpgp.min.js https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css; img-src 'self'; font-src 'self' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/webfonts/; connect-src 'self' YOUR_GOOGLE_APPS_SCRIPT_URL_HERE OTHER_FORM_SUBMISSION_URLS_HERE; frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' YOUR_GOOGLE_APPS_SCRIPT_URL_HERE OTHER_FORM_SUBMISSION_URLS_HERE;">
 
     <!-- SEO Title -->
     <title>OPS Online Support - Secure IT Support & Remote Solutions</title>
@@ -62,13 +52,15 @@
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" media="(max-width: 768px)" href="css/small-screens.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ">
     <link rel="icon" href="assets/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#9b87f5">
 
-    <!-- ReCAPTCHA Script -->
+    <!-- SRI is not applied to ReCAPTCHA's api.js as it's a dynamic loader script and SRI can cause breakage. Protection relies on Google's secure infrastructure and CSP. -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-    <script src="https://unpkg.com/openpgp@5.5.0/dist/openpgp.min.js"></script>
+    <script src="https://unpkg.com/openpgp@5.5.0/dist/openpgp.min.js" integrity="sha384-ODEdEVHfBiKCHRTrubAnH194WCRNxfXQ6qL+3B3LDxMh7B0YXRjQ1H6HjZkwJ2aG" crossorigin="anonymous"></script>
 
 </head>
 
@@ -112,25 +104,7 @@
             <div class="g-recaptcha mb-4" data-sitekey="YOUR_SITE_KEY"></div>
             <input type="hidden" id="nonce">
             <input type="hidden" id="timestamp">
-            <button type="button" onclick="encryptAndSend('security')" class="bg-blue-600 text-white px-4 py-2 rounded">Submit Securely</button>
-        </form>
-
-        <!-- Join Us / Contact Us Form -->
-        <form id="contactForm" class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-4">📨 Join Us / Contact Us</h2>
-            <input type="text" name="hidden_field" style="display:none">
-            <label class="block mb-2">Full Name</label>
-            <input type="text" id="fullname" class="w-full p-2 border rounded mb-4" required>
-            <label class="block mb-2">Email</label>
-            <input type="email" id="email" class="w-full p-2 border rounded mb-4" required>
-            <label class="block mb-2">Message / Background</label>
-            <textarea id="message" rows="5" class="w-full p-2 border rounded mb-4" required></textarea>
-            <label class="block mb-2">Upload (PDF, DOC, DOCX)</label>
-            <input type="file" accept=".pdf,.doc,.docx" class="mb-4">
-            <div class="g-recaptcha mb-4" data-sitekey="YOUR_SITE_KEY"></div>
-            <input type="hidden" id="nonce-contact">
-            <input type="hidden" id="timestamp-contact">
-            <button type="button" onclick="encryptAndSend('contact')" class="bg-green-600 text-white px-4 py-2 rounded">Send Securely</button>
+            <button type="button" id="submitSecurityFormButton" class="bg-blue-600 text-white px-4 py-2 rounded">Submit Securely</button>
         </form>
 
         <script>
@@ -143,8 +117,11 @@
             document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('nonce').value = generateNonce();
                 document.getElementById('timestamp').value = new Date().toISOString();
-                document.getElementById('nonce-contact').value = generateNonce();
-                document.getElementById('timestamp-contact').value = new Date().toISOString();
+
+                const securityButton = document.getElementById('submitSecurityFormButton');
+                if (securityButton) {
+                    securityButton.addEventListener('click', () => encryptAndSend('security'));
+                }
             });
 
             async function encryptAndSend(formType) {
@@ -159,14 +136,6 @@
                         nonce: document.getElementById('nonce').value,
                         timestamp: document.getElementById('timestamp').value
                     });
-                } else {
-                    message = JSON.stringify({
-                        name: document.getElementById('fullname').value,
-                        email: document.getElementById('email').value,
-                        msg: document.getElementById('message').value,
-                        nonce: document.getElementById('nonce-contact').value,
-                        timestamp: document.getElementById('timestamp-contact').value
-                    });
                 }
 
                 const encrypted = await openpgp.encrypt({
@@ -176,10 +145,10 @@
 
                 const payload = {
                     encrypted: encrypted,
-                    timestamp: formType === 'security' ? document.getElementById('timestamp').value : document.getElementById('timestamp-contact').value,
-                    nonce: formType === 'security' ? document.getElementById('nonce').value : document.getElementById('nonce-contact').value,
+                    timestamp: document.getElementById('timestamp').value,
+                    nonce: document.getElementById('nonce').value,
                     hidden_field: '',
-                    form: formType
+                    form: 'security'
                 };
 
                 const res = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {

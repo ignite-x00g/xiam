@@ -5,44 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Hardened CSP via Meta Tag -->
-    <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://cdnjs.cloudflare.com 'nonce-<random-value>';
-    style-src 'self' https://cdnjs.cloudflare.com 'nonce-<random-value>';
-    img-src 'self' https://trusted-image-cdn.com;
-    font-src 'self' https://cdnjs.cloudflare.com;
-    connect-src 'self';
-    frame-ancestors 'none';
-    object-src 'none';
-    base-uri 'self';
-  ">
+    <!-- Recommended: Implement CSP via HTTP header and remove this meta tag. See RECOMMENDED_SECURITY_HEADERS.md -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js https://unpkg.com/openpgp@5.5.0/dist/openpgp.min.js; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css; img-src 'self'; font-src 'self' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/webfonts/; connect-src 'self' YOUR_GOOGLE_APPS_SCRIPT_URL_HERE OTHER_FORM_SUBMISSION_URLS_HERE; frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' YOUR_GOOGLE_APPS_SCRIPT_URL_HERE OTHER_FORM_SUBMISSION_URLS_HERE;">
 
     <!-- SEO Title -->
-    <title>Ops Online Solutions - Secure IT Support & Remote Solutions</title>
+    <title>Ops Online Support - Secure IT Support & Remote Solutions</title>
 
     <!-- Meta Description for SEO -->
-    <meta name="description" content="Ops Online Solutions offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
+    <meta name="description" content="Ops Online Support offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
 
     <!-- Meta Keywords -->
-    <meta name="keywords" content="IT Support, Remote Solutions, Contact Center, Business Operations, Professional Services, Ops Online Solutions, Secure IT Services">
+    <meta name="keywords" content="IT Support, Remote Solutions, Contact Center, Business Operations, Professional Services, Ops Online Support, Secure IT Services">
 
     <!-- Robots Meta Tag (SEO Enhancement) -->
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph for Social Media Sharing -->
-    <meta property="og:title" content="Ops Online Solutions - Secure IT Support & Remote Solutions">
-    <meta property="og:description" content="Ops Online Solutions offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
+    <meta property="og:title" content="Ops Online Support - Secure IT Support & Remote Solutions">
+    <meta property="og:description" content="Ops Online Support offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
     <meta property="og:image" content="assets/images/hero-image.jpg">
-    <meta property="og:url" content="https://www.opsonlinesolutions.com">
+    <!-- TODO: SEO - Update content path once 'assets/images/hero-image.jpg' is available -->
+    <meta property="og:url" content="https://www.opsonlinesupport.com">
 
+    <!-- TODO: SEO - In the JSON-LD schema below, update the 'logo' URL once 'assets/logo.png' is available -->
     <!-- Structured Data (Schema Markup) - Organization Schema -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Ops Online Solutions",
-        "url": "https://www.opsonlinesolutions.com",
+        "name": "Ops Online Support",
+        "url": "https://www.opsonlinesupport.com",
         "logo": "https://www.opsonlinesolutions.com/assets/logo.png",
         "contactPoint": {
           "@type": "ContactPoint",
@@ -62,17 +54,20 @@
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" media="(max-width: 768px)" href="css/small-screens.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ">
     <link rel="icon" href="assets/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#9b87f5">
 
-    <!-- ReCAPTCHA Script -->
+    <script src="https://unpkg.com/openpgp@5.5.0/dist/openpgp.min.js" integrity="sha384-ODEdEVHfBiKCHRTrubAnH194WCRNxfXQ6qL+3B3LDxMh7B0YXRjQ1H6HjZkwJ2aG" crossorigin="anonymous"></script>
+    <!-- SRI is not applied to ReCAPTCHA's api.js as it's a dynamic loader script and SRI can cause breakage. Protection relies on Google's secure infrastructure and CSP. -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </head>
 
 <body>
     <!-- Main Content - Header Section: Navigation & Toggle Buttons (Desktop Only) -->
-    <div id="secure-content" style="display:none;">
+    <div id="secure-content">
         <header>
             <nav>
                 <ul>
@@ -137,7 +132,7 @@
 
         <!-- Footer Section -->
         <footer>
-            <p>&copy; 2025 OPS Solutions Services. All rights reserved.</p>
+            <p>&copy; 2025 Ops Online Support. All rights reserved.</p>
         </footer>
 
         <!-- Floating Icons (Triggers for Modals) -->
@@ -154,51 +149,168 @@
         <div id="join-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 id="joinModalTitle" data-en="Join Us" data-es="Únete a Nosotros">Join Us</h3>
+                    <h3 id="joinModalTitle" data-en="Join Us" data-es="Únete">Join Us</h3>
                     <button class="close-modal" data-close aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="join-form">
+                        {/* Name, Email, Contact (Existing) */}
                         <div class="form-row">
                             <div class="form-cell">
                                 <label for="join-name" data-en="Name" data-es="Nombre">Name</label>
-                                <input type="text" id="join-name" placeholder="Enter your name / Ingrese su Nombre" required>
+                                <input type="text" id="join-name" name="join-name" data-en-placeholder="Enter your name" data-es-placeholder="Ingrese su nombre" placeholder="Enter your name" required />
                             </div>
                             <div class="form-cell">
                                 <label for="join-email" data-en="Email" data-es="Correo Electrónico">Email</label>
-                                <input type="email" id="join-email" placeholder="Enter your email / Ingrese su correo electrónico" required>
+                                <input type="email" id="join-email" name="join-email" data-en-placeholder="Enter your email" data-es-placeholder="Ingrese su correo electrónico" placeholder="Enter your email" required />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-cell">
                                 <label for="join-contact" data-en="Contact Number" data-es="Número de Contacto">Contact Number</label>
-                                <input type="tel" id="join-contact" placeholder="Enter your contact number / Ingrese su número" required>
+                                <input type="tel" id="join-contact" name="join-contact" data-en-placeholder="Enter your contact number" data-es-placeholder="Ingrese su número de contacto" placeholder="Enter your contact number" required />
                             </div>
-                            <div class="form-cell">
-                                <label for="join-date" data-en="Date" data-es="Fecha">Date</label>
-                                <input type="date" id="join-date" required>
+                            {/* Placeholder for potential second item in this row if needed, or adjust CSS for single full-width cell */}
+                            <div class="form-cell"></div>
+                        </div>
+
+                        {/* Experience Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Experience" data-es="Experiencia">Experience</h4>
+                            <div class="dynamic-fields-container" id="experience-fields-container">
+                              {/* JS will add fields here. */}
                             </div>
+                            <button type="button" class="add-field-btn" data-target="experience-fields-container" data-max="5"
+                                    data-en-text="+ Add Experience" data-es-text="+ Añadir Experiencia">+ Add Experience</button>
+                          </div>
+                        </div>
+
+                        {/* Skills Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Skills" data-es="Habilidades">Skills</h4>
+                            <div class="dynamic-fields-container" id="skills-fields-container">
+                              {/* JS will add fields here */}
+                            </div>
+                            <button type="button" class="add-field-btn" data-target="skills-fields-container" data-max="5"
+                                    data-en-text="+ Add Skill" data-es-text="+ Añadir Habilidad">+ Add Skill</button>
+                          </div>
+                        </div>
+
+                        {/* Work Roles Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Work Roles" data-es="Roles de trabajo">Work Roles</h4>
+                            <div class="dynamic-fields-container" id="workroles-fields-container">
+                              {/* JS will add fields like: <input type="text" name="workrole_description[]" placeholder="Role..."> <input type="date" name="workrole_date[]"> */}
+                            </div>
+                            <button type="button" class="add-field-btn" data-target="workroles-fields-container" data-max="5"
+                                    data-en-text="+ Add Work Role" data-es-text="+ Añadir Rol de Trabajo">+ Add Work Role</button>
+                          </div>
+                        </div>
+
+                        {/* Education Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Education" data-es="Educación">Education</h4>
+                            <div class="dynamic-fields-container" id="education-fields-container">
+                              {/* JS will add fields like: <input type="text" name="education_description[]" placeholder="Institution..."> <input type="date" name="education_date[]"> */}
+                            </div>
+                            <button type="button" class="add-field-btn" data-target="education-fields-container" data-max="5"
+                                    data-en-text="+ Add Education" data-es-text="+ Añadir Educación">+ Add Education</button>
+                          </div>
+                        </div>
+
+                        {/* Certifications | Licenses Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Certifications | Licenses" data-es="Certificaciones | Licencias">Certifications | Licenses</h4>
+                            <div class="dynamic-fields-container" id="certifications-fields-container">
+                              {/* JS will add fields */}
+                            </div>
+                            <button type="button" class="add-field-btn" data-target="certifications-fields-container" data-max="5"
+                                    data-en-text="+ Add Certification/License" data-es-text="+ Añadir Certificación/Licencia">+ Add Certification/License</button>
+                          </div>
+                        </div>
+
+                        {/* Continued Education Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Continued Education" data-es="Educación Continua">Continued Education</h4>
+                            <div class="dynamic-fields-container" id="continued-education-fields-container">
+                              {/* JS will add fields */}
+                            </div>
+                            <button type="button" class="add-field-btn" data-target="continued-education-fields-container" data-max="5"
+                                    data-en-text="+ Add Continued Education" data-es-text="+ Añadir Educación Continua">+ Add Continued Education</button>
+                          </div>
+                        </div>
+
+                        {/* Hobbies Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <h4 data-en="Hobbies" data-es="Hobbies">Hobbies</h4>
+                            <div class="dynamic-fields-container" id="hobbies-fields-container">
+                              {/* JS will add fields */}
+                            </div>
+                            <button type="button" class="add-field-btn" data-target="hobbies-fields-container" data-max="5"
+                                    data-en-text="+ Add Hobby" data-es-text="+ Añadir Hobby">+ Add Hobby</button>
+                          </div>
+                        </div>
+
+                        {/* Would like to work Section */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <label for="work-preference" data-en="Would like to work:" data-es="Me gustaría trabajar:">Would like to work:</label>
+                            <select id="work-preference" name="work-preference[]" multiple class="form-control" style="min-height: 150px;">
+                              <option value="remote" data-en="Remote" data-es="Remoto">Remote</option>
+                              <option value="freelance" data-en="Freelance" data-es="Freelance">Freelance</option>
+                              <option value="on-site" data-en="On-Site" data-es="Presencial">On-Site</option>
+                              <option value="hybrid" data-en="Hybrid" data-es="Híbrido">Hybrid</option>
+                              <option value="full-time" data-en="Full Time" data-es="Tiempo Completo">Full Time</option>
+                              <option value="part-time" data-en="Part-Time" data-es="Medio Tiempo">Part-Time</option>
+                              <option value="project-base" data-en="Project Base" data-es="Por Proyecto">Project Base</option>
+                              <option value="contract" data-en="Contract" data-es="Contrato">Contract</option>
+                              <option value="startup" data-en="Start-Up" data-es="Start-Up">Start-Up</option>
+                              <option value="non-profit" data-en="Non-Profit" data-es="Sin Fines de Lucro">Non-Profit</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        {/* File Inputs (Existing) */}
+                        <div class="form-row">
+                           <div class="form-cell">
+                               <label for="join-resume" data-en="Upload Your Resume" data-es="Sube tu Currículum">Upload Your Resume</label>
+                               <input type="file" id="join-resume" name="join-resume" accept=".pdf,.doc,.docx" required>
+                           </div>
+                           <div class="form-cell">
+                               <label for="join-cover" data-en="Upload Your Cover Letter" data-es="Sube tu Carta de Presentación">Upload Your Cover Letter</label>
+                               <input type="file" id="join-cover" name="join-cover" accept=".pdf,.doc,.docx" required>
+                           </div>
+                        </div>
+
+                        {/* Large Text Areas */}
+                        <div class="form-row">
+                          <div class="form-cell form-cell-full">
+                            <label for="cover-letter-text" data-en="Cover Letter" data-es="Carta de Presentación">Cover Letter</label>
+                            <textarea id="cover-letter-text" name="cover-letter-text" rows="6" data-en-placeholder="Provide your cover letter" data-es-placeholder="Proporcione su carta de presentación" placeholder="Provide your cover letter"></textarea>
+                          </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-cell">
-                                <label for="join-time" data-en="Time" data-es="Hora">Time</label>
-                                <input type="time" id="join-time" required>
-                            </div>
-                            <div class="form-cell">
-                                <label for="join-resume" data-en="Upload Your Resume" data-es="Sube tu Currículum">Upload Your Resume</label>
-                                <input type="file" id="join-resume" accept=".pdf,.doc,.docx" required>
-                            </div>
+                          <div class="form-cell form-cell-full">
+                            <label for="about-yourself-text" data-en="Tell us About Yourself" data-es="Cuéntanos sobre ti">Tell us About Yourself</label>
+                            <textarea id="about-yourself-text" name="about-yourself-text" rows="6" data-en-placeholder="Tell us about yourself" data-es-placeholder="Cuéntanos sobre ti" placeholder="Tell us about yourself"></textarea>
+                          </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-cell">
-                                <label for="join-cover" data-en="Upload Your Cover Letter" data-es="Sube tu Carta de Presentación">Upload Your Cover Letter</label>
-                                <input type="file" id="join-cover" accept=".pdf,.doc,.docx" required>
-                            </div>
-                            <div class="form-cell">
-                                <label for="join-comment" data-en="Comment" data-es="Comentario">Comment</label>
-                                <textarea id="join-comment" rows="4" placeholder="Tell us about yourself" required></textarea>
-                            </div>
+                          <div class="form-cell form-cell-full">
+                            <label for="reason-to-hire-text" data-en="If you were hiring: Any reason for You to Hire Yourself?" data-es="Si estuvieras contratando: ¿Alguna razón para contratarte a ti mismo?">If you were hiring: Any reason for You to Hire Yourself?</label>
+                            <textarea id="reason-to-hire-text" name="reason-to-hire-text" rows="6" data-en-placeholder="Explain why you'd hire yourself" data-es-placeholder="Explica por qué te contratarías a ti mismo" placeholder="Explain why you'd hire yourself"></textarea>
+                          </div>
                         </div>
+
+                        {/* ReCAPTCHA Container (Existing) */}
+                        <div class="form-row"><div class="form-cell" style="width: 100%;"><div id="recaptcha-join-form-container" style="margin: 10px auto; display: flex; justify-content: center;"></div></div></div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -219,17 +331,17 @@
                         <div class="form-row">
                             <div class="form-cell">
                                 <label for="contact-name" data-en="Name" data-es="Nombre">Name</label>
-                                <input type="text" id="contact-name" placeholder="Enter your name / Ingrese su Nombre" required>
+                                <input type="text" id="contact-name" name="contact-name" data-en-placeholder="Enter your name" data-es-placeholder="Ingrese su nombre" placeholder="Enter your name" required />
                             </div>
                             <div class="form-cell">
                                 <label for="contact-email" data-en="Email" data-es="Correo Electrónico">Email</label>
-                                <input type="email" id="contact-email" placeholder="Enter your email / Ingrese su correo electrónico" required>
+                                <input type="email" id="contact-email" name="contact-email" data-en-placeholder="Enter your email" data-es-placeholder="Ingrese su correo electrónico" placeholder="Enter your email" required />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-cell">
                                 <label for="contact-number" data-en="Contact Number" data-es="Número de Contacto">Contact Number</label>
-                                <input type="tel" id="contact-number" placeholder="Enter your contact number / Ingrese su número" required>
+                                <input type="tel" id="contact-number" name="contact-number" data-en-placeholder="Enter your contact number" data-es-placeholder="Ingrese su número de contacto" placeholder="Enter your contact number" required />
                             </div>
                             <div class="form-cell">
                                 <label for="contact-date" data-en="Preferred Date" data-es="Fecha Preferida">Preferred Date</label>
@@ -243,9 +355,10 @@
                             </div>
                             <div class="form-cell">
                                 <label for="contact-comments" data-en="Comments" data-es="Comentarios">Comments</label>
-                                <textarea id="contact-comments" rows="4" placeholder="What service are you interested in? / En qué servicio está interesado?" required></textarea>
+                                <textarea id="contact-comments" name="contact-comments" rows="4" data-en-placeholder="What service are you interested in?" data-es-placeholder="¿En qué servicio está interesado?" placeholder="What service are you interested in?" required></textarea>
                             </div>
                         </div>
+                        <div class="form-row"><div class="form-cell" style="width: 100%;"><div id="recaptcha-contact-form-container" style="margin: 10px auto; display: flex; justify-content: center;"></div></div></div>
                     </form>
                 </div>
                 <div class="modal-footer">
