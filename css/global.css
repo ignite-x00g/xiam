@@ -8,6 +8,54 @@
   }
 }
 
+/* Collapsible Checkbox List Styles */
+.collapsible-trigger {
+  background-color: #eee; /* Light grey background */
+  color: #333;
+  cursor: pointer;
+  padding: 10px 15px;
+  width: 100%;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 1em;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0; /* Remove default button margin if any */
+}
+.collapsible-trigger:hover {
+  background-color: #ddd;
+}
+.collapsible-content {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background-color: #f9f9f9;
+}
+.collapsible-content label {
+  display: block; /* Make each checkbox label take its own line */
+  margin-bottom: 5px;
+  font-weight: normal; /* Override potential label bolding from .form-cell label */
+}
+/* Dark mode considerations for collapsible */
+body[data-theme="dark"] .collapsible-trigger {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #444;
+}
+body[data-theme="dark"] .collapsible-trigger:hover {
+  background-color: #3a3a3a;
+}
+body[data-theme="dark"] .collapsible-content {
+  background-color: #222;
+  border-color: #444;
+}
+body[data-theme="dark"] .collapsible-content label {
+  color: #e0e0e0; /* Ensure label text is visible in dark mode */
+}
+
 /* Global Reset & Basic Body Styles */
 * {
   margin: 0;

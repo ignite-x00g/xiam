@@ -63,7 +63,7 @@
     <link rel="manifest" href="/manifest.json">
 
     <!-- ReCAPTCHA Script -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfAOV0rAAAAAPBGgn2swZWj5SjANoQ4rUH6XIMz" async defer></script>
 
 </head>
 
@@ -185,9 +185,24 @@
                          
                         </div>
                         <div class="form-row">
-                           <div class="form-cell">
+                           <div class="form-cell" style="grid-column: span 2;">
                                 <label for="join-comment" data-en="Comment" data-es="Comentario">Comment</label>
                                 <textarea id="join-comment" rows="4" placeholder="Tell us about yourself" required></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-cell" style="grid-column: span 2;">
+                                <button type="button" id="join-areas-trigger" class="collapsible-trigger" aria-expanded="false" aria-controls="join-areas-options">
+                                    Areas of Interest (Optional) <span class="arrow-down">▼</span>
+                                </button>
+                                <div id="join-areas-options" class="collapsible-content" style="display: none; margin-top: -1px;">
+                                    <label><input type="checkbox" name="join_interest" value="web_development"> Web Development</label>
+                                    <label><input type="checkbox" name="join_interest" value="it_support"> IT Support</label>
+                                    <label><input type="checkbox" name="join_interest" value="consulting"> Consulting</label>
+                                    <label><input type="checkbox" name="join_interest" value="sales"> Sales</label>
+                                    <label><input type="checkbox" name="join_interest" value="marketing"> Marketing</label>
+                                    <label><input type="checkbox" name="join_interest" value="other"> Other (Please specify in comment)</label>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -187,18 +187,64 @@ document.addEventListener("DOMContentLoaded", () => {
   if (joinForm) {
     joinForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute === 'undefined') {
+          console.error('ReCAPTCHA not loaded yet.');
+          alert('ReCAPTCHA is not ready. Please try again in a moment.');
+          return;
+      }
+      grecaptcha.ready(() => {
+        grecaptcha.execute('6LfFOV0rAAAAAP2NYL8f1hPyfpsc-MiPx9n02THp', { action: 'join_us_submit' }).then((token) => {
+          console.log('Join Us ReCAPTCHA token:', token);
 
-      // Sanitize input fields
-      const name = sanitizeInput(document.getElementById("join-name").value);
-      const email = sanitizeInput(document.getElementById("join-email").value);
-      const contact = sanitizeInput(document.getElementById("join-contact").value);
-      const comment = sanitizeInput(document.getElementById("join-comment").value);
+          const name = sanitizeInput(document.getElementById("join-name").value);
+          const email = sanitizeInput(document.getElementById("join-email").value);
+          const contact = sanitizeInput(document.getElementById("join-contact").value);
+          const date = document.getElementById("join-date").value;
+          const time = document.getElementById("join-time").value;
+          const comment = sanitizeInput(document.getElementById("join-comment").value);
 
-      console.log("Sanitized Join Form Submission →", { name, email, contact, comment });
+          const selectedInterests = [];
+          document.querySelectorAll('input[name="join_interest"]:checked').forEach(checkbox => {
+            selectedInterests.push(checkbox.value);
+          });
 
-      alert('Thank you for joining us! Your information has been safely received.');
-      joinForm.reset();
-      document.getElementById('join-modal').classList.remove('active');
+          const formData = new FormData();
+          formData.append('name', name);
+          formData.append('email', email);
+          formData.append('contact', contact);
+          formData.append('date', date);
+          formData.append('time', time);
+          formData.append('comment', comment);
+          if (selectedInterests.length > 0) {
+            formData.append('interests', selectedInterests.join(','));
+          }
+          formData.append('g-recaptcha-response', token);
+
+          console.log("Submitting Join Us Form Data:", { name, email, contact, date, time, comment, interests: selectedInterests.join(',') }); // Token is not directly logged here but sent
+
+          fetch('https://tiny-resonance-041b.gabrieloor-cv1.workers.dev/', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Form submitted successfully! Message: ' + data.message);
+              joinForm.reset();
+              document.getElementById('join-modal').classList.remove('active');
+            } else {
+              alert('Submission failed: ' + (data.message || 'Unknown error') + (data.details ? ' Details: ' + JSON.stringify(data.details) : ''));
+            }
+          })
+          .catch(error => {
+            console.error('Error submitting Join Us form:', error);
+            alert('An error occurred while submitting the Join Us form. Please try again.');
+          });
+        }).catch(error => {
+          console.error("Error executing reCAPTCHA for Join Us:", error);
+          alert("Error with reCAPTCHA. Please try again.");
+        });
+      });
     });
   }
 
@@ -207,19 +253,72 @@ document.addEventListener("DOMContentLoaded", () => {
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute === 'undefined') {
+          console.error('ReCAPTCHA not loaded yet.');
+          alert('ReCAPTCHA is not ready. Please try again in a moment.');
+          return;
+      }
+      grecaptcha.ready(() => {
+        grecaptcha.execute('6LfAOV0rAAAAAPBGgn2swZWj5SjANoQ4rUH6XIMz', { action: 'contact_us_submit' }).then((token) => {
+          console.log('Contact Us ReCAPTCHA token:', token);
 
-      // Sanitize input fields
-      const contactName = sanitizeInput(document.getElementById("contact-name").value);
-      const contactEmail = sanitizeInput(document.getElementById("contact-email").value);
-    const contactMessage = sanitizeInput(document.getElementById("contact-comments").value);
+          const name = sanitizeInput(document.getElementById("contact-name").value);
+          const email = sanitizeInput(document.getElementById("contact-email").value);
+          const contactNumber = sanitizeInput(document.getElementById("contact-number").value);
+          const preferredDate = document.getElementById("contact-date").value;
+          const preferredTime = document.getElementById("contact-time").value;
+          const comments = sanitizeInput(document.getElementById("contact-comments").value);
 
-      console.log("Sanitized Contact Form Submission →", { contactName, contactEmail, contactMessage });
+          const formData = new FormData();
+          formData.append('name', name);
+          formData.append('email', email);
+          formData.append('contactNumber', contactNumber);
+          formData.append('preferredDate', preferredDate);
+          formData.append('preferredTime', preferredTime);
+          formData.append('comments', comments);
+          formData.append('g-recaptcha-response', token);
 
-      alert('Thank you for contacting us! We will get back to you soon.');
-      contactForm.reset();
-      document.getElementById('contact-modal').classList.remove('active');
+          console.log("Submitting Contact Us Form Data:", { name, email, contactNumber, preferredDate, preferredTime, comments }); // Token sent, not logged here
+
+          fetch('https://contact.gabrieloor-cv1.workers.dev/', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Form submitted successfully! Message: ' + data.message);
+              contactForm.reset();
+              document.getElementById('contact-modal').classList.remove('active');
+            } else {
+              alert('Submission failed: ' + (data.message || 'Unknown error') + (data.details ? ' Details: ' + JSON.stringify(data.details) : ''));
+            }
+          })
+          .catch(error => {
+            console.error('Error submitting Contact Us form:', error);
+            alert('An error occurred while submitting the Contact Us form. Please try again.');
+          });
+        }).catch(error => {
+          console.error("Error executing reCAPTCHA for Contact Us:", error);
+          alert("Error with reCAPTCHA. Please try again.");
+        });
+      });
     });
   }
 
+  // Collapsible Areas of Interest for Join Us form
+  const areasTrigger = document.getElementById('join-areas-trigger');
+  const areasOptions = document.getElementById('join-areas-options');
+  if (areasTrigger && areasOptions) {
+    areasTrigger.addEventListener('click', () => {
+      const isExpanded = areasTrigger.getAttribute('aria-expanded') === 'true';
+      areasTrigger.setAttribute('aria-expanded', !isExpanded);
+      areasOptions.style.display = isExpanded ? 'none' : 'block';
+      const arrow = areasTrigger.querySelector('.arrow-down');
+      if (arrow) {
+        arrow.textContent = isExpanded ? '▼' : '▲';
+      }
+    });
+  }
 });
 
