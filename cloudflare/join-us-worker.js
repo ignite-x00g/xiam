@@ -4,8 +4,7 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
 });
 
-const ALLOWED_ORIGIN = 'https://example.com'; // Replace with your site
-const API_KEY = 'YOUR_API_KEY_PLACEHOLDER';
+const ALLOWED_ORIGIN = globalThis.ALLOWED_ORIGIN; // Provided via Cloudflare env
 
 function scanForMaliciousContent(data) {
   const pattern = /<script|javascript:|onerror\s*=|onload\s*=|eval\(|<iframe|<img/i;
@@ -24,7 +23,7 @@ async function handleRequest(request) {
       headers: {
         'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key'
+        'Access-Control-Allow-Headers': 'Content-Type'
       }
     });
   }
@@ -36,8 +35,9 @@ async function handleRequest(request) {
     });
   }
 
-  if (request.headers.get('x-api-key') !== API_KEY) {
-    return new Response('Unauthorized', {
+  const requestOrigin = request.headers.get('Origin');
+  if (requestOrigin !== ALLOWED_ORIGIN) {
+    return new Response('Unauthorized origin', {
       status: 403,
       headers: { 'Access-Control-Allow-Origin': ALLOWED_ORIGIN }
     });

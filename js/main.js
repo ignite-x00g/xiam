@@ -267,7 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           fetch('https://join.gabrieloor-cv1.workers.dev/', {
             method: 'POST',
-            headers: { 'X-API-Key': 'YOUR_API_KEY_PLACEHOLDER' },
             body: formData
           })
           .then(response => response.json())
@@ -333,7 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           fetch('https://contact.gabrieloor-cv1.workers.dev/', {
             method: 'POST',
-            headers: { 'X-API-Key': 'YOUR_API_KEY_PLACEHOLDER' },
             body: formData
           })
           .then(response => response.json())

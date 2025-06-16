@@ -44,3 +44,10 @@ CORS: Configured to ensure cross-origin requests are handled properly.
   Lazy loading for images that appear off-screen initially.
 
 ---
+
+## Worker Secrets
+
+Cloudflare Workers use environment variables for sensitive values. Set
+`ALLOWED_ORIGIN` and any API keys with `wrangler secret` so they remain
+server-side and never appear in frontend code.
+

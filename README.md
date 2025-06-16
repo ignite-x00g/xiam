@@ -89,8 +89,10 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 Acknowledgments:
   Google reCAPTCHA: For securing the forms.
 
-  FontAwesome: For providing the icons used in the project.
+    FontAwesome: For providing the icons used in the project.
 
-  Service Workers: For enabling offline functionality.
+    Service Workers: For enabling offline functionality.
 
-  CSP and SEO Optimization: Tools and techniques for enhancing site security and performance.
+    Cloudflare Workers: Handle form submissions securely. Sensitive values like `ALLOWED_ORIGIN` are stored as secrets and kept server-side.
+
+    CSP and SEO Optimization: Tools and techniques for enhancing site security and performance.
