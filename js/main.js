@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
       }
       grecaptcha.ready(() => {
-        grecaptcha.execute('6LfFOV0rAAAAAP2NYL8f1hPyfpsc-MiPx9n02THp', { action: 'join_us_submit' }).then((token) => {
+        grecaptcha.execute('6LfAOV0rAAAAAPBGgn2swZWj5SjANoQ4rUH6XIMz', { action: 'join_us_submit' }).then((token) => {
           console.log('Join Us ReCAPTCHA token:', token);
 
           const name = sanitizeInput(document.getElementById("join-name").value);
