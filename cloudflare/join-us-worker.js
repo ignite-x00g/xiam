@@ -45,6 +45,14 @@ async function handleRequest(request) {
 
   try {
     const formData = await request.formData();
+    const website = formData.get('website');
+    if (website) {
+      return new Response(JSON.stringify({ success: false, message: 'Bot detected' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      });
+    }
+
     const name = formData.get('name');
     const email = formData.get('email');
     const contact = formData.get('contact');

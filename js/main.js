@@ -224,6 +224,12 @@ document.addEventListener("DOMContentLoaded", () => {
     joinForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      const honey = document.getElementById('honeypot-join');
+      if (honey && honey.value) {
+        alert('Submission blocked.');
+        return;
+      }
+
       if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute === 'undefined') {
           console.error('ReCAPTCHA not loaded yet.');
           alert('ReCAPTCHA is not ready. Please try again in a moment.');
@@ -292,6 +298,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      const honey = document.getElementById('honeypot-contact');
+      if (honey && honey.value) {
+        alert('Submission blocked.');
+        return;
+      }
       if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute === 'undefined') {
           console.error('ReCAPTCHA not loaded yet.');
           alert('ReCAPTCHA is not ready. Please try again in a moment.');
