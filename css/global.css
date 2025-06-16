@@ -63,6 +63,12 @@ body[data-theme="dark"] .collapsible-content label {
   box-sizing: border-box;
 }
 
+/* Honeypot field hidden from users */
+.honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
