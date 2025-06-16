@@ -259,8 +259,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           console.log("Submitting Join Us Form Data:", { name, email, contact, date, time, comment, interests: selectedInterests.join(',') }); // Token is not directly logged here but sent
 
-          fetch('https://tiny-resonance-041b.gabrieloor-cv1.workers.dev/', {
+          fetch('https://join.gabrieloor-cv1.workers.dev/', {
             method: 'POST',
+            headers: { 'X-API-Key': 'YOUR_API_KEY_PLACEHOLDER' },
             body: formData
           })
           .then(response => response.json())
@@ -320,6 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           fetch('https://contact.gabrieloor-cv1.workers.dev/', {
             method: 'POST',
+            headers: { 'X-API-Key': 'YOUR_API_KEY_PLACEHOLDER' },
             body: formData
           })
           .then(response => response.json())
