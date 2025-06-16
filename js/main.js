@@ -11,9 +11,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateLanguage(lang) {
     const translatableElements = document.querySelectorAll("[data-en]");
     translatableElements.forEach((el) => {
-      el.textContent = (lang === "en")
-        ? el.getAttribute("data-en")
-        : el.getAttribute("data-es");
+      const value = (lang === "en") ? el.getAttribute("data-en") : el.getAttribute("data-es");
+      const tag = el.tagName.toLowerCase();
+
+      if (tag === "meta") {
+        el.setAttribute("content", value);
+      } else if (tag === "img") {
+        el.setAttribute("alt", value);
+      } else if (tag === "input" || tag === "textarea") {
+        el.setAttribute("placeholder", value);
+      } else if (tag === "title") {
+        el.textContent = value;
+      } else {
+        el.textContent = value;
+      }
     });
   }
 
