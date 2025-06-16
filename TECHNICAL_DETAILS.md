@@ -18,6 +18,19 @@ CORS: Configured to ensure cross-origin requests are handled properly.
 
   Content Security Policy (CSP): Ensures only authorized scripts and resources are loaded.
 
+### Cloudflare Worker Environment
+
+The form handlers (`contact-us-worker.js` and `join-us-worker.js`) rely on environment variables defined in `cloudflare/wrangler.toml`:
+
+```
+[vars]
+ALLOWED_ORIGIN             = "<your site>"
+APPS_SCRIPT_CONTACT_US_URL = "<Google Apps Script URL for contact form>"
+APPS_SCRIPT_JOIN_US_URL    = "<Google Apps Script URL for join form>"
+```
+
+Set these values with `wrangler secret` or in your deployment environment to avoid hard‑coding sensitive URLs.
+
 ---
 
 ## Feature Implementation Details

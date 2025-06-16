@@ -1,0 +1,7 @@
+name = "ops-online-solutions-workers"
+compatibility_date = "2024-01-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://example.com"
+APPS_SCRIPT_CONTACT_US_URL = "https://example.com/contact-apps-script"
+APPS_SCRIPT_JOIN_US_URL = "https://example.com/join-apps-script"

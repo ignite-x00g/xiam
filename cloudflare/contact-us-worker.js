@@ -1,10 +1,11 @@
 // cloudflare/contact-us-worker.js
 
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request));
-});
+export default {
+  async fetch(request, env, ctx) {
+    return handleRequest(request, env);
+  }
+};
 
-const ALLOWED_ORIGIN = 'https://example.com'; // Replace with your site
 const API_KEY = 'YOUR_API_KEY_PLACEHOLDER';
 
 function scanForMaliciousContent(data) {
@@ -17,12 +18,12 @@ function scanForMaliciousContent(data) {
   return { safe: true };
 }
 
-async function handleRequest(request) {
+async function handleRequest(request, env) {
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
       headers: {
-        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+        'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, X-API-Key'
       }
@@ -32,14 +33,14 @@ async function handleRequest(request) {
   if (request.method !== 'POST') {
     return new Response('Expected POST request', {
       status: 405,
-      headers: { 'Access-Control-Allow-Origin': ALLOWED_ORIGIN }
+      headers: { 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN }
     });
   }
 
   if (request.headers.get('x-api-key') !== API_KEY) {
     return new Response('Unauthorized', {
       status: 403,
-      headers: { 'Access-Control-Allow-Origin': ALLOWED_ORIGIN }
+      headers: { 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN }
     });
   }
 
@@ -49,7 +50,7 @@ async function handleRequest(request) {
     if (website) {
       return new Response(JSON.stringify({ success: false, message: 'Bot detected' }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN },
       });
     }
 
@@ -71,7 +72,7 @@ async function handleRequest(request) {
     if (!recaptchaJson.success || recaptchaJson.score < 0.5) { // Adjust score threshold for v3
       return new Response(JSON.stringify({ success: false, message: 'ReCAPTCHA verification failed.', details: recaptchaJson['error-codes'] }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN },
       });
     }
 
@@ -90,7 +91,7 @@ async function handleRequest(request) {
     if (!scanResult.safe) {
       return new Response(JSON.stringify({ success: false, message: `Malicious content detected in field ${scanResult.field}` }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN },
       });
     }
 
@@ -101,9 +102,9 @@ async function handleRequest(request) {
     // Replace btoa with actual encryption in production!
 
     // --- 4. Forward to Google Apps Script ---
-    const APPS_SCRIPT_CONTACT_US_URL = 'YOUR_APPS_SCRIPT_CONTACT_US_URL_PLACEHOLDER';
+    const appsScriptUrl = env.APPS_SCRIPT_CONTACT_US_URL;
 
-    const appsScriptResponse = await fetch(APPS_SCRIPT_CONTACT_US_URL, {
+    const appsScriptResponse = await fetch(appsScriptUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: payloadToSend,
@@ -121,14 +122,14 @@ async function handleRequest(request) {
 
     return new Response(JSON.stringify({ success: true, message: 'Contact form data submitted successfully.' }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN },
     });
 
   } catch (error) {
     console.error('Error in Contact Us worker:', error);
     return new Response(JSON.stringify({ success: false, message: 'Internal server error.', error: error.message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN },
     });
   }
 }
