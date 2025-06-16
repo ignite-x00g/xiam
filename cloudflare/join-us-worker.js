@@ -4,9 +4,43 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
 });
 
+const ALLOWED_ORIGIN = 'https://example.com'; // Replace with your site
+const API_KEY = 'YOUR_API_KEY_PLACEHOLDER';
+
+function scanForMaliciousContent(data) {
+  const pattern = /<script|javascript:|onerror\s*=|onload\s*=|eval\(|<iframe|<img/i;
+  for (const [field, value] of Object.entries(data)) {
+    if (typeof value === 'string' && pattern.test(value)) {
+      return { safe: false, field };
+    }
+  }
+  return { safe: true };
+}
+
 async function handleRequest(request) {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key'
+      }
+    });
+  }
+
   if (request.method !== 'POST') {
-    return new Response('Expected POST request', { status: 405 });
+    return new Response('Expected POST request', {
+      status: 405,
+      headers: { 'Access-Control-Allow-Origin': ALLOWED_ORIGIN }
+    });
+  }
+
+  if (request.headers.get('x-api-key') !== API_KEY) {
+    return new Response('Unauthorized', {
+      status: 403,
+      headers: { 'Access-Control-Allow-Origin': ALLOWED_ORIGIN }
+    });
   }
 
   try {
@@ -31,7 +65,7 @@ async function handleRequest(request) {
       // If using v2, just check recaptchaJson.success
       return new Response(JSON.stringify({ success: false, message: 'ReCAPTCHA verification failed.', details: recaptchaJson['error-codes'] }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
       });
     }
 
@@ -46,6 +80,14 @@ async function handleRequest(request) {
       submissionTimestamp: new Date().toISOString(),
       // Add any other processing or data enrichment here
     };
+
+    const scanResult = scanForMaliciousContent(dataToStore);
+    if (!scanResult.safe) {
+      return new Response(JSON.stringify({ success: false, message: `Malicious content detected in field ${scanResult.field}` }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
+      });
+    }
 
     // --- 3. Encrypt Data (Conceptual) ---
     // In a real scenario, encrypt `dataToStore` before sending.
@@ -79,14 +121,14 @@ async function handleRequest(request) {
 
     return new Response(JSON.stringify({ success: true, message: 'Form data submitted successfully.' }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
     });
 
   } catch (error) {
     console.error('Error in Join Us worker:', error);
     return new Response(JSON.stringify({ success: false, message: 'Internal server error.', error: error.message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN },
     });
   }
 }
