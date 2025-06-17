@@ -37,15 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// OpsLight Interactive Tiles - Modal Interaction
+// OpsLight Interactive Tiles - Multi-Modal Interaction (NEW)
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('opslight-modal');
-    const closeModalButton = document.querySelector('.modal-close-button');
-    const serviceCards = document.querySelectorAll('.service-card');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
+    const modalContainerMain = document.getElementById('modal-container-main');
+    const serviceCards = document.querySelectorAll('.service-card'); // Keep this selector
 
-    // Predefined content for modals (can be expanded or fetched dynamically)
+    // Re-use or redefine serviceModalContent if it was removed
     const serviceModalContent = {
         "Business Ops": {
             title: "Business Operations",
@@ -65,43 +62,135 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (modal && closeModalButton && serviceCards.length > 0) {
+    if (!modalContainerMain) {
+        console.warn('Modal container #modal-container-main not found.');
+    }
+
+    if (serviceCards.length > 0 && modalContainerMain) {
         serviceCards.forEach(card => {
             card.addEventListener('click', () => {
                 const serviceName = card.querySelector('h3').textContent.trim();
                 const content = serviceModalContent[serviceName] ||
                                 { title: "Service Details", description: "More information about this service." };
 
-                if (modalTitle) modalTitle.textContent = content.title;
-                if (modalDescription) modalDescription.textContent = content.description;
+                // Check if modal for this service already exists
+                if (modalContainerMain.querySelector(`.opslight-service-modal[data-service="${serviceName}"]`)) {
+                    // Optional: Bring to front or indicate it's already open
+                    // For now, we don't re-open if it exists. User can close and re-open.
+                    // Or, per "one next to each other", they just stay.
+                    return;
+                }
 
-                modal.classList.remove('modal-hidden');
-                modal.classList.add('modal-visible');
-                // Optional: Add backdrop blur
-                // modal.classList.add('modal-backdrop-blur');
+                // Create modal element
+                const modalInstance = document.createElement('div');
+                modalInstance.className = 'opslight-service-modal';
+                modalInstance.setAttribute('data-service', serviceName);
+                modalInstance.innerHTML = `
+                    <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
+                    <h2>${content.title}</h2>
+                    <p>${content.description}</p>
+                `;
+
+                // Append to container and show container
+                modalContainerMain.appendChild(modalInstance);
+                modalContainerMain.style.display = 'flex';
+
+                // Add event listener to this new modal's close button
+                modalInstance.querySelector('.opslight-modal-close-button').addEventListener('click', () => {
+                    modalInstance.remove();
+                    // If no modals are left, hide the container
+                    if (modalContainerMain.children.length === 0) {
+                        modalContainerMain.style.display = 'none';
+                    }
+                });
             });
         });
 
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.remove('modal-visible');
-            modal.classList.add('modal-hidden');
-            // Optional: Remove backdrop blur
-            // modal.classList.remove('modal-backdrop-blur');
-        });
-
-        // Close modal if user clicks outside of the modal content
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.classList.remove('modal-visible');
-                modal.classList.add('modal-hidden');
-                // Optional: Remove backdrop blur
-                // modal.classList.remove('modal-backdrop-blur');
+        // Event listener for backdrop click (to close all modals)
+        // This listener is already here from the previous step and will handle closing all modals.
+        // No need to duplicate it if it's already correctly placed and functional.
+        // Ensure it's outside the serviceCards.forEach loop.
+        modalContainerMain.addEventListener('click', (event) => {
+            if (event.target === modalContainerMain) { // Clicked on the backdrop itself
+                // Remove all modal instances
+                while (modalContainerMain.firstChild) {
+                    modalContainerMain.removeChild(modalContainerMain.firstChild);
+                }
+                modalContainerMain.style.display = 'none';
             }
         });
 
     } else {
-        if (!modal) console.warn('Modal element #opslight-modal not found.');
-        if (!closeModalButton) console.warn('Modal close button .modal-close-button not found.');
         if (serviceCards.length === 0) console.warn('No service cards with class .service-card found.');
     }
+
+    // FAB Modal Interaction Logic
+    const fabJoin = document.getElementById('fab-join');
+    const fabContact = document.getElementById('fab-contact');
+    const fabChatbot = document.getElementById('fab-chatbot');
+    // modalContainerMain is already defined from service card modals.
+
+    const fabModalContent = {
+        "fab-join": {
+            title: "Join Our Team",
+            description: "We're looking for talented individuals to join OPS. Explore current opportunities and learn about our culture. <br><br> [Placeholder for job listings or application form link]"
+        },
+        "fab-contact": {
+            title: "Contact Us",
+            description: "Get in touch with OPS for support or inquiries. <br><br> Email: contact@opsonlinesupport.com <br> Phone: 1-800-OPS-HELP <br><br> [Placeholder for a contact form]"
+        },
+        "fab-chatbot": {
+            title: "AI Chatbot Assistant",
+            description: "Our AI Chatbot is here to help you with common questions. <br><br> [Placeholder for Chatbot UI or initiation button]"
+        }
+    };
+
+    const fabs = [fabJoin, fabContact, fabChatbot];
+
+    fabs.forEach(fab => {
+        if (fab) {
+            fab.addEventListener('click', () => {
+                const fabId = fab.id;
+                const content = fabModalContent[fabId];
+
+                if (!content) {
+                    console.warn(`No modal content defined for FAB ID: ${fabId}`);
+                    return;
+                }
+
+                // Check if modal for this FAB already exists
+                if (modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`)) {
+                    // Optional: Bring to front or indicate it's already open. For now, do nothing.
+                    return;
+                }
+
+                // Create modal element
+                const modalInstance = document.createElement('div');
+                // Using same class as service modals for now, can differentiate if needed
+                modalInstance.className = 'opslight-service-modal';
+                modalInstance.setAttribute('data-fab-id', fabId); // Unique attribute for FAB modals
+                modalInstance.innerHTML = `
+                    <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
+                    <h2>${content.title}</h2>
+                    <p>${content.description}</p>
+                `;
+
+                // Append to container and show container
+                modalContainerMain.appendChild(modalInstance);
+                modalContainerMain.style.display = 'flex'; // Ensure container is visible
+
+                // Add event listener to this new modal's close button
+                modalInstance.querySelector('.opslight-modal-close-button').addEventListener('click', () => {
+                    modalInstance.remove();
+                    // If no modals are left (neither service nor FAB), hide the container
+                    if (modalContainerMain.children.length === 0) {
+                        modalContainerMain.style.display = 'none';
+                    }
+                });
+            });
+        } else {
+            // Log if a FAB element is not found, e.g. console.warn(`FAB element not found for one of [fab-join, fab-contact, fab-chatbot]`);
+            // This check is implicitly handled by the forEach loop if an element is null.
+        }
+    });
 });

@@ -14,28 +14,73 @@
     color: white;
     border: none;
     border-radius: 50%; /* Circular buttons */
-    width: 56px;
-    height: 56px;
-    display: flex;
+    width: 60px; /* Slightly larger for potentially richer content */
+    height: 60px;
+    display: flex; /* Use flex on the button itself */
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden; /* Hide text initially */
-    position: relative; /* For text positioning */
+    padding: 0; /* Remove padding if content wrapper handles it */
+    position: relative; /* Keep for potential ::before/::after effects or absolute text */
+    overflow: visible; /* Allow hover text to show if it's outside */
 }
 
 .fab:hover {
-    background-color: #a855f7; /* Fuchsia on hover - base hover, shine will be in glow-effects.css */
+    background-color: #a855f7; /* Fuchsia on hover - base hover */
     transform: scale(1.1);
 }
 
+/*
 .fab-icon {
     font-size: 24px;
     transition: opacity 0.2s ease;
 }
+*/
 
+.fab-content-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack icon/image and text vertically */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.fab-icon-image-area {
+    /* This area can hold an <img> or an icon font */
+    /* If using <img>, ensure it's styled appropriately (e.g., max-width, max-height) */
+    font-size: 20px; /* Default size for icon font placeholders */
+    margin-bottom: 2px; /* Space between icon and text if text is visible */
+}
+
+.fab-icon-image-area .fab-icon-placeholder {
+     display: block; /* ensure it takes space */
+}
+
+.fab-icon-image-area img {
+    max-width: 100%; /* Ensure image fits if used */
+    max-height: 24px; /* Example max height */
+    display: block;
+}
+
+.fab-text {
+    font-size: 10px; /* Smaller text to fit inside the button */
+    line-height: 1.2;
+    color: white;
+    display: block; /* Was previously for hover label, now part of button face */
+    /* Remove old absolute positioning for hover label */
+}
+
+/* Old .fab:hover .fab-text for side label - remove or comment out */
+/*
+.fab:hover .fab-text {
+    left: -10px;
+    transform: translateX(-100%) translateY(-50%);
+    opacity: 1;
+}
+*/
+/*
 .fab-text {
     position: absolute;
     left: -100px; /* Position text off-screen to the left */
@@ -56,7 +101,7 @@
     transform: translateX(-100%) translateY(-50%); /* Position it to the left of the button */
     opacity: 1;
 }
-
+*/
 /* Adjustments for smaller screens if needed */
 @media (max-width: 768px) {
     .fab-container {
@@ -64,14 +109,24 @@
         right: 15px;
     }
     .fab {
-        width: 50px;
-        height: 50px;
+        width: 54px;
+        height: 54px;
     }
+    .fab-icon-image-area {
+        font-size: 18px;
+    }
+    .fab-text {
+        font-size: 9px;
+    }
+    /*
     .fab-icon {
         font-size: 20px;
     }
+    */
     /* On mobile, maybe don't show text on hover, or handle it differently */
+    /*
     .fab:hover .fab-text {
         display: none; /* Example: hide text on hover for mobile to prevent layout issues */
     }
+    */
 }
