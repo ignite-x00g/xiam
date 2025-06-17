@@ -1,0 +1,209 @@
+/* GlowMotion UI Effect */
+body {
+    /* Base background color */
+    background-color: #1a1a2e; /* A dark blue/purple, can be adjusted */
+    color: #e0e0e0; /* Light text color for contrast */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    min-height: 100vh;
+    position: relative; /* Needed for the glow effect positioning */
+}
+
+.glow-effect {
+    position: fixed; /* Changed from absolute to fixed so it covers viewport */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Cover full viewport width */
+    height: 100vh; /* Cover full viewport height */
+    pointer-events: none; /* Make sure it doesn't interfere with mouse events on other elements */
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(139, 92, 246, 0.15) 0%, /* Lighter, wider violet glow */
+        rgba(139, 92, 246, 0.1) 10%,
+        rgba(168, 85, 247, 0.05) 20%,
+        transparent 30% /* Make the glow larger and softer */
+    );
+    z-index: -1; /* Ensure it's behind content but visible over body background */
+    /* transition: background 0.1s linear; */ /* Removed for requestAnimationFrame control */
+}
+
+/* NeonGrid Hover Effect */
+.service-cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+    justify-content: center; /* Center cards in the container */
+    gap: 2rem; /* Space between cards */
+    padding: 2rem; /* Padding around the container */
+}
+
+.service-card {
+    background-color: #2a2a3e; /* Darker card background */
+    border: 1px solid #4a4a6e; /* Subtle border */
+    border-radius: 0.75rem; /* Rounded corners */
+    padding: 1.5rem;
+    width: calc(50% - 4rem); /* Two cards per row, considering gap and padding */
+    min-width: 280px; /* Minimum width for smaller cards/screens */
+    max-width: 350px; /* Maximum width */
+    box-sizing: border-box;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+    cursor: pointer; /* Indicate interactivity */
+    position: relative; /* Added for pseudo-element and z-index */
+    z-index: 1; /* Base z-index */
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: -10px; /* Adjust positioning for the glow */
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+    border-radius: inherit; /* Match parent's border-radius */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1; /* Behind the card's content */
+    pointer-events: none; /* Don't interfere with mouse */
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card h3 {
+    margin-top: 0;
+    color: #c0c0f0; /* Light violet text for headings */
+}
+
+.service-card p {
+    color: #a0a0d0; /* Slightly darker violet for paragraph text */
+}
+
+/* Neon glow, pulse, and scale on hover */
+.service-card:hover {
+    transform: scale(1.08); /* Slightly more scale for spotlight */
+    /* Combined edge glow, inner glow, and subtle drop shadow */
+    box-shadow:
+        /* Outer Glow (Edge) */
+        0 0 8px #a855f7, /* Fuchsia for more pop */
+        0 0 20px #a855f7,
+        0 0 40px rgba(168, 85, 247, 0.6),
+        /* Inner Glow */
+        inset 0 0 15px rgba(139, 92, 246, 0.4),
+        /* Optional: Softer, darker drop shadow for depth if ::before isn't enough */
+        0 10px 30px rgba(0,0,0,0.3);
+    animation: pulse 1.5s infinite alternate; /* Keep the pulse */
+    z-index: 10; /* Bring hovered card to the front */
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow:
+            0 0 5px #8b5cf6,
+            0 0 15px #8b5cf6,
+            0 0 30px #8b5cf6,
+            0 0 60px rgba(139, 92, 246, 0.5);
+    }
+    100% {
+        box-shadow:
+            0 0 7px #a855f7, /* Shift to fuchsia for pulse */
+            0 0 20px #a855f7,
+            0 0 40px #a855f7,
+            0 0 70px rgba(168, 85, 247, 0.6);
+    }
+}
+
+/* Responsive adjustments for cards */
+@media (max-width: 768px) {
+    .service-card {
+        width: calc(100% - 2rem); /* Full width on smaller screens, considering padding */
+        margin-bottom: 1.5rem;
+    }
+    .service-cards-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
+
+/* OpsLight Interactive Tiles - Modal Styling */
+#opslight-modal {
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity for backdrop */
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    opacity: 0; /* Hidden by default */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.4s ease, visibility 0.4s ease; /* Smooth transition for showing/hiding */
+}
+
+#opslight-modal.modal-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #1c1c2c; /* Dark background for the modal */
+    margin: auto; /* Auto margins for centering, though flex handles it */
+    padding: 25px;
+    border: 1px solid #8b5cf6; /* Violet border */
+    border-radius: 10px; /* Rounded corners */
+    width: 80%;
+    max-width: 600px; /* Max width of modal */
+    position: relative;
+    box-shadow:
+        0 0 15px #8b5cf6, /* Outer glow */
+        0 0 30px #a855f7,
+        inset 0 0 10px rgba(139, 92, 246, 0.5); /* Inner violet glow */
+    animation: modal-entry 0.5s ease-out; /* Entry animation */
+}
+
+/* Modal Entry Animation */
+@keyframes modal-entry {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.modal-close-button:hover,
+.modal-close-button:focus {
+    color: #8b5cf6; /* Violet on hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Optional: Backdrop blur effect (use with caution for performance) */
+/* To enable, add a class like 'modal-backdrop-blur' to #opslight-modal when visible */
+.modal-backdrop-blur {
+    backdrop-filter: blur(5px);
+}
+
+#modal-title {
+    color: #e0e0f0;
+    margin-top: 0;
+}
+
+#modal-description {
+    color: #c0c0e0;
+}
