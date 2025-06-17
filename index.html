@@ -6,6 +6,8 @@
     <title>OPS Online Support</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/glow-effects.css">
+    <!-- Add Font Awesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="glow-effect"></div>
@@ -39,17 +41,29 @@
 
         <section id="floating-action-buttons">
             <div class="fab-container">
-                <button id="fab-contact" class="fab" aria-label="Contact Us">
-                    <span class="fab-icon">✉️</span> <!-- Placeholder: Mail icon -->
-                    <span class="fab-text">Contact</span>
-                </button>
                 <button id="fab-join" class="fab" aria-label="Join Us">
-                    <span class="fab-icon">🤝</span> <!-- Placeholder: Handshake icon -->
-                    <span class="fab-text">Join</span>
+                    <div class="fab-content-wrapper">
+                        <div class="fab-icon-image-area">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <span class="fab-text">Join Us</span>
+                    </div>
                 </button>
-                <button id="fab-services" class="fab" aria-label="Our Services">
-                    <span class="fab-icon">🛠️</span> <!-- Placeholder: Tools icon -->
-                    <span class="fab-text">Services</span>
+                <button id="fab-contact" class="fab" aria-label="Contact Us">
+                    <div class="fab-content-wrapper">
+                        <div class="fab-icon-image-area">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <span class="fab-text">Contact Us</span>
+                    </div>
+                </button>
+                <button id="fab-chatbot" class="fab" aria-label="Chatbot AI">
+                    <div class="fab-content-wrapper">
+                        <div class="fab-icon-image-area">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span class="fab-text">Chatbot AI</span>
+                    </div>
                 </button>
             </div>
         </section>
@@ -60,14 +74,8 @@
         <p>&copy; 2023 OPS Online Support</p>
     </footer>
 
-    <!-- OpsLight Modal -->
-    <div id="opslight-modal" class="modal-hidden">
-        <div class="modal-content">
-            <span class="modal-close-button">&times;</span>
-            <h2 id="modal-title">Service Title</h2>
-            <p id="modal-description">Service details will appear here.</p>
-            <!-- More content can be added here, like images or lists -->
-        </div>
+    <div id="modal-container-main">
+        <!-- Dynamically added service modals will go here -->
     </div>
 
     <script src="js/script.js" defer></script>

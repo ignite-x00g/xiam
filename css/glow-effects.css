@@ -128,9 +128,10 @@ body {
 }
 
 /* OpsLight Interactive Tiles - Modal Styling */
+/*
 #opslight-modal {
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -142,17 +143,18 @@ body {
     justify-content: center; /* Center horizontally */
     opacity: 0; /* Hidden by default */
     visibility: hidden; /* Hidden by default */
-    transition: opacity 0.4s ease, visibility 0.4s ease; /* Smooth transition for showing/hiding */
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 #opslight-modal.modal-visible {
     opacity: 1;
     visibility: visible;
 }
-
+*/
+/*
 .modal-content {
-    background-color: #1c1c2c; /* Dark background for the modal */
-    margin: auto; /* Auto margins for centering, though flex handles it */
+    background-color: #1c1c2c;
+    margin: auto;
     padding: 25px;
     border: 1px solid #8b5cf6; /* Violet border */
     border-radius: 10px; /* Rounded corners */
@@ -163,10 +165,11 @@ body {
         0 0 15px #8b5cf6, /* Outer glow */
         0 0 30px #a855f7,
         inset 0 0 10px rgba(139, 92, 246, 0.5); /* Inner violet glow */
-    animation: modal-entry 0.5s ease-out; /* Entry animation */
+    animation: modal-entry 0.5s ease-out;
 }
-
+*/
 /* Modal Entry Animation */
+/*
 @keyframes modal-entry {
     from {
         transform: scale(0.9) translateY(-20px);
@@ -177,7 +180,8 @@ body {
         opacity: 1;
     }
 }
-
+*/
+/*
 .modal-close-button {
     color: #aaa;
     float: right;
@@ -195,6 +199,7 @@ body {
 
 /* Optional: Backdrop blur effect (use with caution for performance) */
 /* To enable, add a class like 'modal-backdrop-blur' to #opslight-modal when visible */
+/*
 .modal-backdrop-blur {
     backdrop-filter: blur(5px);
 }
@@ -207,3 +212,129 @@ body {
 #modal-description {
     color: #c0c0e0;
 }
+*/
+
+/* OpsLight Interactive Tiles - Multi-Modal System */
+#modal-container-main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7); /* Slightly darker backdrop */
+    display: none; /* Hidden by default, JS will change to flex */
+    align-items: center; /* Vertically center modals in the viewport */
+    justify-content: center; /* Horizontally center modals */
+    flex-wrap: wrap; /* Allow modals to wrap if not enough space */
+    gap: 20px; /* Space between modals if they wrap or are side-by-side */
+    z-index: 1000;
+    overflow-y: auto; /* Scroll if modals overflow vertically */
+    padding: 20px; /* Padding for the container */
+}
+
+/* Style for each individual modal instance */
+.opslight-service-modal {
+    background-color: #1c1c2c;
+    padding: 25px;
+    border: 1px solid #8b5cf6;
+    border-radius: 10px;
+    width: clamp(280px, 22%, 400px); /* Responsive width for up to 4 modals */
+    /* min-width: 280px; max-width: 350px; /* Max width for each modal */
+    /* flex: 0 1 auto; /* Allow shrinking but not growing, basis is auto */
+    max-height: 80vh; /* Prevent modals from being too tall */
+    overflow-y: auto; /* Scroll content within modal if needed */
+    position: relative;
+    box-shadow:
+        0 0 15px #8b5cf6,
+        0 0 30px #a855f7,
+        inset 0 0 10px rgba(139, 92, 246, 0.5);
+    animation: opslight-modal-entry 0.5s ease-out;
+    color: #e0e0e0; /* Default text color */
+}
+
+.opslight-service-modal h2 {
+    color: #e0e0f0;
+    margin-top: 0;
+}
+
+.opslight-service-modal p {
+    color: #c0c0e0;
+    line-height: 1.6;
+}
+
+.opslight-modal-close-button {
+    color: #aaa;
+    position: absolute; /* Position relative to modal */
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.opslight-modal-close-button:hover,
+.opslight-modal-close-button:focus {
+    color: #8b5cf6; /* Violet on hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* New Modal Entry Animation (renamed to avoid conflict if old one wasn't removed fully) */
+@keyframes opslight-modal-entry {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Floating Action Buttons (FABs) - Neon Shine Effect */
+.fab {
+    /* Ensure base transition includes box-shadow if not already present from style.css */
+    /* From style.css: transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; */
+    /* This is good. */
+}
+
+.fab:hover, .fab:focus { /* Added :focus for accessibility */
+    /* The transform: scale(1.1) and background-color change are already in style.css */
+    /* Add the neon purple shine */
+    box-shadow:
+        0 0 5px #a855f7, /* Fuchsia for a brighter pop */
+        0 0 15px #a855f7,
+        0 0 30px #a855f7,
+        0 0 45px rgba(168, 85, 247, 0.7), /* Outer glow */
+        inset 0 0 5px rgba(255, 255, 255, 0.3), /* Subtle inner highlight */
+        0 4px 12px rgba(0,0,0,0.2); /* Keep the original base shadow for depth */
+}
+
+/* Optional: A subtle pulse animation for the FABs on hover, similar to NeonGrid */
+/* To enable, add 'animation: fab-pulse 2s infinite alternate;' to .fab:hover */
+/*
+.fab:hover, .fab:focus {
+    animation: fab-pulse 2s infinite alternate;
+}
+
+@keyframes fab-pulse {
+    0% {
+        box-shadow:
+            0 0 5px #a855f7,
+            0 0 15px #a855f7,
+            0 0 30px #a855f7,
+            0 0 45px rgba(168, 85, 247, 0.7),
+            inset 0 0 5px rgba(255, 255, 255, 0.3),
+            0 4px 12px rgba(0,0,0,0.2);
+    }
+    100% {
+        box-shadow:
+            0 0 7px #8b5cf6, / Violet for pulse shift
+            0 0 20px #8b5cf6,
+            0 0 40px #8b5cf6,
+            0 0 60px rgba(139, 92, 246, 0.8),
+            inset 0 0 7px rgba(255, 255, 255, 0.4),
+            0 6px 15px rgba(0,0,0,0.3);
+    }
+}
+*/
