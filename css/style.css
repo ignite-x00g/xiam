@@ -1,0 +1,77 @@
+/* Floating Action Buttons (FAB) Styling */
+.fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column; /* Stack icons vertically */
+    gap: 10px; /* Space between buttons */
+    z-index: 999; /* Ensure they are above most other content */
+}
+
+.fab {
+    background-color: #8b5cf6; /* Violet accent */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Circular buttons */
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Hide text initially */
+    position: relative; /* For text positioning */
+}
+
+.fab:hover {
+    background-color: #a855f7; /* Fuchsia on hover - base hover, shine will be in glow-effects.css */
+    transform: scale(1.1);
+}
+
+.fab-icon {
+    font-size: 24px;
+    transition: opacity 0.2s ease;
+}
+
+.fab-text {
+    position: absolute;
+    left: -100px; /* Position text off-screen to the left */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease, left 0.3s ease;
+    font-size: 14px;
+}
+
+.fab:hover .fab-text {
+    left: -10px; /* Bring text into view from the left */
+    transform: translateX(-100%) translateY(-50%); /* Position it to the left of the button */
+    opacity: 1;
+}
+
+/* Adjustments for smaller screens if needed */
+@media (max-width: 768px) {
+    .fab-container {
+        bottom: 15px;
+        right: 15px;
+    }
+    .fab {
+        width: 50px;
+        height: 50px;
+    }
+    .fab-icon {
+        font-size: 20px;
+    }
+    /* On mobile, maybe don't show text on hover, or handle it differently */
+    .fab:hover .fab-text {
+        display: none; /* Example: hide text on hover for mobile to prevent layout issues */
+    }
+}
