@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPS Online Support</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glow-effects.css">
+    <!-- Add Font Awesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="glow-effect"></div>
+    <header class="site-header">
+        <div class="header-content">
+            <h1 class="main-header-text" data-translate-key="header.main">OPS</h1>
+            <p class="sub-header-text" data-translate-key="header.sub">OPS Online Support&trade;</p>
+            <!-- Navigation or other header elements like toggles can go here later -->
+        </div>
+        <!-- Placeholder for toggles (theme/language) if they are to be in the header -->
+        <div class="header-toggles">
+            <button id="theme-toggle-button" class="header-toggle-btn" aria-label="Toggle theme">
+                <!-- Text will be set by JS, e.g., [Dark] or [Light] -->
+            </button>
+            <button id="language-toggle-button" class="header-toggle-btn" aria-label="Toggle language">
+                <!-- Text will be set by JS, e.g., [EN] or [ES] -->
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="services" class="services-section">
+            <!-- The H2 "Our Services" might be removed or restyled depending on final look -->
+            <!-- For now, let's keep it and assume it's a section title above the nav -->
+            <h2 class="services-section-title" data-translate-key="services.title">Our Services</h2>
+            <nav aria-label="Main services" class="services-navigation">
+                <div class="service-nav-list">
+                    <a href="#service-business-ops" class="service-nav-item" data-service-target="Business Ops">
+                        <span class="service-nav-item-text" data-translate-key="nav.businessOps">Business Ops</span>
+                    </a>
+                    <a href="#service-contact-center" class="service-nav-item" data-service-target="Contact Center">
+                        <span class="service-nav-item-text" data-translate-key="nav.contactCenter">Contact Center</span>
+                    </a>
+                    <a href="#service-it-support" class="service-nav-item" data-service-target="IT Support">
+                        <span class="service-nav-item-text" data-translate-key="nav.itSupport">IT Support</span>
+                    </a>
+                    <a href="#service-professionals" class="service-nav-item" data-service-target="Professionals">
+                        <span class="service-nav-item-text" data-translate-key="nav.professionals">Professionals</span>
+                    </a>
+                </div>
+            </nav>
+        </section>
+
+        <section id="floating-action-buttons">
+            <div class="fab-container">
+                <button id="fab-join" class="fab" aria-label="Join Us">
+                    <div class="fab-content-wrapper">
+                        <div class="fab-icon-image-area"><i class="fas fa-user-plus"></i></div>
+                        <span class="fab-text" data-translate-key="fab.join">Join Us</span>
+                    </div>
+                </button>
+                <button id="fab-contact" class="fab" aria-label="Contact Us">
+                    <div class="fab-content-wrapper">
+                        <div class="fab-icon-image-area"><i class="fas fa-envelope"></i></div>
+                        <span class="fab-text" data-translate-key="fab.contact">Contact Us</span>
+                    </div>
+                </button>
+                <button id="fab-chatbot" class="fab" aria-label="Chatbot AI">
+                    <div class="fab-content-wrapper">
+                        <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
+                        <span class="fab-text" data-translate-key="fab.chatbot">Chatbot AI</span>
+                    </div>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Footer content will go here -->
+        <p data-translate-key="footer.copy">&copy; 2023 OPS Online Support</p>
+    </footer>
+
+    <div id="modal-container-main">
+        <!-- Dynamically added service modals will go here -->
+        <div id="join-modal" class="opslight-service-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="join-modal-title">
+            <div class="modal-content">
+                <button class="close-modal" aria-label="Close modal">&times;</button>
+                <h2 id="join-modal-title" data-translate-key="joinModal.title">Join Our Team</h2>
+                <p data-translate-key="joinModal.description">We are looking for passionate individuals to join us. Fill out the form below to express your interest.</p>
+                <form id="join-form">
+                    <!-- Full Name -->
+                    <div class="form-field">
+                        <label for="join-full-name" data-translate-key="form.join.label.fullName">Full Name</label>
+                        <input type="text" id="join-full-name" name="fullName" required data-placeholder-translate-key="form.join.placeholder.fullName">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-field">
+                        <label for="join-email" data-translate-key="form.join.label.email">Email Address</label>
+                        <input type="email" id="join-email" name="email" required data-placeholder-translate-key="form.join.placeholder.email">
+                    </div>
+
+                    <!-- Phone (Optional) -->
+                    <div class="form-field">
+                        <label for="join-phone" data-translate-key="form.join.label.phone">Phone Number (Optional)</label>
+                        <input type="tel" id="join-phone" name="phone" data-placeholder-translate-key="form.join.placeholder.phone">
+                    </div>
+
+                    <!-- Preferred Contact Method -->
+                    <div class="form-field">
+                        <label data-translate-key="form.join.label.contactMethod">Preferred Contact Method</label>
+                        <div class="radio-group">
+                            <input type="radio" id="contact-email" name="contactMethod" value="email" checked>
+                            <label for="contact-email" data-translate-key="form.join.option.email">Email</label>
+                            <input type="radio" id="contact-phone" name="contactMethod" value="phone">
+                            <label for="contact-phone" data-translate-key="form.join.option.phone">Phone</label>
+                        </div>
+                    </div>
+
+                    <!-- Work Preference Dropdown -->
+                    <div class="form-field">
+                        <button type="button" id="employment-type-toggle" class="dropdown-toggle" aria-expanded="false" aria-controls="employment-type-checkboxes" data-translate-key="form.join.button.workPreference">Work Preference</button>
+                        <div id="employment-type-checkboxes" class="dropdown-content">
+                            <label><input type="checkbox" name="employmentType" value="full-time"> <span data-translate-key="form.join.option.fullTime">Full-time</span></label>
+                            <label><input type="checkbox" name="employmentType" value="part-time"> <span data-translate-key="form.join.option.partTime">Part-time</span></label>
+                            <label><input type="checkbox" name="employmentType" value="contract"> <span data-translate-key="form.join.option.contract">Contract</span></label>
+                            <label><input type="checkbox" name="employmentType" value="internship"> <span data-translate-key="form.join.option.internship">Internship</span></label>
+                            <button type="button" id="employment-done" class="dropdown-done-button" data-translate-key="form.button.done">DONE</button>
+                        </div>
+                    </div>
+
+                    <!-- Areas of Interest Dropdown -->
+                    <div class="form-field">
+                        <button type="button" id="join-areas-trigger" class="dropdown-toggle" aria-expanded="false" aria-controls="join-areas-options" data-translate-key="form.join.button.areasOfInterest">Areas of Interest</button>
+                        <div id="join-areas-options" class="dropdown-content">
+                            <label><input type="checkbox" name="areasOfInterest" value="customer-service"> <span data-translate-key="form.join.option.customerService">Customer Service</span></label>
+                            <label><input type="checkbox" name="areasOfInterest" value="technical-support"> <span data-translate-key="form.join.option.techSupport">Technical Support</span></label>
+                            <label><input type="checkbox" name="areasOfInterest" value="sales"> <span data-translate-key="form.join.option.sales">Sales</span></label>
+                            <label><input type="checkbox" name="areasOfInterest" value="human-resources"> <span data-translate-key="form.join.option.hr">Human Resources</span></label>
+                             <label><input type="checkbox" name="areasOfInterest" value="marketing"> <span data-translate-key="form.join.option.marketing">Marketing</span></label>
+                            <button type="button" id="areas-done" class="dropdown-done-button" data-translate-key="form.button.done">DONE</button>
+                        </div>
+                    </div>
+
+                    <!-- Comments/Message -->
+                    <div class="form-field">
+                        <label for="join-comments" data-translate-key="form.join.label.comments">Comments/Questions</label>
+                        <textarea id="join-comments" name="comments" rows="4" data-placeholder-translate-key="form.join.placeholder.comments"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-field form-submit-area">
+                         <button type="submit" id="join-submit-button" class="form-button" data-translate-key="form.join.button.submit">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js" defer></script>
+    <script src="js/cursor-glow-effect.js" defer></script>
+    <script src="js/dynamic-modal-manager.js" defer></script>
+    <script src="js/theme-switcher.js" defer></script>
+    <script src="js/language-switcher.js" defer></script>
+    <script src="js/contact-form.js" defer></script> <!-- Added this line -->
+</body>
+</html>
