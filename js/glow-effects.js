@@ -40,41 +40,35 @@ document.addEventListener('DOMContentLoaded', () => {
 // OpsLight Interactive Tiles - Multi-Modal Interaction (NEW)
 document.addEventListener('DOMContentLoaded', () => {
     const modalContainerMain = document.getElementById('modal-container-main');
-    const serviceCards = document.querySelectorAll('.service-card'); // Keep this selector
+    const serviceNavItems = document.querySelectorAll('.service-nav-item'); // UPDATED selector
 
-    // Re-use or redefine serviceModalContent if it was removed
-    const serviceModalContent = {
-        "Business Ops": {
-            title: "Business Operations",
-            description: "We optimize your business processes for maximum efficiency and growth. Our services include workflow analysis, automation, and strategic planning."
-        },
-        "Contact Center": {
-            title: "Contact Center Solutions",
-            description: "Our state-of-the-art contact center services provide your customers with exceptional support, available 24/7 through multiple channels."
-        },
-        "IT Support": {
-            title: "Comprehensive IT Support",
-            description: "Reliable IT support to keep your systems running smoothly. We offer helpdesk services, network management, cybersecurity, and cloud solutions."
-        },
-        "Professionals": {
-            title: "Skilled Professionals",
-            description: "Access our pool of highly skilled professionals for your project needs. We provide experts in various fields, from project management to software development."
-        }
-    };
+    // serviceModalContent object is now removed, content will be fetched via window.getTranslatedText
 
     if (!modalContainerMain) {
         console.warn('Modal container #modal-container-main not found.');
     }
 
-    if (serviceCards.length > 0 && modalContainerMain) {
-        serviceCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const serviceName = card.querySelector('h3').textContent.trim();
-                const content = serviceModalContent[serviceName] ||
-                                { title: "Service Details", description: "More information about this service." };
+    if (serviceNavItems.length > 0 && modalContainerMain) { // UPDATED variable name
+        serviceNavItems.forEach(card => { // UPDATED variable name
+            card.addEventListener('click', (event) => { // Added event parameter
+                event.preventDefault(); // Prevent default anchor behavior
+                const serviceKey = card.dataset.serviceTarget;
+
+                let translationKeyPrefix = '';
+                if (serviceKey === "Business Ops") translationKeyPrefix = "modal.businessOps";
+                else if (serviceKey === "Contact Center") translationKeyPrefix = "modal.contactCenter";
+                else if (serviceKey === "IT Support") translationKeyPrefix = "modal.itSupport";
+                else if (serviceKey === "Professionals") translationKeyPrefix = "modal.professionals";
+                else {
+                    console.warn(`Unknown service key: ${serviceKey}`);
+                    return; // Do not proceed if key is unknown
+                }
+
+                const title = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.title`) : serviceKey; // Fallback to serviceKey if function not ready
+                const description = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.description`) : "Description unavailable.";
 
                 // Check if modal for this service already exists
-                if (modalContainerMain.querySelector(`.opslight-service-modal[data-service="${serviceName}"]`)) {
+                if (modalContainerMain.querySelector(`.opslight-service-modal[data-service="${serviceKey}"]`)) {
                     // Optional: Bring to front or indicate it's already open
                     // For now, we don't re-open if it exists. User can close and re-open.
                     // Or, per "one next to each other", they just stay.
@@ -84,11 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Create modal element
                 const modalInstance = document.createElement('div');
                 modalInstance.className = 'opslight-service-modal';
-                modalInstance.setAttribute('data-service', serviceName);
+                modalInstance.setAttribute('data-service', serviceKey);
                 modalInstance.innerHTML = `
                     <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
-                    <h2>${content.title}</h2>
-                    <p>${content.description}</p>
+                    <h2>${title}</h2>
+                    <p>${description}</p>
                 `;
 
                 // Append to container and show container
@@ -121,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     } else {
-        if (serviceCards.length === 0) console.warn('No service cards with class .service-card found.');
+        if (serviceNavItems.length === 0) console.warn('No service nav items with class .service-nav-item found.'); // UPDATED warning
     }
 
     // FAB Modal Interaction Logic
@@ -130,20 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fabChatbot = document.getElementById('fab-chatbot');
     // modalContainerMain is already defined from service card modals.
 
-    const fabModalContent = {
-        "fab-join": {
-            title: "Join Our Team",
-            description: "We're looking for talented individuals to join OPS. Explore current opportunities and learn about our culture. <br><br> [Placeholder for job listings or application form link]"
-        },
-        "fab-contact": {
-            title: "Contact Us",
-            description: "Get in touch with OPS for support or inquiries. <br><br> Email: contact@opsonlinesupport.com <br> Phone: 1-800-OPS-HELP <br><br> [Placeholder for a contact form]"
-        },
-        "fab-chatbot": {
-            title: "AI Chatbot Assistant",
-            description: "Our AI Chatbot is here to help you with common questions. <br><br> [Placeholder for Chatbot UI or initiation button]"
-        }
-    };
+    // fabModalContent object is now removed, content will be fetched via window.getTranslatedText
 
     const fabs = [fabJoin, fabContact, fabChatbot];
 
@@ -151,12 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (fab) {
             fab.addEventListener('click', () => {
                 const fabId = fab.id;
-                const content = fabModalContent[fabId];
 
-                if (!content) {
-                    console.warn(`No modal content defined for FAB ID: ${fabId}`);
-                    return;
+                let fabTranslationKeyPrefix = '';
+                if (fabId === "fab-join") fabTranslationKeyPrefix = "modal.fabJoin";
+                else if (fabId === "fab-contact") fabTranslationKeyPrefix = "modal.fabContact";
+                else if (fabId === "fab-chatbot") fabTranslationKeyPrefix = "modal.fabChatbot";
+                else {
+                    console.warn(`Unknown FAB ID: ${fabId}`);
+                    return; // Do not proceed if ID is unknown
                 }
+
+                const title = window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.title`) : fabId; // Fallback
+                const description = window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable.";
+
 
                 // Check if modal for this FAB already exists
                 if (modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`)) {
@@ -171,8 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.setAttribute('data-fab-id', fabId); // Unique attribute for FAB modals
                 modalInstance.innerHTML = `
                     <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
-                    <h2>${content.title}</h2>
-                    <p>${content.description}</p>
+                    <h2>${title}</h2>
+                    <p>${description}</p>
                 `;
 
                 // Append to container and show container

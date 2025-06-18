@@ -10,8 +10,8 @@
 }
 
 .fab {
-    background-color: #8b5cf6; /* Violet accent */
-    color: white;
+    background-color: var(--fab-bg-color); /* Violet accent */
+    color: var(--fab-text-color);
     border: none;
     border-radius: 50%; /* Circular buttons */
     width: 60px; /* Slightly larger for potentially richer content */
@@ -19,7 +19,7 @@
     display: flex; /* Use flex on the button itself */
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px var(--fab-shadow-color);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     padding: 0; /* Remove padding if content wrapper handles it */
@@ -28,7 +28,7 @@
 }
 
 .fab:hover {
-    background-color: #a855f7; /* Fuchsia on hover - base hover */
+    background-color: var(--fab-hover-bg-color); /* Fuchsia on hover - base hover */
     transform: scale(1.1);
 }
 
@@ -67,7 +67,7 @@
 .fab-text {
     font-size: 10px; /* Smaller text to fit inside the button */
     line-height: 1.2;
-    color: white;
+    color: var(--fab-text-color);
     display: block; /* Was previously for hover label, now part of button face */
     /* Remove old absolute positioning for hover label */
 }
@@ -167,7 +167,6 @@
 .modal-overlay.is-visible {
     display: flex;
 }
-
 
 .modal-header {
     display: flex;
@@ -283,7 +282,6 @@ form textarea {
     /* flex: 1 1 calc(50% - 10px);  Two columns, accounting for gap */
     /* Or, let them size naturally: */
 }
-
 
 .checkbox-cell label {
     display: flex;

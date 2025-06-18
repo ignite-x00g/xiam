@@ -1,8 +1,8 @@
 /* GlowMotion UI Effect */
 body {
     /* Base background color */
-    background-color: #1a1a2e; /* A dark blue/purple, can be adjusted */
-    color: #e0e0e0; /* Light text color for contrast */
+    background-color: var(--body-bg-color); /* A dark blue/purple, can be adjusted */
+    color: var(--text-color-main); /* Light text color for contrast */
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Prevent horizontal scroll */
@@ -19,19 +19,20 @@ body {
     pointer-events: none; /* Make sure it doesn't interfere with mouse events on other elements */
     background: radial-gradient(
         circle at var(--x, 50%) var(--y, 50%),
-        rgba(139, 92, 246, 0.15) 0%, /* Lighter, wider violet glow */
-        rgba(139, 92, 246, 0.1) 10%,
-        rgba(168, 85, 247, 0.05) 20%,
-        transparent 30% /* Make the glow larger and softer */
+        var(--glow-effect-color-1) 0%, /* Lighter, wider violet glow */
+        var(--glow-effect-color-2) 10%,
+        var(--glow-effect-color-3) 20%,
+        var(--glow-transparent) 30% /* Make the glow larger and softer */
     );
     z-index: -1; /* Ensure it's behind content but visible over body background */
     /* transition: background 0.1s linear; */ /* Removed for requestAnimationFrame control */
 }
 
 /* NeonGrid Hover Effect */
+/*
 .service-cards-container {
     display: flex;
-    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+    flex-wrap: wrap;
     justify-content: center; /* Center cards in the container */
     gap: 2rem; /* Space between cards */
     padding: 2rem; /* Padding around the container */
@@ -50,9 +51,10 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
     cursor: pointer; /* Indicate interactivity */
     position: relative; /* Added for pseudo-element and z-index */
-    z-index: 1; /* Base z-index */
+    z-index: 1;
 }
-
+*/
+/*
 .service-card::before {
     content: '';
     position: absolute;
@@ -126,7 +128,7 @@ body {
         gap: 1rem;
     }
 }
-
+*/
 /* OpsLight Interactive Tiles - Modal Styling */
 /*
 #opslight-modal {
@@ -221,7 +223,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,0.7); /* Slightly darker backdrop */
+    background-color: var(--modal-backdrop-bg); /* Slightly darker backdrop */
     display: none; /* Hidden by default, JS will change to flex */
     align-items: center; /* Vertically center modals in the viewport */
     justify-content: center; /* Horizontally center modals */
@@ -234,9 +236,9 @@ body {
 
 /* Style for each individual modal instance */
 .opslight-service-modal {
-    background-color: #1c1c2c;
+    background-color: var(--modal-content-bg);
     padding: 25px;
-    border: 1px solid #8b5cf6;
+    border: 1px solid var(--hover-glow-color-secondary);
     border-radius: 10px;
     width: clamp(280px, 22%, 400px); /* Responsive width for up to 4 modals */
     /* min-width: 280px; max-width: 350px; /* Max width for each modal */
@@ -245,25 +247,25 @@ body {
     overflow-y: auto; /* Scroll content within modal if needed */
     position: relative;
     box-shadow:
-        0 0 15px #8b5cf6,
-        0 0 30px #a855f7,
-        inset 0 0 10px rgba(139, 92, 246, 0.5);
+        0 0 15px var(--hover-glow-color-secondary),
+        0 0 30px var(--hover-glow-color-primary),
+        inset 0 0 10px var(--inset-glow-color);
     animation: opslight-modal-entry 0.5s ease-out;
-    color: #e0e0e0; /* Default text color */
+    color: var(--text-color-main); /* Default text color */
 }
 
 .opslight-service-modal h2 {
-    color: #e0e0f0;
+    color: var(--text-color-main);
     margin-top: 0;
 }
 
 .opslight-service-modal p {
-    color: #c0c0e0;
+    color: var(--card-text-color);
     line-height: 1.6;
 }
 
 .opslight-modal-close-button {
-    color: #aaa;
+    color: var(--text-color-subtle);
     position: absolute; /* Position relative to modal */
     top: 10px;
     right: 15px;
@@ -274,7 +276,7 @@ body {
 
 .opslight-modal-close-button:hover,
 .opslight-modal-close-button:focus {
-    color: #8b5cf6; /* Violet on hover */
+    color: var(--hover-glow-color-secondary); /* Violet on hover */
     text-decoration: none;
     cursor: pointer;
 }
@@ -302,12 +304,12 @@ body {
     /* The transform: scale(1.1) and background-color change are already in style.css */
     /* Add the neon purple shine */
     box-shadow:
-        0 0 5px #a855f7, /* Fuchsia for a brighter pop */
-        0 0 15px #a855f7,
-        0 0 30px #a855f7,
-        0 0 45px rgba(168, 85, 247, 0.7), /* Outer glow */
-        inset 0 0 5px rgba(255, 255, 255, 0.3), /* Subtle inner highlight */
-        0 4px 12px rgba(0,0,0,0.2); /* Keep the original base shadow for depth */
+        0 0 5px var(--hover-glow-color-primary), /* Fuchsia for a brighter pop */
+        0 0 15px var(--hover-glow-color-primary),
+        0 0 30px var(--hover-glow-color-primary),
+        0 0 45px var(--fab-hover-main-glow), /* Outer glow */
+        inset 0 0 5px var(--fab-inset-highlight), /* Subtle inner highlight */
+        0 4px 12px var(--fab-shadow-color); /* Keep the original base shadow for depth */
 }
 
 /* Optional: A subtle pulse animation for the FABs on hover, similar to NeonGrid */
@@ -338,3 +340,71 @@ body {
     }
 }
 */
+
+/* Services Section Styling */
+.services-section {
+    padding: 2rem 0; /* Padding for the section */
+    text-align: center; /* Center the title and nav */
+}
+
+.services-section-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--text-color-subtle);
+}
+
+.services-navigation {
+    /* Container for the navigation list */
+}
+
+.service-nav-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center items on the line */
+    gap: 10px; /* 10px spacing between items */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.service-nav-item {
+    background-color: var(--card-bg-color); /* Similar to old card, can be adjusted */
+    color: var(--card-text-color);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem; /* Padding for nav items */
+    border: 1px solid var(--card-border-color);
+    border-radius: 6px; /* Slightly less rounded for nav feel */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block; /* Or inline-flex for centering content */
+    text-align: center;
+}
+
+.service-nav-item-text {
+    /* If any specific styling for the text span is needed */
+}
+
+.service-nav-item:hover, .service-nav-item:focus {
+    background-color: var(--card-bg-hover-color); /* Darker background on hover */
+    transform: translateY(-3px); /* Subtle lift */
+    color: var(--text-color-main);
+    box-shadow: 0 0 8px var(--nav-item-glow-color-1), /* Softer violet glow */
+                        0 0 15px var(--nav-item-glow-color-2);
+}
+
+/* Responsive adjustments for nav items */
+@media (max-width: 768px) {
+    .service-nav-list {
+        flex-direction: column; /* Stack vertically on small screens */
+        align-items: center; /* Center stacked items */
+    }
+    .service-nav-item {
+        width: 80%; /* Make items wider when stacked */
+        max-width: 300px; /* Max width for stacked items */
+        margin-bottom: 10px; /* Ensure gap when stacked */
+    }
+    .services-section-title {
+        font-size: 1.5rem;
+    }
+}
