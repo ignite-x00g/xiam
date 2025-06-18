@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.getTranslatedText = function(key) {
         return translations[currentLanguage]?.[key] || key; // Added optional chaining for safety
     };
-
     window.getCurrentLanguage = function() {
         return currentLanguage;
     };

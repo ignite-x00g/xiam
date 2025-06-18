@@ -210,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Default content for other FABs (like Join Us, Chatbot AI)
                     modalBodyContent = `<p>${window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable."}</p>`;
                 }
-
                 // Check if modal for this FAB already exists
                 if (modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`)) {
                     // Optional: Bring to front or indicate it's already open. For now, do nothing.
@@ -225,14 +224,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.innerHTML = `
                     <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
                     <h2>${title}</h2>
-                    ${modalBodyContent}
-                `;
+                    ${modalBodyContent};
 
                 // Append to container and show container
                 modalContainerMain.appendChild(modalInstance);
                 modalContainerMain.style.display = 'flex'; // Ensure container is visible
-
-                // If it's the contact form modal, initialize its JS logic
+               // If it's the contact form modal, initialize its JS logic
                 if (fabId === "fab-contact") {
                     const formElement = modalInstance.querySelector('#contact-us-form');
                     if (window.initContactForm && formElement) {
@@ -241,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.warn('initContactForm function not found or form element missing.');
                     }
                 }
-
                 // Add event listener to this new modal's close button
                 modalInstance.querySelector('.opslight-modal-close-button').addEventListener('click', () => {
                     modalInstance.remove();
