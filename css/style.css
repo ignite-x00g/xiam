@@ -395,3 +395,21 @@ form textarea {
         font-size: 0.95em;
     }
 }
+
+/* Footer Styling */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px; /* This acts as the margin from the bottom edge of its content */
+    /* background-color: var(--body-bg-color); /* Optional: give it a slight background to ensure readability over .glow-effect if it's very active near bottom */
+    z-index: 990; /* Below FABs (999) but above general content and glow effect (-1) */
+}
+
+footer p {
+    margin: 0; /* Remove default paragraph margin */
+    font-size: 0.8rem;
+    color: var(--text-color-subtle); /* Use theme variable for text color */
+}
