@@ -131,269 +131,154 @@
     */
 }
 
-/* Modal Styles */
-.modal-overlay {
-    display: none; /* Changed to flex for testing, normally none */
-    position: fixed;
+/* Header Styling */
+.site-header {
+    background-color: var(--header-bg-color); /* Slightly different from body for definition */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between; /* Aligns logo area and toggles area */
+    align-items: center;
+    border-bottom: 1px solid var(--header-border-color);
+}
+
+.header-content {
+    /* Groups main and sub-header text */
+    text-align: left; /* Or center, depending on overall design preference */
+}
+
+.main-header-text {
+    font-size: 2.5rem; /* Larger font for "OPS" */
+    font-weight: bold;
+    color: var(--main-logo-color);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.sub-header-text {
+    font-size: 0.9rem; /* Smaller font for "OPS Online Support™" */
+    color: var(--sub-logo-color);
+    margin: 0;
+    font-weight: normal;
+}
+
+.sub-header-text sup { /* Styling for the TM symbol */
+    font-size: 0.6em;
+    vertical-align: super;
+}
+
+.header-toggles {
+    /* For theme/language toggles later */
+    display: flex;
+    align-items: center; /* Align items vertically in case of different heights */
+    gap: 15px;
+}
+
+/* Responsive header styling */
+@media (max-width: 768px) {
+    .site-header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    .header-content {
+        text-align: center; /* Center text on smaller screens */
+    }
+    .main-header-text {
+        font-size: 2rem;
+    }
+    .sub-header-text {
+        font-size: 0.8rem;
+    }
+    .header-toggles {
+        margin-top: 10px; /* Space above toggles if header stacks */
+    }
+}
+
+/* Language Toggle Switch Styling */
+.language-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px; /* Wider for EN/ES text */
+    height: 28px;
+}
+
+.language-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.language-switch .slider {
+    position: absolute;
+    cursor: pointer;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1000;
-    /* display: flex; TEMPORARILY flex for testing - switch to none and use JS to toggle */
-    align-items: center;
-    justify-content: center;
-    overflow-y: auto;
+    right: 0;
+    bottom: 0;
+    background-color: var(--switch-track-bg, #4a4a6e); /* Use theme variable */
+    transition: .4s;
 }
 
-.modal-content {
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 80%;
-    max-width: 600px;
-    position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
+.language-switch .slider:before { /* This is the knob */
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--switch-knob-bg, white); /* Use theme variable */
+    transition: .4s;
 }
 
-/* JavaScript will toggle this class on the body or modal overlay */
-.modal-open .modal-overlay { /* If you add .modal-open to body */
-    display: flex;
-}
-/* OR, if you toggle a class directly on .modal-overlay itself: */
-.modal-overlay.is-visible {
-    display: flex;
+.language-switch input:checked + .slider {
+    background-color: var(--switch-active-bg, #8b5cf6); /* Use theme variable */
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+.language-switch input:focus + .slider {
+    box-shadow: 0 0 1px var(--switch-active-bg, #8b5cf6); /* Use theme variable */
 }
 
-.modal-header h3 {
-    margin: 0;
-    font-size: 1.5em;
+.language-switch input:checked + .slider:before {
+    transform: translateX(32px); /* Adjusted for wider switch */
 }
 
-.close-modal { /* Assuming this class is used for the close button in HTML */
-    background: none;
-    border: none;
-    font-size: 1.8em;
-    cursor: pointer;
-    color: #888;
-    padding: 0;
-    line-height: 1;
+.language-switch .slider.round {
+    border-radius: 28px;
 }
 
-.modal-body {
-    /* No specific styles needed yet, padding is handled by .modal-content */
+.language-switch .slider.round:before {
+    border-radius: 50%;
 }
 
-form .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-form .form-cell {
-    display: flex;
-    flex-direction: column;
-}
-
-form .form-cell.full-width {
-    grid-column: span 2;
-}
-
-form label {
-    margin-bottom: 5px;
+/* Language indicator text inside the switch */
+.language-switch .lang-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
     font-weight: bold;
-    font-size: 0.9em;
-    color: #333;
+    color: var(--switch-knob-bg, white); /* Text color same as knob for contrast */
+    pointer-events: none; /* So they don't interfere with clicks on slider */
+    transition: opacity 0.3s ease;
 }
 
-form input[type="text"],
-form input[type="email"],
-form input[type="tel"],
-form input[type="date"],
-form input[type="time"],
-form textarea,
-form select { /* Added select here */
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
+.language-switch .lang-indicator.en {
+    left: 7px;
+    opacity: 1; /* Default EN visible */
 }
 
-form textarea {
-    resize: vertical;
+.language-switch .lang-indicator.es {
+    right: 7px;
+    opacity: 0; /* Default ES hidden */
 }
 
-.honeypot {
-    display: none !important;
+/* When checkbox is checked (ES is active) */
+.language-switch input:checked + .slider .lang-indicator.en {
+    opacity: 0;
 }
 
-/* "Join Us" Modal Specifics - Collapsible Sections */
-.toggle-button {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dropdown-overlay {
-    border: 1px solid #eee;
-    padding: 15px;
-    border-radius: 4px;
-    margin-top: -10px; /* Overlap slightly with the button */
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    display: none; /* by default, JS will toggle */
-}
-
-.checkbox-row {
-    /* display: grid; grid-template-columns: 1fr 1fr; gap: 10px; */
-    /* Using flex for simpler checkbox group layouts, adjust if grid is preferred */
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping */
-    gap: 10px; /* Space between checkbox items */
-    margin-bottom: 10px; /* Space below the row */
-}
-
-.checkbox-cell { /* Container for each checkbox + label */
-    display: flex; /* Align checkbox and label */
-    align-items: center;
-    /* flex: 1 1 calc(50% - 10px);  Two columns, accounting for gap */
-    /* Or, let them size naturally: */
-}
-
-.checkbox-cell label {
-    display: flex;
-    align-items: center;
-    font-weight: normal;
-    font-size: 0.95em;
-    color: #333; /* Ensure label text color */
-    cursor: pointer;
-    margin-bottom: 0; /* Override default label margin */
-}
-
-.checkbox-cell input[type="checkbox"] {
-    margin-right: 8px;
-    width: auto; /* Override form input default width */
-    cursor: pointer;
-}
-
-.done-btn {
-    background-color: #8b5cf6; /* Violet to match FAB */
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
-    margin-top: 10px;
-    float: right; /* Align to the right within its container */
-    transition: background-color 0.3s ease;
-}
-
-.done-btn:hover {
-    background-color: #7c3aed; /* Darker violet */
-}
-
-/* Modal Footer & Submit Buttons */
-.modal-footer {
-    text-align: right;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-    margin-top: 20px;
-}
-
-.submit-button { /* General submit button for modals */
-    background-color: #28a745; /* Green for submit actions */
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s ease;
-}
-
-.submit-button:hover {
-    background-color: #218838; /* Darker green */
-}
-
-/* Responsiveness */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 90%;
-        max-width: none;
-        padding: 20px; /* Adjusted padding for smaller screens */
-        max-height: 85vh; /* Slightly less max height */
-    }
-
-    form .form-row {
-        grid-template-columns: 1fr; /* Stack form cells */
-    }
-
-    form .form-cell.full-width {
-        grid-column: span 1; /* Reset span for single column layout */
-    }
-
-    .modal-header h3 {
-        font-size: 1.3em;
-    }
-
-    .submit-button {
-        padding: 10px 20px;
-        font-size: 1em;
-    }
-
-    .checkbox-cell {
-        /* flex: 1 1 100%; /* Make checkboxes take full width on small screens if needed */
-    }
-}
-
-@media (max-width: 480px) {
-    .modal-content {
-        padding: 15px;
-    }
-    .modal-header h3 {
-        font-size: 1.2em;
-    }
-    form label {
-        font-size: 0.85em;
-    }
-    form input[type="text"],
-    form input[type="email"],
-    form input[type="tel"],
-    form input[type="date"],
-    form input[type="time"],
-    form textarea,
-    form select {
-        padding: 8px;
-        font-size: 0.95em;
-    }
-    .submit-button {
-        padding: 10px 15px;
-        font-size: 0.95em;
-    }
+.language-switch input:checked + .slider .lang-indicator.es {
+    opacity: 1;
 }
 
 /* Footer Styling */

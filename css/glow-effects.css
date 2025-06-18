@@ -236,6 +236,7 @@ body {
 
 /* Style for each individual modal instance */
 .opslight-service-modal {
+    box-sizing: border-box; /* Added property */
     background-color: var(--modal-content-bg);
     padding: 25px;
     border: 1px solid var(--hover-glow-color-secondary);
