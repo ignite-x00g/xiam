@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OPS Online Support</title>
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/glow-effects.css">
     <!-- Add Font Awesome CDN Link -->
@@ -11,58 +12,69 @@
 </head>
 <body>
     <div class="glow-effect"></div>
-    <header>
-        <!-- OPS Logo and Navigation will go here -->
-        <h1>OPS Online Support</h1>
+    <header class="site-header">
+        <div class="header-content">
+            <h1 class="main-header-text" data-translate-key="header.main">OPS</h1>
+            <p class="sub-header-text" data-translate-key="header.sub">OPS Online Support&trade;</p>
+            <!-- Navigation or other header elements like toggles can go here later -->
+        </div>
+        <!-- Placeholder for toggles (theme/language) if they are to be in the header -->
+        <div class="header-toggles">
+            <label class="theme-switch" for="theme-toggle-checkbox" aria-label="Toggle dark/light theme">
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span class="slider round"></span>
+            </label>
+            <label class="language-switch" for="language-toggle-checkbox" aria-label="Toggle language English/Spanish">
+                <input type="checkbox" id="language-toggle-checkbox">
+                <span class="slider round">
+                    <span class="lang-indicator en">EN</span>
+                    <span class="lang-indicator es">ES</span>
+                </span>
+            </label>
+        </div>
     </header>
 
     <main>
-        <section id="services">
-            <h2>Our Services</h2>
-            <div class="service-cards-container">
-                <div class="service-card">
-                    <h3>Business Ops</h3>
-                    <p>Streamlining your business operations.</p>
+        <section id="services" class="services-section">
+            <!-- The H2 "Our Services" might be removed or restyled depending on final look -->
+            <!-- For now, let's keep it and assume it's a section title above the nav -->
+            <h2 class="services-section-title" data-translate-key="services.title">Our Services</h2>
+            <nav aria-label="Main services" class="services-navigation">
+                <div class="service-nav-list">
+                    <a href="#service-business-ops" class="service-nav-item" data-service-target="Business Ops">
+                        <span class="service-nav-item-text" data-translate-key="nav.businessOps">Business Ops</span>
+                    </a>
+                    <a href="#service-contact-center" class="service-nav-item" data-service-target="Contact Center">
+                        <span class="service-nav-item-text" data-translate-key="nav.contactCenter">Contact Center</span>
+                    </a>
+                    <a href="#service-it-support" class="service-nav-item" data-service-target="IT Support">
+                        <span class="service-nav-item-text" data-translate-key="nav.itSupport">IT Support</span>
+                    </a>
+                    <a href="#service-professionals" class="service-nav-item" data-service-target="Professionals">
+                        <span class="service-nav-item-text" data-translate-key="nav.professionals">Professionals</span>
+                    </a>
                 </div>
-                <div class="service-card">
-                    <h3>Contact Center</h3>
-                    <p>Exceptional customer support solutions.</p>
-                </div>
-                <div class="service-card">
-                    <h3>IT Support</h3>
-                    <p>Reliable and responsive IT services.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Professionals</h3>
-                    <p>Access to skilled professionals.</p>
-                </div>
-            </div>
+            </nav>
         </section>
 
         <section id="floating-action-buttons">
             <div class="fab-container">
                 <button id="fab-join" class="fab" aria-label="Join Us">
                     <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <span class="fab-text">Join Us</span>
+                        <div class="fab-icon-image-area"><i class="fas fa-user-plus"></i></div>
+                        <span class="fab-text" data-translate-key="fab.join">Join Us</span>
                     </div>
                 </button>
                 <button id="fab-contact" class="fab" aria-label="Contact Us">
                     <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <span class="fab-text">Contact Us</span>
+                        <div class="fab-icon-image-area"><i class="fas fa-envelope"></i></div>
+                        <span class="fab-text" data-translate-key="fab.contact">Contact Us</span>
                     </div>
                 </button>
                 <button id="fab-chatbot" class="fab" aria-label="Chatbot AI">
                     <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <span class="fab-text">Chatbot AI</span>
+                        <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
+                        <span class="fab-text" data-translate-key="fab.chatbot">Chatbot AI</span>
                     </div>
                 </button>
             </div>
@@ -71,7 +83,7 @@
 
     <footer>
         <!-- Footer content will go here -->
-        <p>&copy; 2023 OPS Online Support</p>
+        <p data-translate-key="footer.copy">&copy; 2023 OPS Online Support</p>
     </footer>
 
     <div id="modal-container-main">
@@ -80,5 +92,7 @@
 
     <script src="js/script.js" defer></script>
     <script src="js/glow-effects.js" defer></script>
+    <script src="js/theme-switcher.js" defer></script>
+    <script src="js/language-switcher.js" defer></script>
 </body>
 </html>

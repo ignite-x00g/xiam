@@ -10,8 +10,8 @@
 }
 
 .fab {
-    background-color: #8b5cf6; /* Violet accent */
-    color: white;
+    background-color: var(--fab-bg-color); /* Violet accent */
+    color: var(--fab-text-color);
     border: none;
     border-radius: 50%; /* Circular buttons */
     width: 60px; /* Slightly larger for potentially richer content */
@@ -19,7 +19,7 @@
     display: flex; /* Use flex on the button itself */
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px var(--fab-shadow-color);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     padding: 0; /* Remove padding if content wrapper handles it */
@@ -28,7 +28,7 @@
 }
 
 .fab:hover {
-    background-color: #a855f7; /* Fuchsia on hover - base hover */
+    background-color: var(--fab-hover-bg-color); /* Fuchsia on hover - base hover */
     transform: scale(1.1);
 }
 
@@ -67,7 +67,7 @@
 .fab-text {
     font-size: 10px; /* Smaller text to fit inside the button */
     line-height: 1.2;
-    color: white;
+    color: var(--fab-text-color);
     display: block; /* Was previously for hover label, now part of button face */
     /* Remove old absolute positioning for hover label */
 }
@@ -129,4 +129,154 @@
         display: none; /* Example: hide text on hover for mobile to prevent layout issues */
     }
     */
+}
+
+/* Header Styling */
+.site-header {
+    background-color: var(--header-bg-color); /* Slightly different from body for definition */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between; /* Aligns logo area and toggles area */
+    align-items: center;
+    border-bottom: 1px solid var(--header-border-color);
+}
+
+.header-content {
+    /* Groups main and sub-header text */
+    text-align: left; /* Or center, depending on overall design preference */
+}
+
+.main-header-text {
+    font-size: 2.5rem; /* Larger font for "OPS" */
+    font-weight: bold;
+    color: var(--main-logo-color);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.sub-header-text {
+    font-size: 0.9rem; /* Smaller font for "OPS Online Support™" */
+    color: var(--sub-logo-color);
+    margin: 0;
+    font-weight: normal;
+}
+
+.sub-header-text sup { /* Styling for the TM symbol */
+    font-size: 0.6em;
+    vertical-align: super;
+}
+
+.header-toggles {
+    /* For theme/language toggles later */
+    display: flex;
+    align-items: center; /* Align items vertically in case of different heights */
+    gap: 15px;
+}
+
+/* Responsive header styling */
+@media (max-width: 768px) {
+    .site-header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    .header-content {
+        text-align: center; /* Center text on smaller screens */
+    }
+    .main-header-text {
+        font-size: 2rem;
+    }
+    .sub-header-text {
+        font-size: 0.8rem;
+    }
+    .header-toggles {
+        margin-top: 10px; /* Space above toggles if header stacks */
+    }
+}
+
+/* Language Toggle Switch Styling */
+.language-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px; /* Wider for EN/ES text */
+    height: 28px;
+}
+
+.language-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.language-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--switch-track-bg, #4a4a6e); /* Use theme variable */
+    transition: .4s;
+}
+
+.language-switch .slider:before { /* This is the knob */
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--switch-knob-bg, white); /* Use theme variable */
+    transition: .4s;
+}
+
+.language-switch input:checked + .slider {
+    background-color: var(--switch-active-bg, #8b5cf6); /* Use theme variable */
+}
+
+.language-switch input:focus + .slider {
+    box-shadow: 0 0 1px var(--switch-active-bg, #8b5cf6); /* Use theme variable */
+}
+
+.language-switch input:checked + .slider:before {
+    transform: translateX(32px); /* Adjusted for wider switch */
+}
+
+.language-switch .slider.round {
+    border-radius: 28px;
+}
+
+.language-switch .slider.round:before {
+    border-radius: 50%;
+}
+
+/* Language indicator text inside the switch */
+.language-switch .lang-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--switch-knob-bg, white); /* Text color same as knob for contrast */
+    pointer-events: none; /* So they don't interfere with clicks on slider */
+    transition: opacity 0.3s ease;
+}
+
+.language-switch .lang-indicator.en {
+    left: 7px;
+    opacity: 1; /* Default EN visible */
+}
+
+.language-switch .lang-indicator.es {
+    right: 7px;
+    opacity: 0; /* Default ES hidden */
+}
+
+/* When checkbox is checked (ES is active) */
+.language-switch input:checked + .slider .lang-indicator.en {
+    opacity: 0;
+}
+
+.language-switch input:checked + .slider .lang-indicator.es {
+    opacity: 1;
 }
