@@ -143,9 +143,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const title = window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.title`) : fabId; // Fallback
-                const description = window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable.";
+                let modalBodyContent = '';
 
+                if (fabId === "fab-contact") {
+                    modalBodyContent = `
+        <form id="contact-us-form" class="contact-modal-form">
+            <div class="form-field">
+                <label for="contact-name" data-translate-key="form.contact.label.name">Full Name</label>
+                <input type="text" id="contact-name" name="name" required placeholder="Enter your full name" data-placeholder-translate-key="form.contact.placeholder.name">
+                <div class="validation-message" data-validation-for="contact-name"></div>
+            </div>
 
+            <div class="form-field">
+                <label for="contact-email" data-translate-key="form.contact.label.email">Email Address</label>
+                <input type="email" id="contact-email" name="email" required placeholder="your.email@company.com" data-placeholder-translate-key="form.contact.placeholder.email">
+                <div class="validation-message" data-validation-for="contact-email"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="contact-best-time" data-translate-key="form.contact.label.bestTime">Best time to call</label>
+                    <input type="time" id="contact-best-time" name="bestTime">
+                    <div class="validation-message" data-validation-for="contact-best-time"></div>
+                </div>
+                <div class="form-field">
+                    <label for="contact-best-date" data-translate-key="form.contact.label.bestDate">Best date to call</label>
+                    <input type="date" id="contact-best-date" name="bestDate">
+                    <div class="validation-message" data-validation-for="contact-best-date"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field form-field-country-code">
+                    <label for="contact-country-code" data-translate-key="form.contact.label.countryCode">Country Code</label>
+                    <input type="text" id="contact-country-code" name="countryCode" placeholder="+1" data-placeholder-translate-key="form.contact.placeholder.countryCode">
+                    <div class="validation-message" data-validation-for="contact-country-code"></div>
+                </div>
+                <div class="form-field form-field-phone-number">
+                    <label for="contact-phone" data-translate-key="form.contact.label.phoneNumber">Phone Number</label>
+                    <input type="tel" id="contact-phone" name="phone" placeholder="Enter your phone number" data-placeholder-translate-key="form.contact.placeholder.phoneNumber">
+                    <div class="validation-message" data-validation-for="contact-phone"></div>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="contact-area-of-interest" data-translate-key="form.contact.label.areaOfInterest">Area of Interest</label>
+                <select id="contact-area-of-interest" name="areaOfInterest" required>
+                    <!-- Options will be populated by JS -->
+                </select>
+                <div class="validation-message" data-validation-for="contact-area-of-interest"></div>
+            </div>
+
+            <div class="form-field">
+                <label for="contact-message" data-translate-key="form.contact.label.message">Message</label>
+                <textarea id="contact-message" name="message" rows="4" required placeholder="How can we help you?" data-placeholder-translate-key="form.contact.placeholder.message"></textarea>
+                <div class="validation-message" data-validation-for="contact-message"></div>
+            </div>
+
+            <div class="form-field form-submit-area">
+                <button type="submit" id="contact-submit-button" class="form-button" data-translate-key="form.contact.button.submit">Submit</button>
+                <div class="submission-status-message" id="contact-submission-status"></div>
+            </div>
+        </form>
+                    `;
+                } else {
+                    // Default content for other FABs (like Join Us, Chatbot AI)
+                    modalBodyContent = `<p>${window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable."}</p>`;
+                }
                 // Check if modal for this FAB already exists
                 if (modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`)) {
                     // Optional: Bring to front or indicate it's already open. For now, do nothing.
@@ -160,13 +224,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.innerHTML = `
                     <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
                     <h2>${title}</h2>
-                    <p>${description}</p>
-                `;
+                    ${modalBodyContent};
 
                 // Append to container and show container
                 modalContainerMain.appendChild(modalInstance);
                 modalContainerMain.style.display = 'flex'; // Ensure container is visible
-
+               // If it's the contact form modal, initialize its JS logic
+                if (fabId === "fab-contact") {
+                    const formElement = modalInstance.querySelector('#contact-us-form');
+                    if (window.initContactForm && formElement) {
+                        window.initContactForm(formElement);
+                    } else {
+                        console.warn('initContactForm function not found or form element missing.');
+                    }
+                }
                 // Add event listener to this new modal's close button
                 modalInstance.querySelector('.opslight-modal-close-button').addEventListener('click', () => {
                     modalInstance.remove();

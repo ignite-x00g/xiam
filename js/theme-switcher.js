@@ -1,41 +1,37 @@
 // js/theme-switcher.js
 document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+    const themeToggleButton = document.getElementById('theme-toggle-button');
     const bodyElement = document.body;
+    let currentTheme = 'dark'; // Default theme
 
-    // Function to apply theme based on preference
+    // Function to apply theme and update button text
     function applyTheme(theme) {
+        currentTheme = theme;
         if (theme === 'light') {
             bodyElement.classList.add('light-theme');
-            if (themeToggleCheckbox) themeToggleCheckbox.checked = true;
-        } else {
+            if (themeToggleButton) themeToggleButton.textContent = '[Light]'; // Update button text
+        } else { // 'dark'
             bodyElement.classList.remove('light-theme');
-            if (themeToggleCheckbox) themeToggleCheckbox.checked = false;
+            if (themeToggleButton) themeToggleButton.textContent = '[Dark]'; // Update button text
         }
+        localStorage.setItem('theme', theme);
     }
 
-    // Check for saved theme preference in localStorage
+    // Check for saved theme preference in localStorage and apply it
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         applyTheme(savedTheme);
     } else {
-        // Optional: Check for prefers-color-scheme if no localStorage preference
-        // For now, defaults to dark theme (no class on body) if nothing is saved
-        applyTheme('dark'); // Explicitly apply default if nothing saved
+      applyTheme('dark'); // Apply default dark theme and set button text
     }
 
-    // Event listener for the toggle switch
-    if (themeToggleCheckbox) {
-        themeToggleCheckbox.addEventListener('change', () => {
-            if (themeToggleCheckbox.checked) {
-                applyTheme('light');
-                localStorage.setItem('theme', 'light');
-            } else {
-                applyTheme('dark');
-                localStorage.setItem('theme', 'dark');
-            }
+    // Event listener for the toggle button
+    if (themeToggleButton) {
+        themeToggleButton.addEventListener('click', () => {
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
         });
     } else {
-        console.warn('Theme toggle checkbox #theme-toggle-checkbox not found.');
+        console.warn('Theme toggle button #theme-toggle-button not found.');
     }
 });
