@@ -130,3 +130,270 @@
     }
     */
 }
+
+/* Modal Styles */
+.modal-overlay {
+    display: none; /* Changed to flex for testing, normally none */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    /* display: flex; TEMPORARILY flex for testing - switch to none and use JS to toggle */
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* JavaScript will toggle this class on the body or modal overlay */
+.modal-open .modal-overlay { /* If you add .modal-open to body */
+    display: flex;
+}
+/* OR, if you toggle a class directly on .modal-overlay itself: */
+.modal-overlay.is-visible {
+    display: flex;
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.close-modal { /* Assuming this class is used for the close button in HTML */
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    cursor: pointer;
+    color: #888;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-body {
+    /* No specific styles needed yet, padding is handled by .modal-content */
+}
+
+form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+form .form-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+form .form-cell.full-width {
+    grid-column: span 2;
+}
+
+form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="date"],
+form input[type="time"],
+form textarea,
+form select { /* Added select here */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+.honeypot {
+    display: none !important;
+}
+
+/* "Join Us" Modal Specifics - Collapsible Sections */
+.toggle-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-overlay {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: -10px; /* Overlap slightly with the button */
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    display: none; /* by default, JS will toggle */
+}
+
+.checkbox-row {
+    /* display: grid; grid-template-columns: 1fr 1fr; gap: 10px; */
+    /* Using flex for simpler checkbox group layouts, adjust if grid is preferred */
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 10px; /* Space between checkbox items */
+    margin-bottom: 10px; /* Space below the row */
+}
+
+.checkbox-cell { /* Container for each checkbox + label */
+    display: flex; /* Align checkbox and label */
+    align-items: center;
+    /* flex: 1 1 calc(50% - 10px);  Two columns, accounting for gap */
+    /* Or, let them size naturally: */
+}
+
+
+.checkbox-cell label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    font-size: 0.95em;
+    color: #333; /* Ensure label text color */
+    cursor: pointer;
+    margin-bottom: 0; /* Override default label margin */
+}
+
+.checkbox-cell input[type="checkbox"] {
+    margin-right: 8px;
+    width: auto; /* Override form input default width */
+    cursor: pointer;
+}
+
+.done-btn {
+    background-color: #8b5cf6; /* Violet to match FAB */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+    float: right; /* Align to the right within its container */
+    transition: background-color 0.3s ease;
+}
+
+.done-btn:hover {
+    background-color: #7c3aed; /* Darker violet */
+}
+
+/* Modal Footer & Submit Buttons */
+.modal-footer {
+    text-align: right;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 20px;
+}
+
+.submit-button { /* General submit button for modals */
+    background-color: #28a745; /* Green for submit actions */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #218838; /* Darker green */
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+        max-width: none;
+        padding: 20px; /* Adjusted padding for smaller screens */
+        max-height: 85vh; /* Slightly less max height */
+    }
+
+    form .form-row {
+        grid-template-columns: 1fr; /* Stack form cells */
+    }
+
+    form .form-cell.full-width {
+        grid-column: span 1; /* Reset span for single column layout */
+    }
+
+    .modal-header h3 {
+        font-size: 1.3em;
+    }
+
+    .submit-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .checkbox-cell {
+        /* flex: 1 1 100%; /* Make checkboxes take full width on small screens if needed */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 15px;
+    }
+    .modal-header h3 {
+        font-size: 1.2em;
+    }
+    form label {
+        font-size: 0.85em;
+    }
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="tel"],
+    form input[type="date"],
+    form input[type="time"],
+    form textarea,
+    form select {
+        padding: 8px;
+        font-size: 0.95em;
+    }
+    .submit-button {
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+}
