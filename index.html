@@ -20,17 +20,12 @@
         </div>
         <!-- Placeholder for toggles (theme/language) if they are to be in the header -->
         <div class="header-toggles">
-            <label class="theme-switch" for="theme-toggle-checkbox" aria-label="Toggle dark/light theme">
-                <input type="checkbox" id="theme-toggle-checkbox">
-                <span class="slider round"></span>
-            </label>
-            <label class="language-switch" for="language-toggle-checkbox" aria-label="Toggle language English/Spanish">
-                <input type="checkbox" id="language-toggle-checkbox">
-                <span class="slider round">
-                    <span class="lang-indicator en">EN</span>
-                    <span class="lang-indicator es">ES</span>
-                </span>
-            </label>
+            <button id="theme-toggle-button" class="header-toggle-btn" aria-label="Toggle theme">
+                <!-- Text will be set by JS, e.g., [Dark] or [Light] -->
+            </button>
+            <button id="language-toggle-button" class="header-toggle-btn" aria-label="Toggle language">
+                <!-- Text will be set by JS, e.g., [EN] or [ES] -->
+            </button>
         </div>
     </header>
 

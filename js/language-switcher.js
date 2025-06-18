@@ -1,9 +1,10 @@
 // js/language-switcher.js
 document.addEventListener('DOMContentLoaded', () => {
-    const languageToggleCheckbox = document.getElementById('language-toggle-checkbox');
+    const languageToggleButton = document.getElementById('language-toggle-button'); // Changed selector
     let currentLanguage = 'en'; // Default language
 
     const translations = {
+        // ... (translations object remains unchanged) ...
         en: {
             "header.main": "OPS",
             "header.sub": "OPS Online Support&trade;",
@@ -16,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "fab.contact": "Contact Us",
             "fab.chatbot": "Chatbot AI",
             "footer.copy": "&copy; 2023 OPS Online Support",
-            // Dynamic content keys (will be accessed by glow-effects.js)
             "modal.businessOps.title": "Business Operations",
             "modal.businessOps.description": "We optimize your business processes for maximum efficiency and growth. Our services include workflow analysis, automation, and strategic planning.",
             "modal.contactCenter.title": "Contact Center Solutions",
@@ -28,10 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.fabJoin.title": "Join Our Team",
             "modal.fabJoin.description": "We're looking for talented individuals to join OPS. Explore current opportunities and learn about our culture. <br><br> [Placeholder for job listings or application form link]",
             "modal.fabContact.title": "Contact Us",
-            "modal.fabContact.description": "Get in touch with OPS for support or inquiries. <br><br> Email: contact@opsonlinesupport.com <br> Phone: 1-800-OPS-HELP <br><br> [Placeholder for a contact form]",
+            // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "AI Chatbot Assistant",
             "modal.fabChatbot.description": "Our AI Chatbot is here to help you with common questions. <br><br> [Placeholder for Chatbot UI or initiation button]",
-            // Contact Form translations - EN
             "form.contact.label.name": "Full Name",
             "form.contact.placeholder.name": "Enter your full name",
             "form.contact.label.email": "Email Address",
@@ -56,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.contact.submissionSuccess": "Data prepared (logged to console). Thank you!"
         },
         es: {
-            "header.main": "SPO", // Assuming OPS translates to SPO or similar
+            "header.main": "SPO",
             "header.sub": "Soporte en Línea SPO&trade;",
             "services.title": "Nuestros Servicios",
             "nav.businessOps": "Operaciones Comerciales",
@@ -67,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "fab.contact": "Contáctanos",
             "fab.chatbot": "Chatbot IA",
             "footer.copy": "&copy; 2023 Soporte en Línea SPO",
-            // Dynamic content keys - Spanish
             "modal.businessOps.title": "Operaciones Comerciales",
             "modal.businessOps.description": "Optimizamos sus procesos comerciales para máxima eficiencia y crecimiento. Nuestros servicios incluyen análisis de flujo de trabajo, automatización y planificación estratégica.",
             "modal.contactCenter.title": "Soluciones de Centro de Contacto",
@@ -79,10 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.fabJoin.title": "Únete a Nuestro Equipo",
             "modal.fabJoin.description": "Buscamos personas talentosas para unirse a SPO. Explore oportunidades actuales y conozca nuestra cultura. <br><br> [Espacio para listados de trabajo o enlace a formulario]",
             "modal.fabContact.title": "Contáctanos",
-            "modal.fabContact.description": "Póngase en contacto con SPO para soporte o consultas. <br><br> Correo: contacto@opsonlinesupport.com <br> Teléfono: 1-800-OPS-HELP <br><br> [Espacio para formulario de contacto]",
+            // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "Asistente Chatbot IA",
             "modal.fabChatbot.description": "Nuestro Chatbot IA está aquí para ayudarle con preguntas comunes. <br><br> [Espacio para UI de Chatbot o botón de inicio]",
-            // Contact Form translations - ES
             "form.contact.label.name": "Nombre Completo",
             "form.contact.placeholder.name": "Ingrese su nombre completo",
             "form.contact.label.email": "Correo Electrónico",
@@ -108,13 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Expose a function to get translations for the current language
-    // This will be used by glow-effects.js for dynamic content
     window.getTranslatedText = function(key) {
-        return translations[currentLanguage][key] || key; // Return key if translation not found
+        return translations[currentLanguage]?.[key] || key; // Added optional chaining for safety
     };
 
-    // Expose current language for other scripts if needed (e.g. for modal content)
     window.getCurrentLanguage = function() {
         return currentLanguage;
     };
@@ -122,43 +116,39 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadTranslations() {
         document.querySelectorAll('[data-translate-key]').forEach(element => {
             const key = element.getAttribute('data-translate-key');
-            // Use innerHTML for keys that might contain HTML entities like &copy; or &trade;
-            if (key.includes("footer.copy") || key.includes("header.sub")) {
-                element.innerHTML = translations[currentLanguage][key] || element.innerHTML;
+            const translation = translations[currentLanguage]?.[key]; // Optional chaining
+            if (translation !== undefined) {
+                if (key.includes("footer.copy") || key.includes("header.sub")) {
+                    element.innerHTML = translation;
+                } else {
+                    element.textContent = translation;
+                }
             } else {
-                element.textContent = translations[currentLanguage][key] || element.textContent;
+                // console.warn(`Translation key not found: ${key} for language: ${currentLanguage}`);
             }
         });
-        // After static translations, dynamic content (modals) needs to be aware.
-        // Modals will fetch on demand using getTranslatedText when they are created/shown.
     }
 
     function setLanguage(lang) {
         currentLanguage = lang;
-        if (languageToggleCheckbox) languageToggleCheckbox.checked = (lang === 'es');
+        if (languageToggleButton) { // Check if button exists
+            languageToggleButton.textContent = lang === 'es' ? '[ES]' : '[EN]'; // Update button text
+        }
         loadTranslations();
         localStorage.setItem('language', lang);
-        // Dispatch a custom event that other scripts can listen to if they need to update
         document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: currentLanguage } }));
     }
 
-    // Load saved language or default
     const savedLanguage = localStorage.getItem('language');
-    if (savedLanguage) {
-        setLanguage(savedLanguage);
-    } else {
-        setLanguage('en'); // Default to English
-    }
+    // Set initial language and button text based on saved preference or default
+    setLanguage(savedLanguage || 'en');
 
-    if (languageToggleCheckbox) {
-        languageToggleCheckbox.addEventListener('change', () => {
-            if (languageToggleCheckbox.checked) {
-                setLanguage('es');
-            } else {
-                setLanguage('en');
-            }
+    if (languageToggleButton) {
+        languageToggleButton.addEventListener('click', () => {
+            const newLang = currentLanguage === 'en' ? 'es' : 'en';
+            setLanguage(newLang);
         });
     } else {
-        console.warn('Language toggle checkbox #language-toggle-checkbox not found.');
+        console.warn('Language toggle button #language-toggle-button not found.');
     }
 });

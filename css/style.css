@@ -195,6 +195,7 @@
 }
 
 /* Language Toggle Switch Styling */
+/*
 .language-switch {
     position: relative;
     display: inline-block;
@@ -280,7 +281,7 @@
 .language-switch input:checked + .slider .lang-indicator.es {
     opacity: 1;
 }
-
+*/
 /* Footer Styling */
 footer {
     position: fixed;
@@ -427,4 +428,28 @@ footer p {
     .form-field-country-code {
         flex: 0 1 auto; /* Reset flex basis */
     }
+}
+
+/* New Toggle Button Styling */
+.header-toggle-btn {
+    background-color: var(--card-bg-color); /* Use a theme-aware background */
+    color: var(--text-color-subtle);
+    border: 1px solid var(--card-border-color);
+    padding: 0.5rem 0.8rem; /* Adjust padding for desired size */
+    border-radius: 4px; /* Rectangular with slightly rounded corners */
+    cursor: pointer;
+    font-size: 0.8rem; /* Adjust as needed */
+    font-weight: 500;
+    min-width: 60px; /* Ensure a minimum width for text like [Light] */
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.header-toggle-btn:hover,
+.header-toggle-btn:focus {
+    background-color: var(--card-bg-hover-color);
+    color: var(--text-color-main);
+    border-color: var(--hover-glow-color-secondary); /* Use an accent for border on hover/focus */
+    outline: none;
+    transform: translateY(-1px); /* Subtle lift */
 }
