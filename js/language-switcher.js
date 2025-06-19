@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.validation.countryCode.invalid": "Invalid country code.",
             "form.contact.submissionPending": "Preparing your data...",
             "form.contact.submissionSuccess": "Data prepared (logged to console). Thank you!",
-            "joinModal.title": "Membership Application",
             "joinModal.section1.title": "Personal Information",
             "joinModal.section1.fullNameLabel": "Full Name:",
             "joinModal.section1.fullNamePlaceholder": "Enter your full name",
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.validation.countryCode.invalid": "Código de país inválido.",
             "form.contact.submissionPending": "Preparando sus datos...",
             "form.contact.submissionSuccess": "Datos preparados (registrados en consola). ¡Gracias!",
-            "joinModal.title": "Solicitud de Membresía",
             "joinModal.section1.title": "Información Personal",
             "joinModal.section1.fullNameLabel": "Nombre Completo:",
             "joinModal.section1.fullNamePlaceholder": "Ingrese su nombre completo",
@@ -199,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLanguage(lang) {
         currentLanguage = lang;
         if (languageToggleButton) { // Check if button exists
-            languageToggleButton.textContent = lang === 'es' ? '[ES]' : '[EN]'; // Update button text
+            languageToggleButton.textContent = lang === 'es' ? 'ES' : 'EN'; // Update button text
         }
         loadTranslations();
         localStorage.setItem('language', lang);
