@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (theme === 'light') {
             body.classList.add('light-theme');
             if (themeToggleButton) {
-                themeToggleButton.textContent = '[Light]'; // Text for when light mode is active
+                themeToggleButton.textContent = 'Light'; // Text for when light mode is active
             }
         } else {
             body.classList.add('dark-theme'); // Default to dark theme if not 'light'
             if (themeToggleButton) {
-                themeToggleButton.textContent = '[Dark]'; // Text for when dark mode is active
+                themeToggleButton.textContent = 'Dark'; // Text for when dark mode is active
             }
         }
         localStorage.setItem('theme', theme);
