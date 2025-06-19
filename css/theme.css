@@ -1,0 +1,98 @@
+/* css/theme.css */
+
+/* Theme Color Variables */
+:root {
+    /* Default Dark Theme Variables */
+    --body-bg-color: #1a1a2e;
+    --text-color-main: #e0e0e0;
+    --text-color-subtle: #b0b0d0;
+    --header-bg-color: #1f1f30;
+    --header-border-color: #3a3a5a;
+    --main-logo-color: #e0e0f0;
+    --sub-logo-color: #b0b0d0;
+
+    --card-bg-color: #2a2a3e; /* For service nav items, modals */
+    --card-border-color: #4a4a6e;
+    --card-text-color: #c0c0f0;
+    --card-text-dim-color: #a0a0d0; /* For paragraph text in old cards, now less used */
+
+    --modal-content-bg: #1c1c2c;
+    --modal-backdrop-bg: rgba(0,0,0,0.7);
+
+    --fab-bg-color: #8b5cf6;
+    --fab-hover-bg-color: #a855f7;
+    --fab-text-color: white;
+    --fab-shadow-color: rgba(0,0,0,0.2);
+
+    --glow-effect-color-1: rgba(139, 92, 246, 0.15);
+    --glow-effect-color-2: rgba(139, 92, 246, 0.1);
+    --glow-effect-color-3: rgba(168, 85, 247, 0.05);
+    --glow-transparent: transparent;
+
+    --hover-glow-color-primary: #a855f7; /* Fuchsia for pop */
+    --hover-glow-color-secondary: #8b5cf6; /* Violet */
+    --hover-glow-opacity-strong: 0.6;
+    --hover-glow-opacity-medium: 0.4;
+    --hover-glow-opacity-soft: 0.3;
+    --inset-glow-color: rgba(139, 92, 246, 0.4);
+    --shadow-color-dark: rgba(0,0,0,0.3);
+
+    --switch-track-bg: #4a4a6e;
+    --switch-knob-bg: white;
+    --switch-active-bg: #8b5cf6;
+
+    /* Added for specific component states */
+    --fab-inset-highlight: rgba(255,255,255,0.3);
+    --card-bg-hover-color: #3a3a5e;
+    --nav-item-glow-color-1: rgba(139, 92, 246, 0.4);
+    --nav-item-glow-color-2: rgba(168, 85, 247, 0.3);
+    --fab-hover-main-glow: rgba(168, 85, 247, 0.7);
+}
+
+body.light-theme {
+    /* Light Theme Variable Overrides */
+    --body-bg-color: #f0f0f8; /* Light grey-blue */
+    --text-color-main: #1a1a2e; /* Dark blue for text */
+    --text-color-subtle: #4a4a6e;
+    --header-bg-color: #e0e0f0; /* Light grey */
+    --header-border-color: #c0c0d0;
+    --main-logo-color: #1a1a2e;
+    --sub-logo-color: #4a4a6e;
+
+    --card-bg-color: #ffffff; /* White cards */
+    --card-border-color: #d0d0e0;
+    --card-text-color: #333344;
+    --card-text-dim-color: #555566;
+
+    --modal-content-bg: #fdfdff;
+    --modal-backdrop-bg: rgba(50,50,90,0.4); /* Lighter backdrop */
+
+    --fab-bg-color: #8b5cf6; /* Keep FABs vibrant or adjust if needed */
+    --fab-hover-bg-color: #a855f7;
+    /* --fab-text-color: white; */ /* Stays white */
+    --fab-shadow-color: rgba(0,0,0,0.15);
+
+    /* Glow effects might need significant adjustment or be toned down for light theme */
+    /* For now, let's see how they render, they might become highlights */
+    --glow-effect-color-1: rgba(139, 92, 246, 0.1);
+    --glow-effect-color-2: rgba(139, 92, 246, 0.07);
+    --glow-effect-color-3: rgba(168, 85, 247, 0.03);
+
+    --hover-glow-color-primary: #8b5cf6; /* Violet for pop */
+    --hover-glow-color-secondary: #a855f7; /* Fuchsia */
+    /* --hover-glow-opacity-strong: 0.5; */
+    /* --hover-glow-opacity-medium: 0.3; */
+    /* --hover-glow-opacity-soft: 0.2; */
+    --inset-glow-color: rgba(139, 92, 246, 0.3);
+    --shadow-color-dark: rgba(0,0,0,0.1);
+
+    --switch-track-bg: #c0c0d0;
+    --switch-active-bg: #8b5cf6; /* Keep violet for active, or change to another light theme accent */
+
+    /* Added for specific component states - light theme */
+    --fab-inset-highlight: rgba(0,0,0,0.1);
+    --card-bg-hover-color: #e9e9f3;
+    --nav-item-glow-color-1: rgba(139, 92, 246, 0.3);
+    --nav-item-glow-color-2: rgba(168, 85, 247, 0.2);
+    --fab-hover-main-glow: rgba(139, 92, 246, 0.5);
+}
