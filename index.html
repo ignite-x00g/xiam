@@ -86,25 +86,25 @@
         <!-- Dynamically added service modals will go here -->
         <div id="join-modal" class="modal opslight-service-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="join-modal-title">
             <div class="modal-content">
-                <span class="close-btn">&times;</span>
+                <button type="button" class="close-btn" aria-label="Close" data-aria-label-translate-key="joinModal.closeButtonAriaLabel">&times;</button>
                 <h2 id="join-modal-title" data-translate-key="joinModal.title">Membership Application</h2>
                 <form id="multiStepForm">
                     <div class="form-section" id="section1">
                         <h3 data-translate-key="joinModal.section1.title">Personal Information</h3>
                         <label for="fullName" data-translate-key="joinModal.section1.fullNameLabel">Full Name:</label>
-                        <input type="text" id="fullName" name="fullName" required data-placeholder-translate-key="joinModal.section1.fullNamePlaceholder"><br><br>
+                        <input type="text" id="fullName" name="fullName" required data-placeholder-translate-key="joinModal.section1.fullNamePlaceholder">
                         <label for="email" data-translate-key="joinModal.section1.emailLabel">Email:</label>
-                        <input type="email" id="email" name="email" required data-placeholder-translate-key="joinModal.section1.emailPlaceholder"><br><br>
-                        <button type="button" onclick="nextSection('section2')" data-translate-key="joinModal.button.next">Next</button>
+                        <input type="email" id="email" name="email" required data-placeholder-translate-key="joinModal.section1.emailPlaceholder">
+                        <button type="button" class="join-form-next-btn" data-translate-key="joinModal.button.next">Next</button>
                     </div>
                     <div class="form-section" id="section2" style="display:none;">
                         <h3 data-translate-key="joinModal.section2.title">Contact Details</h3>
                         <label for="phone" data-translate-key="joinModal.section2.phoneLabel">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone" data-placeholder-translate-key="joinModal.section2.phonePlaceholder"><br><br>
+                        <input type="tel" id="phone" name="phone" data-placeholder-translate-key="joinModal.section2.phonePlaceholder">
                         <label for="address" data-translate-key="joinModal.section2.addressLabel">Address:</label>
-                        <input type="text" id="address" name="address" data-placeholder-translate-key="joinModal.section2.addressPlaceholder"><br><br>
-                        <button type="button" onclick="prevSection('section1')" data-translate-key="joinModal.button.previous">Previous</button>
-                        <button type="button" onclick="nextSection('section3')" data-translate-key="joinModal.button.next">Next</button>
+                        <input type="text" id="address" name="address" data-placeholder-translate-key="joinModal.section2.addressPlaceholder">
+                        <button type="button" class="join-form-prev-btn" data-translate-key="joinModal.button.previous">Previous</button>
+                        <button type="button" class="join-form-next-btn" data-translate-key="joinModal.button.next">Next</button>
                     </div>
                     <div class="form-section" id="section3" style="display:none;">
                         <h3 data-translate-key="joinModal.section3.title">Membership Preferences</h3>
@@ -113,10 +113,10 @@
                             <option value="basic" data-translate-key="joinModal.section3.membershipType.basic">Basic</option>
                             <option value="premium" data-translate-key="joinModal.section3.membershipType.premium">Premium</option>
                             <option value="vip" data-translate-key="joinModal.section3.membershipType.vip">VIP</option>
-                        </select><br><br>
+                        </select>
                         <label for="referral" data-translate-key="joinModal.section3.referralLabel">How did you hear about us?</label>
-                        <input type="text" id="referral" name="referral" data-placeholder-translate-key="joinModal.section3.referralPlaceholder"><br><br>
-                        <button type="button" onclick="prevSection('section2')" data-translate-key="joinModal.button.previous">Previous</button>
+                        <input type="text" id="referral" name="referral" data-placeholder-translate-key="joinModal.section3.referralPlaceholder">
+                        <button type="button" class="join-form-prev-btn" data-translate-key="joinModal.button.previous">Previous</button>
                         <button type="submit" data-translate-key="joinModal.button.submit">Submit</button>
                     </div>
                 </form>

@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "joinModal.section3.referralLabel": "How did you hear about us?",
             "joinModal.section3.referralPlaceholder": "Tell us how you found us",
             "joinModal.button.submit": "Submit",
-            "joinModal.alert.formSubmittedSuccess": "Form submitted successfully!"
+            "joinModal.alert.formSubmittedSuccess": "Form submitted successfully!",
+            "joinModal.closeButtonAriaLabel": "Close Join Us Form"
         },
         es: {
             "header.main": "SPO",
@@ -145,7 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "joinModal.section3.referralLabel": "¿Cómo te enteraste de nosotros?",
             "joinModal.section3.referralPlaceholder": "Cuéntanos cómo nos encontraste",
             "joinModal.button.submit": "Enviar",
-            "joinModal.alert.formSubmittedSuccess": "¡Formulario enviado con éxito!"
+            "joinModal.alert.formSubmittedSuccess": "¡Formulario enviado con éxito!",
+            "joinModal.closeButtonAriaLabel": "Cerrar Formulario Únete"
         }
     };
 
@@ -179,6 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.setAttribute('placeholder', translation);
             } else {
                 // console.warn(`Placeholder translation key not found: ${key} for language: ${currentLanguage}`);
+            }
+        });
+
+        // Handle aria-labels
+        document.querySelectorAll('[data-aria-label-translate-key]').forEach(element => {
+            const key = element.getAttribute('data-aria-label-translate-key');
+            const translation = translations[currentLanguage]?.[key]; // Optional chaining
+            if (translation !== undefined) {
+                element.setAttribute('aria-label', translation);
+            } else {
+                // console.warn(`ARIA label translation key not found: ${key} for language: ${currentLanguage}`);
             }
         });
     }
