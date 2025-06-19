@@ -1,971 +1,366 @@
-/* === Start of first CSS block from issue === */
-/* =========================================================
-   For screens ≥ 769px, hide mobile nav (redundant but safe)
-   ========================================================= */
-@media screen and (min-width: 769px) {
-  .mobile-nav,
-  .mobile-services-menu {
-    display: none;
-  }
-}
-
-/* ==================================================================
-   Global Reset & Basic Body Styles
-   ================================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
-  padding-top: 140px; /* Added for fixed header and sticky nav */
-  transition: background-color 0.3s, color 0.3s;
-}
-
-/* ==================================================================
-   Header Styles
-   ================================================================== */
-.site-header {
-    position: fixed; /* Make it fixed to the top */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* Ensure it's above other content but below modals */
-    background-color: #333; /* Dark background for the header */
-    color: #fff; /* Light text color */
-    padding: 1rem 0; /* Padding top/bottom 1rem, left/right 0 */
-    text-align: center; /* Center-align the text content */
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space out logo/text and toggles */
-    align-items: center; /* Vertically align items in the center */
-    padding-left: 20px; /* Add some padding on the left */
-    padding-right: 20px; /* Add some padding on the right */
-}
-
-.header-content {
-    text-align: left; /* Align text to the left */
-}
-
-.main-header-text {
-    margin: 0; /* Remove default margin */
-    font-size: 2.5em; /* Large text for "OPS" */
-    font-weight: bold; /* Make it bold */
-    letter-spacing: 2px; /* Add some letter spacing */
-}
-
-.sub-header-text {
-    margin: 0; /* Remove default margin */
-    font-size: 1em; /* Smaller text for the tagline */
-    font-style: italic; /* Italicize the tagline */
-}
-
-.header-toggles {
-    display: flex; /* Use flexbox for toggles */
-    gap: 10px; /* Space between toggle buttons */
-}
-
-.header-toggle-btn {
-    background-color: #555; /* Darker background for buttons */
-    color: #fff; /* Light text color */
-    border: none; /* Remove default border */
-    padding: 0.5rem 1rem; /* Padding inside buttons */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 0.9em; /* Slightly smaller font size */
-}
-
-.header-toggle-btn:hover {
-    background-color: #777; /* Lighter background on hover */
-}
-
-
-/* ==================================================================
-   Main Content & Services Section
-   ================================================================== */
-main {
-    padding: 20px;
-}
-
-.services-section {
-    text-align: center; /* Center the title and navigation */
-    margin-bottom: 30px; /* Space below the services section */
-}
-
-.services-section-title {
-    font-size: 2em; /* Large title for "Our Services" */
-    color: #333; /* Standard text color */
-    margin-bottom: 20px; /* Space below the title */
-}
-
-.services-navigation {
-    position: sticky;
-    top: 70px; /* Adjusted: This should be the height of .site-header. Will need testing. */
-    background-color: #f1f0fb;
-    z-index: 999;
-    padding: 0.5rem 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    /* Styles for the navigation bar itself */
-}
-
-.service-nav-list {
-    list-style: none; /* Remove default list styling */
-    padding: 0;
-    margin: 0;
-    display: flex; /* Arrange items in a row */
-    justify-content: center; /* Center the items */
-    gap: 15px; /* Space between navigation items */
-}
-
-.service-nav-item {
-    text-decoration: none; /* Remove underline from links */
-    color: #333; /* Standard text color */
-    background-color: #e9e9e9; /* Light grey background */
-    padding: 10px 20px; /* Padding inside each item */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
-    font-weight: bold;
-}
-
-.service-nav-item:hover,
-.service-nav-item.active { /* Style for active or hovered item */
-    background-color: #555; /* Darker background */
-    color: #fff; /* Light text */
-}
-
-.service-nav-item-text {
-    /* If specific styling for text within nav items is needed */
-}
-
-
-/* ==================================================================
-   Floating Action Buttons (FAB)
-   ================================================================== */
+/* Floating Action Buttons (FAB) Styling */
 .fab-container {
-    position: fixed; /* Fixed position to stay on screen */
-    right: 30px; /* Distance from the right edge */
-    bottom: 30px; /* Distance from the bottom edge */
-    display: flex; /* Arrange FABs in a row or column */
-    flex-direction: column; /* Stack FABs vertically */
-    gap: 15px; /* Space between FABs */
-    z-index: 1000; /* Ensure FABs are above other content */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column; /* Stack icons vertically */
+    gap: 10px; /* Space between buttons */
+    z-index: 999; /* Ensure they are above most other content */
 }
 
 .fab {
-    background-color: #007bff; /* Primary blue color */
-    color: white; /* White text/icon */
-    border: none; /* No border */
-    border-radius: 50%; /* Circular shape */
-    width: 60px; /* Fixed width */
-    height: 60px; /* Fixed height */
-    font-size: 24px; /* Icon size */
-    display: flex; /* For centering content inside */
-    align-items: center; /* Center icon vertically */
-    justify-content: center; /* Center icon horizontally */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    cursor: pointer; /* Pointer cursor */
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
-    overflow: hidden; /* Hide overflowing text if not hovered */
+    background-color: var(--fab-bg-color); /* Violet accent */
+    color: var(--fab-text-color);
+    border: none;
+    border-radius: 50%; /* Circular buttons */
+    width: 60px; /* Slightly larger for potentially richer content */
+    height: 60px;
+    display: flex; /* Use flex on the button itself */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--fab-shadow-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 0; /* Remove padding if content wrapper handles it */
+    position: relative; /* Keep for potential ::before/::after effects or absolute text */
+    overflow: visible; /* Allow hover text to show if it's outside */
 }
 
 .fab:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.1); /* Slightly enlarge on hover */
+    background-color: var(--fab-hover-bg-color); /* Fuchsia on hover - base hover */
+    transform: scale(1.1);
 }
 
-.fab .fab-text {
-    display: none; /* Text is hidden by default */
-    white-space: nowrap; /* Prevent text wrapping */
-    margin-left: 8px; /* Space between icon and text */
-    font-size: 1rem; /* Adjust text size as needed */
+/*
+.fab-icon {
+    font-size: 24px;
+    transition: opacity 0.2s ease;
 }
-
-.fab:hover .fab-text {
-    display: inline; /* Show text on hover */
-}
-
-/* To make FABs wider on hover to accommodate text */
-.fab:hover {
-    width: auto; /* Auto width to fit content */
-    padding-left: 20px; /* Padding for icon */
-    padding-right: 20px; /* Padding for text */
-    border-radius: 30px; /* Pill shape */
-}
+*/
 
 .fab-content-wrapper {
     display: flex;
+    flex-direction: column; /* Stack icon/image and text vertically */
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .fab-icon-image-area {
-    /* If you need to style the icon area specifically */
-    /* For example, if using <img> instead of <i> for icons */
+    /* This area can hold an <img> or an icon font */
+    /* If using <img>, ensure it's styled appropriately (e.g., max-width, max-height) */
+    font-size: 20px; /* Default size for icon font placeholders */
+    margin-bottom: 2px; /* Space between icon and text if text is visible */
 }
 
+.fab-icon-image-area .fab-icon-placeholder {
+     display: block; /* ensure it takes space */
+}
 
-/* ==================================================================
-   Footer Styles
-   ================================================================== */
-footer {
-    text-align: center;
-    padding: 20px;
+.fab-icon-image-area img {
+    max-width: 100%; /* Ensure image fits if used */
+    max-height: 24px; /* Example max height */
+    display: block;
+}
+
+.fab-text {
+    font-size: 10px; /* Smaller text to fit inside the button */
+    line-height: 1.2;
+    color: var(--fab-text-color);
+    display: block; /* Was previously for hover label, now part of button face */
+    /* Remove old absolute positioning for hover label */
+}
+
+/* Old .fab:hover .fab-text for side label - remove or comment out */
+/*
+.fab:hover .fab-text {
+    left: -10px;
+    transform: translateX(-100%) translateY(-50%);
+    opacity: 1;
+}
+*/
+/*
+.fab-text {
+    position: absolute;
+    left: -100px; /* Position text off-screen to the left */
+    top: 50%;
+    transform: translateY(-50%);
     background-color: #333;
-    color: #fff;
-    margin-top: 30px; /* Space above the footer */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease, left 0.3s ease;
+    font-size: 14px;
 }
 
-
-/* ==================================================================
-   Modal Styles (General - for all modals)
-   ================================================================== */
-.opslight-service-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 2000; /* Sit on top - higher than FABs */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity for backdrop */
-    align-items: center; /* For flexbox centering */
-    justify-content: center; /* For flexbox centering */
+.fab:hover .fab-text {
+    left: -10px; /* Bring text into view from the left */
+    transform: translateX(-100%) translateY(-50%); /* Position it to the left of the button */
+    opacity: 1;
+}
+*/
+/* Adjustments for smaller screens if needed */
+@media (max-width: 768px) {
+    .fab-container {
+        bottom: 15px;
+        right: 15px;
+    }
+    .fab {
+        width: 54px;
+        height: 54px;
+    }
+    .fab-icon-image-area {
+        font-size: 18px;
+    }
+    .fab-text {
+        font-size: 9px;
+    }
+    /*
+    .fab-icon {
+        font-size: 20px;
+    }
+    */
+    /* On mobile, maybe don't show text on hover, or handle it differently */
+    /*
+    .fab:hover .fab-text {
+        display: none; /* Example: hide text on hover for mobile to prevent layout issues */
+    }
+    */
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: auto; /* Responsive margin, used with top/left for older browsers */
-    padding: 30px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more specific, e.g., 600px */
-    max-width: 700px; /* Max width for larger screens */
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative; /* For positioning the close button */
-    max-height: 90vh; /* Max height relative to viewport height */
-    overflow-y: auto; /* Enable vertical scroll within modal content */
+/* Header Styling */
+.site-header {
+    background-color: var(--header-bg-color); /* Slightly different from body for definition */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between; /* Aligns logo area and toggles area */
+    align-items: center;
+    border-bottom: 1px solid var(--header-border-color);
 }
 
-.close-modal {
-    color: #aaa;
-    float: right; /* Keep it to the right */
-    font-size: 28px;
+.header-content {
+    /* Groups main and sub-header text */
+    text-align: left; /* Or center, depending on overall design preference */
+}
+
+.main-header-text {
+    font-size: 2.5rem; /* Larger font for "OPS" */
     font-weight: bold;
-    position: absolute; /* Position relative to modal-content */
-    top: 10px;
-    right: 20px;
-    background: none; /* No background */
-    border: none; /* No border */
-    padding: 0; /* No padding */
-    cursor: pointer;
+    color: var(--main-logo-color);
+    margin: 0;
+    line-height: 1.1;
 }
 
-.close-modal:hover,
-.close-modal:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.sub-header-text {
+    font-size: 0.9rem; /* Smaller font for "OPS Online Support™" */
+    color: var(--sub-logo-color);
+    margin: 0;
+    font-weight: normal;
 }
 
-/* Modal Title and Description */
-#join-modal-title { /* Assuming this ID is for the "Join Our Team" title */
-    margin-top: 0; /* Remove default top margin if any */
-    margin-bottom: 15px; /* Space below the title */
-    font-size: 1.8em; /* Adjust size as needed */
-    color: #333; /* Dark text color */
+.sub-header-text sup { /* Styling for the TM symbol */
+    font-size: 0.6em;
+    vertical-align: super;
 }
 
-/* Generic paragraph styling within the modal, can be more specific if needed */
-.modal-content p {
-    margin-bottom: 20px; /* Space below paragraphs */
-    font-size: 1em; /* Standard font size */
-    line-height: 1.6; /* Readable line height */
+.header-toggles {
+    /* For theme/language toggles later */
+    display: flex;
+    align-items: center; /* Align items vertically in case of different heights */
+    gap: 15px;
 }
 
+/* Responsive header styling */
+@media (max-width: 768px) {
+    .site-header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    .header-content {
+        text-align: center; /* Center text on smaller screens */
+    }
+    .main-header-text {
+        font-size: 2rem;
+    }
+    .sub-header-text {
+        font-size: 0.8rem;
+    }
+    .header-toggles {
+        margin-top: 10px; /* Space above toggles if header stacks */
+    }
+}
+/* Footer Styling */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px; /* This acts as the margin from the bottom edge of its content */
+    /* background-color: var(--body-bg-color); /* Optional: give it a slight background to ensure readability over .glow-effect if it's very active near bottom */
+    z-index: 990; /* Below FABs (999) but above general content and glow effect (-1) */
+}
 
-/* ==================================================================
-   Join Us Modal - Form Specific Styles
-   ================================================================== */
-#join-form {
+footer p {
+    margin: 0; /* Remove default paragraph margin */
+    font-size: 0.8rem;
+    color: var(--text-color-subtle); /* Use theme variable for text color */
+}
+
+/* Contact Us Form Styling (within modal) */
+.contact-modal-form {
     display: flex;
     flex-direction: column;
     gap: 15px; /* Space between form fields */
+    margin-top: 15px; /* Space below modal title */
 }
 
 .form-field {
     display: flex;
-    flex-direction: column; /* Stack label and input vertically */
+    flex-direction: column;
+    gap: 5px; /* Space between label and input, or input and validation message */
 }
 
-.form-field label {
-    margin-bottom: 5px; /* Space between label and input */
-    font-weight: bold;
-    color: #555;
+.form-row {
+    display: flex;
+    gap: 15px; /* Space between fields in a row */
 }
 
-.form-field input[type="text"],
-.form-field input[type="email"],
-.form-field input[type="tel"],
-.form-field textarea,
-.form-field select { /* Added select for consistency */
+.form-row .form-field {
+    flex: 1; /* Allow fields in a row to share space */
+}
+
+/* Specific widths for country code and phone number if needed */
+.form-field-country-code {
+    flex: 0 1 80px; /* Smaller, fixed basis for country code */
+}
+.form-field-phone-number {
+    flex: 1 1 auto;
+}
+
+.contact-modal-form label {
+    font-size: 0.85rem;
+    color: var(--text-color-subtle);
+    font-weight: 500;
+}
+
+.contact-modal-form input[type="text"],
+.contact-modal-form input[type="email"],
+.contact-modal-form input[type="time"],
+.contact-modal-form input[type="date"],
+.contact-modal-form input[type="tel"],
+.contact-modal-form select,
+.contact-modal-form textarea {
+    width: 100%; /* Full width of their container */
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--card-border-color); /* Use theme variable */
     border-radius: 5px;
-    font-size: 1em;
-    width: 100%; /* Full width */
+    background-color: var(--body-bg-color); /* Slightly different from modal bg for contrast */
+    color: var(--text-color-main);
+    font-size: 0.9rem;
+    box-sizing: border-box; /* Important for width: 100% and padding */
 }
 
-.form-field textarea {
-    resize: vertical; /* Allow vertical resizing */
-    min-height: 80px; /* Minimum height for textarea */
+.contact-modal-form input::placeholder,
+.contact-modal-form textarea::placeholder {
+    color: var(--text-color-subtle);
+    opacity: 0.7;
 }
 
-.form-field input:focus,
-.form-field textarea:focus,
-.form-field select:focus {
-    border-color: #007bff;
+.contact-modal-form input:focus,
+.contact-modal-form select:focus,
+.contact-modal-form textarea:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    border-color: var(--hover-glow-color-secondary); /* Highlight with theme accent */
+    box-shadow: 0 0 5px var(--hover-glow-color-secondary, #8b5cf6);
 }
 
-/* Radio button group styling */
-.radio-group {
-    display: flex;
-    gap: 10px; /* Space between radio options */
-    align-items: center;
-}
-
-.radio-group input[type="radio"] {
-    margin-right: 5px;
-}
-
-.radio-group label {
-    font-weight: normal; /* Labels for radio buttons are usually not bold */
-    margin-bottom: 0; /* Reset margin for radio labels */
+.contact-modal-form select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.9z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 10px;
+    padding-right: 30px; /* Space for arrow */
 }
 
 
-/* Dropdown Toggle Buttons (for Work Preference, Areas of Interest) */
-.dropdown-toggle {
-    background-color: #f0f0f0; /* Light grey background */
-    color: #333;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
-    text-align: left;
-    cursor: pointer;
-    width: 100%; /* Full width */
-    display: flex;
-    justify-content: space-between; /* Text on left, arrow on right */
-    align-items: center;
+.contact-modal-form textarea {
+    resize: vertical; /* Allow vertical resize, disable horizontal */
+    min-height: 80px;
 }
 
-.dropdown-toggle:hover {
-    background-color: #e0e0e0;
-}
-
-.dropdown-toggle::after { /* Basic arrow indicator */
-    content: '▼'; /* Down arrow */
-    font-size: 0.8em;
-    margin-left: 10px;
-}
-
-.dropdown-toggle[aria-expanded="true"]::after {
-    content: '▲'; /* Up arrow when expanded */
-}
-
-/* Dropdown Content (Checkboxes) */
-.dropdown-content {
-    display: none; /* Hidden by default */
-    border: 1px solid #ccc;
-    border-top: none; /* Avoid double border with toggle */
-    border-radius: 0 0 5px 5px; /* Rounded corners at bottom */
-    padding: 15px;
-    background-color: #fff;
-    margin-top: -1px; /* Align with bottom of toggle */
-}
-
-.dropdown-content.show { /* Class to display the dropdown */
-    display: block;
-}
-
-.dropdown-content label {
-    display: block; /* Each checkbox on a new line */
-    margin-bottom: 8px;
-    font-weight: normal;
-}
-
-.dropdown-content input[type="checkbox"] {
-    margin-right: 8px;
-}
-
-/* Done Button inside Dropdowns */
-.dropdown-done-button {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9em;
-    cursor: pointer;
-    margin-top: 10px; /* Space above the done button */
-    display: block; /* Make it a block to center or align */
-    width: auto; /* Or specify width if needed */
-    margin-left: auto; /* Align to right if block */
-    margin-right: 0;
-}
-
-.dropdown-done-button:hover {
-    background-color: #0056b3;
-}
-
-
-/* Form Submit Area & Button */
-.form-submit-area {
-    text-align: right; /* Align submit button to the right */
-    margin-top: 20px; /* Space above the submit button */
-}
-
-.form-button, /* Generic form button, can be used for submit */
-#join-submit-button { /* Specific ID if needed */
-    background-color: #28a745; /* Green color for submit */
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.form-button:hover,
-#join-submit-button:hover {
-    background-color: #218838; /* Darker green on hover */
-}
-
-/* ==================================================================
-   Dark Theme Styles
-   ================================================================== */
-body[data-theme="dark"] {
-    background-color: #121212; /* Very dark (almost black) background */
-    color: #e0e0e0; /* Light grey text for readability */
-}
-
-/* Dark Theme: Header */
-body[data-theme="dark"] .site-header {
-    background-color: #1f1f1f; /* Slightly lighter dark for header */
-    color: #e0e0e0;
-}
-body[data-theme="dark"] .header-toggle-btn {
-    background-color: #333333;
-    color: #e0e0e0;
-    border: 1px solid #444444; /* Subtle border for definition */
-}
-body[data-theme="dark"] .header-toggle-btn:hover {
-    background-color: #454545;
-}
-
-/* Dark Theme: Services Section */
-body[data-theme="dark"] .services-section-title {
-    color: #e0e0e0;
-}
-body[data-theme="dark"] .service-nav-item {
-    background-color: #2c2c2c; /* Darker items */
-    color: #c7c7c7; /* Lighter text for items */
-    border: 1px solid #383838;
-}
-body[data-theme="dark"] .service-nav-item:hover,
-body[data-theme="dark"] .service-nav-item.active {
-    background-color: #007bff; /* OPS primary blue for active/hover */
-    color: #ffffff;
-}
-
-/* Dark Theme: Floating Action Buttons */
-body[data-theme="dark"] .fab {
-    background-color: #0056b3; /* Darker blue for FABs in dark mode */
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Stronger shadow on dark bg */
-}
-body[data-theme="dark"] .fab:hover {
-    background-color: #004494; /* Even darker on hover */
-}
-body[data-theme="dark"] .fab .fab-text {
-    color: #ffffff;
-}
-
-
-/* Dark Theme: Modals */
-body[data-theme="dark"] .modal-content {
-    background-color: #2a2a2a; /* Dark background for modal content */
-    color: #e0e0e0; /* Light text within modals */
-    border: 1px solid #383838; /* Subtle border */
-}
-body[data-theme="dark"] .close-modal {
-    color: #bbbbbb;
-}
-body[data-theme="dark"] .close-modal:hover,
-body[data-theme="dark"] .close-modal:focus {
-    color: #ffffff;
-}
-
-/* Dark Theme: Join Us Modal Form Elements */
-body[data-theme="dark"] #join-modal-title {
-    color: #e0e0e0;
-}
-body[data-theme="dark"] .modal-content p { /* General paragraph text in modal */
-    color: #c7c7c7;
-}
-body[data-theme="dark"] .form-field label {
-    color: #c7c7c7; /* Lighter labels */
-}
-body[data-theme="dark"] .form-field input[type="text"],
-body[data-theme="dark"] .form-field input[type="email"],
-body[data-theme="dark"] .form-field input[type="tel"],
-body[data-theme="dark"] .form-field textarea,
-body[data-theme="dark"] .form-field select {
-    background-color: #333333; /* Dark input fields */
-    color: #e0e0e0; /* Light text in input fields */
-    border: 1px solid #454545; /* Darker border */
-}
-body[data-theme="dark"] .form-field input:focus,
-body[data-theme="dark"] .form-field textarea:focus,
-body[data-theme="dark"] .form-field select:focus {
-    border-color: #007bff; /* OPS blue for focus */
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.35); /* Adjusted shadow for dark */
-}
-body[data-theme="dark"] .radio-group label { /* Text for radio options */
-    color: #c7c7c7;
-}
-
-/* Dark Theme: Dropdown Toggles and Content */
-body[data-theme="dark"] .dropdown-toggle {
-    background-color: #383838;
-    color: #e0e0e0;
-    border: 1px solid #4a4a4a;
-}
-body[data-theme="dark"] .dropdown-toggle:hover {
-    background-color: #454545;
-}
-body[data-theme="dark"] .dropdown-content {
-    background-color: #333333;
-    border: 1px solid #4a4a4a;
-    border-top: none;
-}
-body[data-theme="dark"] .dropdown-content label {
-    color: #c7c7c7;
-}
-body[data-theme="dark"] .dropdown-done-button {
-    background-color: #0056b3; /* Darker blue for done buttons */
-    color: #ffffff;
-}
-body[data-theme="dark"] .dropdown-done-button:hover {
-    background-color: #004494;
-}
-
-/* Dark Theme: Submit Button */
-body[data-theme="dark"] .form-button,
-body[data-theme="dark"] #join-submit-button {
-    background-color: #1e7e34; /* Darker green for submit */
-    color: #ffffff;
-}
-body[data-theme="dark"] .form-button:hover,
-body[data-theme="dark"] #join-submit-button:hover {
-    background-color: #165c26; /* Even darker green on hover */
-}
-
-
-/* Dark Theme: Footer */
-body[data-theme="dark"] footer {
-    background-color: #1f1f1f; /* Slightly lighter dark for footer */
-    color: #e0e0e0;
-}
-
-/* Additional specific overrides for dark theme if necessary */
-/* E.g., for specific icons or elements that don't inherit correctly */
-body[data-theme="dark"] .fas { /* Assuming Font Awesome icons */
-    /* color: #e0e0e0; */ /* Uncomment if icons need explicit color override */
-}
-
-/* Ensure placeholders in dark theme are visible */
-body[data-theme="dark"] ::placeholder {
-  color: #8a8a8a; /* Lighter placeholder text */
-  opacity: 1; /* Firefox */
-}
-body[data-theme="dark"] :-ms-input-placeholder { /* Internet Explorer 10-11 */
- color: #8a8a8a;
-}
-body[data-theme="dark"] ::-ms-input-placeholder { /* Microsoft Edge */
- color: #8a8a8a;
-}
-
-/* Style for collapsible sections (if any) */
-.collapsible-toggle {
-    background-color: #f1f1f1;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-    margin-top: 10px; /* Spacing between collapsible items */
-}
-
-.collapsible-toggle:hover {
-    background-color: #ddd;
-}
-
-.collapsible-toggle.active { /* Style when active/open */
-    background-color: #ccc;
-}
-
-.collapsible-content {
-    padding: 0 18px;
-    display: none;
-    overflow: hidden;
-    background-color: white;
-    border-radius: 0 0 5px 5px;
-    border: 1px solid #eee; /* Optional: for better separation */
-    border-top: none;
-}
-
-.collapsible-content p {
-    margin: 10px 0; /* Spacing for paragraphs inside collapsible */
-}
-
-/* Dark theme for collapsibles */
-body[data-theme="dark"] .collapsible-toggle {
-    background-color: #2c2c2c;
-    color: #f1f1f1;
-}
-
-body[data-theme="dark"] .collapsible-toggle:hover {
-    background-color: #383838;
-}
-
-body[data-theme="dark"] .collapsible-toggle.active {
-    background-color: #454545;
-}
-
-body[data-theme="dark"] .collapsible-content {
-    background-color: #252525;
-    color: #f1f1f1;
-    border-color: #333;
-}
-
-/* Styling for "Done" buttons within collapsible content, if they exist */
-.collapsible-done-btn {
-    background-color: #0277bd; /* A nice blue */
-    color: white;
+.form-button {
     padding: 10px 20px;
+    background-color: var(--fab-bg-color); /* Use FAB color or define a new form button var */
+    color: var(--fab-text-color);
     border: none;
-    border-radius: 4px;
-    font-size: 0.9em;
+    border-radius: 5px;
     cursor: pointer;
-    margin-top: 15px;
-    margin-bottom: 5px; /* Ensure some space if it's the last element */
-    float: right; /* Or display: block; margin-left: auto; */
-    transition: background-color 0.2s ease-in-out;
-}
-
-.collapsible-done-btn:hover {
-    background-color: #01579b; /* Darker blue on hover */
-}
-
-/* Dark theme for "Done" buttons in collapsibles */
-body[data-theme="dark"] .collapsible-done-btn {
-    background-color: #0277bd; /* Same blue, or adjust for dark theme contrast */
-    /* color: white; */ /* Already white, but can be explicit */
-}
-
-body[data-theme="dark"] .collapsible-done-btn:hover {
-    background-color: #01579b;
-}
-/* === End of first CSS block from issue === */
-
-/* === Start of second CSS block (mobile overrides) from issue === */
-/* =========================================================
-   All mobile overrides for screens ≤ 768px
-   ========================================================= */
-@media screen and (max-width: 768px) {
-
-  /* Hide desktop nav + toggles on mobile */
-  /* Hide desktop header toggles */
-  .header-toggles {
-    display: none;
-  }
-
-  /* Hide main desktop navigation links (if they were ever made visible) */
-  .services-navigation .service-nav-list {
-      display: none; /* Hides the main service nav links like Business Ops, etc. */
-  }
-  /* Keep the "Our Services" title visible if desired, or hide it too */
-  /* .services-section-title { display: none; } */
-
-
-  /* Show bottom mobile nav at the right margin */
-.mobile-nav {
-  display: flex; /* Enables flexbox */
-  position: fixed; /* Sticks to the viewport */
-  bottom: 10px; /* 10px from the bottom */
-  right: 10px; /* 10px from the right */
-  left: auto; /* Explicitly set left to auto if overriding a 0 or other value */
-  width: calc(100% - 20px); /* Full width minus padding on sides */
-  max-width: 400px; /* Max width for the nav bar, prevents it from being too wide on tablets */
-  margin: 0 auto; /* Center the nav bar if max-width is applied */
-  background: var(--mobile-nav-bg, #ffffff); /* Use CSS variable for background */
-  color: var(--mobile-nav-text-color, #333333); /* Use CSS variable for text */
-  border-top: 1px solid var(--mobile-nav-border-color, #ccc);
-  border-radius: 15px; /* Rounded corners */
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
-  justify-content: space-around; /* Distribute items evenly */
-  align-items: center; /* Align items vertically */
-  padding: 0.5rem 0; /* Padding top/bottom */
-  z-index: 3000; /* High z-index to be on top */
-  transition: background-color 0.3s, color 0.3s; /* Smooth theme transitions */
-}
-
-/* Individual mobile navigation items */
-.mobile-nav-item {
-    display: flex;
-    flex-direction: column; /* Icon above text */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    color: inherit; /* Inherit color from .mobile-nav for theme changes */
-    text-decoration: none;
-    font-size: 0.75rem; /* Slightly smaller font for compact look */
-    flex-grow: 1; /* Allow items to grow and fill space */
-    background: none; /* Ensure buttons have no default background */
-    border: none; /* Ensure buttons have no default border */
-    padding: 5px; /* Padding for touch targets */
-    cursor: pointer;
-}
-
-.mobile-nav-item i { /* Icon styling */
-    font-size: 1.3rem; /* Icon size */
-    margin-bottom: 4px; /* Space between icon and text */
-}
-
-/* Dark theme for mobile navigation */
-body[data-theme="dark"] .mobile-nav {
-    --mobile-nav-bg: #2c2c2c; /* Dark background for mobile nav */
-    --mobile-nav-text-color: #e0e0e0; /* Light text for mobile nav */
-    --mobile-nav-border-color: #383838; /* Darker border */
-    background-color: var(--mobile-nav-bg); /* Apply variable */
-    color: var(--mobile-nav-text-color); /* Apply variable */
-    border-top-color: var(--mobile-nav-border-color); /* Apply variable */
-}
-
-body[data-theme="dark"] .mobile-nav-item {
-    color: inherit; /* Ensure it inherits the new text color from .mobile-nav */
-}
-body[data-theme="dark"] .mobile-nav-item i {
-    /* Icons should generally inherit color too, or be set specifically if needed */
-}
-
-
-/* Mobile Services Menu */
-.mobile-services-menu {
-  position: fixed;
-  bottom: 75px; /* Position above mobile nav: nav height ~60px + 15px margin */
-  left: 10px; /* Align with mobile nav's left starting edge (considering nav's own padding/margin) */
-  right: 10px; /* Align with mobile nav's right starting edge */
-  width: calc(100% - 20px); /* Match width of mobile nav */
-  max-width: 400px; /* Match max-width of mobile nav */
-  margin: 0 auto; /* Center it like the mobile nav */
-  background: var(--mobile-services-menu-bg, #ffffff);
-  border: 1px solid var(--mobile-services-menu-border, #ccc);
-  border-radius: 10px; /* Slightly less rounded than nav, or same */
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
-  display: none; /* Hidden by default */
-  z-index: 2999; /* Just below mobile nav if it needs to slide under/over */
-  max-height: calc(100vh - 100px); /* Limit height to prevent overflow */
-  overflow-y: auto;
-  padding: 1rem;
-  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-  transform: translateY(20px); /* Start slightly lower */
-  opacity: 0; /* Start transparent */
-}
-
-.mobile-services-menu.active {
-    display: block;
-    transform: translateY(0); /* Slide into place */
-    opacity: 1; /* Fade in */
-}
-
-.mobile-services-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-services-menu li {
-    padding: 0.75rem 0.5rem; /* Slightly more padding for touch */
-    border-bottom: 1px solid var(--mobile-services-menu-item-border, #eee);
-}
-
-.mobile-services-menu li:last-child {
-    border-bottom: none;
-}
-
-.mobile-services-menu a {
-    text-decoration: none;
-    color: var(--mobile-services-menu-link-color, #333);
     font-size: 1rem;
-    display: block; /* Make whole area clickable */
-    transition: color 0.2s;
-}
-.mobile-services-menu a:hover {
-    color: var(--ops-primary-color, #007bff); /* Use a primary color for hover */
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-
-/* Dark theme for Mobile Services Menu */
-body[data-theme="dark"] .mobile-services-menu {
-    --mobile-services-menu-bg: #333333;
-    --mobile-services-menu-border: #454545;
-    --mobile-services-menu-item-border: #4a4a4a;
-    --mobile-services-menu-link-color: #e0e0e0;
-    background-color: var(--mobile-services-menu-bg);
-    border-color: var(--mobile-services-menu-border);
-}
-body[data-theme="dark"] .mobile-services-menu li {
-    border-bottom-color: var(--mobile-services-menu-item-border);
-}
-body[data-theme="dark"] .mobile-services-menu a {
-    color: var(--mobile-services-menu-link-color);
-}
-body[data-theme="dark"] .mobile-services-menu a:hover {
-    color: var(--ops-primary-color-dark-hover, #4dabf7); /* Lighter blue for dark theme hover */
+.form-button:hover, .form-button:focus {
+    background-color: var(--fab-hover-bg-color);
+    transform: translateY(-1px);
+    outline: none;
 }
 
-
- /* FAB container adjustments for mobile */
-  .fab-container {
-    bottom: 80px; /* Raise FABs above the mobile nav bar */
-    right: 15px; /* Adjust positioning if needed */
-    flex-direction: column; /* Ensure they remain stacked if not already */
-    gap: 10px; /* Reduce gap slightly for smaller screens */
-    z-index: 2000; /* Ensure they are below mobile nav but above page content */
-  }
-
-  .fab {
-    width: 50px; /* Slightly smaller FABs on mobile */
-    height: 50px;
-    font-size: 20px; /* Adjust icon size if needed */
-  }
-  /* Prevent text expansion for FABs on mobile to save space */
-  .fab:hover {
-    width: 50px; /* Keep width fixed */
-    padding-left: 0;
-    padding-right: 0;
-    border-radius: 50%; /* Keep circular */
-    /* transform: scale(1.05); */ /* Optional: smaller scale effect */
-  }
-  .fab .fab-text {
-    display: none !important; /* Ensure text never shows on mobile for these FABs */
-  }
-  .fab-content-wrapper {
-    /* Reset any specific desktop flex alignments if needed */
-  }
-
-
-  /* Adjust hero text size on mobile if such a section exists */
-  /* .hero h2 { font-size: 2rem; } */
-  /* .hero p { font-size: 1.1rem; } */
-
-  /* Stack services vertically if they were horizontal */
-  /* .services { flex-direction: column; align-items: center; } */
-  /* .service-item { width: 100%; margin-bottom: 1rem; } */
-
-  /* Modal size adjustments */
-  .modal-content {
-    width: 90%; /* Use more of the screen width */
-    max-width: none; /* Remove desktop max-width */
-    margin: 5% auto; /* Center with some margin */
-    padding: 20px; /* Adjust padding */
-    max-height: 90vh; /* Ensure it doesn't exceed viewport height */
-  }
-
-  /* Join Us Form - Small Screen Adjustments */
-  #join-form {
-    gap: 10px; /* Reduce gap between form fields */
-  }
-  .form-field input[type="text"],
-  .form-field input[type="email"],
-  .form-field input[type="tel"],
-  .form-field textarea,
-  .form-field select,
-  .dropdown-toggle {
-    font-size: 0.95em; /* Slightly smaller font in form fields */
-    padding: 12px 10px; /* Adjust padding for touch */
-  }
-  .dropdown-content {
-    padding: 10px;
-  }
-  .dropdown-done-button {
-    padding: 8px 12px;
-    font-size: 0.85em;
-  }
-  .form-button,
-  #join-submit-button {
-    padding: 12px 20px;
-    font-size: 1em;
-  }
-
-  /* Ensure full width for specific dynamic items if they are misbehaving */
-  /* .dynamic-item input[type="text"], */
-  /* .dynamic-item input[type="month"], */
-  /* .dynamic-item textarea { */
-    /* flex-basis: 100%; */
-    /* min-width: 0; */
-  /* } */
-  /* .experience-item input[type="month"] { flex-basis: 100%; } */
-
-  /* .remove-btn { */
-    /* margin-left: 0; */
-    /* margin-top: 10px; */
-    /* width: 100%; */
-    /* text-align: center; */
-  /* } */
-
-  /* .dynamic-item { align-items: stretch; } */
-
-  .collapsible-toggle {
-    padding: 12px 15px; /* Adjust padding */
-    font-size: 1em;
-  }
-  .collapsible-content {
-      padding: 10px 15px;
-  }
-   .collapsible-content label span {
-      font-size: 0.9em;
-  }
-
-} /* End of @media screen and (max-width: 768px) */
-
-/* =========================================================
-   For screens ≥ 769px, hide mobile nav (redundant but safe)
-   This rule is repeated here to ensure it overrides the
-   display:flex from the mobile-nav specific rule if an issue
-   arises with source order and specificity.
-   ========================================================= */
-@media screen and (min-width: 769px) {
-  .mobile-nav,
-  .mobile-services-menu {
-    display: none !important; /* Added !important for emphasis */
-  }
+.form-submit-area {
+    margin-top: 10px; /* Extra space above submit area */
 }
-/* === End of second CSS block === */
+
+.validation-message {
+    font-size: 0.75rem;
+    color: var(--hover-glow-color-primary); /* Use a prominent color for errors, e.g., fuchsia or red */
+    min-height: 1em; /* Reserve space to prevent layout shifts */
+    /* Initially empty, JS will populate */
+}
+
+.submission-status-message {
+    font-size: 0.85rem;
+    color: var(--text-color-subtle);
+    min-height: 1.2em;
+    margin-top: 10px;
+}
+
+/* Responsive adjustments for form rows if needed */
+@media (max-width: 600px) { /* Adjust breakpoint as needed */
+    .form-row {
+        flex-direction: column; /* Stack fields in a row on smaller screens */
+        gap: 15px; /* Keep gap when stacked */
+    }
+    .form-field-country-code {
+        flex: 0 1 auto; /* Reset flex basis */
+    }
+}
+
+/* New Toggle Button Styling */
+.header-toggle-btn {
+    background-color: var(--card-bg-color); /* Use a theme-aware background */
+    color: var(--text-color-subtle);
+    border: 1px solid var(--card-border-color);
+    padding: 0.5rem 0.8rem; /* Adjust padding for desired size */
+    border-radius: 4px; /* Rectangular with slightly rounded corners */
+    cursor: pointer;
+    font-size: 0.8rem; /* Adjust as needed */
+    font-weight: 500;
+    min-width: 60px; /* Ensure a minimum width for text like [Light] */
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.header-toggle-btn:hover,
+.header-toggle-btn:focus {
+    background-color: var(--card-bg-hover-color);
+    color: var(--text-color-main);
+    border-color: var(--hover-glow-color-secondary); /* Use an accent for border on hover/focus */
+    outline: none;
+    transform: translateY(-1px); /* Subtle lift */
+}
