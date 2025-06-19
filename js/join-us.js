@@ -33,65 +33,83 @@ function updateJoinUsModalLanguage() {
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('join-modal');
     const fabJoinBtn = document.getElementById('fab-join');
-    const span = document.querySelector('#join-modal .close-btn');
+    const closeButton = document.querySelector('#join-modal .close-btn'); // Corrected variable name from span to closeButton
+
+    // Functions for multi-step form navigation
+    function showSection(sectionId) {
+        sections.forEach(id => {
+            const sectionElement = document.getElementById(id);
+            if (sectionElement) {
+                sectionElement.style.display = (id === sectionId) ? 'block' : 'none';
+            }
+        });
+    }
+
+    function nextJoinSection() {
+        currentSection++;
+        if (currentSection >= sections.length) {
+            currentSection = sections.length - 1; // Stay on the last section if trying to go beyond
+        }
+        showSection(sections[currentSection]);
+    }
+
+    function prevJoinSection() {
+        currentSection--;
+        if (currentSection < 0) {
+            currentSection = 0; // Stay on the first section if trying to go before
+        }
+        showSection(sections[currentSection]);
+    }
 
     if (modal) {
-        // Initial language setup for any dynamic elements (if any)
         updateJoinUsModalLanguage();
-
-        // Listen for language changes from the global switcher
         document.addEventListener('languageChanged', updateJoinUsModalLanguage);
 
         if (fabJoinBtn) {
             fabJoinBtn.onclick = function() {
                 modal.style.display = 'block';
-            }
+                currentSection = 0; // Reset to the first section when opening
+                showSection(sections[currentSection]);
+            };
         }
 
-        if (span) {
-            span.onclick = function() {
+        if (closeButton) {
+            closeButton.onclick = function() {
                 modal.style.display = 'none';
-            }
+            };
         }
 
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
-        }
-        showSection(sections[currentSection]); // Initialize the first section if modal exists
+        };
+
+        // Attach event listeners to next/prev buttons
+        const nextButtons = modal.querySelectorAll('.join-form-next-btn');
+        nextButtons.forEach(button => {
+            button.addEventListener('click', nextJoinSection);
+        });
+
+        const prevButtons = modal.querySelectorAll('.join-form-prev-btn');
+        prevButtons.forEach(button => {
+            button.addEventListener('click', prevJoinSection);
+        });
+
+        showSection(sections[currentSection]); // Initialize the first section
     } else {
         // console.error("Modal with ID 'join-modal' not found in join-us.js.");
     }
-});
 
-function showSection(sectionId) {
-    sections.forEach(id => {
-        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
-    });
-}
-
-function nextSection(sectionId) {
-    currentSection = sections.indexOf(sectionId);
-    if (currentSection < sections.length) {
-        showSection(sectionId);
-    }
-}
-
-function prevSection(sectionId) {
-    currentSection = sections.indexOf(sectionId);
-    if (currentSection >= 0) {
-        showSection(sectionId);
-    }
-}
-
-document.getElementById('multiStepForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    // Form submission logic here
-    const successMessage = window.getTranslatedText ? window.getTranslatedText('joinModal.alert.formSubmittedSuccess') : 'Form submitted successfully!';
-    alert(successMessage);
-    const modalToClose = document.getElementById('join-modal');
-    if (modalToClose) {
-        modalToClose.style.display = 'none';
+    const multiStepForm = document.getElementById('multiStepForm');
+    if (multiStepForm) {
+        multiStepForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const successMessage = window.getTranslatedText ? window.getTranslatedText('joinModal.alert.formSubmittedSuccess') : 'Form submitted successfully!';
+            alert(successMessage);
+            if (modal) { // Ensure modal is defined before trying to hide it
+                modal.style.display = 'none';
+            }
+        });
     }
 });
