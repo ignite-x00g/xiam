@@ -1,0 +1,136 @@
+/*
+    Removed body and .container rules as they are superseded by global styles
+    or not relevant in the modal context within index.html.
+*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border-radius: 0; /* No rounded corners for full screen */
+    z-index: 1050; /* High z-index to be on top */
+    background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.4));
+    /* Flex properties to center modal-content if it's not also full-screen */
+    /* For full-screen modal-content, these might not have a visible effect but are good practice */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* overflow: auto; Removed, scrolling handled by modal-content */
+}
+
+.modal-content {
+    width: 100%; /* Full width of the .modal parent */
+    height: 100%; /* Full height of the .modal parent */
+    max-width: none; /* No max-width for full screen */
+    max-height: none; /* No max-height for full screen */
+    margin: 0; /* No margin */
+    padding: 25px; /* Padding inside the content area */
+    border: none; /* No border for full-screen view */
+    border-radius: 0; /* No rounded corners */
+    background-color: var(--modal-content-bg, var(--card-bg-color));
+    text-align: left;
+    overflow-y: auto; /* Allow vertical scrolling within the content */
+    box-shadow: none; /* Removed shadow for full-screen view */
+}
+
+.close-btn {
+    color: var(--text-color-subtle); /* Themed */
+    float: right; /* Consider position: absolute for more robust placement in full-screen */
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    /* For full-screen, absolute positioning might be better: */
+    /* position: absolute; */
+    /* top: 15px; */
+    /* right: 25px; */
+    /* z-index: 10; */ /* To be above other modal content */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--text-color-main); /* Themed */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-section {
+    margin-bottom: 20px;
+    /* For full-screen, you might want to center the form content or limit its width */
+    /* max-width: 700px; */ /* Example: Limit form width */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+.form-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text-color-main);
+    font-size: 1.25em;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color-subtle);
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--card-border-color);
+    background-color: var(--input-bg-color, var(--body-bg-color));
+    color: var(--text-color-main);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color-transparent);
+    outline: none;
+}
+
+
+button {
+    background-color: var(--fab-bg-color);
+    color: var(--fab-text-color);
+    padding: 12px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--fab-hover-bg-color);
+}
+
+button[type="button"] {
+    background-color: var(--button-secondary-bg-color, var(--card-border-color));
+    color: var(--button-secondary-text-color, var(--text-color-main));
+}
+
+button[type="button"]:hover {
+    background-color: var(--button-secondary-hover-bg-color, var(--header-bg-color));
+}
+
+button + button {
+    margin-left: 10px;
+}
