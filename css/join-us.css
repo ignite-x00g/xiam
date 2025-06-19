@@ -1,0 +1,132 @@
+/*
+    Removed body and .container rules as they are superseded by global styles
+    or not relevant in the modal context within index.html.
+*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    /* max-width: none; and max-height: none; are implicit with 100vw/vh */
+    /* margin: 0; and border-radius: 0; are correct for the overlay */
+    z-index: 1050; /* High z-index to be on top */
+    background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* overflow: auto; /* Removed in previous step, scrolling handled by modal-content */
+}
+
+.modal-content {
+    /* width and height are auto by default, allowing content to size them */
+    /* Reverted from full-screen to card-like with viewport-relative max dimensions */
+    max-width: 65vw;   /* Max width relative to viewport width */
+    max-height: 75vh;  /* Max height relative to viewport height */
+    margin: auto;      /* For flex centering */
+    padding: 25px;
+    border: 1px solid var(--card-border-color); /* Themed border */
+    border-radius: 8px; /* Rounded corners for card appearance */
+    background-color: var(--modal-content-bg, var(--card-bg-color));
+    text-align: left;
+    overflow-y: auto; /* Allow vertical scrolling within the content if it exceeds max-height */
+    box-shadow: var(--card-shadow, 0 4px 12px rgba(0,0,0,0.1)); /* Themed shadow with fallback */
+
+    /* Ensure flex display for internal layout if needed, though not strictly required by this change */
+    display: flex;
+    flex-direction: column;
+}
+
+.close-btn {
+    color: var(--text-color-subtle); /* Themed */
+    /* float: right; /* Replaced float with absolute positioning for better control */
+    position: absolute; /* Position relative to modal-content */
+    top: 10px;          /* Adjust as needed */
+    right: 15px;         /* Adjust as needed */
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    z-index: 1; /* Ensure close button is above other content within modal-content */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--text-color-main); /* Themed */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-section {
+    margin-bottom: 20px;
+    /* The form sections will now naturally be contained by .modal-content's width */
+}
+
+.form-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text-color-main);
+    font-size: 1.25em;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color-subtle);
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--card-border-color);
+    background-color: var(--input-bg-color, var(--body-bg-color));
+    color: var(--text-color-main);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color-transparent);
+    outline: none;
+}
+
+
+button {
+    background-color: var(--fab-bg-color);
+    color: var(--fab-text-color);
+    padding: 12px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--fab-hover-bg-color);
+}
+
+button[type="button"] {
+    background-color: var(--button-secondary-bg-color, var(--card-border-color));
+    color: var(--button-secondary-text-color, var(--text-color-main));
+}
+
+button[type="button"]:hover {
+    background-color: var(--button-secondary-hover-bg-color, var(--header-bg-color));
+}
+
+button + button {
+    margin-left: 10px;
+}
