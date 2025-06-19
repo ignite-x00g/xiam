@@ -5,6 +5,7 @@
     right: 20px;
     display: flex;
     flex-direction: column; /* Stack icons vertically */
+    align-items: flex-end; /* Align items to the end (right for LTR, bottom if flex-direction was row) */
     gap: 10px; /* Space between buttons */
     z-index: 999; /* Ensure they are above most other content */
 }
@@ -322,7 +323,7 @@ footer p {
 .header-toggle-btn {
     background-color: var(--card-bg-color);
     color: var(--text-color-subtle);
-    border: 1px solid var(--card-border-color);
+    border: 1px solid var(--text-color-subtle);
     padding: 0.5rem 0.8rem;
     border-radius: 4px;
     cursor: pointer;
