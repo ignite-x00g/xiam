@@ -32,13 +32,6 @@
     transform: scale(1.1);
 }
 
-/*
-.fab-icon {
-    font-size: 24px;
-    transition: opacity 0.2s ease;
-}
-*/
-
 .fab-content-wrapper {
     display: flex;
     flex-direction: column; /* Stack icon/image and text vertically */
@@ -48,61 +41,27 @@
 }
 
 .fab-icon-image-area {
-    /* This area can hold an <img> or an icon font */
-    /* If using <img>, ensure it's styled appropriately (e.g., max-width, max-height) */
-    font-size: 20px; /* Default size for icon font placeholders */
-    margin-bottom: 2px; /* Space between icon and text if text is visible */
+    font-size: 20px;
+    margin-bottom: 2px;
 }
 
 .fab-icon-image-area .fab-icon-placeholder {
-     display: block; /* ensure it takes space */
+     display: block;
 }
 
 .fab-icon-image-area img {
-    max-width: 100%; /* Ensure image fits if used */
-    max-height: 24px; /* Example max height */
+    max-width: 100%;
+    max-height: 24px;
     display: block;
 }
 
 .fab-text {
-    font-size: 10px; /* Smaller text to fit inside the button */
+    font-size: 10px;
     line-height: 1.2;
     color: var(--fab-text-color);
-    display: block; /* Was previously for hover label, now part of button face */
-    /* Remove old absolute positioning for hover label */
+    display: block;
 }
 
-/* Old .fab:hover .fab-text for side label - remove or comment out */
-/*
-.fab:hover .fab-text {
-    left: -10px;
-    transform: translateX(-100%) translateY(-50%);
-    opacity: 1;
-}
-*/
-/*
-.fab-text {
-    position: absolute;
-    left: -100px; /* Position text off-screen to the left */
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #333;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s ease, left 0.3s ease;
-    font-size: 14px;
-}
-
-.fab:hover .fab-text {
-    left: -10px; /* Bring text into view from the left */
-    transform: translateX(-100%) translateY(-50%); /* Position it to the left of the button */
-    opacity: 1;
-}
-*/
-/* Adjustments for smaller screens if needed */
 @media (max-width: 768px) {
     .fab-container {
         bottom: 15px;
@@ -118,36 +77,24 @@
     .fab-text {
         font-size: 9px;
     }
-    /*
-    .fab-icon {
-        font-size: 20px;
-    }
-    */
-    /* On mobile, maybe don't show text on hover, or handle it differently */
-    /*
-    .fab:hover .fab-text {
-        display: none; /* Example: hide text on hover for mobile to prevent layout issues */
-    }
-    */
 }
 
 /* Header Styling */
 .site-header {
-    background-color: var(--header-bg-color); /* Slightly different from body for definition */
+    background-color: var(--header-bg-color);
     padding: 1rem 2rem;
     display: flex;
-    justify-content: space-between; /* Aligns logo area and toggles area */
+    justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--header-border-color);
 }
 
 .header-content {
-    /* Groups main and sub-header text */
-    text-align: left; /* Or center, depending on overall design preference */
+    text-align: left;
 }
 
 .main-header-text {
-    font-size: 2.5rem; /* Larger font for "OPS" */
+    font-size: 2.5rem;
     font-weight: bold;
     color: var(--main-logo-color);
     margin: 0;
@@ -155,25 +102,23 @@
 }
 
 .sub-header-text {
-    font-size: 0.9rem; /* Smaller font for "OPS Online Support™" */
+    font-size: 0.9rem;
     color: var(--sub-logo-color);
     margin: 0;
     font-weight: normal;
 }
 
-.sub-header-text sup { /* Styling for the TM symbol */
+.sub-header-text sup {
     font-size: 0.6em;
     vertical-align: super;
 }
 
 .header-toggles {
-    /* For theme/language toggles later */
     display: flex;
-    align-items: center; /* Align items vertically in case of different heights */
+    align-items: center;
     gap: 15px;
 }
 
-/* Responsive header styling */
 @media (max-width: 768px) {
     .site-header {
         flex-direction: column;
@@ -181,7 +126,7 @@
         gap: 0.5rem;
     }
     .header-content {
-        text-align: center; /* Center text on smaller screens */
+        text-align: center;
     }
     .main-header-text {
         font-size: 2rem;
@@ -190,9 +135,10 @@
         font-size: 0.8rem;
     }
     .header-toggles {
-        margin-top: 10px; /* Space above toggles if header stacks */
+        margin-top: 10px;
     }
 }
+
 /* Footer Styling */
 footer {
     position: fixed;
@@ -200,43 +146,76 @@ footer {
     left: 0;
     width: 100%;
     text-align: center;
-    padding-bottom: 5px; /* This acts as the margin from the bottom edge of its content */
-    /* background-color: var(--body-bg-color); /* Optional: give it a slight background to ensure readability over .glow-effect if it's very active near bottom */
-    z-index: 990; /* Below FABs (999) but above general content and glow effect (-1) */
+    padding-bottom: 5px;
+    z-index: 990;
 }
 
 footer p {
-    margin: 0; /* Remove default paragraph margin */
+    margin: 0;
     font-size: 0.8rem;
-    color: var(--text-color-subtle); /* Use theme variable for text color */
+    color: var(--text-color-subtle);
 }
+
+/* Modal Container Main Styling */
+#modal-container-main {
+    display: none; /* Initially hidden, shown by JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.6)); /* Darker fallback */
+    z-index: 1040; /* Below modals (1050) */
+    overflow-y: auto; /* Allow scrolling if a single modal content itself is very tall */
+}
+
+/* General opslight-service-modal styling (should be minimal if specific overrides exist) */
+.opslight-service-modal {
+    background-color: var(--modal-content-bg, var(--card-bg-color));
+    /* Default padding, border, radius, shadow for card-like modals */
+    padding: 20px;
+    border: 1px solid var(--card-border-color);
+    border-radius: 8px;
+    box-shadow: var(--card-shadow, 0 4px 12px rgba(0,0,0,0.1));
+    /* Default max-width and max-height for standard modals */
+    max-width: 600px; /* Example default max-width */
+    max-height: 80vh; /* Example default max-height */
+    overflow-y: auto; /* For content scrolling within the modal */
+    z-index: 1050; /* Above the container backdrop */
+    margin: auto; /* Ensures it's centered by the flex container if not position:fixed */
+    display: flex; /* To manage inner content like title, form, close button */
+    flex-direction: column;
+    /* position: relative; /* If it's a flex item, relative is fine. Avoid fixed here. */
+}
+
 
 /* Contact Us Form Styling (within modal) */
 .contact-modal-form {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between form fields */
-    margin-top: 15px; /* Space below modal title */
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .form-field {
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Space between label and input, or input and validation message */
+    gap: 5px;
 }
 
 .form-row {
     display: flex;
-    gap: 15px; /* Space between fields in a row */
+    gap: 15px;
 }
 
 .form-row .form-field {
-    flex: 1; /* Allow fields in a row to share space */
+    flex: 1;
 }
 
-/* Specific widths for country code and phone number if needed */
 .form-field-country-code {
-    flex: 0 1 80px; /* Smaller, fixed basis for country code */
+    flex: 0 1 80px;
 }
 .form-field-phone-number {
     flex: 1 1 auto;
@@ -255,14 +234,14 @@ footer p {
 .contact-modal-form input[type="tel"],
 .contact-modal-form select,
 .contact-modal-form textarea {
-    width: 100%; /* Full width of their container */
+    width: 100%;
     padding: 10px;
-    border: 1px solid var(--card-border-color); /* Use theme variable */
+    border: 1px solid var(--card-border-color);
     border-radius: 5px;
-    background-color: var(--body-bg-color); /* Slightly different from modal bg for contrast */
+    background-color: var(--body-bg-color);
     color: var(--text-color-main);
     font-size: 0.9rem;
-    box-sizing: border-box; /* Important for width: 100% and padding */
+    box-sizing: border-box;
 }
 
 .contact-modal-form input::placeholder,
@@ -275,7 +254,7 @@ footer p {
 .contact-modal-form select:focus,
 .contact-modal-form textarea:focus {
     outline: none;
-    border-color: var(--hover-glow-color-secondary); /* Highlight with theme accent */
+    border-color: var(--hover-glow-color-secondary);
     box-shadow: 0 0 5px var(--hover-glow-color-secondary, #8b5cf6);
 }
 
@@ -285,18 +264,18 @@ footer p {
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 10px 10px;
-    padding-right: 30px; /* Space for arrow */
+    padding-right: 30px;
 }
 
 
 .contact-modal-form textarea {
-    resize: vertical; /* Allow vertical resize, disable horizontal */
+    resize: vertical;
     min-height: 80px;
 }
 
 .form-button {
     padding: 10px 20px;
-    background-color: var(--fab-bg-color); /* Use FAB color or define a new form button var */
+    background-color: var(--fab-bg-color);
     color: var(--fab-text-color);
     border: none;
     border-radius: 5px;
@@ -313,14 +292,13 @@ footer p {
 }
 
 .form-submit-area {
-    margin-top: 10px; /* Extra space above submit area */
+    margin-top: 10px;
 }
 
 .validation-message {
     font-size: 0.75rem;
-    color: var(--hover-glow-color-primary); /* Use a prominent color for errors, e.g., fuchsia or red */
-    min-height: 1em; /* Reserve space to prevent layout shifts */
-    /* Initially empty, JS will populate */
+    color: var(--hover-glow-color-primary);
+    min-height: 1em;
 }
 
 .submission-status-message {
@@ -330,28 +308,27 @@ footer p {
     margin-top: 10px;
 }
 
-/* Responsive adjustments for form rows if needed */
-@media (max-width: 600px) { /* Adjust breakpoint as needed */
+@media (max-width: 600px) {
     .form-row {
-        flex-direction: column; /* Stack fields in a row on smaller screens */
-        gap: 15px; /* Keep gap when stacked */
+        flex-direction: column;
+        gap: 15px;
     }
     .form-field-country-code {
-        flex: 0 1 auto; /* Reset flex basis */
+        flex: 0 1 auto;
     }
 }
 
 /* New Toggle Button Styling */
 .header-toggle-btn {
-    background-color: var(--card-bg-color); /* Use a theme-aware background */
+    background-color: var(--card-bg-color);
     color: var(--text-color-subtle);
     border: 1px solid var(--card-border-color);
-    padding: 0.5rem 0.8rem; /* Adjust padding for desired size */
-    border-radius: 4px; /* Rectangular with slightly rounded corners */
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 0.8rem; /* Adjust as needed */
+    font-size: 0.8rem;
     font-weight: 500;
-    min-width: 60px; /* Ensure a minimum width for text like [Light] */
+    min-width: 60px;
     text-align: center;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
@@ -360,48 +337,37 @@ footer p {
 .header-toggle-btn:focus {
     background-color: var(--card-bg-hover-color);
     color: var(--text-color-main);
-    border-color: var(--hover-glow-color-secondary); /* Use an accent for border on hover/focus */
+    border-color: var(--hover-glow-color-secondary);
     outline: none;
-    transform: translateY(-1px); /* Subtle lift */
+    transform: translateY(-1px);
 }
 
-/* Full-screen Contact Us Modal */
-/* Targets the modal instance specifically for the "Contact Us" FAB */
+/* Contact Us Modal - Card-like specific styles */
 .opslight-service-modal[data-fab-id="fab-contact"] {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    max-width: none;
-    max-height: none;
-    margin: 0;
-    border-radius: 0;
-    border: none; /* Assuming no border for full-screen */
-    z-index: 1050; /* Consistent with other full-screen modals */
-    padding: 20px; /* Padding for the content within the full-screen modal */
-    overflow-y: auto; /* Enable scrolling for the modal content */
+    /* Removed position:fixed, top, left, width, height, max-width:none, max-height:none, margin:0 from full-screen version */
+    /* It will now be a flex item within #modal-container-main */
 
-    /* The background color should be handled by the general .opslight-service-modal
-       styles using var(--modal-content-bg). If it's not, uncomment and adjust:
-       background-color: var(--modal-content-bg, var(--card-bg-color)); */
+    max-width: 65vw; /* New max width */
+    max-height: 75vh; /* New max height */
+    margin: auto; /* Centered by flex container */
 
-    /* display: flex properties are usually for centering a smaller modal box,
-       not strictly necessary if the modal itself is full screen and content flows naturally.
-       If there's an inner .modal-content box that needs centering, that's different.
-       Assuming this rule makes the .opslight-service-modal itself the full-screen container. */
+    /* border, border-radius, box-shadow should be inherited from general .opslight-service-modal if defined above,
+       or can be explicitly set here if they need to be different from other modals.
+       For now, assuming they inherit or are set by the general rule.
+       If general .opslight-service-modal needs to be different, uncomment and specify:
+    */
+    /* border: 1px solid var(--card-border-color); */
+    /* border-radius: 8px; */
+    /* box-shadow: var(--card-shadow, 0 4px 12px rgba(0,0,0,0.1)); */
+
+    /* padding: 20px; /* Inherited from general .opslight-service-modal */
+    /* overflow-y: auto; /* Inherited */
+    /* z-index: 1050; /* Inherited */
+    /* background-color: var(--modal-content-bg, var(--card-bg-color)); /* Inherited */
+    /* display: flex; flex-direction: column; /* Inherited */
 }
 
-/* If .opslight-service-modal[data-fab-id="fab-contact"] has an inner .modal-content div
-   that needs to be explicitly sized (e.g. if the padding is on the outer fixed div),
-   you might need something like this. However, if the padding: 20px above is meant
-   for the scrollable content area, and .opslight-service-modal is that area, this is fine.
-
+/* The following empty rule was from the previous step, it can be removed.
 .opslight-service-modal[data-fab-id="fab-contact"] .modal-content {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto; /* If scrolling is on the inner content div */
-    padding: 0; /* If parent .opslight-service-modal has the padding */
-    /* background-color: transparent; /* If parent has the actual background */
 }
 */
