@@ -52,7 +52,29 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.validation.phone.invalid": "Invalid phone number.",
             "form.validation.countryCode.invalid": "Invalid country code.",
             "form.contact.submissionPending": "Preparing your data...",
-            "form.contact.submissionSuccess": "Data prepared (logged to console). Thank you!"
+            "form.contact.submissionSuccess": "Data prepared (logged to console). Thank you!",
+            "joinModal.title": "Membership Application",
+            "joinModal.section1.title": "Personal Information",
+            "joinModal.section1.fullNameLabel": "Full Name:",
+            "joinModal.section1.fullNamePlaceholder": "Enter your full name",
+            "joinModal.section1.emailLabel": "Email:",
+            "joinModal.section1.emailPlaceholder": "Enter your email address",
+            "joinModal.button.next": "Next",
+            "joinModal.section2.title": "Contact Details",
+            "joinModal.section2.phoneLabel": "Phone Number:",
+            "joinModal.section2.phonePlaceholder": "Enter your phone number",
+            "joinModal.section2.addressLabel": "Address:",
+            "joinModal.section2.addressPlaceholder": "Enter your address",
+            "joinModal.button.previous": "Previous",
+            "joinModal.section3.title": "Membership Preferences",
+            "joinModal.section3.membershipTypeLabel": "Membership Type:",
+            "joinModal.section3.membershipType.basic": "Basic",
+            "joinModal.section3.membershipType.premium": "Premium",
+            "joinModal.section3.membershipType.vip": "VIP",
+            "joinModal.section3.referralLabel": "How did you hear about us?",
+            "joinModal.section3.referralPlaceholder": "Tell us how you found us",
+            "joinModal.button.submit": "Submit",
+            "joinModal.alert.formSubmittedSuccess": "Form submitted successfully!"
         },
         es: {
             "header.main": "SPO",
@@ -101,7 +123,29 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.validation.phone.invalid": "Número de teléfono inválido.",
             "form.validation.countryCode.invalid": "Código de país inválido.",
             "form.contact.submissionPending": "Preparando sus datos...",
-            "form.contact.submissionSuccess": "Datos preparados (registrados en consola). ¡Gracias!"
+            "form.contact.submissionSuccess": "Datos preparados (registrados en consola). ¡Gracias!",
+            "joinModal.title": "Solicitud de Membresía",
+            "joinModal.section1.title": "Información Personal",
+            "joinModal.section1.fullNameLabel": "Nombre Completo:",
+            "joinModal.section1.fullNamePlaceholder": "Ingrese su nombre completo",
+            "joinModal.section1.emailLabel": "Correo Electrónico:",
+            "joinModal.section1.emailPlaceholder": "Ingrese su dirección de correo electrónico",
+            "joinModal.button.next": "Siguiente",
+            "joinModal.section2.title": "Detalles de Contacto",
+            "joinModal.section2.phoneLabel": "Número de Teléfono:",
+            "joinModal.section2.phonePlaceholder": "Ingrese su número de teléfono",
+            "joinModal.section2.addressLabel": "Dirección:",
+            "joinModal.section2.addressPlaceholder": "Ingrese su dirección",
+            "joinModal.button.previous": "Anterior",
+            "joinModal.section3.title": "Preferencias de Membresía",
+            "joinModal.section3.membershipTypeLabel": "Tipo de Membresía:",
+            "joinModal.section3.membershipType.basic": "Básico",
+            "joinModal.section3.membershipType.premium": "Premium",
+            "joinModal.section3.membershipType.vip": "VIP",
+            "joinModal.section3.referralLabel": "¿Cómo te enteraste de nosotros?",
+            "joinModal.section3.referralPlaceholder": "Cuéntanos cómo nos encontraste",
+            "joinModal.button.submit": "Enviar",
+            "joinModal.alert.formSubmittedSuccess": "¡Formulario enviado con éxito!"
         }
     };
 
@@ -124,6 +168,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 // console.warn(`Translation key not found: ${key} for language: ${currentLanguage}`);
+            }
+        });
+
+        // Handle placeholders
+        document.querySelectorAll('[data-placeholder-translate-key]').forEach(element => {
+            const key = element.getAttribute('data-placeholder-translate-key');
+            const translation = translations[currentLanguage]?.[key]; // Optional chaining
+            if (translation !== undefined) {
+                element.setAttribute('placeholder', translation);
+            } else {
+                // console.warn(`Placeholder translation key not found: ${key} for language: ${currentLanguage}`);
             }
         });
     }

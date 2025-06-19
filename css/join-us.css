@@ -1,0 +1,118 @@
+/*
+    Removed body and .container rules as they are superseded by global styles
+    or not relevant in the modal context within index.html.
+*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1; /* Ensure modal is on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.4)); /* Added theme variable */
+}
+
+.modal-content {
+    background-color: var(--modal-content-bg, var(--card-bg-color)); /* Themed */
+    margin: 10% auto; /* Adjusted margin for better centering */
+    padding: 25px; /* Slightly increased padding */
+    border: 1px solid var(--card-border-color); /* Themed */
+    width: 80%;
+    max-width: 550px; /* Slightly increased max-width */
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: var(--card-shadow); /* Added theme variable for shadow */
+}
+
+.close-btn {
+    color: var(--text-color-subtle); /* Themed */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1; /* Ensure consistent vertical alignment */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--text-color-main); /* Themed */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px; /* Added margin-bottom */
+    color: var(--text-color-main); /* Themed */
+    font-size: 1.25em; /* Slightly adjusted font size */
+}
+
+label {
+    display: block;
+    margin-bottom: 8px; /* Increased margin */
+    color: var(--text-color-subtle); /* Themed */
+    font-weight: bold; /* Added font-weight */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: 100%; /* Changed from calc(100% - 22px) for responsiveness */
+    padding: 12px; /* Increased padding */
+    margin-bottom: 15px; /* Increased margin */
+    border: 1px solid var(--card-border-color); /* Themed */
+    background-color: var(--input-bg-color, var(--body-bg-color)); /* Themed, fallback to body-bg */
+    color: var(--text-color-main); /* Themed */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em; /* Ensure consistent font size */
+}
+
+/* Style for focused inputs */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    border-color: var(--accent-color); /* Highlight with accent color on focus */
+    box-shadow: 0 0 0 2px var(--accent-color-transparent); /* Subtle glow effect */
+    outline: none; /* Remove default outline */
+}
+
+
+button {
+    background-color: var(--fab-bg-color); /* Themed: Primary action buttons */
+    color: var(--fab-text-color); /* Themed */
+    padding: 12px 18px; /* Adjusted padding */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em; /* Adjusted font size */
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out; /* Smooth transition */
+}
+
+button:hover {
+    background-color: var(--fab-hover-bg-color); /* Themed */
+}
+
+/* Secondary buttons (like "Previous") */
+button[type="button"] {
+    background-color: var(--button-secondary-bg-color, var(--card-border-color)); /* Themed */
+    color: var(--button-secondary-text-color, var(--text-color-main)); /* Themed */
+}
+
+button[type="button"]:hover {
+    background-color: var(--button-secondary-hover-bg-color, var(--header-bg-color)); /* Themed */
+}
+
+/* Ensure enough spacing between buttons if they are next to each other */
+button + button {
+    margin-left: 10px;
+}
