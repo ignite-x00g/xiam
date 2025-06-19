@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLanguage(lang) {
         currentLanguage = lang;
         if (languageToggleButton) { // Check if button exists
-            languageToggleButton.textContent = lang === 'es' ? '[ES]' : '[EN]'; // Update button text
+            languageToggleButton.textContent = lang === 'es' ? 'ES' : 'EN'; // Update button text
         }
         loadTranslations();
         localStorage.setItem('language', lang);
