@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "fab.join": "Join Us",
             "fab.contact": "Contact Us",
             "fab.chatbot": "Chatbot AI",
-            "footer.copy": "&copy; 2023 OPS Online Support",
+            "footer.copy": "&copy; 2025 OPS Online Support",
             "modal.businessOps.title": "Business Operations",
             "modal.businessOps.description": "We optimize your business processes for maximum efficiency and growth. Our services include workflow analysis, automation, and strategic planning.",
             "modal.contactCenter.title": "Contact Center Solutions",
@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "joinModal.closeButtonAriaLabel": "Close Join Us Form"
         },
         es: {
-            "header.main": "SPO",
-            "header.sub": "Soporte en Línea SPO&trade;",
+            "header.main": "OPS",
+            "header.sub": "OPS Online Support&trade;",
             "services.title": "Nuestros Servicios",
             "nav.businessOps": "Operaciones Comerciales",
             "nav.contactCenter": "Centro de Contacto",
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "fab.join": "Únete",
             "fab.contact": "Contáctanos",
             "fab.chatbot": "Chatbot IA",
-            "footer.copy": "&copy; 2023 Soporte en Línea SPO",
+            "footer.copy": "&copy; 2025 OPS Online Support",
             "modal.businessOps.title": "Operaciones Comerciales",
             "modal.businessOps.description": "Optimizamos sus procesos comerciales para máxima eficiencia y crecimiento. Nuestros servicios incluyen análisis de flujo de trabajo, automatización y planificación estratégica.",
             "modal.contactCenter.title": "Soluciones de Centro de Contacto",
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.professionals.title": "Profesionales Calificados",
             "modal.professionals.description": "Acceda a nuestro grupo de profesionales altamente calificados para sus necesidades de proyectos. Proveemos expertos en diversos campos, desde gestión de proyectos hasta desarrollo de software.",
             "modal.fabJoin.title": "Únete a Nuestro Equipo",
-            "modal.fabJoin.description": "Buscamos personas talentosas para unirse a SPO. Explore oportunidades actuales y conozca nuestra cultura. <br><br> [Espacio para listados de trabajo o enlace a formulario]",
+            "modal.fabJoin.description": "Buscamos personas talentosas para unirse a OPS. Explore oportunidades actuales y conozca nuestra cultura. <br><br> [Espacio para listados de trabajo o enlace a formulario]",
             "modal.fabContact.title": "Contáctanos",
             // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "Asistente Chatbot IA",
