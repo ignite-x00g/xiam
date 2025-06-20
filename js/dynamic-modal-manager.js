@@ -43,12 +43,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 const description = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.description`) : "Description unavailable.";
 
                 // Check if modal for this service already exists
-                if (modalContainerMain.querySelector(`.opslight-service-modal[data-service="${serviceKey}"]`)) {
-                    // Optional: Bring to front or indicate it's already open
-                    // For now, we don't re-open if it exists. User can close and re-open.
-                    // Or, per "one next to each other", they just stay.
-                    return;
+                const existingModal = modalContainerMain.querySelector(`.opslight-service-modal[data-service="${serviceKey}"]`);
+                if (existingModal) {
+                    modalContainerMain.style.display = 'flex'; // Ensure container is visible
+
+                    // Hide other service modals (those with 'data-service')
+                    const otherServiceModals = modalContainerMain.querySelectorAll('.opslight-service-modal[data-service]');
+                    otherServiceModals.forEach(m => {
+                        if (m !== existingModal) {
+                            m.style.display = 'none';
+                        }
+                    });
+                    // Also hide any FAB modals (those with 'data-fab-id')
+                    const fabModals = modalContainerMain.querySelectorAll('.opslight-service-modal[data-fab-id]');
+                    fabModals.forEach(m => {
+                        m.style.display = 'none';
+                    });
+
+
+                    existingModal.style.display = ''; // Remove inline 'display:none', reverting to CSS display
+
+                    const focusableElements = window.getFocusableElements(existingModal);
+                    if (focusableElements.length > 0) {
+                        focusableElements[0].focus();
+                    } else {
+                        existingModal.focus(); // Modal itself should have tabindex="-1"
+                    }
+                    lastOpenedDynamicModalTrigger = card; // 'card' is the serviceNavItems[i] element
+                    return; // Modal shown, no need to create a new one
                 }
+
+                // If creating a new service modal, hide any open FAB modals
+                const fabModalsToHide = modalContainerMain.querySelectorAll('.opslight-service-modal[data-fab-id]');
+                fabModalsToHide.forEach(m => {
+                    m.style.display = 'none';
+                });
+
 
                 // Create modal element
                 const modalInstance = document.createElement('div');
@@ -252,9 +282,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalBodyContent = `<p>${window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable."}</p>`;
                 }
                 // Check if modal for this FAB already exists
-                if (modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`)) {
-                    // Optional: Bring to front or indicate it's already open. For now, do nothing.
-                    return;
+                const existingModal = modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`);
+                if (existingModal) {
+                    modalContainerMain.style.display = 'flex'; // Ensure container is visible
+
+                    // Make all modals display:none first, then display the target one
+                    // This ensures only one modal is active if they are not stacked by design.
+                    const allModalsInContainer = modalContainerMain.querySelectorAll('.opslight-service-modal');
+                    allModalsInContainer.forEach(m => {
+                        // Don't hide the #join-modal if it's the one being managed by its own script for display
+                        if (m.id !== 'join-modal') {
+                            m.style.display = 'none';
+                        }
+                    });
+
+                    existingModal.style.display = ''; // Remove inline 'display:none', reverting to CSS display (e.g., flex/block)
+
+                    // Re-focus the first focusable element or the modal itself
+                    const focusableElements = window.getFocusableElements(existingModal);
+                    if (focusableElements.length > 0) {
+                        focusableElements[0].focus();
+                    } else {
+                        existingModal.focus(); // Modal itself should have tabindex="-1"
+                    }
+
+                    // Update lastOpenedDynamicModalTrigger for Escape key behavior
+                    // fab is the button that was clicked to open this modal.
+                    lastOpenedDynamicModalTrigger = fab;
+                    return; // Modal shown, no need to create a new one
                 }
 
                 // Create modal element

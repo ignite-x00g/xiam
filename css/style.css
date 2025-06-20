@@ -372,3 +372,64 @@ footer p {
 .opslight-service-modal[data-fab-id="fab-contact"] .modal-content {
 }
 */
+
+/* Mobile Menu Styles */
+.mobile-menu-toggle-btn {
+    display: none; /* Hidden by default, shown by media query */
+    position: fixed;
+    top: 1rem;
+    left: 1rem; /* Positioned top-left */
+    z-index: 10001; /* Above mobile menu overlay */
+    background-color: var(--primary-accent-color, var(--fab-bg-color)); /* Themed */
+    color: var(--primary-accent-text-color, var(--fab-text-color)); /* Themed */
+    border: none;
+    padding: 0.5rem 0.8rem;
+    font-size: 1.5rem; /* Hamburger/Close icon size */
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: 1; /* Ensure icon is centered */
+}
+
+#mobile-services-menu {
+    display: none; /* Hidden by default, toggled by JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-backdrop-bg, rgba(0,0,0,0.9)); /* Themed backdrop */
+    color: var(--text-color-on-dark-bg, #e0e0e0); /* Assuming text on a darkish backdrop */
+    z-index: 10000; /* Below toggle button but above other page content */
+    padding-top: 5rem; /* Space for the toggle button and some breathing room */
+    text-align: center;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#mobile-services-menu.open {
+    display: block;
+}
+
+/* Show toggle button only on mobile (or smaller screens) */
+@media (max-width: 768px) {
+    .mobile-menu-toggle-btn {
+        display: block;
+    }
+
+    /* Example: Hide header navigation if mobile menu is primary on these screen sizes */
+    /* This depends on the desired behavior for .services-navigation */
+    /* .site-header .services-navigation { display: none; } */
+
+    /* Ensure header toggles (theme/lang) are not obscured or handle their position */
+    .header-toggles {
+        /* Example: might need to adjust if they conflict with mobile menu toggle */
+        /* position: fixed; top: 1rem; right: 1rem; z-index: 10002; */
+    }
+}
+
+/*
+   Dark Mode placeholder rules from user example are omitted.
+   Theming is handled by CSS variables defined in css/theme.css.
+   The variables used above (e.g., --primary-accent-color, --modal-backdrop-bg)
+   will automatically adapt when the theme changes.
+*/
