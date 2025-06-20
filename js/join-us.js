@@ -1,4 +1,5 @@
 // js/join-us.js for the new redesigned modal
+
 document.addEventListener('DOMContentLoaded', () => {
     const joinModal = document.getElementById('join-modal'); // The main overlay
     const fabJoinBtn = document.getElementById('fab-join');
