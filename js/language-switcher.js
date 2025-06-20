@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.fabContact.title": "Contact Us",
             // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "AI Chatbot Assistant",
-            "modal.fabChatbot.description": "Our AI Chatbot is here to help you with common questions. <br><br> [Placeholder for Chatbot UI or initiation button]",
+            "modal.fabChatbot.description": "Our AI Chatbot is here to help you with common questions. <br><br> [Chatbot interface will load here]",
             "form.contact.label.name": "Full Name",
             "form.contact.placeholder.name": "Enter your full name",
             "form.contact.label.email": "Email Address",
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.fabContact.title": "Contáctanos",
             // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "Asistente Chatbot IA",
-            "modal.fabChatbot.description": "Nuestro Chatbot IA está aquí para ayudarle con preguntas comunes. <br><br> [Espacio para UI de Chatbot o botón de inicio]",
+            "modal.fabChatbot.description": "Nuestro Chatbot IA está aquí para ayudarle con preguntas comunes. <br><br> [La interfaz del Chatbot cargará aquí]",
             "form.contact.label.name": "Nombre Completo",
             "form.contact.placeholder.name": "Ingrese su nombre completo",
             "form.contact.label.email": "Correo Electrónico",
