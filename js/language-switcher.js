@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "fab.join": "Join Us",
             "fab.contact": "Contact Us",
             "fab.chatbot": "Chatbot AI",
-            "footer.copy": "&copy; 2023 OPS Online Support",
+            "footer.copy": "&copy; 2025 OPS Online Support",
             "modal.businessOps.title": "Business Operations",
             "modal.businessOps.description": "We optimize your business processes for maximum efficiency and growth. Our services include workflow analysis, automation, and strategic planning.",
             "modal.contactCenter.title": "Contact Center Solutions",
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.fabContact.title": "Contact Us",
             // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "AI Chatbot Assistant",
-            "modal.fabChatbot.description": "Our AI Chatbot is here to help you with common questions. <br><br> [Placeholder for Chatbot UI or initiation button]",
+            "modal.fabChatbot.description": "Our AI Chatbot is here to help you with common questions. <br><br> [Chatbot interface will load here]",
             "form.contact.label.name": "Full Name",
             "form.contact.placeholder.name": "Enter your full name",
             "form.contact.label.email": "Email Address",
@@ -52,11 +52,37 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.validation.phone.invalid": "Invalid phone number.",
             "form.validation.countryCode.invalid": "Invalid country code.",
             "form.contact.submissionPending": "Preparing your data...",
-            "form.contact.submissionSuccess": "Data prepared (logged to console). Thank you!"
+            "form.contact.submissionSuccess": "Data prepared (logged to console). Thank you!",
+            "joinModal.section1.fullNameLabel": "Full Name:",
+            "joinModal.section1.fullNamePlaceholder": "Enter your full name",
+            "joinModal.section1.emailLabel": "Email:",
+            "joinModal.section1.emailPlaceholder": "Enter your email address",
+            "joinModal.button.next": "Next",
+            "joinModal.section2.title": "Contact Details",
+            "joinModal.section2.phoneLabel": "Phone Number:",
+            "joinModal.section2.phonePlaceholder": "Enter your phone number",
+            "joinModal.section2.addressLabel": "Address:",
+            "joinModal.section2.addressPlaceholder": "Enter your address",
+            "joinModal.button.previous": "Previous",
+            "joinModal.section3.title": "Membership Preferences",
+            "joinModal.section3.membershipTypeLabel": "Membership Type:",
+            "joinModal.section3.membershipType.basic": "Basic",
+            "joinModal.section3.membershipType.premium": "Premium",
+            "joinModal.section3.membershipType.vip": "VIP",
+            "joinModal.section3.referralLabel": "How did you hear about us?",
+            "joinModal.section3.referralPlaceholder": "Tell us how you found us",
+            "joinModal.button.submit": "Submit",
+            "joinModal.alert.formSubmittedSuccess": "Form submitted successfully!",
+            "joinModal.closeButtonAriaLabel": "Close Join Us Form",
+            "joinModal.alert.addEntry": "Please add at least one entry.",
+            "joinModal.alert.formSubmittedNew": "Form submitted (new version).",
+            "mobileNav.placeholder": "Mobile Menu Placeholder",
+            "ariaLabel.mobileMenuOpen": "Open menu",
+            "ariaLabel.mobileMenuClose": "Close menu"
         },
         es: {
-            "header.main": "SPO",
-            "header.sub": "Soporte en Línea SPO&trade;",
+            "header.main": "OPS",
+            "header.sub": "OPS Online Support&trade;",
             "services.title": "Nuestros Servicios",
             "nav.businessOps": "Operaciones Comerciales",
             "nav.contactCenter": "Centro de Contacto",
@@ -65,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "fab.join": "Únete",
             "fab.contact": "Contáctanos",
             "fab.chatbot": "Chatbot IA",
-            "footer.copy": "&copy; 2023 Soporte en Línea SPO",
+            "footer.copy": "&copy; 2025 OPS Online Support",
             "modal.businessOps.title": "Operaciones Comerciales",
             "modal.businessOps.description": "Optimizamos sus procesos comerciales para máxima eficiencia y crecimiento. Nuestros servicios incluyen análisis de flujo de trabajo, automatización y planificación estratégica.",
             "modal.contactCenter.title": "Soluciones de Centro de Contacto",
@@ -75,11 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal.professionals.title": "Profesionales Calificados",
             "modal.professionals.description": "Acceda a nuestro grupo de profesionales altamente calificados para sus necesidades de proyectos. Proveemos expertos en diversos campos, desde gestión de proyectos hasta desarrollo de software.",
             "modal.fabJoin.title": "Únete a Nuestro Equipo",
-            "modal.fabJoin.description": "Buscamos personas talentosas para unirse a SPO. Explore oportunidades actuales y conozca nuestra cultura. <br><br> [Espacio para listados de trabajo o enlace a formulario]",
+            "modal.fabJoin.description": "Buscamos personas talentosas para unirse a OPS. Explore oportunidades actuales y conozca nuestra cultura. <br><br> [Espacio para listados de trabajo o enlace a formulario]",
             "modal.fabContact.title": "Contáctanos",
             // Description for fabContact is now the form, handled by glow-effects.js
             "modal.fabChatbot.title": "Asistente Chatbot IA",
-            "modal.fabChatbot.description": "Nuestro Chatbot IA está aquí para ayudarle con preguntas comunes. <br><br> [Espacio para UI de Chatbot o botón de inicio]",
+            "modal.fabChatbot.description": "Nuestro Chatbot IA está aquí para ayudarle con preguntas comunes. <br><br> [La interfaz del Chatbot cargará aquí]",
             "form.contact.label.name": "Nombre Completo",
             "form.contact.placeholder.name": "Ingrese su nombre completo",
             "form.contact.label.email": "Correo Electrónico",
@@ -101,7 +127,33 @@ document.addEventListener('DOMContentLoaded', () => {
             "form.validation.phone.invalid": "Número de teléfono inválido.",
             "form.validation.countryCode.invalid": "Código de país inválido.",
             "form.contact.submissionPending": "Preparando sus datos...",
-            "form.contact.submissionSuccess": "Datos preparados (registrados en consola). ¡Gracias!"
+            "form.contact.submissionSuccess": "Datos preparados (registrados en consola). ¡Gracias!",
+            "joinModal.section1.fullNameLabel": "Nombre Completo:",
+            "joinModal.section1.fullNamePlaceholder": "Ingrese su nombre completo",
+            "joinModal.section1.emailLabel": "Correo Electrónico:",
+            "joinModal.section1.emailPlaceholder": "Ingrese su dirección de correo electrónico",
+            "joinModal.button.next": "Siguiente",
+            "joinModal.section2.title": "Detalles de Contacto",
+            "joinModal.section2.phoneLabel": "Número de Teléfono:",
+            "joinModal.section2.phonePlaceholder": "Ingrese su número de teléfono",
+            "joinModal.section2.addressLabel": "Dirección:",
+            "joinModal.section2.addressPlaceholder": "Ingrese su dirección",
+            "joinModal.button.previous": "Anterior",
+            "joinModal.section3.title": "Preferencias de Membresía",
+            "joinModal.section3.membershipTypeLabel": "Tipo de Membresía:",
+            "joinModal.section3.membershipType.basic": "Básico",
+            "joinModal.section3.membershipType.premium": "Premium",
+            "joinModal.section3.membershipType.vip": "VIP",
+            "joinModal.section3.referralLabel": "¿Cómo te enteraste de nosotros?",
+            "joinModal.section3.referralPlaceholder": "Cuéntanos cómo nos encontraste",
+            "joinModal.button.submit": "Enviar",
+            "joinModal.alert.formSubmittedSuccess": "¡Formulario enviado con éxito!",
+            "joinModal.closeButtonAriaLabel": "Cerrar Formulario Únete",
+            "joinModal.alert.addEntry": "Agrega al menos una entrada.",
+            "joinModal.alert.formSubmittedNew": "Formulario enviado (nueva versión).",
+            "mobileNav.placeholder": "Menú Móvil (Contenido)",
+            "ariaLabel.mobileMenuOpen": "Abrir menú",
+            "ariaLabel.mobileMenuClose": "Cerrar menú"
         }
     };
 
@@ -126,12 +178,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 // console.warn(`Translation key not found: ${key} for language: ${currentLanguage}`);
             }
         });
+
+        // Handle placeholders
+        document.querySelectorAll('[data-placeholder-translate-key]').forEach(element => {
+            const key = element.getAttribute('data-placeholder-translate-key');
+            const translation = translations[currentLanguage]?.[key]; // Optional chaining
+            if (translation !== undefined) {
+                element.setAttribute('placeholder', translation);
+            } else {
+                // console.warn(`Placeholder translation key not found: ${key} for language: ${currentLanguage}`);
+            }
+        });
+
+        // Handle aria-labels
+        document.querySelectorAll('[data-aria-label-translate-key]').forEach(element => {
+            const key = element.getAttribute('data-aria-label-translate-key');
+            const translation = translations[currentLanguage]?.[key]; // Optional chaining
+            if (translation !== undefined) {
+                element.setAttribute('aria-label', translation);
+            } else {
+                // console.warn(`ARIA label translation key not found: ${key} for language: ${currentLanguage}`);
+            }
+        });
     }
 
     function setLanguage(lang) {
         currentLanguage = lang;
         if (languageToggleButton) { // Check if button exists
-            languageToggleButton.textContent = lang === 'es' ? '[ES]' : '[EN]'; // Update button text
+            languageToggleButton.textContent = lang === 'es' ? 'ES' : 'EN'; // Update button text
         }
         loadTranslations();
         localStorage.setItem('language', lang);
