@@ -409,26 +409,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     // script.js's Escape handler should take precedence or be coordinated.
                     // For now, this will hide any visible child modal.
                     if (childModal.style.display !== 'none') {
-                         // If it's the #join-modal, its own Escape listener in script.js should handle it.
-                         // Check if this modal is the #join-modal AND if it has its own specific Escape handler
-                         // (which is now part of its keydown listener in script.js).
-                         // If so, let that script handle it to avoid double processing or conflicting focus restoration.
-                        if (childModal.id === 'join-modal' && childModal.classList.contains('opslight-service-modal')) {
-                            // Assuming join-modal's Escape logic in script.js will correctly hide it and manage focus.
-                            // If it doesn't hide itself, this global listener might act as a fallback.
-                            // To prevent this global handler from interfering with join-modal's specific Escape logic,
-                            // we might need a flag or check if childModal.closeJoinModal exists and call that.
-                            // For now, let script.js handle its own Escape for #join-modal.
-                            // This global one will hide other dynamic modals.
-                            // If we want this to be the SOLE escape handler, then script.js should not have one.
-                            // console.log("Global escape: join-modal found, its own handler should take care of it.");
-                            // However, if `joinModalKeydownListener` in script.js stops propagation, this won't run for it.
-                            // If it doesn't, then this *might* run after. This needs careful testing.
-                            // For simplicity, if it's join-modal, we skip hiding it here, assuming its own script does.
-                            continue; // Skip join-modal, let its own script handle Escape.
+                        // If it's the #join-modal, its own Escape listener in script.js should handle it.
+                        // js/script.js's joinModalKeydownListener now calls event.stopPropagation().
+                        if (childModal.id === 'join-modal') {
+                            // If joinModalKeydownListener in script.js handles Escape and calls stopPropagation,
+                            // this global listener code block won't even be reached for that event on join-modal.
+                            // However, if stopPropagation was missed, this check ensures we don't try to hide it again.
+                            continue;
                         }
 
-                        hideModal(childModal); // This will also try to hide modalContainerMain if it becomes empty
+                        hideModal(childModal);
                         // If we only want to close one modal per escape press (like typical UI):
                         // break;
                     }

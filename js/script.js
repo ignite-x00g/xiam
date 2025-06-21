@@ -131,11 +131,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function attachJoinModalListeners() {
         if (!joinModal) return;
 
-        const closeButton = joinModal.querySelector('.standard-modal-close'); // Updated selector
-        // Use .onclick to ensure only one listener, replaces previous if any on this specific element instance
-        if (closeButton) closeButton.onclick = () => closeJoinModal();
+        // Listener for close button and overlay clicks
+        joinModal.addEventListener('click', function(event) {
+            if (event.target.closest('[data-modal-close]')) {
+                // This will handle clicks on .standard-modal-close (the 'X' button)
+                // and .standard-modal-overlay IF that overlay itself has data-modal-close.
+                // The structure from createJoinModalStructure() does put data-modal-close on the overlay.
+                closeJoinModal();
+            }
+        });
 
-        // Attach to buttons in the new footer
+        // Attach to buttons in the new footer (specific for navigation/submission)
         const prevButton = joinModal.querySelector('.standard-modal-footer .join-modal-prev');
         const nextButton = joinModal.querySelector('.standard-modal-footer .join-modal-next');
         const submitButtonFooter = joinModal.querySelector('.standard-modal-footer .join-modal-submit');
@@ -180,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showJoinModalSection('join-modal-section-1'); // Reset to the first section
         joinModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        // document.body.style.overflow = 'hidden'; // Let dynamic-modal-manager handle body overflow
 
         // Focus management: focus first element in the current section or modal itself
         const currentSectionElement = joinModal.querySelector(`#${currentJoinModalSection}`);
@@ -199,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeJoinModal() {
         if (!joinModal) return;
         joinModal.style.display = 'none';
-        document.body.style.overflow = '';
+        // document.body.style.overflow = ''; // Let dynamic-modal-manager handle body overflow
         joinModal.removeEventListener('keydown', joinModalKeydownListener);
 
         // Restore focus to the element that opened the modal
@@ -257,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!joinModal || joinModal.style.display === 'none') return; // Only act if modal is visible
 
         if (event.key === 'Escape') {
+            event.stopPropagation(); // Prevent global listener in dynamic-modal-manager.js
             closeJoinModal();
         }
         if (event.key === 'Tab') {
