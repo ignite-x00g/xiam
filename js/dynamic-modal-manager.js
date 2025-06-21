@@ -22,7 +22,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!modalContainerMain) {
         console.warn('Modal container #modal-container-main not found.');
     }
-
+    function hideModal(modalElement) {
+        if (!modalElement) return;
+        modalElement.style.display = 'none';
+        // If this modal had a specific keydown listener, remove it
+        if (modalElement.modalKeydownListener) {
+            modalElement.removeEventListener('keydown', modalElement.modalKeydownListener);
+            // delete modalElement.modalKeydownListener; // Optional: clean up property
+        }
+        // Restore focus
+        if (modalElement.triggerElement && typeof modalElement.triggerElement.focus === 'function') {
+            modalElement.triggerElement.focus();
+        }
+        // Check if all modals are hidden to hide the main container
+        let allHidden = true;
+        if (modalContainerMain && modalContainerMain.children.length > 0) {
+            for (let i = 0; i < modalContainerMain.children.length; i++) {
+                if (modalContainerMain.children[i].style.display !== 'none') {
+                    allHidden = false;
+                    break;
+                }
+            }
+        }
+        if (allHidden && modalContainerMain) {
+            modalContainerMain.style.display = 'none';
+            document.body.style.overflow = '';
+            lastOpenedDynamicModalTrigger = null; // Reset since all dynamic modals are effectively closed
+        }
+    }
     if (serviceNavItems.length > 0 && modalContainerMain) { // UPDATED variable name
         serviceNavItems.forEach(card => { // UPDATED variable name
             card.addEventListener('click', (event) => { // Added event parameter
@@ -43,69 +70,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 const description = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.description`) : "Description unavailable.";
 
                 // Check if modal for this service already exists
-                const existingModal = modalContainerMain.querySelector(`.opslight-service-modal[data-service="${serviceKey}"]`);
-                if (existingModal) {
-                    modalContainerMain.style.display = 'flex'; // Ensure container is visible
+                let modalInstance = modalContainerMain.querySelector(`.standard-modal[data-service="${serviceKey}"]`);
+                if (modalInstance) {
+                    // If it exists but is hidden, just show it
+                    if (modalInstance.style.display === 'none') {
+                        modalInstance.style.display = 'flex';
+                        modalContainerMain.style.display = 'flex'; // Ensure container is visible
+                        document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
-                    // Hide other service modals (those with 'data-service')
-                    const otherServiceModals = modalContainerMain.querySelectorAll('.opslight-service-modal[data-service]');
-                    otherServiceModals.forEach(m => {
-                        if (m !== existingModal) {
-                            m.style.display = 'none';
+                        const focusableElements = window.getFocusableElements(modalInstance);
+                        if (focusableElements.length > 0) {
+                            focusableElements[0].focus();
+                        } else {
+                            modalInstance.focus();
                         }
-                    });
-                    // Also hide any FAB modals (those with 'data-fab-id')
-                    const fabModals = modalContainerMain.querySelectorAll('.opslight-service-modal[data-fab-id]');
-                    fabModals.forEach(m => {
-                        m.style.display = 'none';
-                    });
+                        // Re-attach keydown listener if needed, or ensure it's managed by hideModal
+                        if (modalInstance.modalKeydownListener) {
+                             modalInstance.addEventListener('keydown', modalInstance.modalKeydownListener);
+                        }
+                        lastOpenedDynamicModalTrigger = document.activeElement || card;
+                        modalInstance.triggerElement = lastOpenedDynamicModalTrigger;
 
-
-                    existingModal.style.display = ''; // Remove inline 'display:none', reverting to CSS display
-
-                    const focusableElements = window.getFocusableElements(existingModal);
-                    if (focusableElements.length > 0) {
-                        focusableElements[0].focus();
-                    } else {
-                        existingModal.focus(); // Modal itself should have tabindex="-1"
                     }
-                    lastOpenedDynamicModalTrigger = card; // 'card' is the serviceNavItems[i] element
-                    return; // Modal shown, no need to create a new one
+                    return; // Already exists and possibly shown, so exit
                 }
 
-                // If creating a new service modal, hide any open FAB modals
-                const fabModalsToHide = modalContainerMain.querySelectorAll('.opslight-service-modal[data-fab-id]');
-                fabModalsToHide.forEach(m => {
-                    m.style.display = 'none';
-                });
-
-
                 // Create modal element
-                const modalInstance = document.createElement('div');
-                modalInstance.className = 'opslight-service-modal';
+                modalInstance = document.createElement('div');
+                modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
                 modalInstance.setAttribute('data-service', serviceKey);
                 modalInstance.setAttribute('role', 'dialog');
                 modalInstance.setAttribute('aria-modal', 'true');
-
+                modalInstance.style.display = 'none'; // Start hidden, show after setup
                 const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
                 modalInstance.innerHTML = `
-                    <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
-                    <h2 id="${titleId}">${title}</h2>
-                    <p>${description}</p>
+                    <div class="standard-modal-overlay" data-modal-close></div>
+                    <div class="standard-modal-dialog" role="document">
+                        <header class="standard-modal-header">
+                            <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
+                            <button class="standard-modal-close" aria-label="Close modal" data-modal-close>&times;</button>
+                        </header>
+                        <section class="standard-modal-content">
+                            <p>${description}</p>
+                        </section>
+                        <footer class="standard-modal-footer">
+                            <button class="button-secondary" data-modal-close>Close</button>
+                        </footer>
+                    </div>
                 `;
-
                 modalInstance.setAttribute('aria-labelledby', titleId);
-                modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus if no focusable elements inside
+                modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
 
-                const triggerElement = document.activeElement;
+                const triggerElement = document.activeElement || card; // Fallback to card if no activeElement
                 modalInstance.triggerElement = triggerElement; // Store for focus restoration
                 lastOpenedDynamicModalTrigger = triggerElement; // For Escape key
 
-                // Append to container and show container
+                // Append to container
                 modalContainerMain.appendChild(modalInstance);
+                // Show the modal and container
+                modalInstance.style.display = 'flex';
                 modalContainerMain.style.display = 'flex';
-
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
                 const focusableElements = window.getFocusableElements(modalInstance);
                 if (focusableElements.length > 0) {
                     focusableElements[0].focus();
@@ -115,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const modalKeydownListener = (event) => {
                     if (event.key === 'Tab') {
-                        const currentFocusableElements = window.getFocusableElements(modalInstance);
-                        if (currentFocusableElements.length === 0) { // Should not happen if modal itself is focusable
+                        const currentFocusableElements = window.getFocusableElements(modalInstance.querySelector('.standard-modal-dialog')); // Search within dialog
+                        if (currentFocusableElements.length === 0) {
                             event.preventDefault();
                             return;
                         }
@@ -134,19 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 modalInstance.addEventListener('keydown', modalKeydownListener);
                 modalInstance.modalKeydownListener = modalKeydownListener; // Store reference for removal
-
-                // Add event listener to this new modal's close button
-                modalInstance.querySelector('.opslight-modal-close-button').addEventListener('click', () => {
-                    modalInstance.removeEventListener('keydown', modalInstance.modalKeydownListener);
-                    modalInstance.remove();
-                    if (modalInstance.triggerElement && typeof modalInstance.triggerElement.focus === 'function') {
-                        modalInstance.triggerElement.focus();
-                    }
-                    // If no modals are left, hide the container
-                    if (modalContainerMain.children.length === 0) {
-                        modalContainerMain.style.display = 'none';
-                        document.body.style.overflow = '';
-                        lastOpenedDynamicModalTrigger = null; // Reset
+                // Delegated click listener for close actions
+                modalInstance.addEventListener('click', function(event) {
+                    if (event.target.closest('[data-modal-close]')) {
+                        hideModal(this); // 'this' refers to modalInstance
                     }
                 });
             });
@@ -155,26 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Event listener for backdrop click (to close all modals)
         modalContainerMain.addEventListener('click', (event) => {
             if (event.target === modalContainerMain) { // Clicked on the backdrop itself
-                let focusedTrigger = null; // To store the trigger of the last modal removed this way
-                while (modalContainerMain.firstChild) {
-                    const childModal = modalContainerMain.firstChild;
-                    if (childModal.modalKeydownListener) { // Remove listener if dynamically added
-                        childModal.removeEventListener('keydown', childModal.modalKeydownListener);
+                for (let i = 0; i < modalContainerMain.children.length; i++) {
+                    const childModal = modalContainerMain.children[i];
+                    if (childModal.style.display === 'flex' || childModal.style.display === '') { // Check if visible
+                        hideModal(childModal);
                     }
-                     // For dynamic modals, store the trigger of the last one being removed
-                    if (childModal.triggerElement) {
-                        focusedTrigger = childModal.triggerElement;
-                    }
-                    modalContainerMain.removeChild(childModal);
                 }
-                modalContainerMain.style.display = 'none';
-                document.body.style.overflow = '';
-                if (focusedTrigger && typeof focusedTrigger.focus === 'function') {
-                     focusedTrigger.focus(); // Try to focus the trigger of the last removed modal
-                } else if (lastOpenedDynamicModalTrigger && typeof lastOpenedDynamicModalTrigger.focus === 'function') {
-                    lastOpenedDynamicModalTrigger.focus(); // Fallback
-                }
-                lastOpenedDynamicModalTrigger = null; // Reset
+                // hideModal will handle hiding modalContainerMain if all children are hidden.
             }
         });
 
@@ -282,62 +285,61 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalBodyContent = `<p>${window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable."}</p>`;
                 }
                 // Check if modal for this FAB already exists
-                const existingModal = modalContainerMain.querySelector(`.opslight-service-modal[data-fab-id="${fabId}"]`);
-                if (existingModal) {
-                    modalContainerMain.style.display = 'flex'; // Ensure container is visible
+                let modalInstance = modalContainerMain.querySelector(`.standard-modal[data-fab-id="${fabId}"]`);
+                if (modalInstance) {
+                     if (modalInstance.style.display === 'none') {
+                        modalInstance.style.display = 'flex';
+                        modalContainerMain.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
 
-                    // Make all modals display:none first, then display the target one
-                    // This ensures only one modal is active if they are not stacked by design.
-                    const allModalsInContainer = modalContainerMain.querySelectorAll('.opslight-service-modal');
-                    allModalsInContainer.forEach(m => {
-                        // Don't hide the #join-modal if it's the one being managed by its own script for display
-                        if (m.id !== 'join-modal') {
-                            m.style.display = 'none';
+                        const focusableElements = window.getFocusableElements(modalInstance);
+                        if (focusableElements.length > 0) focusableElements[0].focus();
+                        else modalInstance.focus();
+
+                        if (modalInstance.modalKeydownListener) {
+                             modalInstance.addEventListener('keydown', modalInstance.modalKeydownListener);
                         }
-                    });
-
-                    existingModal.style.display = ''; // Remove inline 'display:none', reverting to CSS display (e.g., flex/block)
-
-                    // Re-focus the first focusable element or the modal itself
-                    const focusableElements = window.getFocusableElements(existingModal);
-                    if (focusableElements.length > 0) {
-                        focusableElements[0].focus();
-                    } else {
-                        existingModal.focus(); // Modal itself should have tabindex="-1"
+                        lastOpenedDynamicModalTrigger = document.activeElement || fab;
+                        modalInstance.triggerElement = lastOpenedDynamicModalTrigger;
                     }
-
-                    // Update lastOpenedDynamicModalTrigger for Escape key behavior
-                    // fab is the button that was clicked to open this modal.
-                    lastOpenedDynamicModalTrigger = fab;
-                    return; // Modal shown, no need to create a new one
+                    return;
                 }
-
                 // Create modal element
-                const modalInstance = document.createElement('div');
-                // Using same class as service modals for now, can differentiate if needed
-                modalInstance.className = 'opslight-service-modal';
+                modalInstance = document.createElement('div');
+                modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
                 modalInstance.setAttribute('data-fab-id', fabId); // Unique attribute for FAB modals
                 modalInstance.setAttribute('role', 'dialog');
                 modalInstance.setAttribute('aria-modal', 'true');
-
-                const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
+                modalInstance.style.display = 'none'; // Start hidden
+               const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 modalInstance.innerHTML = `
-                    <button class="opslight-modal-close-button" aria-label="Close modal">&times;</button>
-                    <h2 id="${titleId}">${title}</h2>
-                    ${modalBodyContent}`;
-
+                    <div class="standard-modal-overlay" data-modal-close></div>
+                    <div class="standard-modal-dialog" role="document">
+                        <header class="standard-modal-header">
+                            <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
+                            <button class="standard-modal-close" aria-label="Close modal" data-modal-close>&times;</button>
+                        </header>
+                        <section class="standard-modal-content">
+                            ${modalBodyContent}
+                        </section>
+                        <footer class="standard-modal-footer">
+                            ${fabId === 'fab-contact' ? '<!-- Contact form has its own submit button within modalBodyContent -->' : '<button class="button-secondary" data-modal-close>Close</button>'}
+                        </footer>
+                    </div>
+                `;
                 modalInstance.setAttribute('aria-labelledby', titleId);
                 modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
-
-                const triggerElement = document.activeElement;
+                const triggerElement = document.activeElement || fab; // Fallback to fab
                 modalInstance.triggerElement = triggerElement; // Store for focus restoration
                 lastOpenedDynamicModalTrigger = triggerElement; // For Escape key
 
-                // Append to container and show container
+                // Append to container
                 modalContainerMain.appendChild(modalInstance);
-                modalContainerMain.style.display = 'flex'; // Ensure container is visible
 
+                // Show the modal and container
+                modalInstance.style.display = 'flex';
+                modalContainerMain.style.display = 'flex'; // Ensure container is visible
+                document.body.style.overflow = 'hidden';
                 const focusableElements = window.getFocusableElements(modalInstance);
                 if (focusableElements.length > 0) {
                     focusableElements[0].focus();
@@ -347,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const modalKeydownListener = (event) => {
                     if (event.key === 'Tab') {
-                        const currentFocusableElements = window.getFocusableElements(modalInstance);
+                        const currentFocusableElements = window.getFocusableElements(modalInstance.querySelector('.standard-modal-dialog')); // Search in dialog
                          if (currentFocusableElements.length === 0) {
                             event.preventDefault();
                             return;
@@ -376,18 +378,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.warn('initContactForm function not found or form element missing.');
                     }
                 }
-                // Add event listener to this new modal's close button
-                modalInstance.querySelector('.opslight-modal-close-button').addEventListener('click', () => {
-                    modalInstance.removeEventListener('keydown', modalInstance.modalKeydownListener);
-                    modalInstance.remove();
-                     if (modalInstance.triggerElement && typeof modalInstance.triggerElement.focus === 'function') {
-                        modalInstance.triggerElement.focus();
-                    }
-                    // If no modals are left (neither service nor FAB), hide the container
-                    if (modalContainerMain.children.length === 0) {
-                        modalContainerMain.style.display = 'none';
-                        document.body.style.overflow = '';
-                        lastOpenedDynamicModalTrigger = null; // Reset
+                // Delegated click listener for close actions
+                modalInstance.addEventListener('click', function(event) {
+                    if (event.target.closest('[data-modal-close]')) {
+                        hideModal(this); // 'this' refers to modalInstance
                     }
                 });
             });
@@ -399,36 +393,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global Escape key listener for modals
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            if (modalContainerMain && modalContainerMain.style.display === 'flex') {
-                let joinModalNeedsFocusRestore = false;
-                let joinModalTrigger = null;
-
-                const modals = modalContainerMain.querySelectorAll('.opslight-service-modal');
-                modals.forEach(modal => {
-                    if(modal.id === 'join-modal' && modal.style.display !== 'none') {
-                        if (modal.triggerElement) {
-                             joinModalNeedsFocusRestore = true;
-                             joinModalTrigger = modal.triggerElement;
+            if (modalContainerMain && (modalContainerMain.style.display === 'flex' || modalContainerMain.style.display === '')) {
+                // Iterate backwards in case hiding one affects collection or focus logic
+                for (let i = modalContainerMain.children.length - 1; i >= 0; i--) {
+                    const childModal = modalContainerMain.children[i];
+                    // Check if the modal is directly managed by this script (e.g., has triggerElement or is standard-modal)
+                    // and is currently visible.
+                    // The join-modal is handled by script.js, but if it's a child of modalContainerMain and visible,
+                    // script.js's Escape handler should take precedence or be coordinated.
+                    // For now, this will hide any visible child modal.
+                    if (childModal.style.display !== 'none') {
+                         // If it's the #join-modal, its own Escape listener in script.js should handle it.
+                         // Check if this modal is the #join-modal AND if it has its own specific Escape handler
+                         // (which is now part of its keydown listener in script.js).
+                         // If so, let that script handle it to avoid double processing or conflicting focus restoration.
+                        if (childModal.id === 'join-modal' && childModal.classList.contains('opslight-service-modal')) {
+                            // Assuming join-modal's Escape logic in script.js will correctly hide it and manage focus.
+                            // If it doesn't hide itself, this global listener might act as a fallback.
+                            // To prevent this global handler from interfering with join-modal's specific Escape logic,
+                            // we might need a flag or check if childModal.closeJoinModal exists and call that.
+                            // For now, let script.js handle its own Escape for #join-modal.
+                            // This global one will hide other dynamic modals.
+                            // If we want this to be the SOLE escape handler, then script.js should not have one.
+                            // console.log("Global escape: join-modal found, its own handler should take care of it.");
+                            // However, if `joinModalKeydownListener` in script.js stops propagation, this won't run for it.
+                            // If it doesn't, then this *might* run after. This needs careful testing.
+                            // For simplicity, if it's join-modal, we skip hiding it here, assuming its own script does.
+                            continue; // Skip join-modal, let its own script handle Escape.
                         }
-                    }
-                    // For dynamically added modals, remove their specific keydown listener
-                    if (modal.modalKeydownListener) {
-                        modal.removeEventListener('keydown', modal.modalKeydownListener);
-                    }
-                    modal.style.display = 'none';
-                });
 
-                modalContainerMain.style.display = 'none';
-                document.body.style.overflow = '';
-
-                if (joinModalNeedsFocusRestore && joinModalTrigger && typeof joinModalTrigger.focus === 'function') {
-                    // Prioritize join-modal's trigger if it was open.
-                    joinModalTrigger.focus();
-                } else if (lastOpenedDynamicModalTrigger && typeof lastOpenedDynamicModalTrigger.focus === 'function') {
-                    // Fallback to the last opened dynamic modal's trigger.
-                    lastOpenedDynamicModalTrigger.focus();
+                        hideModal(childModal); // This will also try to hide modalContainerMain if it becomes empty
+                        // If we only want to close one modal per escape press (like typical UI):
+                        // break;
+                    }
                 }
-                lastOpenedDynamicModalTrigger = null; // Reset
+                // hideModal handles focus restoration for each modal it closes.
+                // hideModal also handles hiding modalContainerMain and resetting lastOpenedDynamicModalTrigger if all modals become hidden.
             }
         }
     });
