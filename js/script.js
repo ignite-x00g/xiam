@@ -185,6 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (joinModal) joinModal.triggerElement = joinModalTriggerElement;
 
         showJoinModalSection('join-modal-section-1'); // Reset to the first section
+        if (modalContainerMain) {
+            modalContainerMain.style.display = 'flex'; // Ensure the main container is visible
+        }
         joinModal.style.display = 'flex';
         // document.body.style.overflow = 'hidden'; // Let dynamic-modal-manager handle body overflow
 
