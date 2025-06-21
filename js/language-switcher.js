@@ -73,7 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
             "joinModal.section3.referralPlaceholder": "Tell us how you found us",
             "joinModal.button.submit": "Submit",
             "joinModal.alert.formSubmittedSuccess": "Form submitted successfully!",
-            "joinModal.closeButtonAriaLabel": "Close Join Us Form"
+            "joinModal.closeButtonAriaLabel": "Close Join Us Form",
+            "joinModal.alert.addEntry": "Please add at least one entry.",
+            "joinModal.alert.formSubmittedNew": "Form submitted (new version).",
+            "mobileNav.placeholder": "Mobile Menu Placeholder",
+            "ariaLabel.mobileMenuOpen": "Open menu",
+            "ariaLabel.mobileMenuClose": "Close menu"
         },
         es: {
             "header.main": "OPS",
@@ -143,7 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
             "joinModal.section3.referralPlaceholder": "Cuéntanos cómo nos encontraste",
             "joinModal.button.submit": "Enviar",
             "joinModal.alert.formSubmittedSuccess": "¡Formulario enviado con éxito!",
-            "joinModal.closeButtonAriaLabel": "Cerrar Formulario Únete"
+            "joinModal.closeButtonAriaLabel": "Cerrar Formulario Únete",
+            "joinModal.alert.addEntry": "Agrega al menos una entrada.",
+            "joinModal.alert.formSubmittedNew": "Formulario enviado (nueva versión).",
+            "mobileNav.placeholder": "Menú Móvil (Contenido)",
+            "ariaLabel.mobileMenuOpen": "Abrir menú",
+            "ariaLabel.mobileMenuClose": "Cerrar menú"
         }
     };
 

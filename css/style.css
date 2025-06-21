@@ -373,6 +373,7 @@ footer p {
 }
 */
 
+
 /* --- Standard Modal Styles --- */
 .standard-modal {
     position: fixed;
@@ -390,6 +391,22 @@ footer p {
 
 .standard-modal-overlay {
     position: absolute;
+/* Mobile Menu Styles */
+.mobile-menu-toggle-btn {
+    display: none; /* Hidden by default, shown by media query */
+    position: fixed;
+    top: 1rem;
+    left: 1rem; /* Positioned top-left */
+    z-index: 10001; /* Above mobile menu overlay */
+    background-color: var(--primary-accent-color, var(--fab-bg-color)); /* Themed */
+    color: var(--primary-accent-text-color, var(--fab-text-color)); /* Themed */
+    border: none;
+    padding: 0.5rem 0.8rem;
+    font-size: 1.5rem; /* Hamburger/Close icon size */
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: 1; /* Ensure icon is centered */
+}
     top: 0;
     left: 0;
     width: 100%;
@@ -618,6 +635,7 @@ footer p {
     .standard-modal-footer .button-secondary {
         width: 100%; /* Make buttons full width in column layout */
     }
+
 }
 
 /* --- Mobile Menu Toggle and Panel --- */
@@ -674,5 +692,6 @@ footer p {
    font-style: italic;
    /* Other styles as needed, but visibility is controlled by parent */
 }
-
 [end of css/style.css]
+
+
