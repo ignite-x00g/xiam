@@ -25,7 +25,7 @@
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     padding: 0; /* Remove padding if content wrapper handles it */
     position: relative; /* Keep for potential ::before/::after effects or absolute text */
-    overflow: visible; /* Allow hover text to show if it's outside */
+    overflow: hidden; /* Prevent content from spilling out */
 }
 
 .fab:hover {
@@ -474,6 +474,8 @@ footer p {
 .standard-modal-content {
     padding: 24px;
     overflow-y: auto; /* Allow content to scroll if it exceeds modal height */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    overflow-wrap: break-word; /* Allow long words to break and wrap */
     flex-grow: 1; /* Allow content to take available space */
     color: #333333;
     line-height: 1.6;
