@@ -372,3 +372,307 @@ footer p {
 .opslight-service-modal[data-fab-id="fab-contact"] .modal-content {
 }
 */
+
+/* --- Standard Modal Styles --- */
+.standard-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* Hidden by default, shown by JS */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+    padding: 20px; /* Padding for smaller screens so modal doesn't touch edges */
+    box-sizing: border-box;
+}
+
+.standard-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+    /* backdrop-filter: blur(5px); /* Optional: frosted glass effect - check browser support */
+}
+
+.standard-modal-dialog {
+    position: relative; /* For z-index stacking if needed, and positioning of internal elements like close button */
+    background-color: #ffffff;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px; /* Default max-width for larger screens */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Ensures content respects border-radius */
+    max-height: 90vh; /* Max height to prevent overflow on short screens */
+}
+
+.standard-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e0e0e0; /* Light border */
+    flex-shrink: 0; /* Prevent header from shrinking if content is too large */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.standard-modal-title {
+    font-size: 1.25rem; /* Approx 20px */
+    font-weight: 600;
+    margin: 0;
+    color: #333333;
+    flex-grow: 1; /* Allow title to take available space */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add ... if text is too long */
+    white-space: nowrap; /* Keep title on one line */
+    margin-right: 16px; /* Add some space between title and close button */
+}
+
+.standard-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.75rem; /* Approx 28px */
+    font-weight: 300;
+    color: #757575; /* Grey color for close button */
+    cursor: pointer;
+    padding: 0 4px; /* Minimal padding */
+    line-height: 1; /* Ensure '&times;' is centered */
+    flex-shrink: 0; /* Prevent this button from shrinking */
+}
+
+.standard-modal-close:hover,
+.standard-modal-close:focus {
+    color: #000000;
+    /* It's better to use box-shadow for focus rings on elements that might be close to others */
+    outline: none;
+    box-shadow: 0 0 0 2px #007bff; /* Example focus style using box-shadow */
+}
+
+.standard-modal-content {
+    padding: 24px;
+    overflow-y: auto; /* Allow content to scroll if it exceeds modal height */
+    flex-grow: 1; /* Allow content to take available space */
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* Styling for forms within modal content if needed */
+.standard-modal-content .form-field {
+    margin-bottom: 16px;
+}
+.standard-modal-content .form-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.standard-modal-content .form-field input[type="text"],
+.standard-modal-content .form-field input[type="email"],
+.standard-modal-content .form-field input[type="tel"],
+.standard-modal-content .form-field textarea,
+.standard-modal-content .form-field select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #333; /* Ensure text color is set */
+}
+.standard-modal-content .form-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Placeholder text color */
+.standard-modal-content .form-field input::placeholder,
+.standard-modal-content .form-field textarea::placeholder {
+    color: #888888;
+}
+
+
+.standard-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right by default */
+    gap: 12px; /* Space between buttons */
+    background-color: #f9f9f9; /* Slightly different background for footer */
+    flex-shrink: 0; /* Prevent footer from shrinking */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.standard-modal--wide .standard-modal-dialog {
+    max-width: 800px; /* Or another suitable wider value */
+}
+
+/* Basic button styling for footer - can be expanded */
+.standard-modal-footer .button-primary,
+.standard-modal-footer .button-secondary {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease-in-out; /* Smooth transition */
+}
+
+.standard-modal-footer .button-primary {
+    background-color: #007bff; /* Example primary color */
+    color: white;
+    border-color: #007bff;
+}
+.standard-modal-footer .button-primary:hover,
+.standard-modal-footer .button-primary:focus {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    outline: none; /* Handled by box-shadow or default is fine if distinct enough */
+}
+.standard-modal-footer .button-primary:focus {
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Focus ring for primary button */
+}
+
+
+.standard-modal-footer .button-secondary {
+    background-color: #6c757d; /* Example secondary color */
+    color: white;
+    border-color: #6c757d;
+}
+.standard-modal-footer .button-secondary:hover,
+.standard-modal-footer .button-secondary:focus {
+    background-color: #545b62;
+    border-color: #545b62;
+    outline: none;
+}
+.standard-modal-footer .button-secondary:focus {
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.5); /* Focus ring for secondary button */
+}
+
+
+/* --- Responsive Adjustments for Standard Modal --- */
+@media (max-width: 768px) {
+    .standard-modal-dialog {
+        max-width: 95vw; /* Use more screen width */
+        margin: auto; /* Keep centered */
+        max-height: 90vh; /* ensure it fits */
+    }
+
+    .standard-modal-header {
+        padding: 12px 16px;
+    }
+    .standard-modal-title {
+        font-size: 1.1rem; /* Slightly smaller title */
+    }
+    .standard-modal-close {
+        font-size: 1.5rem;
+    }
+    .standard-modal-content {
+        padding: 16px;
+        font-size: 0.95rem; /* Adjust content font size for smaller screens */
+    }
+    .standard-modal-footer {
+        padding: 12px 16px;
+        /* For stacked buttons on smaller screens, uncomment below: */
+        /* flex-direction: column;
+           gap: 10px; */
+    }
+    /* If buttons are to remain side-by-side but take more space: */
+    .standard-modal-footer .button-primary,
+    .standard-modal-footer .button-secondary {
+        flex-grow: 1;
+        text-align: center;
+        padding: 12px 10px; /* Adjust padding for smaller buttons */
+    }
+}
+
+@media (max-width: 480px) {
+    .standard-modal {
+        padding: 0; /* Remove padding to allow full screen modal */
+    }
+    .standard-modal-dialog {
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        max-height: 100vh;
+        border: none; /* Remove border for seamless full screen */
+        box-shadow: none; /* Remove shadow for full screen */
+    }
+    .standard-modal-header {
+        border-radius: 0; /* Ensure no radius if dialog is full screen */
+    }
+     .standard-modal-footer {
+        /* Example: stack buttons on very small screens */
+        flex-direction: column;
+        gap: 10px;
+    }
+    .standard-modal-footer .button-primary,
+    .standard-modal-footer .button-secondary {
+        width: 100%; /* Make buttons full width in column layout */
+    }
+}
+
+/* --- Mobile Menu Toggle and Panel --- */
+/* Rule to hide the toggle button on larger screens */
+/* It will be shown via media query for smaller screens */
+.mobile-menu-toggle-btn {
+    display: none;
+    background-color: transparent;
+    color: var(--text-color-main); /* Ensure color is inherited or set */
+    border: none;
+    font-size: 1.8rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    z-index: 1010;
+    line-height: 1;
+    position: relative; /* Or absolute/fixed if it's part of a fixed header */
+}
+
+/* Styles for the mobile menu panel itself */
+/* It's hidden by default and shown by JS adding an 'open' class */
+.mobile-services-menu {
+    display: none;
+    position: absolute; /* Example positioning: adjust as needed */
+    top: 100%; /* Example: if button is in header, menu is below */
+    left: 0;
+    right: 0;
+    background-color: var(--header-bg-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1009;
+    padding: 1rem;
+    border-top: 1px solid var(--header-border-color);
+}
+
+.mobile-services-menu.open { /* This class is toggled by js/mobile-menu.js */
+    display: block;
+}
+
+/* Media query to show the mobile toggle and hide desktop nav on smaller screens */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .mobile-menu-toggle-btn {
+        display: inline-block; /* Or block, depending on layout */
+    }
+
+    /* Example: Hide the main desktop navigation on mobile */
+    /* Ensure '.services-navigation' is the correct selector for your main nav */
+    .services-navigation {
+        display: none;
+    }
+}
+
+/* Styling for the placeholder text itself within the mobile menu */
+.mobile-services-menu p[data-translate-key="mobileNav.placeholder"] {
+   color: var(--text-color-subtle);
+   font-style: italic;
+   /* Other styles as needed, but visibility is controlled by parent */
+}
+
+[end of css/style.css]
