@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     return; // Already exists and possibly shown, so exit
                 }
-
                 // Create modal element
                 modalInstance = document.createElement('div');
                 modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
@@ -156,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             firstElement.focus();
                         }
                     }
+                    // Escape key will be handled by the global listener or hideModal if specific
                 };
                 modalInstance.addEventListener('keydown', modalKeydownListener);
                 modalInstance.modalKeydownListener = modalKeydownListener; // Store reference for removal
@@ -307,11 +307,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Create modal element
                 modalInstance = document.createElement('div');
                 modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
+                if (fabId === "fab-contact") {
+                    modalInstance.classList.add('standard-modal--wide');
+                }
+                if (fabId === "fab-chatbot") {
+                    modalInstance.id = 'chatbot-positioned-modal';
+                }
                 modalInstance.setAttribute('data-fab-id', fabId); // Unique attribute for FAB modals
                 modalInstance.setAttribute('role', 'dialog');
                 modalInstance.setAttribute('aria-modal', 'true');
                 modalInstance.style.display = 'none'; // Start hidden
-               const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+                const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 modalInstance.innerHTML = `
                     <div class="standard-modal-overlay" data-modal-close></div>
                     <div class="standard-modal-dialog" role="document">

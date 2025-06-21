@@ -372,6 +372,8 @@ footer p {
 .opslight-service-modal[data-fab-id="fab-contact"] .modal-content {
 }
 */
+
+
 /* --- Standard Modal Styles --- */
 .standard-modal {
     position: fixed;
@@ -389,7 +391,6 @@ footer p {
 
 .standard-modal-overlay {
     position: absolute;
-=======
 /* Mobile Menu Styles */
 .mobile-menu-toggle-btn {
     display: none; /* Hidden by default, shown by media query */
@@ -434,6 +435,8 @@ footer p {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0; /* Light border */
     flex-shrink: 0; /* Prevent header from shrinking if content is too large */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .standard-modal-title {
@@ -441,6 +444,11 @@ footer p {
     font-weight: 600;
     margin: 0;
     color: #333333;
+    flex-grow: 1; /* Allow title to take available space */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add ... if text is too long */
+    white-space: nowrap; /* Keep title on one line */
+    margin-right: 16px; /* Add some space between title and close button */
 }
 
 .standard-modal-close {
@@ -452,6 +460,7 @@ footer p {
     cursor: pointer;
     padding: 0 4px; /* Minimal padding */
     line-height: 1; /* Ensure '&times;' is centered */
+    flex-shrink: 0; /* Prevent this button from shrinking */
 }
 
 .standard-modal-close:hover,
@@ -513,6 +522,12 @@ footer p {
     gap: 12px; /* Space between buttons */
     background-color: #f9f9f9; /* Slightly different background for footer */
     flex-shrink: 0; /* Prevent footer from shrinking */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.standard-modal--wide .standard-modal-dialog {
+    max-width: 800px; /* Or another suitable wider value */
 }
 
 /* Basic button styling for footer - can be expanded */
@@ -620,4 +635,63 @@ footer p {
     .standard-modal-footer .button-secondary {
         width: 100%; /* Make buttons full width in column layout */
     }
+
 }
+
+/* --- Mobile Menu Toggle and Panel --- */
+/* Rule to hide the toggle button on larger screens */
+/* It will be shown via media query for smaller screens */
+.mobile-menu-toggle-btn {
+    display: none;
+    background-color: transparent;
+    color: var(--text-color-main); /* Ensure color is inherited or set */
+    border: none;
+    font-size: 1.8rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    z-index: 1010;
+    line-height: 1;
+    position: relative; /* Or absolute/fixed if it's part of a fixed header */
+}
+
+/* Styles for the mobile menu panel itself */
+/* It's hidden by default and shown by JS adding an 'open' class */
+.mobile-services-menu {
+    display: none;
+    position: absolute; /* Example positioning: adjust as needed */
+    top: 100%; /* Example: if button is in header, menu is below */
+    left: 0;
+    right: 0;
+    background-color: var(--header-bg-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1009;
+    padding: 1rem;
+    border-top: 1px solid var(--header-border-color);
+}
+
+.mobile-services-menu.open { /* This class is toggled by js/mobile-menu.js */
+    display: block;
+}
+
+/* Media query to show the mobile toggle and hide desktop nav on smaller screens */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .mobile-menu-toggle-btn {
+        display: inline-block; /* Or block, depending on layout */
+    }
+
+    /* Example: Hide the main desktop navigation on mobile */
+    /* Ensure '.services-navigation' is the correct selector for your main nav */
+    .services-navigation {
+        display: none;
+    }
+}
+
+/* Styling for the placeholder text itself within the mobile menu */
+.mobile-services-menu p[data-translate-key="mobileNav.placeholder"] {
+   color: var(--text-color-subtle);
+   font-style: italic;
+   /* Other styles as needed, but visibility is controlled by parent */
+}
+[end of css/style.css]
+
+
