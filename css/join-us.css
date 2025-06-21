@@ -1,156 +1,329 @@
-/*
-    Removed body and .container rules as they are superseded by global styles
-    or not relevant in the modal context within index.html.
-*/
+/* New Styles for the Enhanced Join Us Modal */
 
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
-    /* max-width: none; and max-height: none; are implicit with 100vw/vh */
-    /* margin: 0; and border-radius: 0; are correct for the overlay */
-    z-index: 1050; /* High z-index to be on top */
-    background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.4));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* overflow: auto; /* Removed in previous step, scrolling handled by modal-content */
+/* Modal Overlay - This is the new top-level container for the Join Us modal */
+.modal-overlay#join-modal { /* ID for specificity if needed, though class should work */
+  display: none; /* Initially hidden, JS will control display */
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: var(--modal-backdrop-bg, rgba(0,0,0,0.6)); /* Themed backdrop */
+  z-index: 1050; /* Slightly lower than individual .opslight-service-modal which are 1050, or make this 1055 if it needs to be on top of them */
+                 /* For now, assuming #join-modal is the primary modal, it should have a high z-index.
+                    If #modal-container-main is also active, their z-indexes need coordination.
+                    Given #join-modal is now a sibling to #modal-container-main, they can share z-index space.
+                    Let's assume 1050 is fine for now. The previous .modal rule in join-us.css used 1050.
+                 */
 }
 
-.modal-content {
-    /* width and height are auto by default, allowing content to size them */
-    /* Reverted from full-screen to card-like with viewport-relative max dimensions */
-    max-width: 65vw;   /* Max width relative to viewport width */
-    max-height: 75vh;  /* Max height relative to viewport height */
-    margin: auto;      /* For flex centering */
-    padding: 25px;
-    border: 1px solid var(--card-border-color); /* Themed border */
-    border-radius: 8px; /* Rounded corners for card appearance */
-    background-color: var(--modal-content-bg, var(--card-bg-color));
-    text-align: left;
-    overflow-y: auto; /* Allow vertical scrolling within the content if it exceeds max-height */
-    box-shadow: var(--card-shadow, 0 4px 12px rgba(0,0,0,0.1)); /* Themed shadow with fallback */
-
-    /* Ensure flex display for internal layout if needed, though not strictly required by this change */
-    display: flex;
-    flex-direction: column;
+/* Modal Content Box - Specific to the new #join-modal structure */
+#join-modal .modal-content { /* Scoped to #join-modal */
+  background-color: var(--modal-content-bg, var(--card-bg-color)); /* Themed background */
+  padding: 2rem;
+  max-width: 800px;
+  border-radius: 10px;
+  width: 90%; /* Allow responsiveness within max-width */
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh; /* Max height to ensure scrollability on smaller screens */
+  box-shadow: var(--card-shadow, 0 8px 40px rgba(0,0,0,0.18)); /* Themed shadow */
+  display: flex; /* Added to help structure header/form */
+  flex-direction: column;
 }
 
-.close-btn {
-    color: var(--text-color-subtle); /* Themed */
-    /* float: right; /* Replaced float with absolute positioning for better control */
-    position: absolute; /* Position relative to modal-content */
-    top: 10px;          /* Adjust as needed */
-    right: 15px;         /* Adjust as needed */
-    font-size: 28px;
-    font-weight: bold;
-    line-height: 1;
-    z-index: 1; /* Ensure close button is above other content within modal-content */
+#join-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--card-border-color); /* Added subtle separator */
+  padding-bottom: 0.8rem;
 }
 
-.close-btn:hover,
-.close-btn:focus {
-    color: var(--text-color-main); /* Themed */
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.form-section {
-    margin-bottom: 20px;
-    /* The form sections will now naturally be contained by .modal-content's width */
-    /* Add some padding to the bottom of the section if it's not the last one,
-       or if preferred, rely on margins of elements within.
-       For now, relying on element margins. */
-}
-
-/* Specific styling for elements within the Join Us modal form sections */
-#join-modal .form-section h3 {
-    margin-top: 0;
-    margin-bottom: 20px; /* Increased bottom margin for section title */
+#join-modal .modal-header h3 { /* Assuming the h3 from the provided HTML */
+    margin: 0;
+    font-size: 1.5rem; /* Larger title for the modal */
     color: var(--text-color-main);
-    font-size: 1.25em;
 }
 
-#join-modal .form-section label {
-    display: block;
-    margin-bottom: 8px; /* Spacing below label */
-    color: var(--text-color-subtle);
-    font-weight: bold;
+#join-modal .close-modal { /* Scoped to #join-modal */
+  font-size: 1.8rem; /* Slightly larger close button */
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color-subtle); /* Themed subtle color */
+  padding: 0.25rem;
+}
+#join-modal .close-modal:hover {
+  color: var(--text-color-main); /* Darken on hover */
 }
 
-#join-modal .form-section input[type="text"],
-#join-modal .form-section input[type="email"],
-#join-modal .form-section input[type="tel"],
-#join-modal .form-section select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 18px; /* Increased spacing below input/select fields */
-    border: 1px solid var(--card-border-color);
-    background-color: var(--input-bg-color, var(--body-bg-color));
-    color: var(--text-color-main);
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
+
+/* Language and Theme toggles - these are placeholders if this modal has its own toggles */
+/* If global toggles are used, these can be removed. */
+#join-modal .lang-toggle,
+#join-modal #theme-toggle {
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  font-size: 0.9rem;
+  margin-left: 10px;
+  color: var(--text-color-subtle);
+}
+#join-modal .lang-toggle:hover,
+#join-modal #theme-toggle:hover {
+  color: var(--text-color-main);
 }
 
-#join-modal .form-section input[type="text"]:focus,
-#join-modal .form-section input[type="email"]:focus,
-#join-modal .form-section input[type="tel"]:focus,
-#join-modal .form-section select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px var(--accent-color-transparent);
+#join-modal #theme-toggle {
+  font-size: 1.2rem;
+}
+
+/* Form Sections Styling */
+#join-modal .form-section {
+  border: 1px solid var(--card-border-color); /* Themed border */
+  padding: 1.2rem; /* Increased padding */
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  background-color: var(--body-bg-color); /* Use a slightly different background from modal-content for depth */
+                                       /* In light theme, body-bg is light grey, card-bg is white. This works. */
+                                       /* In dark theme, body-bg is dark, card-bg is slightly lighter. This also works. */
+}
+
+#join-modal .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* Increased margin */
+}
+
+#join-modal .section-header h2 {
+  margin: 0;
+  font-size: 1.2rem; /* Adjusted font size */
+  color: var(--text-color-main); /* Themed text */
+}
+
+#join-modal .circle-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary-accent-color, var(--fab-bg-color)); /* Themed with fallback */
+  color: var(--primary-accent-text-color, var(--fab-text-color)); /* Themed with fallback */
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+  display: inline-flex; /* For centering content */
+  align-items: center;
+  justify-content: center;
+}
+
+#join-modal .circle-btn.remove {
+  background-color: var(--danger-color, #dc3545); /* Themed with fallback */
+  color: var(--danger-text-color, #fff);
+}
+#join-modal .circle-btn.add:hover,
+#join-modal .circle-btn.remove:hover {
+    filter: brightness(115%);
+}
+
+
+#join-modal .inputs {
+    margin-bottom: 0.8rem; /* Spacing before accept/edit buttons */
+}
+
+#join-modal .inputs input[type="text"] { /* More specific for inputs within .inputs div */
+  display: block;
+  width: 100%;
+  padding: 0.6rem; /* Consistent padding */
+  margin: 0.5rem 0; /* Vertical margin for multiple inputs */
+  box-sizing: border-box;
+  border: 1px solid var(--card-border-color); /* Themed */
+  border-radius: 4px;
+  background-color: var(--input-bg-color, var(--card-bg-color)); /* Inputs on a slightly different bg than section */
+  color: var(--text-color-main); /* Themed */
+}
+#join-modal .inputs input[type="text"]:focus {
+    border-color: var(--accent-color, var(--fab-hover-bg-color)); /* Themed focus */
+    box-shadow: 0 0 0 2px var(--accent-color-transparent, rgba(139, 92, 246, 0.2));
     outline: none;
 }
 
-/* General button styles - these might be too broad if .modal-content has other buttons.
-   It's better to scope them if they are specific to the form, or ensure they are general enough.
-   The existing 'button' rule is fairly generic.
-   Adding specific margin-top for form buttons. */
 
-#join-modal .form-section button { /* Targets all buttons within form sections */
-    margin-top: 10px; /* Space above buttons */
+#join-modal .accept-btn,
+#join-modal .edit-btn {
+  padding: 0.5rem 1rem; /* Adjusted padding */
+  border: none;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500; /* Adjusted font weight */
 }
 
-/* General button styling (keeping existing global button rules if they apply) */
-button {
-    background-color: var(--fab-bg-color);
-    color: var(--fab-text-color);
-    padding: 12px 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    transition: background-color 0.2s ease-in-out;
+#join-modal .accept-btn {
+  background-color: var(--success-color, #28a745); /* Themed with fallback */
+  color: var(--success-text-color, white);
 }
+#join-modal .accept-btn:hover { filter: brightness(115%); }
 
-button:hover {
-    background-color: var(--fab-hover-bg-color);
+#join-modal .edit-btn {
+  background-color: var(--warning-color, #ffc107); /* Themed with fallback */
+  color: var(--warning-text-color, #212529); /* Dark text on light yellow */
 }
-
-/* This rule specifically targets type="button" which is often used for prev/next */
-#join-modal .form-section button[type="button"] {
-    background-color: var(--button-secondary-bg-color, var(--card-border-color));
-    color: var(--button-secondary-text-color, var(--text-color-main));
-}
-
-#join-modal .form-section button[type="button"]:hover {
-    background-color: var(--button-secondary-hover-bg-color, var(--header-bg-color));
-}
-
-/* Submit button might have primary action styling, ensure it's distinct if needed */
-#join-modal .form-section button[type="submit"] {
-    background-color: var(--fab-bg-color); /* Ensure submit uses primary color */
-    color: var(--fab-text-color);
-}
-#join-modal .form-section button[type="submit"]:hover {
-    background-color: var(--fab-hover-bg-color);
-}
+#join-modal .edit-btn:hover { filter: brightness(110%); }
 
 
-button + button { /* This handles adjacent buttons like Prev + Next */
-    margin-left: 10px;
+#join-modal .completed .section-header h2 { /* Style for completed section title */
+  color: var(--success-color, #28a745); /* Themed with fallback */
+}
+#join-modal .completed .section-header h2::after {
+  content: " ✅";
+  font-size: 1rem;
+}
+
+/* Static Form Fields (Name, Email, Phone, Comments) */
+#join-modal .form-row {
+  display: flex;
+  gap: 1.5rem; /* Increased gap */
+  margin-bottom: 1.2rem; /* Increased margin */
+}
+#join-modal .form-cell { flex: 1; }
+
+#join-modal label {
+    font-weight: 500; /* Slightly less bold than previous */
+    display: block;
+    margin-bottom: 0.5rem; /* Adjusted space */
+    color: var(--text-color-subtle); /* Themed */
+}
+
+#join-modal input[type="text"],
+#join-modal input[type="email"],
+#join-modal input[type="tel"],
+#join-modal select, /* Added select here */
+#join-modal textarea {
+  width: 100%;
+  padding: 0.8rem; /* Increased padding for better touch targets */
+  box-sizing: border-box;
+  border: 1px solid var(--card-border-color); /* Themed */
+  border-radius: 4px;
+  background-color: var(--input-bg-color, var(--card-bg-color)); /* Themed */
+  color: var(--text-color-main); /* Themed */
+  font-size: 0.95rem; /* Slightly larger font */
+}
+#join-modal input[type="text"]:focus,
+#join-modal input[type="email"]:focus,
+#join-modal input[type="tel"]:focus,
+#join-modal select:focus,
+#join-modal textarea:focus {
+    border-color: var(--accent-color, var(--fab-hover-bg-color)); /* Themed focus */
+    box-shadow: 0 0 0 2px var(--accent-color-transparent, rgba(139, 92, 246, 0.2));
+    outline: none;
+}
+
+
+#join-modal textarea { resize: vertical; min-height: 80px; }
+
+#join-modal .form-footer {
+  text-align: right;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--card-border-color); /* Separator for footer */
+}
+
+#join-modal .submit-button {
+  padding: 0.8rem 1.5rem; /* Larger padding */
+  background-color: var(--primary-accent-color, var(--fab-bg-color)); /* Themed */
+  border: none;
+  color: var(--primary-accent-text-color, var(--fab-text-color)); /* Themed */
+  cursor: pointer;
+  border-radius: 5px; /* Slightly more rounded */
+  font-size: 1em;
+  font-weight: bold;
+}
+#join-modal .submit-button:hover {
+    filter: brightness(115%);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) { /* Broader breakpoint for general mobile */
+  #join-modal .modal-content {
+    padding: 1.5rem; /* Adjust padding for smaller screens */
+    width: 95%;
+    max-height: 95vh;
+  }
+  #join-modal .form-row {
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0; /* Remove bottom margin as cells will have it */
+  }
+  #join-modal .form-row .form-cell {
+    margin-bottom: 1.2rem; /* Add margin to stacked cells */
+  }
+  #join-modal .form-row .form-cell:last-child {
+    margin-bottom: 0; /* No margin for the last cell in a stacked row */
+  }
+  #join-modal .modal-header h3 { font-size: 1.3rem; }
+  #join-modal .section-header h2 { font-size: 1.1rem; }
+}
+
+@media (max-width: 480px) { /* Specific for very small screens */
+    #join-modal .modal-content {
+        padding: 1rem;
+    }
+    #join-modal .modal-header { margin-bottom: 1rem; padding-bottom: 0.6rem;}
+    #join-modal .modal-header h3 { font-size: 1.2rem; }
+    #join-modal .close-modal { font-size: 1.6rem; }
+
+    #join-modal .form-section { padding: 1rem; margin-bottom: 1rem;}
+    #join-modal .section-header h2 { font-size: 1rem; }
+    #join-modal .circle-btn { width: 24px; height: 24px; font-size: 1rem; }
+
+    #join-modal input[type="text"],
+    #join-modal input[type="email"],
+    #join-modal input[type="tel"],
+    #join-modal select,
+    #join-modal textarea,
+    #join-modal .inputs input[type="text"] {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+    #join-modal .accept-btn,
+    #join-modal .edit-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    #join-modal .submit-button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+    }
+    #join-modal .form-footer { margin-top: 1.5rem; }
+}
+
+/*
+   Dark Mode styles from user example are intentionally omitted.
+   Theming is handled by CSS variables defined in css/theme.css and switched by
+   adding/removing 'light-theme' class on the body.
+*/
+
+/* Fallback for new color variables if not defined in theme.css */
+:root {
+    --primary-accent-color: var(--fab-bg-color); /* Default to fab colors */
+    --primary-accent-text-color: var(--fab-text-color);
+    --danger-color: #dc3545; /* Bootstrap danger red */
+    --danger-text-color: #ffffff;
+    --success-color: #28a745; /* Bootstrap success green */
+    --success-text-color: #ffffff;
+    --warning-color: #ffc107; /* Bootstrap warning yellow */
+    --warning-text-color: #212529; /* Dark text for yellow */
+    --accent-color: var(--fab-hover-bg-color); /* For focus rings, can be same as fab hover */
+    --accent-color-transparent: rgba(139, 92, 246, 0.2); /* Example, should match accent */
 }

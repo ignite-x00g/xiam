@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!modalContainerMain) {
         console.warn('Modal container #modal-container-main not found.');
     }
-
     function hideModal(modalElement) {
         if (!modalElement) return;
         modalElement.style.display = 'none';
@@ -51,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
             lastOpenedDynamicModalTrigger = null; // Reset since all dynamic modals are effectively closed
         }
     }
-
     if (serviceNavItems.length > 0 && modalContainerMain) { // UPDATED variable name
         serviceNavItems.forEach(card => { // UPDATED variable name
             card.addEventListener('click', (event) => { // Added event parameter
@@ -97,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return; // Already exists and possibly shown, so exit
                 }
 
-
                 // Create modal element
                 modalInstance = document.createElement('div');
                 modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
@@ -105,9 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.setAttribute('role', 'dialog');
                 modalInstance.setAttribute('aria-modal', 'true');
                 modalInstance.style.display = 'none'; // Start hidden, show after setup
-
                 const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
                 modalInstance.innerHTML = `
                     <div class="standard-modal-overlay" data-modal-close></div>
                     <div class="standard-modal-dialog" role="document">
@@ -123,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         </footer>
                     </div>
                 `;
-
                 modalInstance.setAttribute('aria-labelledby', titleId);
                 modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
 
@@ -133,13 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Append to container
                 modalContainerMain.appendChild(modalInstance);
-
                 // Show the modal and container
                 modalInstance.style.display = 'flex';
                 modalContainerMain.style.display = 'flex';
                 document.body.style.overflow = 'hidden'; // Prevent background scrolling
-
-
                 const focusableElements = window.getFocusableElements(modalInstance);
                 if (focusableElements.length > 0) {
                     focusableElements[0].focus();
@@ -165,11 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             firstElement.focus();
                         }
                     }
-                    // Escape key will be handled by the global listener or hideModal if specific
                 };
                 modalInstance.addEventListener('keydown', modalKeydownListener);
                 modalInstance.modalKeydownListener = modalKeydownListener; // Store reference for removal
-
                 // Delegated click listener for close actions
                 modalInstance.addEventListener('click', function(event) {
                     if (event.target.closest('[data-modal-close]')) {
@@ -315,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     return;
                 }
-
                 // Create modal element
                 modalInstance = document.createElement('div');
                 modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
@@ -323,9 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.setAttribute('role', 'dialog');
                 modalInstance.setAttribute('aria-modal', 'true');
                 modalInstance.style.display = 'none'; // Start hidden
-
-                const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
+               const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 modalInstance.innerHTML = `
                     <div class="standard-modal-overlay" data-modal-close></div>
                     <div class="standard-modal-dialog" role="document">
@@ -341,10 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         </footer>
                     </div>
                 `;
-
                 modalInstance.setAttribute('aria-labelledby', titleId);
                 modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
-
                 const triggerElement = document.activeElement || fab; // Fallback to fab
                 modalInstance.triggerElement = triggerElement; // Store for focus restoration
                 lastOpenedDynamicModalTrigger = triggerElement; // For Escape key
@@ -356,8 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.style.display = 'flex';
                 modalContainerMain.style.display = 'flex'; // Ensure container is visible
                 document.body.style.overflow = 'hidden';
-
-
                 const focusableElements = window.getFocusableElements(modalInstance);
                 if (focusableElements.length > 0) {
                     focusableElements[0].focus();
