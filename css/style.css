@@ -168,8 +168,8 @@ footer p {
     align-items: center;
     justify-content: center;
     background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.6)); /* Darker fallback */
-    z-index: 1040; /* Below modals (1050) */
-    overflow-y: auto; /* Allow scrolling if a single modal content itself is very tall */
+    z-index: 1040; /* Highest level for backdrop and modal container */
+    /* overflow-y: auto; /* Removed; scrolling should be handled by .standard-modal-content */
 }
 
 /* General opslight-service-modal styling (should be minimal if specific overrides exist) */
@@ -376,44 +376,26 @@ footer p {
 
 /* --- Standard Modal Styles --- */
 .standard-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none; /* Hidden by default, shown by JS */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's above other content */
-    padding: 20px; /* Padding for smaller screens so modal doesn't touch edges */
+    /* position: fixed; */ /* Removed, as parent #modal-container-main is fixed and centers this */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100%; */ /* Will take space as flex item within #modal-container-main */
+    /* height: 100%; */
+    display: none; /* Hidden by default, shown by JS (becomes display:flex) */
+    justify-content: center; /* Centers .standard-modal-dialog */
+    align-items: center; /* Centers .standard-modal-dialog */
+    /* z-index: 1000; */ /* Removed, stacking handled by #modal-container-main */
+    padding: 20px; /* Padding around the .standard-modal-dialog */
     box-sizing: border-box;
+    /* The .standard-modal itself will be a flex item within #modal-container-main. */
+    /* It needs to allow its child, .standard-modal-dialog, to not exceed viewport if content is huge. */
+    /* This is mostly handled by max-width/max-height on .standard-modal-dialog. */
+    /* Ensure it can shrink if dialog is small, but also not grow beyond parent with padding. */
+    width: 100%; /* Make it fill the flex space of parent for consistent padding application */
+    height: 100%; /* Make it fill the flex space of parent for consistent padding application */
 }
 
-.standard-modal-overlay {
-    position: absolute;
-/* Mobile Menu Styles */
-.mobile-menu-toggle-btn {
-    display: none; /* Hidden by default, shown by media query */
-    position: fixed;
-    top: 1rem;
-    left: 1rem; /* Positioned top-left */
-    z-index: 10001; /* Above mobile menu overlay */
-    background-color: var(--primary-accent-color, var(--fab-bg-color)); /* Themed */
-    color: var(--primary-accent-text-color, var(--fab-text-color)); /* Themed */
-    border: none;
-    padding: 0.5rem 0.8rem;
-    font-size: 1.5rem; /* Hamburger/Close icon size */
-    cursor: pointer;
-    border-radius: 4px;
-    line-height: 1; /* Ensure icon is centered */
-}
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
-    /* backdrop-filter: blur(5px); /* Optional: frosted glass effect - check browser support */
-}
+/* Removed .standard-modal-overlay styles as it's no longer generated */
 
 .standard-modal-dialog {
     position: relative; /* For z-index stacking if needed, and positioning of internal elements like close button */
@@ -614,16 +596,15 @@ footer p {
 
 @media (max-width: 480px) {
     .standard-modal {
-        padding: 0; /* Remove padding to allow full screen modal */
+        padding: 10px; /* Add some padding so the dialog doesn't touch edges */
     }
     .standard-modal-dialog {
-        border-radius: 0;
-        width: 100%;
-        height: 100%;
-        max-width: 100vw;
-        max-height: 100vh;
-        border: none; /* Remove border for seamless full screen */
-        box-shadow: none; /* Remove shadow for full screen */
+        width: 100%; /* Dialog takes full width of padded .standard-modal */
+        height: 100%; /* Dialog takes full height of padded .standard-modal */
+        /* max-width and max-height will be controlled by .standard-modal's padding */
+        /* Keep border-radius from default or larger screen styles */
+        /* border: none; /* Remove if you want default border */
+        /* box-shadow: none; /* Remove if you want default shadow */
     }
     .standard-modal-header {
         border-radius: 0; /* Ensure no radius if dialog is full screen */
@@ -666,7 +647,7 @@ footer p {
     right: 0;
     background-color: var(--header-bg-color);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 1009;
+    z-index: 1050; /* Higher than modal backdrop (1040), lower than toggle (10001) */
     padding: 1rem;
     border-top: 1px solid var(--header-border-color);
 }

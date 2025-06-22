@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.style.display = 'none'; // Start hidden, show after setup
                 const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 modalInstance.innerHTML = `
-                    <div class="standard-modal-overlay" data-modal-close></div>
+                    /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
                     <div class="standard-modal-dialog" role="document">
                         <header class="standard-modal-header">
                             <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
@@ -119,6 +119,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 modalInstance.setAttribute('aria-labelledby', titleId);
                 modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
+                modalInstance.innerHTML = `
+                    /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
+                    <div class="standard-modal-dialog" role="document">
+                        <header class="standard-modal-header">
+                            <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
+                            <button class="standard-modal-close" aria-label="Close modal" data-modal-close>&times;</button>
+                        </header>
+                        <section class="standard-modal-content">
+                            <p>${description}</p>
+                        </section>
+                        <footer class="standard-modal-footer">
+                            <button class="button-secondary" data-modal-close>Close</button>
+                        </footer>
+                    </div>
+                `;
+                modalInstance.setAttribute('aria_labelledby', titleId); // Typo: should be aria-labelledby
+                modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
+
 
                 const triggerElement = document.activeElement || card; // Fallback to card if no activeElement
                 modalInstance.triggerElement = triggerElement; // Store for focus restoration
@@ -168,17 +186,37 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Event listener for backdrop click (to close all modals)
+        // Event listener for backdrop click
         modalContainerMain.addEventListener('click', (event) => {
-            if (event.target === modalContainerMain) { // Clicked on the backdrop itself
-                for (let i = 0; i < modalContainerMain.children.length; i++) {
-                    const childModal = modalContainerMain.children[i];
-                    if (childModal.style.display === 'flex' || childModal.style.display === '') { // Check if visible
-                        hideModal(childModal);
+            const clickedElement = event.target;
+
+            // If the click is on the padded area of a .standard-modal (which acts as the visible backdrop for that modal)
+            if (clickedElement.classList.contains('standard-modal')) {
+                if (clickedElement.style.display !== 'none') { // Check if it's actually visible
+                    if (clickedElement.id === 'join-modal' && typeof window.closeJoinModal === 'function') {
+                        window.closeJoinModal();
+                    } else if (typeof hideModal === 'function') { // hideModal is from this script
+                        hideModal(clickedElement);
                     }
                 }
-                // hideModal will handle hiding modalContainerMain if all children are hidden.
             }
+            // Else if the click is directly on modalContainerMain (e.g., if no modal fills it, or modals are smaller than container padding)
+            // This case is less likely now that .standard-modal is 100% width/height of modalContainerMain (respecting padding)
+            // but kept for robustness.
+            else if (clickedElement === modalContainerMain) {
+                for (let i = 0; i < modalContainerMain.children.length; i++) {
+                    const childModal = modalContainerMain.children[i];
+                    if (childModal.classList.contains('standard-modal') && childModal.style.display !== 'none') {
+                        if (childModal.id === 'join-modal' && typeof window.closeJoinModal === 'function') {
+                            window.closeJoinModal();
+                        } else if (typeof hideModal === 'function') {
+                            hideModal(childModal);
+                        }
+                    }
+                }
+            }
+            // If the click was inside a .standard-modal-dialog, event.target would be an element within the dialog,
+            // or the dialog itself, so it won't be caught by the conditions above, which is correct.
         });
 
     } else {
@@ -319,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalInstance.style.display = 'none'; // Start hidden
                 const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 modalInstance.innerHTML = `
-                    <div class="standard-modal-overlay" data-modal-close></div>
+                    /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
                     <div class="standard-modal-dialog" role="document">
                         <header class="standard-modal-header">
                             <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
