@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Start the animation loop
         updateGlowPosition();
-
     } else {
         console.warn('Glow effect element .glow-effect not found.');
     }
