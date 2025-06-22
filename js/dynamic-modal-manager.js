@@ -1,61 +1,59 @@
-// Helper function to get focusable elements
+// Helper: Get focusable elements in parent (for accessibility)
 function getFocusableElements(parentElement) {
     if (!parentElement) return [];
     return Array.from(
         parentElement.querySelectorAll(
             'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
         )
-    ).filter(el => el.offsetParent !== null && !el.closest('[style*="display: none"]')); // Ensure elements are visible and not within a hidden parent
+    ).filter(el => el.offsetParent !== null && !el.closest('[style*="display: none"]'));
 }
-window.getFocusableElements = getFocusableElements; // Make it globally available
+window.getFocusableElements = getFocusableElements;
 
-// Variable to store the trigger of the last opened dynamic modal for Escape key restoration
+// Keep track of last opened modal's trigger (for focus restore)
 let lastOpenedDynamicModalTrigger = null;
 
-// OpsLight Interactive Tiles - Multi-Modal Interaction (NEW)
 document.addEventListener('DOMContentLoaded', () => {
     const modalContainerMain = document.getElementById('modal-container-main');
-    const serviceNavItems = document.querySelectorAll('.service-nav-item'); // UPDATED selector
-
-    // serviceModalContent object is now removed, content will be fetched via window.getTranslatedText
+    const serviceNavItems = document.querySelectorAll('.service-nav-item');
 
     if (!modalContainerMain) {
         console.warn('Modal container #modal-container-main not found.');
+        return;
     }
+
+    // Hide modal utility
     function hideModal(modalElement) {
         if (!modalElement) return;
         modalElement.style.display = 'none';
-        // If this modal had a specific keydown listener, remove it
+        // Remove keydown listener
         if (modalElement.modalKeydownListener) {
             modalElement.removeEventListener('keydown', modalElement.modalKeydownListener);
-            // delete modalElement.modalKeydownListener; // Optional: clean up property
         }
-        // Restore focus
+        // Restore focus to trigger
         if (modalElement.triggerElement && typeof modalElement.triggerElement.focus === 'function') {
             modalElement.triggerElement.focus();
         }
-        // Check if all modals are hidden to hide the main container
+        // Hide container if all modals are hidden
         let allHidden = true;
-        if (modalContainerMain && modalContainerMain.children.length > 0) {
-            for (let i = 0; i < modalContainerMain.children.length; i++) {
-                if (modalContainerMain.children[i].style.display !== 'none') {
-                    allHidden = false;
-                    break;
-                }
+        for (let i = 0; i < modalContainerMain.children.length; i++) {
+            if (modalContainerMain.children[i].style.display !== 'none') {
+                allHidden = false;
+                break;
             }
         }
-        if (allHidden && modalContainerMain) {
+        if (allHidden) {
             modalContainerMain.style.display = 'none';
             document.body.style.overflow = '';
-            lastOpenedDynamicModalTrigger = null; // Reset since all dynamic modals are effectively closed
+            lastOpenedDynamicModalTrigger = null;
         }
     }
-    if (serviceNavItems.length > 0 && modalContainerMain) { // UPDATED variable name
-        serviceNavItems.forEach(card => { // UPDATED variable name
-            card.addEventListener('click', (event) => { // Added event parameter
-                event.preventDefault(); // Prevent default anchor behavior
-                const serviceKey = card.dataset.serviceTarget;
 
+    // Service card nav modals
+    if (serviceNavItems.length > 0) {
+        serviceNavItems.forEach(card => {
+            card.addEventListener('click', (event) => {
+                event.preventDefault();
+                const serviceKey = card.dataset.serviceTarget;
                 let translationKeyPrefix = '';
                 if (serviceKey === "Business Ops") translationKeyPrefix = "modal.businessOps";
                 else if (serviceKey === "Contact Center") translationKeyPrefix = "modal.contactCenter";
@@ -63,64 +61,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if (serviceKey === "Professionals") translationKeyPrefix = "modal.professionals";
                 else {
                     console.warn(`Unknown service key: ${serviceKey}`);
-                    return; // Do not proceed if key is unknown
+                    return;
                 }
-
-                const title = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.title`) : serviceKey; // Fallback to serviceKey if function not ready
+                const title = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.title`) : serviceKey;
                 const description = window.getTranslatedText ? window.getTranslatedText(`${translationKeyPrefix}.description`) : "Description unavailable.";
 
-                // Check if modal for this service already exists
+                // If modal already exists, show it
                 let modalInstance = modalContainerMain.querySelector(`.standard-modal[data-service="${serviceKey}"]`);
                 if (modalInstance) {
-                    // If it exists but is hidden, just show it
                     if (modalInstance.style.display === 'none') {
                         modalInstance.style.display = 'flex';
-                        modalContainerMain.style.display = 'flex'; // Ensure container is visible
-                        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-
+                        modalContainerMain.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
                         const focusableElements = window.getFocusableElements(modalInstance);
-                        if (focusableElements.length > 0) {
-                            focusableElements[0].focus();
-                        } else {
-                            modalInstance.focus();
-                        }
-                        // Re-attach keydown listener if needed, or ensure it's managed by hideModal
+                        if (focusableElements.length > 0) focusableElements[0].focus();
+                        else modalInstance.focus();
                         if (modalInstance.modalKeydownListener) {
-                             modalInstance.addEventListener('keydown', modalInstance.modalKeydownListener);
+                            modalInstance.addEventListener('keydown', modalInstance.modalKeydownListener);
                         }
                         lastOpenedDynamicModalTrigger = document.activeElement || card;
                         modalInstance.triggerElement = lastOpenedDynamicModalTrigger;
-
                     }
-                    return; // Already exists and possibly shown, so exit
+                    return;
                 }
-                // Create modal element
+
+                // Create new modal
                 modalInstance = document.createElement('div');
-                modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
+                modalInstance.className = 'standard-modal opslight-service-modal';
                 modalInstance.setAttribute('data-service', serviceKey);
                 modalInstance.setAttribute('role', 'dialog');
                 modalInstance.setAttribute('aria-modal', 'true');
-                modalInstance.style.display = 'none'; // Start hidden, show after setup
                 const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-                modalInstance.innerHTML = `
-                    /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
-                    <div class="standard-modal-dialog" role="document">
-                        <header class="standard-modal-header">
-                            <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
-                            <button class="standard-modal-close" aria-label="Close modal" data-modal-close>&times;</button>
-                        </header>
-                        <section class="standard-modal-content">
-                            <p>${description}</p>
-                        </section>
-                        <footer class="standard-modal-footer">
-                            <button class="button-secondary" data-modal-close>Close</button>
-                        </footer>
-                    </div>
-                `;
                 modalInstance.setAttribute('aria-labelledby', titleId);
-                modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
+                modalInstance.setAttribute('tabindex', '-1');
                 modalInstance.innerHTML = `
-                    /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
                     <div class="standard-modal-dialog" role="document">
                         <header class="standard-modal-header">
                             <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
@@ -134,144 +108,109 @@ document.addEventListener('DOMContentLoaded', () => {
                         </footer>
                     </div>
                 `;
-                modalInstance.setAttribute('aria_labelledby', titleId); // Typo: should be aria-labelledby
-                modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
+                const triggerElement = document.activeElement || card;
+                modalInstance.triggerElement = triggerElement;
+                lastOpenedDynamicModalTrigger = triggerElement;
 
-
-                const triggerElement = document.activeElement || card; // Fallback to card if no activeElement
-                modalInstance.triggerElement = triggerElement; // Store for focus restoration
-                lastOpenedDynamicModalTrigger = triggerElement; // For Escape key
-
-                // Append to container
                 modalContainerMain.appendChild(modalInstance);
-                // Show the modal and container
                 modalInstance.style.display = 'flex';
                 modalContainerMain.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
                 const focusableElements = window.getFocusableElements(modalInstance);
-                if (focusableElements.length > 0) {
-                    focusableElements[0].focus();
-                } else {
-                    modalInstance.focus();
-                }
+                if (focusableElements.length > 0) focusableElements[0].focus();
+                else modalInstance.focus();
 
                 const modalKeydownListener = (event) => {
                     if (event.key === 'Tab') {
-                        const currentFocusableElements = window.getFocusableElements(modalInstance.querySelector('.standard-modal-dialog')); // Search within dialog
+                        const currentFocusableElements = window.getFocusableElements(modalInstance.querySelector('.standard-modal-dialog'));
                         if (currentFocusableElements.length === 0) {
                             event.preventDefault();
                             return;
                         }
-                        const firstElement = currentFocusableElements[0];
-                        const lastElement = currentFocusableElements[currentFocusableElements.length - 1];
-
-                        if (event.shiftKey && document.activeElement === firstElement) {
+                        const first = currentFocusableElements[0];
+                        const last = currentFocusableElements[currentFocusableElements.length - 1];
+                        if (event.shiftKey && document.activeElement === first) {
                             event.preventDefault();
-                            lastElement.focus();
-                        } else if (!event.shiftKey && document.activeElement === lastElement) {
+                            last.focus();
+                        } else if (!event.shiftKey && document.activeElement === last) {
                             event.preventDefault();
-                            firstElement.focus();
+                            first.focus();
                         }
                     }
-                    // Escape key will be handled by the global listener or hideModal if specific
                 };
                 modalInstance.addEventListener('keydown', modalKeydownListener);
-                modalInstance.modalKeydownListener = modalKeydownListener; // Store reference for removal
-                // Delegated click listener for close actions
+                modalInstance.modalKeydownListener = modalKeydownListener;
                 modalInstance.addEventListener('click', function(event) {
                     if (event.target.closest('[data-modal-close]')) {
-                        hideModal(this); // 'this' refers to modalInstance
+                        hideModal(this);
                     }
                 });
             });
         });
 
-        // Event listener for backdrop click
+        // Backdrop click closes modal
         modalContainerMain.addEventListener('click', (event) => {
             const clickedElement = event.target;
-
-            // If the click is on the padded area of a .standard-modal (which acts as the visible backdrop for that modal)
             if (clickedElement.classList.contains('standard-modal')) {
-                if (clickedElement.style.display !== 'none') { // Check if it's actually visible
+                if (clickedElement.style.display !== 'none') {
                     if (clickedElement.id === 'join-modal' && typeof window.closeJoinModal === 'function') {
                         window.closeJoinModal();
-                    } else if (typeof hideModal === 'function') { // hideModal is from this script
+                    } else {
                         hideModal(clickedElement);
                     }
                 }
-            }
-            // Else if the click is directly on modalContainerMain (e.g., if no modal fills it, or modals are smaller than container padding)
-            // This case is less likely now that .standard-modal is 100% width/height of modalContainerMain (respecting padding)
-            // but kept for robustness.
-            else if (clickedElement === modalContainerMain) {
+            } else if (clickedElement === modalContainerMain) {
                 for (let i = 0; i < modalContainerMain.children.length; i++) {
                     const childModal = modalContainerMain.children[i];
                     if (childModal.classList.contains('standard-modal') && childModal.style.display !== 'none') {
                         if (childModal.id === 'join-modal' && typeof window.closeJoinModal === 'function') {
                             window.closeJoinModal();
-                        } else if (typeof hideModal === 'function') {
+                        } else {
                             hideModal(childModal);
                         }
                     }
                 }
             }
-            // If the click was inside a .standard-modal-dialog, event.target would be an element within the dialog,
-            // or the dialog itself, so it won't be caught by the conditions above, which is correct.
         });
 
     } else {
-        if (serviceNavItems.length === 0) console.warn('No service nav items with class .service-nav-item found.'); // UPDATED warning
+        console.warn('No service nav items with class .service-nav-item found.');
     }
 
-    // FAB Modal Interaction Logic
+    // FAB Modal Interaction
     const fabJoin = document.getElementById('fab-join');
     const fabContact = document.getElementById('fab-contact');
     const fabChatbot = document.getElementById('fab-chatbot');
-    // modalContainerMain is already defined from service card modals.
-
-    // fabModalContent object is now removed, content will be fetched via window.getTranslatedText
-
     const fabs = [fabJoin, fabContact, fabChatbot];
 
     fabs.forEach(fab => {
-        if (fab) {
-            fab.addEventListener('click', () => {
-                const fabId = fab.id;
+        if (!fab) return;
+        fab.addEventListener('click', () => {
+            const fabId = fab.id;
+            if (fabId === "fab-join") return; // Join Us is handled elsewhere
 
-                // The "fab-join" case is now handled by js/script.js for the existing #join-modal.
-                // So, we only process other FABs here for dynamic modal creation.
-                if (fabId === "fab-join") {
-                    // Do nothing here, it's handled by script.js
-                    return;
-                }
-
-                let fabTranslationKeyPrefix = '';
-                // if (fabId === "fab-join") fabTranslationKeyPrefix = "modal.fabJoin"; // This line is effectively removed by the check above
-                if (fabId === "fab-contact") fabTranslationKeyPrefix = "modal.fabContact";
-                else if (fabId === "fab-chatbot") fabTranslationKeyPrefix = "modal.fabChatbot";
-                else {
-                    console.warn(`Unknown FAB ID (or already handled): ${fabId}`);
-                    return; // Do not proceed if ID is unknown or fab-join
-                }
-
-                const title = window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.title`) : fabId; // Fallback
-                let modalBodyContent = '';
-
-                if (fabId === "fab-contact") {
-                    modalBodyContent = `
+            let fabTranslationKeyPrefix = '';
+            if (fabId === "fab-contact") fabTranslationKeyPrefix = "modal.fabContact";
+            else if (fabId === "fab-chatbot") fabTranslationKeyPrefix = "modal.fabChatbot";
+            else {
+                console.warn(`Unknown FAB ID: ${fabId}`);
+                return;
+            }
+            const title = window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.title`) : fabId;
+            let modalBodyContent = '';
+            if (fabId === "fab-contact") {
+                modalBodyContent = `
         <form id="contact-us-form" class="contact-modal-form">
             <div class="form-field">
                 <label for="contact-name" data-translate-key="form.contact.label.name">Full Name</label>
                 <input type="text" id="contact-name" name="name" required placeholder="Enter your full name" data-placeholder-translate-key="form.contact.placeholder.name">
                 <div class="validation-message" data-validation-for="contact-name"></div>
             </div>
-
             <div class="form-field">
                 <label for="contact-email" data-translate-key="form.contact.label.email">Email Address</label>
                 <input type="email" id="contact-email" name="email" required placeholder="your.email@company.com" data-placeholder-translate-key="form.contact.placeholder.email">
                 <div class="validation-message" data-validation-for="contact-email"></div>
             </div>
-
             <div class="form-row">
                 <div class="form-field">
                     <label for="contact-best-time" data-translate-key="form.contact.label.bestTime">Best time to call</label>
@@ -284,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="validation-message" data-validation-for="contact-best-date"></div>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-field form-field-country-code">
                     <label for="contact-country-code" data-translate-key="form.contact.label.countryCode">Country Code</label>
@@ -297,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="validation-message" data-validation-for="contact-phone"></div>
                 </div>
             </div>
-
             <div class="form-field">
                 <label for="contact-area-of-interest" data-translate-key="form.contact.label.areaOfInterest">Area of Interest</label>
                 <select id="contact-area-of-interest" name="areaOfInterest" required>
@@ -305,164 +242,126 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
                 <div class="validation-message" data-validation-for="contact-area-of-interest"></div>
             </div>
-
             <div class="form-field">
                 <label for="contact-message" data-translate-key="form.contact.label.message">Message</label>
                 <textarea id="contact-message" name="message" rows="4" required placeholder="How can we help you?" data-placeholder-translate-key="form.contact.placeholder.message"></textarea>
                 <div class="validation-message" data-validation-for="contact-message"></div>
             </div>
-
             <div class="form-field form-submit-area">
                 <button type="submit" id="contact-submit-button" class="form-button" data-translate-key="form.contact.button.submit">Submit</button>
                 <div class="submission-status-message" id="contact-submission-status"></div>
             </div>
         </form>
-                    `;
-                } else {
-                    // Default content for other FABs (like Join Us, Chatbot AI)
-                    modalBodyContent = `<p>${window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable."}</p>`;
-                }
-                // Check if modal for this FAB already exists
-                let modalInstance = modalContainerMain.querySelector(`.standard-modal[data-fab-id="${fabId}"]`);
-                if (modalInstance) {
-                     if (modalInstance.style.display === 'none') {
-                        modalInstance.style.display = 'flex';
-                        modalContainerMain.style.display = 'flex';
-                        document.body.style.overflow = 'hidden';
-
-                        const focusableElements = window.getFocusableElements(modalInstance);
-                        if (focusableElements.length > 0) focusableElements[0].focus();
-                        else modalInstance.focus();
-
-                        if (modalInstance.modalKeydownListener) {
-                             modalInstance.addEventListener('keydown', modalInstance.modalKeydownListener);
-                        }
-                        lastOpenedDynamicModalTrigger = document.activeElement || fab;
-                        modalInstance.triggerElement = lastOpenedDynamicModalTrigger;
-                    }
-                    return;
-                }
-                // Create modal element
-                modalInstance = document.createElement('div');
-                modalInstance.className = 'standard-modal opslight-service-modal'; // Updated class
-                if (fabId === "fab-contact") {
-                    modalInstance.classList.add('standard-modal--wide');
-                }
-                if (fabId === "fab-chatbot") {
-                    modalInstance.id = 'chatbot-positioned-modal';
-                }
-                modalInstance.setAttribute('data-fab-id', fabId); // Unique attribute for FAB modals
-                modalInstance.setAttribute('role', 'dialog');
-                modalInstance.setAttribute('aria-modal', 'true');
-                modalInstance.style.display = 'none'; // Start hidden
-                const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-                modalInstance.innerHTML = `
-                    /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
-                    <div class="standard-modal-dialog" role="document">
-                        <header class="standard-modal-header">
-                            <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
-                            <button class="standard-modal-close" aria-label="Close modal" data-modal-close>&times;</button>
-                        </header>
-                        <section class="standard-modal-content">
-                            ${modalBodyContent}
-                        </section>
-                        <footer class="standard-modal-footer">
-                            ${fabId === 'fab-contact' ? '<!-- Contact form has its own submit button within modalBodyContent -->' : '<button class="button-secondary" data-modal-close>Close</button>'}
-                        </footer>
-                    </div>
                 `;
-                modalInstance.setAttribute('aria-labelledby', titleId);
-                modalInstance.setAttribute('tabindex', '-1'); // For programmatic focus
-                const triggerElement = document.activeElement || fab; // Fallback to fab
-                modalInstance.triggerElement = triggerElement; // Store for focus restoration
-                lastOpenedDynamicModalTrigger = triggerElement; // For Escape key
+            } else {
+                modalBodyContent = `<p>${window.getTranslatedText ? window.getTranslatedText(`${fabTranslationKeyPrefix}.description`) : "Description unavailable."}</p>`;
+            }
 
-                // Append to container
-                modalContainerMain.appendChild(modalInstance);
+            // Check if modal already exists
+            let modalInstance = modalContainerMain.querySelector(`.standard-modal[data-fab-id="${fabId}"]`);
+            if (modalInstance) {
+                if (modalInstance.style.display === 'none') {
+                    modalInstance.style.display = 'flex';
+                    modalContainerMain.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    const focusableElements = window.getFocusableElements(modalInstance);
+                    if (focusableElements.length > 0) focusableElements[0].focus();
+                    else modalInstance.focus();
+                    if (modalInstance.modalKeydownListener) {
+                        modalInstance.addEventListener('keydown', modalInstance.modalKeydownListener);
+                    }
+                    lastOpenedDynamicModalTrigger = document.activeElement || fab;
+                    modalInstance.triggerElement = lastOpenedDynamicModalTrigger;
+                }
+                return;
+            }
 
-                // Show the modal and container
-                modalInstance.style.display = 'flex';
-                modalContainerMain.style.display = 'flex'; // Ensure container is visible
-                document.body.style.overflow = 'hidden';
-                const focusableElements = window.getFocusableElements(modalInstance);
-                if (focusableElements.length > 0) {
-                    focusableElements[0].focus();
+            // Create modal
+            modalInstance = document.createElement('div');
+            modalInstance.className = 'standard-modal opslight-service-modal';
+            if (fabId === "fab-contact") modalInstance.classList.add('standard-modal--wide');
+            if (fabId === "fab-chatbot") modalInstance.id = 'chatbot-positioned-modal';
+            modalInstance.setAttribute('data-fab-id', fabId);
+            modalInstance.setAttribute('role', 'dialog');
+            modalInstance.setAttribute('aria-modal', 'true');
+            const titleId = `modal-title-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            modalInstance.setAttribute('aria-labelledby', titleId);
+            modalInstance.setAttribute('tabindex', '-1');
+            modalInstance.innerHTML = `
+                <div class="standard-modal-dialog" role="document">
+                    <header class="standard-modal-header">
+                        <h2 class="standard-modal-title" id="${titleId}">${title}</h2>
+                        <button class="standard-modal-close" aria-label="Close modal" data-modal-close>&times;</button>
+                    </header>
+                    <section class="standard-modal-content">
+                        ${modalBodyContent}
+                    </section>
+                    <footer class="standard-modal-footer">
+                        ${fabId === 'fab-contact' ? '<!-- Contact form has its own submit button -->' : '<button class="button-secondary" data-modal-close>Close</button>'}
+                    </footer>
+                </div>
+            `;
+            const triggerElement = document.activeElement || fab;
+            modalInstance.triggerElement = triggerElement;
+            lastOpenedDynamicModalTrigger = triggerElement;
+
+            modalContainerMain.appendChild(modalInstance);
+            modalInstance.style.display = 'flex';
+            modalContainerMain.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            const focusableElements = window.getFocusableElements(modalInstance);
+            if (focusableElements.length > 0) focusableElements[0].focus();
+            else modalInstance.focus();
+
+            const modalKeydownListener = (event) => {
+                if (event.key === 'Tab') {
+                    const currentFocusableElements = window.getFocusableElements(modalInstance.querySelector('.standard-modal-dialog'));
+                    if (currentFocusableElements.length === 0) {
+                        event.preventDefault();
+                        return;
+                    }
+                    const first = currentFocusableElements[0];
+                    const last = currentFocusableElements[currentFocusableElements.length - 1];
+                    if (event.shiftKey && document.activeElement === first) {
+                        event.preventDefault();
+                        last.focus();
+                    } else if (!event.shiftKey && document.activeElement === last) {
+                        event.preventDefault();
+                        first.focus();
+                    }
+                }
+            };
+            modalInstance.addEventListener('keydown', modalKeydownListener);
+            modalInstance.modalKeydownListener = modalKeydownListener;
+
+            if (fabId === "fab-contact") {
+                const formElement = modalInstance.querySelector('#contact-us-form');
+                if (window.initContactForm && formElement) {
+                    window.initContactForm(formElement);
                 } else {
-                    modalInstance.focus();
+                    console.warn('initContactForm function not found or form element missing.');
                 }
+            }
 
-                const modalKeydownListener = (event) => {
-                    if (event.key === 'Tab') {
-                        const currentFocusableElements = window.getFocusableElements(modalInstance.querySelector('.standard-modal-dialog')); // Search in dialog
-                         if (currentFocusableElements.length === 0) {
-                            event.preventDefault();
-                            return;
-                        }
-                        const firstElement = currentFocusableElements[0];
-                        const lastElement = currentFocusableElements[currentFocusableElements.length - 1];
-
-                        if (event.shiftKey && document.activeElement === firstElement) {
-                            event.preventDefault();
-                            lastElement.focus();
-                        } else if (!event.shiftKey && document.activeElement === lastElement) {
-                            event.preventDefault();
-                            firstElement.focus();
-                        }
-                    }
-                };
-                modalInstance.addEventListener('keydown', modalKeydownListener);
-                modalInstance.modalKeydownListener = modalKeydownListener; // Store reference for removal
-
-               // If it's the contact form modal, initialize its JS logic
-                if (fabId === "fab-contact") {
-                    const formElement = modalInstance.querySelector('#contact-us-form');
-                    if (window.initContactForm && formElement) {
-                        window.initContactForm(formElement);
-                    } else {
-                        console.warn('initContactForm function not found or form element missing.');
-                    }
+            modalInstance.addEventListener('click', function(event) {
+                if (event.target.closest('[data-modal-close]')) {
+                    hideModal(this);
                 }
-                // Delegated click listener for close actions
-                modalInstance.addEventListener('click', function(event) {
-                    if (event.target.closest('[data-modal-close]')) {
-                        hideModal(this); // 'this' refers to modalInstance
-                    }
-                });
             });
-        } else {
-            // Log if a FAB element is not found.
-        }
+        });
     });
 
-    // Global Escape key listener for modals
+    // Global Escape closes open modals
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             if (modalContainerMain && (modalContainerMain.style.display === 'flex' || modalContainerMain.style.display === '')) {
-                // Iterate backwards in case hiding one affects collection or focus logic
                 for (let i = modalContainerMain.children.length - 1; i >= 0; i--) {
                     const childModal = modalContainerMain.children[i];
-                    // Check if the modal is directly managed by this script (e.g., has triggerElement or is standard-modal)
-                    // and is currently visible.
-                    // The join-modal is handled by script.js, but if it's a child of modalContainerMain and visible,
-                    // script.js's Escape handler should take precedence or be coordinated.
-                    // For now, this will hide any visible child modal.
                     if (childModal.style.display !== 'none') {
-                        // If it's the #join-modal, its own Escape listener in script.js should handle it.
-                        // js/script.js's joinModalKeydownListener now calls event.stopPropagation().
-                        if (childModal.id === 'join-modal') {
-                            // If joinModalKeydownListener in script.js handles Escape and calls stopPropagation,
-                            // this global listener code block won't even be reached for that event on join-modal.
-                            // However, if stopPropagation was missed, this check ensures we don't try to hide it again.
-                            continue;
-                        }
-
+                        if (childModal.id === 'join-modal') continue; // Let join-modal handle itself
                         hideModal(childModal);
-                        // If we only want to close one modal per escape press (like typical UI):
-                        // break;
                     }
                 }
-                // hideModal handles focus restoration for each modal it closes.
-                // hideModal also handles hiding modalContainerMain and resetting lastOpenedDynamicModalTrigger if all modals become hidden.
             }
         }
     });
