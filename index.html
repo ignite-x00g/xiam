@@ -7,46 +7,38 @@
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/glow-effects.css">
-    <!-- Add Font Awesome CDN Link -->
+    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#services" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
+
     <button id="mobile-menu-toggle" class="mobile-menu-toggle-btn"
             aria-label="Open menu"
             data-aria-label-en="Open menu"
             data-aria-label-es="Abrir menú"
-            data-aria-label-translate-key="ariaLabel.mobileMenuOpen"
             aria-expanded="false">☰</button>
+
     <div class="mobile-services-menu" id="mobile-services-menu">
-        <!-- Placeholder for actual menu items -->
         <p data-translate-key="mobileNav.placeholder">Mobile Menu Placeholder</p>
-        <!-- Example: Links to sections or other pages -->
-        <!-- <a href="#services" data-translate-key="nav.services">Our Services</a> -->
-        <!-- <a href="#" onclick="document.getElementById('fab-join').click(); document.getElementById('mobile-services-menu').classList.remove('open'); return false;" data-translate-key="fab.join">Join Us</a> -->
-        <!-- <a href="#" onclick="document.getElementById('fab-contact').click(); document.getElementById('mobile-services-menu').classList.remove('open'); return false;" data-translate-key="fab.contact">Contact Us</a> -->
     </div>
+
     <div class="glow-effect"></div>
+
     <header class="site-header">
         <div class="header-content">
             <h1 class="main-header-text" data-translate-key="header.main">OPS</h1>
             <p class="sub-header-text" data-translate-key="header.sub">OPS Online Support&trade;</p>
-            <!-- Navigation or other header elements like toggles can go here later -->
         </div>
-        <!-- Placeholder for toggles (theme/language) if they are to be in the header -->
         <div class="header-toggles">
-            <button id="theme-toggle-button" class="header-toggle-btn" aria-label="Toggle theme">
-                <!-- Text will be set by JS, e.g., [Dark] or [Light] -->
-            </button>
-            <button id="language-toggle-button" class="header-toggle-btn" aria-label="Toggle language">
-                <!-- Text will be set by JS, e.g., [EN] or [ES] -->
-            </button>
+            <button id="theme-toggle-button" class="header-toggle-btn" aria-label="Toggle theme"></button>
+            <button id="language-toggle-button" class="header-toggle-btn" aria-label="Toggle language"></button>
         </div>
     </header>
 
     <main>
         <section id="services" class="services-section">
-            <!-- The H2 "Our Services" might be removed or restyled depending on final look -->
-            <!-- For now, let's keep it and assume it's a section title above the nav -->
             <h2 class="services-section-title" data-translate-key="services.title">Our Services</h2>
             <nav aria-label="Main services" class="services-navigation">
                 <div class="service-nav-list">
@@ -90,24 +82,19 @@
         </section>
     </main>
 
+    <!-- Single modal container for dynamic modals -->
     <div id="modal-container-main" style="display: none;"></div>
+
     <footer>
-        <!-- Footer content will go here -->
         <p data-translate-key="footer.copy">&copy; 2023 OPS Online Support</p>
     </footer>
 
-    <div id="modal-container-main">
-        <!-- Dynamically added service modals will go here -->
-        <!-- The Join Us modal will also be dynamically added here by js/script.js -->
-    </div>
-
-    <!-- Static Join Us Modal HTML removed. js/script.js will create it dynamically. -->
-
+    <!-- JS scripts -->
     <script src="js/cursor-glow-effect.js" defer></script>
     <script src="js/dynamic-modal-manager.js" defer></script>
     <script src="js/theme-switcher.js" defer></script>
     <script src="js/language-switcher.js" defer></script>
-    <script src="js/contact-form.js" defer></script> <!-- Added this line -->
+    <script src="js/contact-form.js" defer></script>
     <script src="js/mobile-menu.js" defer></script>
     <script src="js/script.js" defer></script>
 </body>
