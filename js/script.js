@@ -1,13 +1,14 @@
 // js/script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const fabJoin = document.getElementById('fab-join');
     const modalContainerMain = document.getElementById('modal-container-main');
 
-    let joinModal = null; // Will hold the #join-modal DOM element
-    let joinModalTriggerElement = null; // To store the element that opened the modal
-    let currentJoinModalSection = 'join-modal-section-1'; // To track current visible section
+    let joinModal = null; // #join-modal DOM element
+    let joinModalTriggerElement = null; // Button that opened the modal
+    let currentJoinModalSection = 'join-modal-section-1';
 
-    // Helper: Get focusable elements
+    // Fallback: Get focusable elements helper
     if (!window.getFocusableElements) {
         window.getFocusableElements = function(parentElement) {
             if (!parentElement) return [];
@@ -19,19 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // --- Modal Creation ---
     function createJoinModalStructure() {
-        // Returns the HTML string for the modal.
-        // This allows easy recreation if the modal is removed from DOM by another script.
         return `
             <div id="join-modal" class="standard-modal" role="dialog" aria-modal="true" aria-labelledby="join-modal-title" style="display: none;" tabindex="-1">
-                /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
                 <div class="standard-modal-dialog" role="document">
                     <header class="standard-modal-header">
                         <h2 class="standard-modal-title" id="join-modal-title" data-translate-key="modal.fabJoin.title">Join Our Team</h2>
                         <button class="standard-modal-close" aria-label="Close Join Us Form" data-modal-close>&times;</button>
                     </header>
                     <section class="standard-modal-content">
-                        <!-- Section 1: Full Name & Email -->
                         <section id="join-modal-section-1" class="join-modal-section" style="display: block;">
                             <div class="form-field">
                                 <label for="join-fullName" data-translate-key="joinModal.section1.fullNameLabel">Full Name:</label>
@@ -41,10 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <label for="join-email" data-translate-key="joinModal.section1.emailLabel">Email:</label>
                                 <input type="email" id="join-email" name="email" data-placeholder-translate-key="joinModal.section1.emailPlaceholder" placeholder="Enter your email address">
                             </div>
-                            <!-- Footer for this section will be part of standard-modal-footer if we adapt fully -->
                         </section>
-
-                        <!-- Section 2: Contact Details -->
                         <section id="join-modal-section-2" class="join-modal-section" style="display: none;">
                             <h3 data-translate-key="joinModal.section2.title">Contact Details</h3>
                             <div class="form-field">
@@ -56,8 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <textarea id="join-address" name="address" rows="3" data-placeholder-translate-key="joinModal.section2.addressPlaceholder" placeholder="Enter your address"></textarea>
                             </div>
                         </section>
-
-                        <!-- Section 3: Membership Preferences -->
                         <section id="join-modal-section-3" class="join-modal-section" style="display: none;">
                             <h3 data-translate-key="joinModal.section3.title">Membership Preferences</h3>
                             <div class="form-field">
@@ -76,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div id="join-modal-submission-status" class="submission-status-message" style="margin-top: 10px;"></div>
                     </section>
                     <footer class="standard-modal-footer">
-                        <!-- Buttons will be dynamically shown/hidden by JS based on current section -->
                         <button class="button-secondary join-modal-prev" data-translate-key="joinModal.button.previous" style="display: none;">Previous</button>
                         <button class="button-primary join-modal-next" data-translate-key="joinModal.button.next" style="display: inline-block;">Next</button>
                         <button type="submit" class="button-primary join-modal-submit" data-translate-key="joinModal.button.submit" style="display: none;">Submit</button>
@@ -90,117 +82,75 @@ document.addEventListener('DOMContentLoaded', () => {
         joinModal = document.getElementById('join-modal');
         if (!joinModal) {
             if (!modalContainerMain) {
-                console.error('Modal container #modal-container-main not found. Cannot create Join Us modal.');
+                console.error('Modal container #modal-container-main not found.');
                 return false;
             }
             modalContainerMain.insertAdjacentHTML('beforeend', createJoinModalStructure());
             joinModal = document.getElementById('join-modal');
-
             if (!joinModal) {
-                console.error('Failed to create #join-modal in DOM.');
+                console.error('Failed to create #join-modal.');
                 return false;
             }
-
-            // Attempt to translate its content if translation functions are available
-            if (window.loadTranslations) { // This is the preferred way if language-switcher.js exposes it
-                window.loadTranslations(); // Assumes loadTranslations handles newly added content by re-querying the DOM
-            } else if (window.getTranslatedText) { // Fallback for individual elements
+            // Translate modal content
+            if (window.loadTranslations) window.loadTranslations();
+            else if (window.getTranslatedText) {
                 joinModal.querySelectorAll('[data-translate-key]').forEach(element => {
                     const key = element.getAttribute('data-translate-key');
-                    // For placeholders
                     if (element.hasAttribute('data-placeholder-translate-key')) {
-                         const placeholderKey = element.getAttribute('data-placeholder-translate-key');
-                         element.setAttribute('placeholder', window.getTranslatedText(placeholderKey));
+                        const placeholderKey = element.getAttribute('data-placeholder-translate-key');
+                        element.setAttribute('placeholder', window.getTranslatedText(placeholderKey));
                     }
-                    // For text content of specific tags
                     if (['BUTTON', 'LABEL', 'H2', 'H3', 'OPTION'].includes(element.tagName)) {
                         element.textContent = window.getTranslatedText(key);
                     }
                 });
-                // Specifically translate the close button's aria-label for #join-modal
-                const closeButtonAria = joinModal.querySelector('.standard-modal-close'); // Updated selector
-                if(closeButtonAria) {
-                    closeButtonAria.setAttribute('aria-label', window.getTranslatedText('joinModal.closeButtonAriaLabel') || 'Close Join Us Form');
+                const closeButton = joinModal.querySelector('.standard-modal-close');
+                if (closeButton) {
+                    closeButton.setAttribute('aria-label', window.getTranslatedText('joinModal.closeButtonAriaLabel') || 'Close Join Us Form');
                 }
             }
-            attachJoinModalListeners(); // Attach listeners since it's newly created
+            attachJoinModalListeners();
         }
         return true;
     }
 
     function attachJoinModalListeners() {
         if (!joinModal) return;
-
-        // Listener for close button and overlay clicks
+        // Close modal by close button
         joinModal.addEventListener('click', function(event) {
-            if (event.target.closest('[data-modal-close]')) {
-                // This will handle clicks on .standard-modal-close (the 'X' button)
-                // and .standard-modal-overlay IF that overlay itself has data-modal-close.
-                // The structure from createJoinModalStructure() does put data-modal-close on the overlay.
-                closeJoinModal();
-            }
+            if (event.target.closest('[data-modal-close]')) closeJoinModal();
         });
-
-        // Attach to buttons in the new footer (specific for navigation/submission)
-        const prevButton = joinModal.querySelector('.standard-modal-footer .join-modal-prev');
-        const nextButton = joinModal.querySelector('.standard-modal-footer .join-modal-next');
-        const submitButtonFooter = joinModal.querySelector('.standard-modal-footer .join-modal-submit');
-
-        if (prevButton) {
-            prevButton.onclick = (e) => {
-                // Determine current section and find previous. This logic might need to be smarter.
-                // For now, assuming data attributes on sections or a direct way to find target.
-                // This is simplified, actual target section logic needs to be robust.
-                if (currentJoinModalSection === 'join-modal-section-3') showJoinModalSection('join-modal-section-2');
-                else if (currentJoinModalSection === 'join-modal-section-2') showJoinModalSection('join-modal-section-1');
-            };
-        }
-        if (nextButton) {
-            nextButton.onclick = (e) => {
-                if (currentJoinModalSection === 'join-modal-section-1') showJoinModalSection('join-modal-section-2');
-                else if (currentJoinModalSection === 'join-modal-section-2') showJoinModalSection('join-modal-section-3');
-            };
-        }
-
-        if (submitButtonFooter) {
-            submitButtonFooter.onclick = (event) => {
-                event.preventDefault();
-                console.log('Join Us Form submitted (placeholder).');
-                const statusMsg = joinModal.querySelector('#join-modal-submission-status');
-                if (statusMsg) {
-                    statusMsg.textContent = (window.getTranslatedText && window.getTranslatedText('joinModal.alert.formSubmittedSuccess')) || 'Form submitted successfully!';
-                }
-            };
-        }
+        // Footer nav buttons
+        const prevButton = joinModal.querySelector('.join-modal-prev');
+        const nextButton = joinModal.querySelector('.join-modal-next');
+        const submitButton = joinModal.querySelector('.join-modal-submit');
+        if (prevButton) prevButton.onclick = () => {
+            if (currentJoinModalSection === 'join-modal-section-3') showJoinModalSection('join-modal-section-2');
+            else if (currentJoinModalSection === 'join-modal-section-2') showJoinModalSection('join-modal-section-1');
+        };
+        if (nextButton) nextButton.onclick = () => {
+            if (currentJoinModalSection === 'join-modal-section-1') showJoinModalSection('join-modal-section-2');
+            else if (currentJoinModalSection === 'join-modal-section-2') showJoinModalSection('join-modal-section-3');
+        };
+        if (submitButton) submitButton.onclick = (event) => {
+            event.preventDefault();
+            const statusMsg = joinModal.querySelector('#join-modal-submission-status');
+            if (statusMsg) {
+                statusMsg.textContent = (window.getTranslatedText && window.getTranslatedText('joinModal.alert.formSubmittedSuccess')) || 'Form submitted successfully!';
+            }
+        };
     }
 
     function displayJoinModal() {
-        if (!ensureJoinModalInDOM()) { // This function now ensures joinModal is valid and listeners are attached.
-            console.error("Join modal could not be ensured in DOM. Aborting display.");
-            return;
-        }
-
-        // Set triggerElement for dynamic-modal-manager.js Escape key integration
-        // This property is read by dynamic-modal-manager.js
+        if (!ensureJoinModalInDOM()) return;
         if (joinModal) joinModal.triggerElement = joinModalTriggerElement;
-
-        showJoinModalSection('join-modal-section-1'); // Reset to the first section
-        if (modalContainerMain) {
-            modalContainerMain.style.display = 'flex'; // Ensure the main container is visible
-        }
+        showJoinModalSection('join-modal-section-1');
+        if (modalContainerMain) modalContainerMain.style.display = 'flex';
         joinModal.style.display = 'flex';
-        // document.body.style.overflow = 'hidden'; // Let dynamic-modal-manager handle body overflow
-
-        // Focus management: focus first element in the current section or modal itself
         const currentSectionElement = joinModal.querySelector(`#${currentJoinModalSection}`);
         const focusableElements = window.getFocusableElements(currentSectionElement || joinModal);
-        if (focusableElements.length > 0) {
-            focusableElements[0].focus();
-        } else {
-            joinModal.focus(); // Fallback to modal itself
-        }
-
-        // Add keydown listener for Tab trapping and Escape, remove previous to avoid duplication
+        if (focusableElements.length > 0) focusableElements[0].focus();
+        else joinModal.focus();
         joinModal.removeEventListener('keydown', joinModalKeydownListener);
         joinModal.addEventListener('keydown', joinModalKeydownListener);
     }
@@ -208,22 +158,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeJoinModal() {
         if (!joinModal) return;
         joinModal.style.display = 'none';
-        // document.body.style.overflow = ''; // Let dynamic-modal-manager handle body overflow
         joinModal.removeEventListener('keydown', joinModalKeydownListener);
-
-        // Restore focus to the element that opened the modal
         if (joinModal.triggerElement && typeof joinModal.triggerElement.focus === 'function') {
             joinModal.triggerElement.focus();
         }
-        // Clear submission status if any
         const statusMsg = joinModal.querySelector('#join-modal-submission-status');
         if (statusMsg) statusMsg.textContent = '';
     }
-    window.closeJoinModal = closeJoinModal; // Expose to global scope
+    window.closeJoinModal = closeJoinModal;
 
     function showJoinModalSection(sectionId) {
         if (!joinModal) return;
-
         joinModal.querySelectorAll('.join-modal-section').forEach(section => {
             section.style.display = 'none';
         });
@@ -231,25 +176,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sectionToShow) {
             sectionToShow.style.display = 'block';
             currentJoinModalSection = sectionId;
-
             const focusableInSection = window.getFocusableElements(sectionToShow);
-            if (focusableInSection.length > 0) {
-                focusableInSection[0].focus();
-            } else {
-                 sectionToShow.setAttribute('tabindex', '-1');
-                 sectionToShow.focus();
-            }
-
-            // Update button visibility in the footer
-            const prevButton = joinModal.querySelector('.standard-modal-footer .join-modal-prev');
-            const nextButton = joinModal.querySelector('.standard-modal-footer .join-modal-next');
-            const submitButton = joinModal.querySelector('.standard-modal-footer .join-modal-submit');
-
+            if (focusableInSection.length > 0) focusableInSection[0].focus();
+            else { sectionToShow.setAttribute('tabindex', '-1'); sectionToShow.focus(); }
+            // Update button visibility
+            const prevButton = joinModal.querySelector('.join-modal-prev');
+            const nextButton = joinModal.querySelector('.join-modal-next');
+            const submitButton = joinModal.querySelector('.join-modal-submit');
             if (prevButton && nextButton && submitButton) {
-                prevButton.style.display = 'none';
-                nextButton.style.display = 'none';
-                submitButton.style.display = 'none';
-
+                prevButton.style.display = 'none'; nextButton.style.display = 'none'; submitButton.style.display = 'none';
                 if (sectionId === 'join-modal-section-1') {
                     nextButton.style.display = 'inline-block';
                 } else if (sectionId === 'join-modal-section-2') {
@@ -264,42 +199,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const joinModalKeydownListener = (event) => {
-        if (!joinModal || joinModal.style.display === 'none') return; // Only act if modal is visible
-
+        if (!joinModal || joinModal.style.display === 'none') return;
         if (event.key === 'Escape') {
-            event.stopPropagation(); // Prevent global listener in dynamic-modal-manager.js
+            event.stopPropagation();
             closeJoinModal();
         }
         if (event.key === 'Tab') {
-            // Get focusable elements only from the currently visible section
             const currentSectionElement = joinModal.querySelector(`#${currentJoinModalSection}`);
             const focusableElements = window.getFocusableElements(currentSectionElement || joinModal);
-
-            if (focusableElements.length === 0) { // Should not happen if modal/section is focusable
-                event.preventDefault();
-                return;
-            }
+            if (focusableElements.length === 0) { event.preventDefault(); return; }
             const firstElement = focusableElements[0];
             const lastElement = focusableElements[focusableElements.length - 1];
-
-            if (event.shiftKey && document.activeElement === firstElement) { // Shift+Tab on first element
-                event.preventDefault();
-                lastElement.focus(); // Wrap to last
-            } else if (!event.shiftKey && document.activeElement === lastElement) { // Tab on last element
-                event.preventDefault();
-                firstElement.focus(); // Wrap to first
+            if (event.shiftKey && document.activeElement === firstElement) {
+                event.preventDefault(); lastElement.focus();
+            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                event.preventDefault(); firstElement.focus();
             }
         }
     };
 
-    // Attach event listener to the FAB Join button
     if (fabJoin) {
         fabJoin.addEventListener('click', (event) => {
-            joinModalTriggerElement = event.currentTarget; // Store the button that was clicked
+            joinModalTriggerElement = event.currentTarget;
             displayJoinModal();
         });
     } else {
         console.warn('FAB with ID #fab-join not found.');
     }
-    window.displayJoinModal = displayJoinModal; // Expose to global scope
+
+    window.displayJoinModal = displayJoinModal;
 });
+
