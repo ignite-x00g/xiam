@@ -1,8 +1,4 @@
 // js/contact-form.js
-document.addEventListener('DOMContentLoaded', () => {
-    // This script might be initialized when the contact modal is actually created/shown.
-    // For now, we'll define a global function that glow-effects.js can call.
-});
 
 // List of common free email domains for validation
 const freeEmailDomains = [
@@ -15,6 +11,7 @@ const freeEmailDomains = [
 window.initContactForm = function(formElement) {
     if (!formElement) return;
 
+    // Get form fields
     const nameField = formElement.querySelector('#contact-name');
     const emailField = formElement.querySelector('#contact-email');
     const timeField = formElement.querySelector('#contact-best-time');
@@ -30,16 +27,13 @@ window.initContactForm = function(formElement) {
     function populateAreaOfInterest() {
         if (!areaOfInterestField) return;
         const areas = ['businessOps', 'contactCenter', 'itSupport', 'professionals'];
-        // Add default "Select an area..." option
         const defaultOptionText = window.getTranslatedText ? window.getTranslatedText('form.contact.option.selectArea') : 'Select an area...';
         areaOfInterestField.innerHTML = `<option value="" disabled selected data-translate-key="form.contact.option.selectArea">${defaultOptionText}</option>`;
-
         areas.forEach(areaKey => {
-            const optionText = window.getTranslatedText ? window.getTranslatedText(`nav.${areaKey}`) : areaKey; // Use existing nav keys
+            const optionText = window.getTranslatedText ? window.getTranslatedText(`nav.${areaKey}`) : areaKey;
             const option = document.createElement('option');
             option.value = areaKey;
             option.textContent = optionText;
-            // option.setAttribute('data-translate-key', `nav.${areaKey}`); // Not strictly needed if text set directly
             areaOfInterestField.appendChild(option);
         });
     }
@@ -53,27 +47,25 @@ window.initContactForm = function(formElement) {
         });
     }
 
-    // Initial population and placeholder translation
+    // Populate and translate initially
     populateAreaOfInterest();
     translatePlaceholders();
 
-    // Re-populate/translate if language changes while modal is open (listens to event from language-switcher.js)
+    // Listen for language changes
     document.addEventListener('languageChanged', () => {
-        if (document.body.contains(formElement)) { // Check if form is still in DOM
-            populateAreaOfInterest(); // For select options
-            translatePlaceholders(); // For input placeholders
-            // Also re-translate labels and button text if they were part of this form specifically
+        if (document.body.contains(formElement)) {
+            populateAreaOfInterest();
+            translatePlaceholders();
+            // Translate labels and button text
             formElement.querySelectorAll('[data-translate-key]').forEach(el => {
-                 const key = el.getAttribute('data-translate-key');
-                 if(el.tagName === 'BUTTON' || el.tagName === 'LABEL'){ // only for specific elements if needed
-                    if(window.getTranslatedText) el.textContent = window.getTranslatedText(key);
-                 }
+                const key = el.getAttribute('data-translate-key');
+                if (['BUTTON', 'LABEL'].includes(el.tagName) && window.getTranslatedText) {
+                    el.textContent = window.getTranslatedText(key);
+                }
             });
-            // Clear validation messages as they might be in the old language
-            clearAllValidationMessages(formElement);
+            clearAllValidationMessages();
         }
     });
-
 
     // --- 2. Validation Logic ---
     function displayValidationMessage(fieldId, messageKey) {
@@ -82,17 +74,14 @@ window.initContactForm = function(formElement) {
             el.textContent = window.getTranslatedText ? window.getTranslatedText(messageKey) : messageKey;
         }
     }
-
     function clearValidationMessage(fieldId) {
         const el = formElement.querySelector(`[data-validation-for="${fieldId}"]`);
         if (el) el.textContent = '';
     }
-
     function clearAllValidationMessages() {
         formElement.querySelectorAll('.validation-message').forEach(el => el.textContent = '');
-        if(statusMessageElement) statusMessageElement.textContent = '';
+        if (statusMessageElement) statusMessageElement.textContent = '';
     }
-
     function validateField(field, fieldId, requiredKey, validationFn, invalidKey) {
         if (!field.value.trim()) {
             displayValidationMessage(fieldId, requiredKey);
@@ -105,27 +94,21 @@ window.initContactForm = function(formElement) {
         clearValidationMessage(fieldId);
         return true;
     }
-
     function isValidEmail(email) {
-        // Basic regex for email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-
     function isBusinessEmail(email) {
-        if (!isValidEmail(email)) return true; // Skip if format is already invalid
-        const domain = email.substring(email.lastIndexOf("@") + 1);
-        return !freeEmailDomains.includes(domain.toLowerCase());
+        if (!isValidEmail(email)) return true; // Skip if format already invalid
+        const domain = email.substring(email.lastIndexOf("@") + 1).toLowerCase();
+        return !freeEmailDomains.includes(domain);
     }
-
-    function isValidPhoneNumber(phone) { // Basic check
+    function isValidPhoneNumber(phone) {
         return /^[0-9\s+()-]+$/.test(phone) && phone.length > 5;
     }
-
-    function isValidCountryCode(code) { // Basic check
-        return /^\+[0-9]{1,3}$/.test(code.trim()) || /^[0-9]{1,4}$/.test(code.trim()); // allow +1 or 001
+    function isValidCountryCode(code) {
+        return /^\+[0-9]{1,3}$/.test(code.trim()) || /^[0-9]{1,4}$/.test(code.trim());
     }
-
 
     // --- 3. Submit Handler ---
     if (submitButton) {
@@ -134,10 +117,10 @@ window.initContactForm = function(formElement) {
             clearAllValidationMessages();
             let isFormValid = true;
 
-            // Name validation
+            // Name
             if (!validateField(nameField, 'contact-name', 'form.validation.required')) isFormValid = false;
 
-            // Email validation
+            // Email
             if (!validateField(emailField, 'contact-email', 'form.validation.required', isValidEmail, 'form.validation.email.invalid')) {
                 isFormValid = false;
             } else if (!isBusinessEmail(emailField.value)) {
@@ -147,20 +130,20 @@ window.initContactForm = function(formElement) {
                 clearValidationMessage('contact-email');
             }
 
-            // Country Code (optional, but if present, validate)
+            // Country code (optional)
             if (countryCodeField.value.trim() && !isValidCountryCode(countryCodeField.value)) {
-                 displayValidationMessage('contact-country-code', 'form.validation.countryCode.invalid');
-                 isFormValid = false;
+                displayValidationMessage('contact-country-code', 'form.validation.countryCode.invalid');
+                isFormValid = false;
             } else {
-                 clearValidationMessage('contact-country-code');
+                clearValidationMessage('contact-country-code');
             }
 
-            // Phone (optional, but if present, validate)
+            // Phone (optional)
             if (phoneField.value.trim() && !isValidPhoneNumber(phoneField.value)) {
-                 displayValidationMessage('contact-phone', 'form.validation.phone.invalid');
-                 isFormValid = false;
+                displayValidationMessage('contact-phone', 'form.validation.phone.invalid');
+                isFormValid = false;
             } else {
-                 clearValidationMessage('contact-phone');
+                clearValidationMessage('contact-phone');
             }
 
             // Area of Interest
@@ -169,7 +152,7 @@ window.initContactForm = function(formElement) {
             // Message
             if (!validateField(messageField, 'contact-message', 'form.validation.required')) isFormValid = false;
 
-            // Best Time & Date are optional, no specific format validation here for now beyond browser's own UI
+            // Best Time/Date are optional; no extra validation for now
 
             if (isFormValid) {
                 const formData = {
@@ -183,10 +166,12 @@ window.initContactForm = function(formElement) {
                     message: messageField.value.trim()
                 };
                 console.log("Contact Form Data:", formData);
-                if(statusMessageElement) statusMessageElement.textContent = window.getTranslatedText ? window.getTranslatedText('form.contact.submissionSuccess') : 'Data prepared.';
-                // formElement.reset(); // Optionally reset form
+                if (statusMessageElement) statusMessageElement.textContent = window.getTranslatedText
+                    ? window.getTranslatedText('form.contact.submissionSuccess')
+                    : 'Data prepared.';
+                // Optionally reset form: formElement.reset();
             } else {
-                 if(statusMessageElement) statusMessageElement.textContent = ''; // Clear general status if errors
+                if (statusMessageElement) statusMessageElement.textContent = '';
             }
         });
     }
