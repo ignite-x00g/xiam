@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // This allows easy recreation if the modal is removed from DOM by another script.
         return `
             <div id="join-modal" class="standard-modal" role="dialog" aria-modal="true" aria-labelledby="join-modal-title" style="display: none;" tabindex="-1">
-                <div class="standard-modal-overlay" data-modal-close></div>
+                /* <div class="standard-modal-overlay" data-modal-close></div> */ /* Removed this line */
                 <div class="standard-modal-dialog" role="document">
                     <header class="standard-modal-header">
                         <h2 class="standard-modal-title" id="join-modal-title" data-translate-key="modal.fabJoin.title">Join Our Team</h2>
@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusMsg = joinModal.querySelector('#join-modal-submission-status');
         if (statusMsg) statusMsg.textContent = '';
     }
+    window.closeJoinModal = closeJoinModal; // Expose to global scope
 
     function showJoinModalSection(sectionId) {
         if (!joinModal) return;
@@ -297,4 +298,5 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn('FAB with ID #fab-join not found.');
     }
+    window.displayJoinModal = displayJoinModal; // Expose to global scope
 });
