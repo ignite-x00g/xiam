@@ -96,13 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
        // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
-        const langToggleText = language === 'en' ? 'EN | ES' : 'ES | EN'; // Updated separator
         const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows only current lang
 
         if (desktopLangToggle) {
-            // Set text based on current language, but use the data attributes for the actual display text
-            // The button's initial text "EN | ES" or "ES | EN" will be set based on this logic too.
-            desktopLangToggle.textContent = language === 'en' ? desktopLangToggle.dataset.en + ' | ' + desktopLangToggle.dataset.es : desktopLangToggle.dataset.es + ' | ' + desktopLangToggle.dataset.en;
+            // Set text to display only the current language
+            desktopLangToggle.textContent = desktopLangToggle.dataset[language];
         }
 
         if (mobileLangToggle) {
