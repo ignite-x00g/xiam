@@ -85,71 +85,76 @@
     <!-- Join Us Modal (using provided structure) -->
     <div id="join-us-modal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <div class="lang-toggle" id="join-us-lang-toggle" data-en="EN | ES" data-es="ES | EN">EN | ES</div>
             <div class="modal-header">
                 <h3 data-en="Join Us" data-es="Únete a Nosotros">Join Us</h3>
                 <button class="close-modal" data-close-modal="join-us-modal" aria-label="Close">&times;</button>
             </div>
             <form id="join-form">
-                <div class="form-row">
-                    <label for="name" data-en="Name" data-es="Nombre">Name</label>
-                    <input type="text" id="name" name="name" data-placeholder-en="Enter your name" data-placeholder-es="Ingresa tu nombre" />
+                <div class="form-columns"> <!-- New container for two columns -->
+                    <div class="form-column"> <!-- Left Column -->
+                        <div class="form-row"> <!-- Name, Email, Phone -->
+                            <label for="name" data-en="Name" data-es="Nombre">Name</label>
+                            <input type="text" id="name" name="name" data-placeholder-en="Enter your name" data-placeholder-es="Ingresa tu nombre" />
 
-                    <label for="email" data-en="Email" data-es="Correo Electrónico">Email</label>
-                    <input type="email" id="email" name="email" data-placeholder-en="Enter your email" data-placeholder-es="Ingresa tu correo" />
+                            <label for="email" data-en="Email" data-es="Correo Electrónico">Email</label>
+                            <input type="email" id="email" name="email" data-placeholder-en="Enter your email" data-placeholder-es="Ingresa tu correo" />
 
-                    <label for="phone" data-en="Phone" data-es="Teléfono">Phone</label>
-                    <input type="tel" id="phone" name="phone" data-placeholder-en="Enter your phone" data-placeholder-es="Ingresa tu teléfono" />
-                </div>
-                <div class="form-section" data-section="Skills">
-                    <div class="section-header">
-                        <h2 data-en="Skills" data-es="Habilidades">Skills</h2>
-                        <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                            <label for="phone" data-en="Phone" data-es="Teléfono">Phone</label>
+                            <input type="tel" id="phone" name="phone" data-placeholder-en="Enter your phone" data-placeholder-es="Ingresa tu teléfono" />
+                        </div>
+                        <div class="form-section" data-section="Skills">
+                            <div class="section-header">
+                                <h2 data-en="Skills" data-es="Habilidades">Skills</h2>
+                                <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                            </div>
+                            <div class="inputs"></div>
+                            <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
+                            <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
+                        </div>
+                        <div class="form-section" data-section="Education">
+                            <div class="section-header">
+                                <h2 data-en="Education" data-es="Educación">Education</h2>
+                                <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                            </div>
+                            <div class="inputs"></div>
+                            <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
+                            <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
+                        </div>
                     </div>
-                    <div class="inputs"></div>
-                    <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
-                    <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
-                </div>
-                <div class="form-section" data-section="Education">
-                    <div class="section-header">
-                        <h2 data-en="Education" data-es="Educación">Education</h2>
-                        <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                    <div class="form-column"> <!-- Right Column -->
+                        <div class="form-section" data-section="Continued Education">
+                          <div class="section-header">
+                              <h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2>
+                              <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                          </div>
+                          <div class="inputs"></div>
+                          <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
+                          <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
+                        </div>
+                        <div class="form-section" data-section="Certification">
+                          <div class="section-header">
+                              <h2 data-en="Certification" data-es="Certificación">Certification</h2>
+                              <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                          </div>
+                          <div class="inputs"></div>
+                          <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
+                          <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
+                        </div>
+                        <div class="form-section" data-section="Hobbies">
+                          <div class="section-header">
+                              <h2 data-en="Hobbies" data-es="Pasatiempos">Hobbies</h2>
+                              <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
+                          </div>
+                          <div class="inputs"></div>
+                          <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
+                          <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
+                        </div>
+                        <div class="form-row"> <!-- Re-using form-row for the textarea to maintain similar styling if any -->
+                            <label for="comment" data-en="Tell us about yourself" data-es="Cuéntanos sobre ti">Tell us about yourself</label>
+                            <textarea id="comment" name="comment" rows="4" data-placeholder-en="Tell us about yourself..." data-placeholder-es="Cuéntanos sobre ti..."></textarea>
+                        </div>
                     </div>
-                    <div class="inputs"></div>
-                    <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
-                    <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
-                </div>
-                <div class="form-section" data-section="Continued Education">
-                  <div class="section-header">
-                      <h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2>
-                      <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
-                  </div>
-                  <div class="inputs"></div>
-                  <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
-                  <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
-                </div>
-                <div class="form-section" data-section="Certification">
-                  <div class="section-header">
-                      <h2 data-en="Certification" data-es="Certificación">Certification</h2>
-                      <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
-                  </div>
-                  <div class="inputs"></div>
-                  <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
-                  <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
-                </div>
-                <div class="form-section" data-section="Hobbies">
-                  <div class="section-header">
-                      <h2 data-en="Hobbies" data-es="Pasatiempos">Hobbies</h2>
-                      <div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div>
-                  </div>
-                  <div class="inputs"></div>
-                  <button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button>
-                  <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
-                </div>
-                <div class="form-row">
-                    <label for="comment" data-en="Tell us about yourself" data-es="Cuéntanos sobre ti">Tell us about yourself</label>
-                    <textarea id="comment" name="comment" rows="4" data-placeholder-en="Tell us about yourself..." data-placeholder-es="Cuéntanos sobre ti..."></textarea>
-                </div>
+                </div> <!-- End of form-columns -->
                 <div class="form-footer">
                     <button type="submit" class="submit-button" data-en="Submit" data-es="Enviar">Submit</button>
                 </div>
