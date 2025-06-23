@@ -115,6 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const joinUsModal = document.getElementById('join-us-modal');
         if (joinUsModal) {
             joinUsModal.querySelectorAll('.form-section').forEach(section => {
+                // Ensure section is a valid element before proceeding
+                if (!section || typeof section.querySelector !== 'function' || typeof section.querySelectorAll !== 'function' || !section.dataset) {
+                    console.warn('[language-switcher] Invalid section element encountered in join-us-modal processing:', section);
+                    return; // Skip this iteration
+                }
+
                 const sectionTitleElement = section.querySelector('h2');
                 let sectionNameForPlaceholder = section.dataset.section; // Default to data-section value
 

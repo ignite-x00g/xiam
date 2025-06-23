@@ -21,11 +21,32 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const focusableSelector = 'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
                 const elements = Array.from(parentElement.querySelectorAll(focusableSelector));
-                const visibleElements = elements.filter(el => {
-                    const style = window.getComputedStyle(el);
-                    return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null && !el.closest('[style*="display: none"]');
+                console.log(`[ModalManager-Debug] getFocusableElements: Found ${elements.length} candidates in parent:`, parentElement);
+
+                const visibleElements = elements.filter((el, index) => {
+                    const computedStyle = window.getComputedStyle(el);
+                    const isOffsetParentNull = el.offsetParent === null;
+                    const isVisibilityHidden = computedStyle.visibility === 'hidden';
+                    const isDisplayNone = computedStyle.display === 'none'; // Also check computed display
+
+                    if (index < 5 || elements.length <= 5) { // Log details for first 5 or all if less than 5
+                        console.log(`[ModalManager-Debug] Candidate ${index}: ${el.tagName}${el.id ? '#' + el.id : ''}${el.className ? '.' + el.className.split(' ').join('.') : ''}`);
+                        console.log(`  - offsetParent:`, el.offsetParent);
+                        console.log(`  - computedStyle.display: ${computedStyle.display}`);
+                        console.log(`  - computedStyle.visibility: ${computedStyle.visibility}`);
+                        console.log(`  - el.disabled: ${el.disabled}`);
+                        console.log(`  - el.tabIndex: ${el.tabIndex}`);
+                        console.log(`  - Filtered out? offsetParentNull: ${isOffsetParentNull}, visibilityHidden: ${isVisibilityHidden}`);
+                    }
+
+                    // Original simplified filter condition:
+                    // return el.offsetParent !== null && computedStyle.visibility !== 'hidden';
+                    // Let's use the more complete original filter for logging, then apply the simplified one
+                    // The selector already handles :not([disabled]) and tabindex.
+                    // Primary checks are offsetParent and visibility.
+                    return !isOffsetParentNull && !isVisibilityHidden;
                 });
-                // console.log('[ModalManager] getFocusableElements in parent:', parentElement, 'found:', visibleElements); // Optional: very verbose
+                // console.log('[ModalManager] getFocusableElements in parent:', parentElement, 'found:', visibleElements);
                 return visibleElements;
             } catch (e) {
                 console.error('[ModalManager] Error in getFocusableElements:', e);
@@ -54,13 +75,23 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('[ModalManager] Last focused element stored:', lastFocusedElement);
 
         try {
+            // Ensure modal object is valid and has a style property
+            if (!modal || typeof modal.style === 'undefined') {
+                console.error(`[DMM] Modal element for ID "${modalId}" is invalid or has no style property. Cannot display.`);
+                return;
+            }
+
             console.log(`[ModalManager] Attempting to display modal "${modalId}" and backdrop.`);
             modal.style.display = 'flex'; // Or 'block' if using .modal-overlay as the flex container
-            console.log(`[ModalManager] Modal "${modalId}" display style set to flex.`);
+            // Log computed style for the modal immediately after setting
+            const computedModalDisplay = window.getComputedStyle(modal).display;
+            console.log(`[ModalManager] Modal "${modalId}" JS set to 'flex'. Computed display: ${computedModalDisplay}.`);
 
             if (modalBackdrop) {
                 modalBackdrop.style.display = 'block';
-                console.log('[ModalManager] Modal backdrop display style set to block.');
+                // Log computed style for the backdrop immediately after setting
+                const computedBackdropDisplay = window.getComputedStyle(modalBackdrop).display;
+                console.log(`[ModalManager] Modal backdrop JS set to 'block'. Computed display: ${computedBackdropDisplay}.`);
             } else {
                 console.warn('[ModalManager] Modal backdrop element not found.');
             }
@@ -68,21 +99,29 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('[ModalManager] Body overflow set to hidden.');
 
             // Focus trap
-            console.log(`[ModalManager] Setting up focus trap for modal "${modalId}".`);
-            const focusableElements = window.getFocusableElements(modal);
-            console.log(`[ModalManager] Focusable elements in modal "${modalId}":`, focusableElements.length, focusableElements);
+            // Defer focus logic to allow browser to process display changes
+            setTimeout(() => {
+                try {
+                    console.log(`[ModalManager] Setting up focus trap for modal "${modalId}" (inside setTimeout).`);
+                    const focusableElements = window.getFocusableElements(modal);
+                    console.log(`[ModalManager] Focusable elements in modal "${modalId}" (setTimeout):`, focusableElements.length, focusableElements);
 
-            if (focusableElements.length > 0) {
-                focusableElements[0].focus();
-                console.log(`[ModalManager] Focused first focusable element in modal "${modalId}":`, focusableElements[0]);
-            } else {
-                console.warn(`[ModalManager] No focusable elements found in modal "${modalId}". Setting tabindex on modal itself.`);
-                modal.setAttribute('tabindex', '-1'); // Make modal focusable if no interactive elements
-                modal.focus();
-                console.log(`[ModalManager] Focused modal "${modalId}" itself.`);
-            }
+                    if (focusableElements.length > 0) {
+                        focusableElements[0].focus();
+                        console.log(`[ModalManager] Focused first focusable element in modal "${modalId}" (setTimeout):`, focusableElements[0]);
+                    } else {
+                        console.warn(`[ModalManager] No focusable elements found in modal "${modalId}" (setTimeout). Setting tabindex on modal itself.`);
+                        modal.setAttribute('tabindex', '-1'); // Make modal focusable if no interactive elements
+                        modal.focus();
+                        console.log(`[ModalManager] Focused modal "${modalId}" itself (setTimeout).`);
+                    }
+                } catch (e) {
+                    console.error(`[ModalManager] Error during modal "${modalId}" focus setup (setTimeout):`, e);
+                }
+            }, 0); // Use setTimeout with 0 delay
+
         } catch (e) {
-            console.error(`[ModalManager] Error during modal "${modalId}" display or focus setup:`, e);
+            console.error(`[ModalManager] Error during modal "${modalId}" display (before setTimeout):`, e);
             // Optionally, attempt to revert if critical error (though display is already flex)
             // modal.style.display = 'none';
             // if (modalBackdrop) modalBackdrop.style.display = 'none';
@@ -94,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.addEventListener('keydown', trapFocus);
         console.log(`[ModalManager] Modal "${modalId}" is now open. Event listener for keydown (trapFocus) added.`);
 
+        // Apply translations immediately, as they don't depend on focus/layout as much
         try {
             if (window.applyTranslations && window.getCurrentLanguage) {
                 console.log(`[ModalManager] Attempting to apply translations for modal "${modalId}".`);
