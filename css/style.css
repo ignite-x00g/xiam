@@ -458,11 +458,20 @@ textarea {
     overflow: hidden; /* Prevents internal button hover effects from spilling */
 }
 #join-us-modal .form-footer {
-    text-align: center; /* Center the submit button */
+    /* text-align: center; */ /* No longer centered */
     margin-top: 1rem; /* Add some space above the footer */
+    position: relative; /* To position the button within this container */
+    height: 50px; /* Approximate height for the button, adjust as needed */
 }
 .modal-content .submit-button, .modal-content .accept-btn, .modal-content .edit-btn {
     /* No specific changes needed if padding/margins are correct */
+}
+
+#join-us-modal .submit-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    margin: 0; /* Resetting any default margins */
 }
 
 
@@ -818,3 +827,41 @@ footer {
 
 
 /* === END Contact Us Modal Specific Styles === */
+
+/* Floating label styles for Join Us form textarea */
+.floating-label-group {
+    position: relative;
+    margin-top: 1.5rem; /* Adjust as needed, ensure it doesn't overlap */
+}
+
+/* Apply specific styles to the textarea within the floating-label-group */
+#join-us-modal .floating-label-group textarea {
+    width: 100%; /* Already global, but good to be specific */
+    padding: 1.2rem 0.8rem 0.6rem 0.8rem; /* Top padding for label to sit initially, then normal padding */
+    /* Other textarea styles like border, background, color are inherited or can be set here if different */
+}
+
+#join-us-modal .floating-label-group label {
+    color: var(--text-color-placeholder); /* Use placeholder color for the label */
+    font-size: 1rem; /* Match textarea font size */
+    font-weight: normal; /* Standard label weight */
+    position: absolute;
+    pointer-events: none; /* Label doesn't block clicks on textarea */
+    left: 10px; /* Align with textarea text */
+    top: 1rem;  /* Position it as if it's placeholder text */
+    transition: 0.2s ease all;
+}
+
+/* When textarea is focused or has content (not just placeholder whitespace) */
+#join-us-modal .floating-label-group textarea:focus ~ label,
+#join-us-modal .floating-label-group textarea:not(:placeholder-shown) ~ label {
+    top: 0.25rem; /* Move label up */
+    font-size: 0.75rem; /* Make label smaller */
+    color: var(--accent-color); /* Change color to accent */
+}
+
+/* Ensure the actual placeholder is invisible if we are using the label as placeholder */
+/* The HTML for textarea has placeholder=" " to trigger :not(:placeholder-shown) correctly */
+#join-us-modal .floating-label-group textarea::placeholder {
+  color: transparent; /* Hide the actual placeholder space */
+}
