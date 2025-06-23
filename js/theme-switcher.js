@@ -1,67 +1,71 @@
 // js/theme-switcher.js
 document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleButton = document.getElementById('theme-toggle-button');
+    const desktopThemeToggle = document.getElementById('theme-toggle-button');
+    const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
     const body = document.body;
 
-    // Helper for translated button text and aria-labels
-    function getThemeButtonText(theme, lang) {
-        if (window.getTranslatedText) {
-            if (theme === 'light') return lang === 'es' ? 'Claro' : 'Light';
-            return lang === 'es' ? 'Oscuro' : 'Dark';
-        }
-        // Fallback
-        return theme === 'light' ? 'Light' : 'Dark';
-    }
-    function getThemeButtonAriaLabel(theme, lang) {
-        if (window.getTranslatedText) {
-            if (theme === 'light') return lang === 'es' ? 'Cambiar a modo oscuro' : 'Switch to dark mode';
-            return lang === 'es' ? 'Cambiar a modo claro' : 'Switch to light mode';
-        }
-        return theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
-    }
+    let currentTheme = localStorage.getItem('theme') || 'dark'; // 'dark' or 'light'
 
-    function getCurrentLang() {
-        return (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en';
-    }
-
-    function setTheme(theme) {
+    function applyTheme(theme) {
         body.classList.remove('light-theme', 'dark-theme');
-        if (theme === 'light') {
-            body.classList.add('light-theme');
-        } else {
-            body.classList.add('dark-theme');
-            theme = 'dark'; // Normalize for any bad values
-        }
+        body.classList.add(theme === 'light' ? 'light-theme' : 'dark-theme');
         localStorage.setItem('theme', theme);
 
-        // Set toggle button label/text/aria
-        if (themeToggleButton) {
-            const lang = getCurrentLang();
-            themeToggleButton.textContent = getThemeButtonText(theme, lang);
-            themeToggleButton.setAttribute('aria-label', getThemeButtonAriaLabel(theme, lang));
-            themeToggleButton.setAttribute('aria-pressed', theme === 'light' ? 'false' : 'true');
+        // Update button texts based on the new theme and current language
+        updateButtonTexts(theme);
+        document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
+    }
+
+    function updateButtonTexts(theme) {
+        const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en';
+        let desktopText, mobileText, ariaLabel;
+
+        if (theme === 'light') {
+            desktopText = lang === 'es' ? 'Tema: Claro' : 'Theme: Light';
+            mobileText = lang === 'es' ? 'Claro' : 'Light';
+            ariaLabel = lang === 'es' ? 'Cambiar a tema oscuro' : 'Switch to dark theme';
+        } else { // dark theme
+            desktopText = lang === 'es' ? 'Tema: Oscuro' : 'Theme: Dark';
+            mobileText = lang === 'es' ? 'Oscuro' : 'Dark';
+            ariaLabel = lang === 'es' ? 'Cambiar a tema claro' : 'Switch to light theme';
+        }
+
+        if (desktopThemeToggle) {
+            desktopThemeToggle.textContent = desktopText;
+            desktopThemeToggle.setAttribute('aria-label', ariaLabel);
+            desktopThemeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        }
+        if (mobileThemeToggle) {
+            // Mobile toggle usually shows the current state or the action to switch
+            // For simplicity, let's make it show the current state similar to language.
+            mobileThemeToggle.textContent = mobileText; // e.g., "Light" or "Dark"
+            mobileThemeToggle.setAttribute('aria-label', ariaLabel);
+            mobileThemeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+
         }
     }
 
-    // Initialize theme from storage
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-
-    // Handle click
-    if (themeToggleButton) {
-        themeToggleButton.addEventListener('click', () => {
-            const isLight = body.classList.contains('light-theme');
-            const newTheme = isLight ? 'dark' : 'light';
-            setTheme(newTheme);
-        });
-    } else {
-        console.warn('Theme toggle button #theme-toggle-button not found.');
+    function toggleTheme() {
+        currentTheme = body.classList.contains('light-theme') ? 'dark' : 'light';
+        applyTheme(currentTheme);
     }
 
-    // Listen for language changes
+    // Initial theme application
+    applyTheme(currentTheme);
+
+    // Event Listeners
+    if (desktopThemeToggle) {
+        desktopThemeToggle.addEventListener('click', toggleTheme);
+    }
+    if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Listen for language changes to update button texts
     document.addEventListener('languageChanged', () => {
-        // Refresh button label to match new language
-        const theme = body.classList.contains('light-theme') ? 'light' : 'dark';
-        setTheme(theme);
+        updateButtonTexts(currentTheme);
     });
+
+    // Expose for other scripts if needed
+    window.getCurrentTheme = () => currentTheme;
 });

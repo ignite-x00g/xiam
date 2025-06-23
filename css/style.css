@@ -1,82 +1,34 @@
-/* ===== Floating Action Buttons (FAB) Styling ===== */
-.fab-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-    z-index: 999;
+/* Global Resets and Base Styles */
+body {
+    font-family: Arial, sans-serif; /* Provided in Join Us, good default */
+    margin: 0;
+    background-color: var(--body-bg-color);
+    color: var(--text-color-main);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
 }
-.fab {
-    background-color: var(--fab-bg-color, #a855f7);
-    color: var(--fab-text-color, #fff);
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px var(--fab-shadow-color, #130f20);
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    padding: 0;
-    position: relative;
-    overflow: hidden;
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }
-.fab:hover, .fab:focus {
-    background-color: var(--fab-hover-bg-color, #8b5cf6);
-    transform: scale(1.1);
-}
-.fab-content-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-.fab-icon-image-area {
-    font-size: 20px;
-    margin-bottom: 2px;
-}
-.fab-icon-image-area img {
-    max-width: 100%;
-    max-height: 24px;
-    display: block;
-}
-.fab-text {
-    font-size: 10px;
-    line-height: 1.2;
-    color: var(--fab-text-color, #fff);
-    display: block;
-}
-@media (max-width: 768px) {
-    .fab-container {
-        bottom: 15px;
-        right: 15px;
-    }
-    .fab {
-        width: 54px;
-        height: 54px;
-    }
-    .fab-icon-image-area {
-        font-size: 18px;
-    }
-    .fab-text {
-        font-size: 9px;
-    }
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
 }
 
 /* ===== Header Styling ===== */
 .site-header {
-    background-color: var(--header-bg-color, #181830);
+    background-color: var(--header-bg-color);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--header-border-color, #282846);
+    border-bottom: 1px solid var(--header-border-color);
+    position: sticky; /* Keep header visible */
+    top: 0;
+    z-index: 1000; /* Ensure header is above other content */
 }
 .header-content {
     text-align: left;
@@ -84,13 +36,13 @@
 .main-header-text {
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--main-logo-color, #a855f7);
+    color: var(--main-logo-color);
     margin: 0;
     line-height: 1.1;
 }
 .sub-header-text {
     font-size: 0.9rem;
-    color: var(--sub-logo-color, #babade);
+    color: var(--sub-logo-color);
     margin: 0;
     font-weight: normal;
 }
@@ -103,11 +55,487 @@
     align-items: center;
     gap: 15px;
 }
+.header-toggle-btn {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: 1px solid var(--button-border-color);
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    min-width: 70px; /* Adjusted for EN/ES text */
+    text-align: center;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s, transform 0.2s;
+}
+.header-toggle-btn:hover, .header-toggle-btn:focus {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-text-color);
+    border-color: var(--accent-color);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+/* Main content area */
+main {
+    padding: 1rem 2rem; /* Add some padding */
+    max-width: 1200px; /* Optional: constrain width for very large screens */
+    margin: 0 auto; /* Center content */
+}
+
+/* Services Section & Navigation */
+.services-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.services-section-title {
+    font-size: 1.8rem;
+    color: var(--text-color-emphasis);
+    margin-bottom: 1rem;
+}
+.services-navigation .service-nav-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.service-nav-item {
+    background-color: var(--card-bg-color);
+    color: var(--text-color-main);
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid var(--card-border-color);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    min-width: 180px; /* Ensure items have some width */
+    text-align: center;
+}
+.service-nav-item:hover, .service-nav-item:focus {
+    background-color: var(--card-bg-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color-medium);
+}
+
+
+/* ===== Floating Action Buttons (FAB) Styling ===== */
+.fab-container {
+    position: fixed;
+    bottom: 20px; /* Adjust if mobile nav overlaps */
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    z-index: 1020; /* Above most content, below modals */
+}
+.fab {
+    background-color: var(--fab-bg-color);
+    color: var(--fab-text-color);
+    border: none;
+    border-radius: 16px; /* Squarish circle */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--fab-shadow-color);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    padding: 0;
+    position: relative;
+    overflow: hidden; /* Important for icon/text layout */
+}
+.fab:hover, .fab:focus {
+    background-color: var(--fab-hover-bg-color);
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px var(--fab-shadow-color);
+}
+.fab-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.fab-icon-image-area {
+    font-size: 20px; /* Adjust as needed */
+    margin-bottom: 2px;
+}
+.fab-text {
+    font-size: 10px;
+    line-height: 1.2;
+    color: var(--fab-text-color);
+    display: block;
+    font-weight: 500;
+}
+
+/* ===== General Modal Styling (Overlay & Content Box) ===== */
+.modal-backdrop {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: var(--modal-backdrop-bg);
+    z-index: 1040; /* High z-index */
+}
+.modal-overlay { /* This class is on individual modal divs */
+    display: none; /* Hidden by default, JS will show */
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: var(--modal-backdrop-bg); /* Fallback if backdrop div isn't used */
+    z-index: 1050; /* Above backdrop */
+    padding: 1rem; /* Padding for smaller screens */
+}
+.modal-content {
+    background: var(--modal-content-bg);
+    padding: 1.5rem 2rem; /* Adjusted padding */
+    max-width: 800px; /* Default max-width */
+    border-radius: 10px;
+    width: 100%; /* Responsive width */
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh; /* Max height to prevent overflow */
+    box-shadow: 0 5px 15px var(--shadow-color-strong);
+    border: 1px solid var(--card-border-color);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color-soft);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+}
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-color-emphasis);
+}
+.close-modal {
+    font-size: 1.8rem; /* Larger close button */
+    font-weight: bold;
+    color: var(--text-color-subtle);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem; /* Easier to click */
+    line-height: 1;
+}
+.close-modal:hover {
+    color: var(--text-color-main);
+}
+.modal-body {
+    margin-bottom: 1rem;
+}
+.modal-footer {
+    text-align: right;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color-soft);
+}
+
+/* Service Modals (centered) */
+.service-modal-center .modal-content {
+    max-width: 600px; /* Smaller for service info */
+    text-align: center;
+}
+.service-modal-center .modal-body {
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+
+/* ===== Join Us & Contact Us Modal Specific Styles ===== */
+/* Language Toggle inside Join Us Modal */
+#join-us-modal .lang-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 3.5rem; /* Space for close button */
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    background-color: var(--button-secondary-bg-color);
+    color: var(--button-secondary-text-color);
+    font-size: 0.8rem;
+}
+#join-us-modal .lang-toggle:hover {
+    background-color: var(--button-secondary-hover-bg-color);
+}
+
+/* Form Styling (common for Join Us, Contact Us) */
+.form-section {
+    border: 1px solid var(--border-color-soft);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background: var(--form-section-bg-color);
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+.section-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color-emphasis);
+}
+.circle-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--button-text-color-on-accent);
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    transition: background-color 0.2s;
+}
+.circle-btn.remove {
+    background-color: var(--danger-color);
+}
+.circle-btn:hover {
+    opacity: 0.85;
+}
+.inputs input[type="text"] { /* Specific to Join Us dynamic inputs */
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    margin: 0.5rem 0;
+    box-sizing: border-box;
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    background-color: var(--input-bg-color);
+    color: var(--text-color-main);
+}
+.accept-btn, .edit-btn, .submit-button {
+    background-color: var(--success-color);
+    color: var(--button-text-color-on-accent);
+    padding: 0.6rem 1.2rem; /* Increased padding */
+    border: none;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+.edit-btn {
+    background-color: var(--warning-color);
+    color: var(--button-text-color-on-warning);
+}
+.submit-button { /* General submit button for forms */
+    background-color: var(--accent-color);
+}
+.accept-btn:hover, .edit-btn:hover, .submit-button:hover {
+    opacity: 0.85;
+}
+.completed h2 { /* For Join Us sections */
+    color: var(--success-color);
+}
+.completed h2::after {
+    content: " ✅";
+    font-size: 1rem;
+}
+
+/* General Form Elements (inputs, labels, etc.) */
+.form-row {
+    display: grid; /* Using grid for more complex layouts */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 1rem; /* Gap between grid items */
+    margin-bottom: 1rem;
+}
+/* For Contact Us two-column layout, and Join Us first row */
+#contact-us-modal .form-row, #join-us-modal #join-form > .form-row:first-child {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Default two columns */
+    gap: 1.5rem; /* Increased gap for two-column */
+}
+/* Ensure Join Us first row fields are stacked on small screens if needed */
+@media (max-width: 680px) {
+    #join-us-modal #join-form > .form-row:first-child {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+    }
+}
+
+.form-cell, .form-row > label, .form-row > input, .form-row > textarea { /* Direct children for Join Us name/email/phone */
+    display: flex; /* Use flex for label + input stacking if needed */
+    flex-direction: column;
+    margin-bottom: 0.5rem; /* Spacing for stacked elements */
+}
+.form-row > label { /* If label is direct child of form-row (like Join Us first row) */
+     margin-bottom: 0.3rem; /* Space between label and its input */
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    color: var(--text-color-subtle);
+}
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.7rem 0.9rem; /* Consistent padding */
+    margin-top: 0.2rem; /* Small space if label is sibling */
+    box-sizing: border-box;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    background-color: var(--input-bg-color);
+    color: var(--text-color-main);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color-faded);
+}
+textarea {
+    resize: vertical;
+    min-height: 100px; /* Good default height */
+}
+::placeholder {
+    color: var(--text-color-placeholder);
+    opacity: 1; /* Firefox Fix */
+}
+
+/* Ensure buttons within modals are contained */
+.modal-content .form-footer, .modal-content .form-section {
+    overflow: hidden; /* Prevents internal button hover effects from spilling */
+}
+.modal-content .submit-button, .modal-content .accept-btn, .modal-content .edit-btn {
+    /* No specific changes needed if padding/margins are correct */
+}
+
+
+/* ===== Mobile Navigation Styling ===== */
+.mobile-nav {
+    display: none; /* Hidden by default, shown via media query */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--mobile-nav-bg-color);
+    border-top: 1px solid var(--mobile-nav-border-color);
+    z-index: 1000;
+    display: flex; /* Will be set to flex in media query */
+    justify-content: space-around;
+    padding: 0.5rem 0;
+}
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--mobile-nav-text-color);
+    text-decoration: none;
+    font-size: 0.75rem; /* Smaller text for mobile nav */
+    padding: 0.3rem 0.5rem;
+    border: none; /* If it's a button */
+    background: transparent; /* If it's a button */
+    cursor: pointer;
+    flex: 1; /* Distribute space equally */
+    text-align: center;
+}
+.mobile-nav-item i {
+    font-size: 1.5rem; /* Icon size */
+    margin-bottom: 0.2rem;
+}
+.mobile-nav-item:hover, .mobile-nav-item.active {
+    color: var(--accent-color);
+}
+#mobile-language-toggle, #mobile-theme-toggle {
+    font-weight: bold;
+}
+
+/* Hidden Mobile Services Menu Panel */
+.mobile-services-menu {
+    display: none; /* Hidden by default, JS toggles */
+    position: fixed;
+    bottom: 60px; /* Adjust based on mobile-nav height */
+    left: 0;
+    width: 100%;
+    background-color: var(--mobile-menu-panel-bg-color);
+    box-shadow: 0 -2px 10px var(--shadow-color-medium);
+    z-index: 999; /* Below mobile nav but above content */
+    border-top: 1px solid var(--mobile-nav-border-color);
+    transform: translateY(100%); /* Initially hidden for animation */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.mobile-services-menu.open {
+    display: block; /* JS will set this */
+    transform: translateY(0);
+    opacity: 1;
+}
+.mobile-services-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.mobile-services-menu li button { /* Changed from a to button */
+    display: block;
+    padding: 0.8rem 1.5rem;
+    color: var(--mobile-menu-panel-text-color);
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--mobile-menu-panel-divider-color);
+}
+.mobile-services-menu li:last-child button {
+    border-bottom: none;
+}
+.mobile-services-menu li button:hover {
+    background-color: var(--mobile-menu-panel-hover-bg-color);
+    color: var(--accent-color);
+}
+
+/* ===== Footer Styling ===== */
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem; /* Space above footer */
+    font-size: 0.85rem;
+    color: var(--text-color-subtle);
+    border-top: 1px solid var(--border-color-soft);
+    /* Removed fixed positioning to allow content to push it down */
+}
+
+
+/* ===== Responsive Adjustments ===== */
 @media (max-width: 768px) {
     .site-header {
         flex-direction: column;
         padding: 1rem;
-        gap: 0.5rem;
+        gap: 0.8rem;
     }
     .header-content {
         text-align: center;
@@ -120,224 +548,99 @@
     }
     .header-toggles {
         margin-top: 10px;
+        gap: 10px; /* Smaller gap for toggles */
+    }
+    .header-toggle-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+
+    .services-navigation {
+        display: none; /* Hide desktop service nav on mobile */
+    }
+    #mobile-menu-toggle { /* This is the hamburger for mobile services panel, not the bottom nav */
+        display: none; /* Initially hide, JS might show it if bottom nav is not preferred for services */
+        /* Styling for the top hamburger if used: */
+        /* background-color: transparent;
+        color: var(--text-color-main);
+        border: none;
+        font-size: 1.8rem;
+        padding: 0.25rem 0.5rem;
+        cursor: pointer;
+        z-index: 1010;
+        position: absolute; // Or fixed
+        top: 1rem;
+        left: 1rem; */
+    }
+
+    .mobile-nav {
+        display: flex; /* Show mobile bottom nav */
+    }
+    main {
+        padding: 1rem; /* Less padding on mobile */
+        padding-bottom: 70px; /* Space for fixed mobile nav */
+    }
+
+    .fab-container {
+        bottom: 80px; /* Position above mobile nav - increased for more space */
+        right: 15px;
+        gap: 8px;
+    }
+    .fab {
+        width: 54px;
+        height: 54px;
+    }
+    .fab-icon-image-area {
+        font-size: 18px;
+    }
+    .fab-text {
+        font-size: 9px;
+    }
+
+    .modal-content {
+        padding: 1rem 1.5rem;
+        max-height: 85vh; /* Slightly less max-height on mobile */
+    }
+    .modal-header h3 {
+        font-size: 1.3rem;
+    }
+    /* Ensure form rows in modals stack nicely */
+    .form-row, #contact-us-modal .form-row, #join-us-modal #join-form > .form-row:first-child {
+        grid-template-columns: 1fr; /* Stack all columns in modals */
+        gap: 0.8rem;
+    }
+     #join-us-modal .lang-toggle {
+        top: 0.8rem;
+        right: 3rem;
+        font-size: 0.75rem;
+    }
+
+    footer {
+        padding-bottom: 70px; /* Space for mobile nav if footer becomes visible with scrolling */
     }
 }
 
-/* ===== Footer Styling ===== */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding-bottom: 5px;
-    z-index: 990;
-}
-footer p {
-    margin: 0;
-    font-size: 0.8rem;
-    color: var(--text-color-subtle, #babade);
-}
-
-/* ===== Modal Container Main Styling ===== */
-#modal-container-main {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--modal-backdrop-color, rgba(0, 0, 0, 0.6));
-    z-index: 1040;
-}
-
-/* ===== General Modal Styling ===== */
-.opslight-service-modal {
-    background-color: var(--modal-content-bg, #21213b);
-    padding: 20px;
-    border: 1px solid var(--card-border-color, #4a4a6e);
-    border-radius: 8px;
-    box-shadow: var(--card-shadow, 0 4px 12px rgba(0,0,0,0.1));
-    max-width: 600px;
-    max-height: 80vh;
-    overflow-y: auto;
-    z-index: 1050;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-}
-.opslight-service-modal h2 {
-    margin-top: 0;
-    color: var(--text-color-main, #f4f4f9);
-}
-.opslight-service-modal p {
-    color: var(--card-text-color, #e6e6fa);
-    line-height: 1.6;
-}
-
-/* ===== Contact Us Form Styling ===== */
-.contact-modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 15px;
-}
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.form-row {
-    display: flex;
-    gap: 15px;
-}
-.form-row .form-field { flex: 1; }
-.form-field-country-code { flex: 0 1 80px; }
-.form-field-phone-number { flex: 1 1 auto; }
-.contact-modal-form label {
-    font-size: 0.85rem;
-    color: var(--text-color-subtle, #babade);
-    font-weight: 500;
-}
-.contact-modal-form input[type="text"],
-.contact-modal-form input[type="email"],
-.contact-modal-form input[type="time"],
-.contact-modal-form input[type="date"],
-.contact-modal-form input[type="tel"],
-.contact-modal-form select,
-.contact-modal-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--card-border-color, #4a4a6e);
-    border-radius: 5px;
-    background-color: var(--body-bg-color, #191932);
-    color: var(--text-color-main, #f4f4f9);
-    font-size: 0.9rem;
-    box-sizing: border-box;
-}
-.contact-modal-form input::placeholder,
-.contact-modal-form textarea::placeholder {
-    color: var(--text-color-subtle, #babade);
-    opacity: 0.7;
-}
-.contact-modal-form input:focus,
-.contact-modal-form select:focus,
-.contact-modal-form textarea:focus {
-    outline: none;
-    border-color: var(--hover-glow-color-secondary, #8b5cf6);
-    box-shadow: 0 0 5px var(--hover-glow-color-secondary, #8b5cf6);
-}
-.contact-modal-form select {
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.9z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px 10px;
-    padding-right: 30px;
-}
-.contact-modal-form textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-.form-button {
-    padding: 10px 20px;
-    background-color: var(--fab-bg-color, #a855f7);
-    color: var(--fab-text-color, #fff);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s, transform 0.2s;
-}
-.form-button:hover, .form-button:focus {
-    background-color: var(--fab-hover-bg-color, #8b5cf6);
-    transform: translateY(-1px);
-    outline: none;
-}
-.form-submit-area {
-    margin-top: 10px;
-}
-.validation-message {
-    font-size: 0.75rem;
-    color: var(--hover-glow-color-primary, #8b5cf6);
-    min-height: 1em;
-}
-.submission-status-message {
-    font-size: 0.85rem;
-    color: var(--text-color-subtle, #babade);
-    min-height: 1.2em;
-    margin-top: 10px;
-}
-@media (max-width: 600px) {
-    .form-row { flex-direction: column; gap: 15px; }
-    .form-field-country-code { flex: 0 1 auto; }
-}
-
-/* ===== Header Toggle Button Styling ===== */
-.header-toggle-btn {
-    background-color: var(--card-bg-color, #22223a);
-    color: var(--text-color-subtle, #babade);
-    border: 1px solid var(--text-color-subtle, #babade);
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 500;
-    min-width: 60px;
-    text-align: center;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s, transform 0.2s;
-}
-.header-toggle-btn:hover, .header-toggle-btn:focus {
-    background-color: var(--card-bg-hover-color, #262648);
-    color: var(--text-color-main, #f4f4f9);
-    border-color: var(--hover-glow-color-secondary, #8b5cf6);
-    outline: none;
-    transform: translateY(-1px);
-}
-
-/* ===== Mobile Menu Toggle and Panel ===== */
-.mobile-menu-toggle-btn {
-    display: none;
-    background-color: transparent;
-    color: var(--text-color-main, #f4f4f9);
-    border: none;
-    font-size: 1.8rem;
-    padding: 0.25rem 0.5rem;
-    cursor: pointer;
-    z-index: 1010;
-    line-height: 1;
-    position: relative;
-}
-.mobile-services-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--header-bg-color, #181830);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 1050;
-    padding: 1rem;
-    border-top: 1px solid var(--header-border-color, #282846);
-}
-.mobile-services-menu.open {
-    display: block;
-}
-@media (max-width: 768px) {
-    .mobile-menu-toggle-btn { display: inline-block; }
-    .services-navigation { display: none; }
-}
-.mobile-services-menu p[data-translate-key="mobileNav.placeholder"] {
-    color: var(--text-color-subtle, #babade);
-    font-style: italic;
-}
-
-/* ===== Responsive Modal Adjustments ===== */
-@media (max-width: 768px) {
-    .opslight-service-modal {
-        max-width: 95vw;
-        margin: auto;
-        max-height: 90vh;
+/* Further adjustments for very small screens */
+@media (max-width: 480px) {
+    .main-header-text {
+        font-size: 1.8rem;
+    }
+    .service-nav-item { /* If desktop nav was visible, it would need this */
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    .modal-content {
+        padding: 1rem;
+    }
+    .fab {
+        width: 50px;
+        height: 50px;
+    }
+    .fab-icon-image-area {
+        font-size: 16px;
+    }
+    .fab-text {
+        font-size: 8px;
     }
 }

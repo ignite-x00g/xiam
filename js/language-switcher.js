@@ -1,78 +1,109 @@
 // js/language-switcher.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    const languageToggleButton = document.getElementById('language-toggle-button');
-    let currentLanguage = 'en'; // Default language
+    const desktopLangToggle = document.getElementById('language-toggle-button');
+    const mobileLangToggle = document.getElementById('mobile-language-toggle');
+    const joinUsLangToggle = document.getElementById('join-us-lang-toggle');
 
-    const translations = {
-        // ... (your translations, unchanged for brevity, both 'en' and 'es') ...
-        // [Keep your provided translation objects here—already complete]
-        // Paste your translations here exactly as in your last message
-        en: { /* ... */ },
-        es: { /* ... */ }
-    };
+    let currentLanguage = localStorage.getItem('language') || 'en';
 
-    // Global helpers for i18n
-    window.getTranslatedText = function(key) {
-        return translations[currentLanguage]?.[key] || key;
-    };
-    window.getCurrentLanguage = function() {
-        return currentLanguage;
-    };
+    // Simplified translation function using data attributes
+    function applyTranslations(language) {
+        document.querySelectorAll('[data-en], [data-es]').forEach(el => {
+            const text = el.getAttribute(`data-${language}`);
+            if (text) {
+                // Handle specific elements like inputs or textareas for placeholder
+                if (el.hasAttribute(`data-placeholder-${language}`)) {
+                    el.placeholder = el.getAttribute(`data-placeholder-${language}`);
+                } else if (el.tagName === 'INPUT' && el.type === 'submit' || el.tagName === 'BUTTON') {
+                     // For buttons or submit inputs, set textContent if it's not an icon container
+                    if (!el.querySelector('i')) { // Avoid overwriting icons
+                        el.textContent = text;
+                    } else { // For buttons with icons and text (like mobile nav)
+                        const textSpan = el.querySelector('span');
+                        if (textSpan) textSpan.textContent = text;
+                    }
+                } else if (el.hasAttribute('aria-label') && el.hasAttribute(`data-aria-label-${language}`)) {
+                    el.setAttribute('aria-label', el.getAttribute(`data-aria-label-${language}`));
+                }
+                else {
+                    // For general elements, prefer textContent but use innerHTML if an icon is present
+                    // This is a heuristic; more robust would be to wrap text in spans
+                    let hasIcon = false;
+                    el.childNodes.forEach(node => {
+                        if (node.nodeName === "I") hasIcon = true;
+                    });
 
-    // Translate visible, placeholder, and aria-label text
-    function loadTranslations() {
-        document.querySelectorAll('[data-translate-key]').forEach(element => {
-            const key = element.getAttribute('data-translate-key');
-            const translation = translations[currentLanguage]?.[key];
-            if (translation !== undefined) {
-                // Use innerHTML for content with HTML tags, else use textContent
-                if (key.includes("footer.copy") || key.includes("header.sub")) {
-                    element.innerHTML = translation;
-                } else {
-                    element.textContent = translation;
+                    if(hasIcon && el.querySelector('span')) { // target span within elements that have icons e.g. FABs
+                        el.querySelector('span').innerHTML = text;
+                    } else if (el.children.length > 0 && !el.classList.contains('fab-content-wrapper') && !el.classList.contains('mobile-nav-item')) {
+                        // If element has children but is not a known container type,
+                        // assume text is mixed and try to set only the first text node or a specific span
+                        let foundTextNode = false;
+                        el.childNodes.forEach(child => {
+                            if (child.nodeType === Node.TEXT_NODE && child.textContent.trim() !== '') {
+                                child.textContent = text;
+                                foundTextNode = true;
+                            }
+                        });
+                        if (!foundTextNode && el.querySelector('span')) { // Fallback to a span if direct text node not found
+                           el.querySelector('span').innerHTML = text;
+                        } else if (!foundTextNode) {
+                            el.innerHTML = text; // Fallback if no specific text node/span found
+                        }
+                    }
+                    else {
+                         el.innerHTML = text; // Use innerHTML to handle potential HTML entities like &copy;
+                    }
                 }
             }
         });
-        // Placeholders
-        document.querySelectorAll('[data-placeholder-translate-key]').forEach(element => {
-            const key = element.getAttribute('data-placeholder-translate-key');
-            const translation = translations[currentLanguage]?.[key];
-            if (translation !== undefined) {
-                element.setAttribute('placeholder', translation);
-            }
+
+        // Update toggle button texts
+        const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
+        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows current lang
+        const joinUsModalToggleText = language === 'en' ? 'EN | ES' : 'ES | EN';
+
+        if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
+        if (mobileLangToggle) mobileLangToggle.textContent = mobileLangToggleText;
+        if (joinUsLangToggle) joinUsLangToggle.textContent = joinUsModalToggleText;
+
+
+        // Special handling for Join Us modal input placeholders (dynamic)
+        document.querySelectorAll('#join-us-modal .form-section').forEach(section => {
+            const sectionNameKey = section.dataset.section.toLowerCase().replace(/\s+/g, '');
+            section.querySelectorAll('.inputs input[type="text"]').forEach(input => {
+                const placeholderEn = `Enter ${section.dataset.section} info`;
+                const placeholderEs = `Ingresa información de ${section.dataset.section}`; // Simple translation
+                input.placeholder = language === 'es' ? placeholderEs : placeholderEn;
+            });
         });
-        // Aria-labels
-        document.querySelectorAll('[data-aria-label-translate-key]').forEach(element => {
-            const key = element.getAttribute('data-aria-label-translate-key');
-            const translation = translations[currentLanguage]?.[key];
-            if (translation !== undefined) {
-                element.setAttribute('aria-label', translation);
-            }
-        });
+
+
+        localStorage.setItem('language', language);
+        document.documentElement.lang = language; // Set lang attribute on HTML element
+        document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: language } }));
     }
 
-    // Update UI and emit languageChanged event
-    function setLanguage(lang) {
-        currentLanguage = lang;
-        if (languageToggleButton) {
-            languageToggleButton.textContent = lang === 'es' ? 'ES' : 'EN';
-        }
-        loadTranslations();
-        localStorage.setItem('language', lang);
-        document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: currentLanguage } }));
+    function toggleLanguage() {
+        currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+        applyTranslations(currentLanguage);
     }
 
-    // Init: Set from saved or default
-    const savedLanguage = localStorage.getItem('language');
-    setLanguage(savedLanguage || 'en');
+    // Initial translation
+    applyTranslations(currentLanguage);
 
-    // Toggle logic
-    if (languageToggleButton) {
-        languageToggleButton.addEventListener('click', () => {
-            setLanguage(currentLanguage === 'en' ? 'es' : 'en');
-        });
-    } else {
-        console.warn('Language toggle button #language-toggle-button not found.');
+    // Event Listeners
+    if (desktopLangToggle) {
+        desktopLangToggle.addEventListener('click', toggleLanguage);
     }
+    if (mobileLangToggle) {
+        mobileLangToggle.addEventListener('click', toggleLanguage);
+    }
+    if (joinUsLangToggle) { // This one is specific to the Join Us modal
+        joinUsLangToggle.addEventListener('click', toggleLanguage);
+    }
+
+    // Expose for other scripts if needed (e.g., dynamic content)
+    window.applyTranslations = applyTranslations;
+    window.getCurrentLanguage = () => currentLanguage;
 });
