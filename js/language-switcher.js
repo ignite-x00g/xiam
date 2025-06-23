@@ -58,10 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Update toggle button texts
-        const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
+        // const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN'; // No longer needed for desktop
         const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows current lang
 
-        if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
+        // Desktop toggle will now use its data attributes like other elements
+        // if (desktopLangToggle) desktopLangToggle.textContent = langToggleText; //This line is handled by the generic translation logic now
         if (mobileLangToggle) mobileLangToggle.textContent = mobileLangToggleText;
 
 
