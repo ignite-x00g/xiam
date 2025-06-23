@@ -18,26 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateButtonTexts(theme) {
         const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en';
-        let desktopBaseText, mobileCurrentThemeText, ariaLabel;
-
-        // Desktop button base text
-        desktopBaseText = lang === 'es' ? 'Tema' : 'Theme';
+        let currentThemeText, ariaLabel;
 
         if (theme === 'light') {
-            mobileCurrentThemeText = lang === 'es' ? 'Claro' : 'Light';
+            currentThemeText = lang === 'es' ? 'Claro' : 'Light';
             ariaLabel = lang === 'es' ? 'Cambiar a tema oscuro' : 'Switch to dark theme';
         } else { // dark theme
-            mobileCurrentThemeText = lang === 'es' ? 'Oscuro' : 'Dark';
+            currentThemeText = lang === 'es' ? 'Oscuro' : 'Dark';
             ariaLabel = lang === 'es' ? 'Cambiar a tema claro' : 'Switch to light theme';
         }
 
         if (desktopThemeToggle) {
-            desktopThemeToggle.textContent = desktopBaseText; // Only "Theme" or "Tema"
+            desktopThemeToggle.textContent = currentThemeText; // Display current theme (e.g., "Dark" or "Light")
             desktopThemeToggle.setAttribute('aria-label', ariaLabel);
             desktopThemeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
         }
         if (mobileThemeToggle) {
-            mobileThemeToggle.textContent = mobileCurrentThemeText; // e.g., "Light" or "Dark"
+            mobileThemeToggle.textContent = currentThemeText; // e.g., "Light" or "Dark"
             mobileThemeToggle.setAttribute('aria-label', ariaLabel); // Same aria-label as desktop for action
             mobileThemeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
         }
