@@ -434,6 +434,13 @@ textarea {
 
 
 /* ===== Mobile Navigation Styling ===== */
+/* Hide on landing page */
+.landing-page .mobile-nav,
+.landing-page .mobile-services-menu,
+.landing-page #mobile-menu-toggle {
+    display: none !important;
+}
+
 .mobile-nav {
     display: none; /* Hidden by default, shown via media query */
     position: fixed;
