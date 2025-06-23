@@ -266,9 +266,38 @@ main {
     color: var(--button-secondary-text-color);
     font-size: 0.8rem;
 }
-#join-us-modal .lang-toggle:hover {
-    background-color: var(--button-secondary-hover-bg-color);
+/* #join-us-modal .lang-toggle:hover { */ /* Removed as the element is gone */
+    /* background-color: var(--button-secondary-hover-bg-color); */
+/* } */
+
+/* Join Us Modal - Two Column Layout */
+#join-us-modal .form-columns {
+    display: flex;
+    gap: 1.5rem; /* Gap between the two main columns */
+    margin-bottom: 1.5rem; /* Space before the form footer */
 }
+
+#join-us-modal .form-column {
+    flex: 1; /* Each column takes equal width */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Gap between items within a column */
+}
+
+/* Ensure form-row within a column spans full width if it's the only direct child of form-column for layout purposes */
+/* This specifically targets the Name/Email/Phone group and the Textarea group */
+#join-us-modal .form-column > .form-row {
+    display: flex; /* Changed from grid to flex for simpler stacking of label/input */
+    flex-direction: column;
+    gap: 0.5rem; /* Gap between label and input, and between input groups */
+}
+
+/* Adjusting the original rule for Name/Email/Phone to fit the new structure */
+/* This rule might need to be removed or adjusted if it conflicts. */
+/* #join-us-modal #join-form > .form-row:first-child { ... } */
+/* For now, we'll let the new .form-column > .form-row handle it. */
+/* The individual label/input pairs will stack vertically by default within their parent .form-row */
+
 
 /* Form Styling (common for Join Us, Contact Us) */
 .form-section {
@@ -425,8 +454,12 @@ textarea {
 }
 
 /* Ensure buttons within modals are contained */
-.modal-content .form-footer, .modal-content .form-section {
+.modal-content .form-section { /* form-footer removed from here to allow its own styling */
     overflow: hidden; /* Prevents internal button hover effects from spilling */
+}
+#join-us-modal .form-footer {
+    text-align: center; /* Center the submit button */
+    margin-top: 1rem; /* Add some space above the footer */
 }
 .modal-content .submit-button, .modal-content .accept-btn, .modal-content .edit-btn {
     /* No specific changes needed if padding/margins are correct */
@@ -606,15 +639,22 @@ footer {
         font-size: 1.3rem;
     }
     /* Ensure form rows in modals stack nicely */
-    .form-row, #contact-us-modal .form-row, #join-us-modal #join-form > .form-row:first-child {
-        grid-template-columns: 1fr; /* Stack all columns in modals */
+    /* General .form-row stacking */
+    .form-row, #contact-us-modal .form-row {
+        grid-template-columns: 1fr;
         gap: 0.8rem;
     }
-     #join-us-modal .lang-toggle {
-        top: 0.8rem;
-        right: 3rem;
-        font-size: 0.75rem;
+
+    /* Specifically for Join Us modal's new two-column structure */
+    #join-us-modal .form-columns {
+        flex-direction: column; /* Stack the columns */
+        gap: 1rem; /* Adjust gap for stacked columns */
     }
+    /* The .form-column > .form-row will naturally stack its items due to flex-direction: column */
+    /* No need to override #join-us-modal #join-form > .form-row:first-child specifically anymore */
+
+    /* Removed .lang-toggle style as it's gone */
+    /* #join-us-modal .lang-toggle { ... } */
 
     footer {
         padding-bottom: 70px; /* Space for mobile nav if footer becomes visible with scrolling */
