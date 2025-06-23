@@ -94,19 +94,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-       // Update toggle button texts
-        // const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN'; // No longer needed for desktop
-        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows current lang
 
-        // Desktop toggle will now use its data attributes like other elements
-        // if (desktopLangToggle) desktopLangToggle.textContent = langToggleText; //This line is handled by the generic translation logic now
-        if (mobileLangToggle) mobileLangToggle.textContent = mobileLangToggleText;
-        if (mobileLangToggle) {
-            // Mobile toggle should display the current language (e.g., "EN" or "ES")
-            // It uses its own data-en/data-es attributes for its text content, not for the language it represents.
-            // The text content of the mobile language toggle button itself should be "EN" or "ES"
-            mobileLangToggle.textContent = mobileLangToggle.dataset[language];
+      // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
+        const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
+        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES';
+
+        if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
+        if (mobileLangToggle) { // Mobile toggle might be just icon or icon + text
+            const mobileToggleSpan = mobileLangToggle.querySelector('span');
+            if (mobileToggleSpan) { // If it has a span for text (like Home, Services)
+                 // This is not for the language text itself but for items that might be language buttons
+            } else { // If it's the EN/ES button itself
+                mobileLangToggle.textContent = mobileLangToggleText;
+            }
         }
+
+                // Try to get translated section name for placeholder from h2 if available
+                if (sectionTitleElement) {
+                    const translatedTitle = sectionTitleElement.getAttribute(`data-${language}`) || sectionTitleElement.textContent;
+                    if (translatedTitle) sectionNameForPlaceholder = translatedTitle;
+                }
+
         // Special handling for Join Us modal input placeholders (dynamic inputs)
         // This part seems specific and might be better handled by the component itself if possible
         // For now, keep it but ensure it's robust.

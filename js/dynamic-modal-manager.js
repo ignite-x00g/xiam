@@ -1,9 +1,12 @@
 // js/dynamic-modal-manager.js
+console.log('[DMM] dynamic-modal-manager.js: Script start');
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[ModalManager] DOMContentLoaded: Initializing modal manager.'); // Log: Script start
-
+    console.log('[DMM] DOMContentLoaded event fired.');
     const modalBackdrop = document.getElementById('modal-backdrop');
+    if (!modalBackdrop) {
+        console.warn('[DMM] Modal backdrop element (#modal-backdrop) not found.');
+    }
     let openModal = null; // Keep track of the currently open modal
     let lastFocusedElement = null; // To restore focus
 
@@ -38,11 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const modal = document.getElementById(modalId);
         if (!modal) {
-            console.error(`[ModalManager] Modal with ID "${modalId}" not found.`);
+            console.error(`[DMM] Modal with ID ${modalId} not found.`);
             return;
         }
-        console.log(`[ModalManager] Found modal element:`, modal);
-
+        console.log(`[DMM] openModalHandler called for modalId: ${modalId}. Modal element:`, modal);
         if (openModal && openModal !== modal) {
             console.log(`[ModalManager] Closing currently open modal: "${openModal.id}" before opening "${modalId}".`);
             closeModalHandler(openModal);
@@ -104,34 +106,44 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(`[ModalManager] Error applying translations for modal "${modalId}":`, e);
         }
     }
+   function closeModalHandler(modalToClose, sourceEvent = null) {
+        console.log('[DMM] closeModalHandler called. Modal to close:', modalToClose, 'Source event:', sourceEvent);
+        if (sourceEvent && sourceEvent.target) {
+            console.log('[DMM] closeModalHandler - event target:', sourceEvent.target);
+        }
+        try {
+            throw new Error('[DMM] Stack trace for closeModalHandler');
+        } catch (e) {
+            console.log(e.stack);
+        }
 
-    function closeModalHandler(modalToClose) {
-        if (!modalToClose) modalToClose = openModal;
+        if (!modalToClose && openModal) {
+            console.log('[DMM] modalToClose was null, defaulting to openModal:', openModal);
+            modalToClose = openModal;
+        }
+
         if (!modalToClose) {
-            console.warn('[ModalManager] closeModalHandler called but no modal to close.');
+            console.log('[DMM] closeModalHandler: No modal to close, returning.');
             return;
         }
-        const modalId = modalToClose.id;
-        console.log(`[ModalManager] closeModalHandler called for modalId: "${modalId}"`);
 
+        console.log(`[DMM] Closing modal: ${modalToClose.id}`);
         modalToClose.style.display = 'none';
-        if (modalBackdrop) modalBackdrop.style.display = 'none';
+        if (modalBackdrop) {
+            console.log('[DMM] Hiding modal backdrop.');
+            modalBackdrop.style.display = 'none';
+        }
         document.body.style.overflow = '';
-        console.log(`[ModalManager] Modal "${modalId}" and backdrop hidden. Body overflow restored.`);
+        console.log('[DMM] Body overflow restored.');
 
         modalToClose.removeEventListener('keydown', trapFocus);
         if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-            try {
-                lastFocusedElement.focus();
-                console.log('[ModalManager] Restored focus to:', lastFocusedElement);
-            } catch (e) {
-                console.error('[ModalManager] Error restoring focus to lastFocusedElement:', e, lastFocusedElement);
-            }
+            console.log('[DMM] Restoring focus to:', lastFocusedElement);
+            lastFocusedElement.focus();
         }
         openModal = null;
-        console.log(`[ModalManager] Modal "${modalId}" closed. openModal reset to null.`);
+        console.log('[DMM] openModal variable set to null.');
     }
-
     function trapFocus(event) {
         if (event.key !== 'Tab' || !openModal) return;
 
@@ -158,16 +170,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listeners for modal triggers
     const modalTriggers = document.querySelectorAll('[data-modal-target]');
-    console.log(`[ModalManager] Found ${modalTriggers.length} modal triggers with [data-modal-target].`);
+    console.log(`[DMM] Found ${modalTriggers.length} modal triggers with [data-modal-target].`);
+
     modalTriggers.forEach(trigger => {
-        console.log('[ModalManager] Attaching click listener to trigger for modal:', trigger.dataset.modalTarget, trigger);
+        console.log(`[DMM] Attaching click listener to:`, trigger);
         trigger.addEventListener('click', (event) => {
             // Prevent default for anchor tags, though current FABs are buttons
             if (trigger.tagName === 'A' && trigger.getAttribute('href') === '#') {
                 event.preventDefault();
             }
             const modalId = trigger.dataset.modalTarget;
-            console.log(`[ModalManager] Clicked trigger for modalId: "${modalId}"`, 'Element:', trigger);
+            console.log(`[DMM] Clicked on trigger for modalId: ${modalId}. Trigger element:`, trigger);
+            if (trigger.id === 'fab-contact') {
+                console.log('[DMM] Contact Us FAB (fab-contact) clicked!');
+            }
             openModalHandler(modalId, trigger);
         });
     });
@@ -197,24 +213,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listeners for close buttons
     document.querySelectorAll('[data-close-modal]').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (event) => { // Added event
             const modalToCloseId = button.dataset.closeModal;
             const modalToClose = document.getElementById(modalToCloseId);
-            closeModalHandler(modalToClose);
+            closeModalHandler(modalToClose, event); // Pass event
         });
     });
 
     // Close modal on backdrop click
     if (modalBackdrop) {
-        modalBackdrop.addEventListener('click', () => {
-            if (openModal) closeModalHandler(openModal);
+        modalBackdrop.addEventListener('click', (event) => { // Added event
+            if (openModal) closeModalHandler(openModal, event); // Pass event
         });
     }
     // Also handle clicks on .modal-overlay itself if it's the direct parent and not the content
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', (event) => {
             if (event.target === overlay && openModal && openModal.id === overlay.id) { // Ensure it's the correct overlay for the open modal
-                closeModalHandler(openModal);
+                closeModalHandler(openModal, event); // Pass event
             }
         });
     });
@@ -223,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close modal on ESC key
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && openModal) {
-            closeModalHandler(openModal);
+            closeModalHandler(openModal, event); // Pass event
         }
     });
 
