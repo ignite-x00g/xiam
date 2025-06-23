@@ -96,10 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
       // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
-        const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
+        const desktopLangToggleText = language === 'en' ? 'EN' : 'ES'; // Corrected text for desktop
         const mobileLangToggleText = language === 'en' ? 'EN' : 'ES';
 
-        if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
+        if (desktopLangToggle) desktopLangToggle.textContent = desktopLangToggleText;
         if (mobileLangToggle) { // Mobile toggle might be just icon or icon + text
             const mobileToggleSpan = mobileLangToggle.querySelector('span');
             if (mobileToggleSpan) { // If it has a span for text (like Home, Services)
@@ -108,12 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 mobileLangToggle.textContent = mobileLangToggleText;
             }
         }
-
-                // Try to get translated section name for placeholder from h2 if available
-                if (sectionTitleElement) {
-                    const translatedTitle = sectionTitleElement.getAttribute(`data-${language}`) || sectionTitleElement.textContent;
-                    if (translatedTitle) sectionNameForPlaceholder = translatedTitle;
-                }
 
         // Special handling for Join Us modal input placeholders (dynamic inputs)
         // This part seems specific and might be better handled by the component itself if possible
