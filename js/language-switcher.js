@@ -109,12 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-                // Try to get translated section name for placeholder from h2 if available
-                if (sectionTitleElement) {
-                    const translatedTitle = sectionTitleElement.getAttribute(`data-${language}`) || sectionTitleElement.textContent;
-                    if (translatedTitle) sectionNameForPlaceholder = translatedTitle;
-                }
-
         // Special handling for Join Us modal input placeholders (dynamic inputs)
         // This part seems specific and might be better handled by the component itself if possible
         // For now, keep it but ensure it's robust.
