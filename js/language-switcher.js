@@ -2,7 +2,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const desktopLangToggle = document.getElementById('language-toggle-button');
     const mobileLangToggle = document.getElementById('mobile-language-toggle');
-    const joinUsLangToggle = document.getElementById('join-us-lang-toggle');
 
     let currentLanguage = localStorage.getItem('language') || 'en';
 
@@ -61,11 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update toggle button texts
         const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
         const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows current lang
-        const joinUsModalToggleText = language === 'en' ? 'EN | ES' : 'ES | EN';
 
         if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
         if (mobileLangToggle) mobileLangToggle.textContent = mobileLangToggleText;
-        if (joinUsLangToggle) joinUsLangToggle.textContent = joinUsModalToggleText;
 
 
         // Special handling for Join Us modal input placeholders (dynamic)
@@ -98,9 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (mobileLangToggle) {
         mobileLangToggle.addEventListener('click', toggleLanguage);
-    }
-    if (joinUsLangToggle) { // This one is specific to the Join Us modal
-        joinUsLangToggle.addEventListener('click', toggleLanguage);
     }
 
     // Expose for other scripts if needed (e.g., dynamic content)
