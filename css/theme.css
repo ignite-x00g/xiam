@@ -1,95 +1,146 @@
 /* ================== Theme Color Variables ================== */
 
-/* ==== Default (Dark) Theme ==== */
+/* ==== Default (Dark) Theme - Obscure/Dark Gray ==== */
 :root {
-    --body-bg-color: #1a1a2e;
-    --text-color-main: #e0e0e0;
-    --text-color-subtle: #b0b0d0;
-    --header-bg-color: #1f1f30;
-    --header-border-color: #3a3a5a;
-    --main-logo-color: #e0e0f0;
-    --sub-logo-color: #b0b0d0;
+    /* Core Palette */
+    --primary-color: #333333; /* Dark Gray base */
+    --secondary-color: #4F4F4F; /* Medium Dark Gray */
+    --accent-color: #8b5cf6; /* Purple accent from original FAB */
+    --accent-color-faded: rgba(139, 92, 246, 0.2);
 
-    --card-bg-color: #2a2a3e;
-    --card-border-color: #4a4a6e;
-    --card-text-color: #c0c0f0;
-    --card-text-dim-color: #a0a0d0;
+    /* Backgrounds */
+    --body-bg-color: #242424; /* Dark gray for body */
+    --header-bg-color: #1A1A1A; /* Slightly darker for header */
+    --card-bg-color: #2E2E2E;
+    --card-bg-hover-color: #383838;
+    --modal-content-bg: #2C2C2C;
+    --modal-backdrop-bg: rgba(0,0,0,0.75); /* Darker backdrop */
+    --input-bg-color: #3D3D3D;
+    --form-section-bg-color: #292929; /* Slightly different for form sections */
+    --button-secondary-bg-color: #4A4A4A;
+    --button-secondary-hover-bg-color: #5A5A5A;
 
-    --modal-content-bg: #1c1c2c;
-    --modal-backdrop-bg: rgba(0,0,0,0.7);
+    /* Text */
+    --text-color-main: #E0E0E0; /* Light gray for readability */
+    --text-color-subtle: #B0B0B0;
+    --text-color-emphasis: #FFFFFF; /* White for important text like titles */
+    --text-color-placeholder: #888888;
+    --main-logo-color: var(--accent-color); /* Keep logo vibrant */
+    --sub-logo-color: var(--text-color-subtle);
+    --button-text-color: #FFFFFF;
+    --button-hover-text-color: #FFFFFF;
+    --button-text-color-on-accent: #FFFFFF;
+    --button-text-color-on-warning: #000000;
+    --button-secondary-text-color: var(--text-color-main);
 
-    --fab-bg-color: #8b5cf6;
-    --fab-hover-bg-color: #a855f7;
-    --fab-text-color: #fff;
-    --fab-shadow-color: rgba(0,0,0,0.2);
 
-    --glow-effect-color-1: rgba(139, 92, 246, 0.15);
-    --glow-effect-color-2: rgba(139, 92, 246, 0.1);
-    --glow-effect-color-3: rgba(168, 85, 247, 0.05);
-    --glow-transparent: transparent;
+    /* Borders */
+    --header-border-color: #3A3A3A;
+    --card-border-color: #454545;
+    --input-border-color: #505050;
+    --border-color-soft: #404040; /* For modal headers/footers */
+    --button-border-color: #555555;
 
-    --hover-glow-color-primary: #a855f7;
-    --hover-glow-color-secondary: #8b5cf6;
-    --hover-glow-opacity-strong: 0.6;
-    --hover-glow-opacity-medium: 0.4;
-    --hover-glow-opacity-soft: 0.3;
-    --inset-glow-color: rgba(139, 92, 246, 0.4);
-    --shadow-color-dark: rgba(0,0,0,0.3);
 
-    --switch-track-bg: #4a4a6e;
-    --switch-knob-bg: #fff;
-    --switch-active-bg: #8b5cf6;
+    /* Buttons & Interactive Elements */
+    --button-bg-color: var(--secondary-color);
+    --button-hover-bg-color: #5A5A5A;
+    --fab-bg-color: var(--accent-color);
+    --fab-hover-bg-color: #a855f7; /* Lighter purple from original */
+    --fab-text-color: #FFFFFF;
+    --success-color: #28a745; /* Green */
+    --warning-color: #ffc107; /* Yellow */
+    --danger-color: #dc3545;  /* Red */
 
-    --fab-inset-highlight: rgba(255,255,255,0.3);
-    --card-bg-hover-color: #3a3a5e;
-    --nav-item-glow-color-1: rgba(139, 92, 246, 0.4);
-    --nav-item-glow-color-2: rgba(168, 85, 247, 0.3);
-    --fab-hover-main-glow: rgba(168, 85, 247, 0.7);
-}
+    /* Shadows */
+    --shadow-color-soft: rgba(0,0,0,0.2);
+    --shadow-color-medium: rgba(0,0,0,0.3);
+    --shadow-color-strong: rgba(0,0,0,0.4);
+    --fab-shadow-color: var(--shadow-color-medium);
 
-/* ==== Light Theme (Overrides) ==== */
-body.light-theme {
-    --body-bg-color: #f0f0f8;
-    --text-color-main: #1a1a2e;
-    --text-color-subtle: #4a4a6e;
-    --header-bg-color: #e0e0f0;
-    --header-border-color: #c0c0d0;
-    --main-logo-color: #1a1a2e;
-    --sub-logo-color: #4a4a6e;
+    /* Mobile Navigation */
+    --mobile-nav-bg-color: #1E1E1E;
+    --mobile-nav-border-color: var(--header-border-color);
+    --mobile-nav-text-color: var(--text-color-subtle);
+    --mobile-menu-panel-bg-color: #282828;
+    --mobile-menu-panel-text-color: var(--text-color-main);
+    --mobile-menu-panel-hover-bg-color: #333333;
+    --mobile-menu-panel-divider-color: var(--header-border-color);
 
-    --card-bg-color: #fff;
-    --card-border-color: #d0d0e0;
-    --card-text-color: #333344;
-    --card-text-dim-color: #555566;
-
-    --modal-content-bg: #fdfdff;
-    --modal-backdrop-bg: rgba(50,50,90,0.4);
-
-    --fab-bg-color: #8b5cf6;
-    --fab-hover-bg-color: #a855f7;
-    --fab-text-color: #fff;
-    --fab-shadow-color: rgba(0,0,0,0.15);
-
+    /* Glow effects (can be toned down or adjusted for dark theme) */
     --glow-effect-color-1: rgba(139, 92, 246, 0.1);
     --glow-effect-color-2: rgba(139, 92, 246, 0.07);
+    --glow-effect-color-3: rgba(168, 85, 247, 0.05);
+}
+
+/* ==== Light Theme (Overrides) - Bright White / Cold White ==== */
+body.light-theme {
+    /* Core Palette */
+    --primary-color: #FFFFFF; /* Bright White base */
+    --secondary-color: #F0F0F8; /* Cold White / Very Light Gray */
+    --accent-color: #8b5cf6; /* Purple accent */
+    --accent-color-faded: rgba(139, 92, 246, 0.15);
+
+    /* Backgrounds */
+    --body-bg-color: #FDFDFD; /* Bright white for body */
+    --header-bg-color: #FFFFFF;
+    --card-bg-color: #FFFFFF;
+    --card-bg-hover-color: #F7F7FD;
+    --modal-content-bg: #FFFFFF;
+    --modal-backdrop-bg: rgba(50,50,90,0.3); /* Softer backdrop */
+    --input-bg-color: #FFFFFF;
+    --form-section-bg-color: #F9F9FC;
+    --button-secondary-bg-color: #E9E9F3;
+    --button-secondary-hover-bg-color: #D9D9E3;
+
+
+    /* Text */
+    --text-color-main: #1A1A2E; /* Dark text for contrast */
+    --text-color-subtle: #4A4A6E;
+    --text-color-emphasis: #000000;
+    --text-color-placeholder: #777788;
+    --main-logo-color: var(--accent-color);
+    --sub-logo-color: var(--text-color-subtle);
+    --button-text-color: var(--text-color-main);
+    --button-hover-text-color: var(--text-color-main);
+    --button-text-color-on-accent: #FFFFFF;
+    --button-text-color-on-warning: #000000;
+    --button-secondary-text-color: var(--text-color-main);
+
+    /* Borders */
+    --header-border-color: #E0E0E8;
+    --card-border-color: #D8D8E0;
+    --input-border-color: #C8C8D8;
+    --border-color-soft: #E8E8F0;
+    --button-border-color: #C0C0D0;
+
+    /* Buttons & Interactive Elements */
+    --button-bg-color: var(--secondary-color);
+    --button-hover-bg-color: #E0E0E8;
+    --fab-bg-color: var(--accent-color);
+    --fab-hover-bg-color: #a855f7;
+    --fab-text-color: #FFFFFF;
+    --success-color: #228B22; /* Forest Green - slightly darker for light theme */
+    --warning-color: #FFB300; /* Amber */
+    --danger-color: #D32F2F;  /* Darker Red */
+
+    /* Shadows */
+    --shadow-color-soft: rgba(0,0,0,0.05);
+    --shadow-color-medium: rgba(0,0,0,0.1);
+    --shadow-color-strong: rgba(0,0,0,0.15);
+    --fab-shadow-color: var(--shadow-color-medium);
+
+    /* Mobile Navigation */
+    --mobile-nav-bg-color: #FFFFFF;
+    --mobile-nav-border-color: var(--header-border-color);
+    --mobile-nav-text-color: var(--text-color-subtle);
+    --mobile-menu-panel-bg-color: #F8F8FC;
+    --mobile-menu-panel-text-color: var(--text-color-main);
+    --mobile-menu-panel-hover-bg-color: #EFEFF9;
+    --mobile-menu-panel-divider-color: var(--header-border-color);
+
+    /* Glow effects (can be adjusted for light theme) */
+    --glow-effect-color-1: rgba(139, 92, 246, 0.08);
+    --glow-effect-color-2: rgba(139, 92, 246, 0.05);
     --glow-effect-color-3: rgba(168, 85, 247, 0.03);
-    --glow-transparent: transparent;
-
-    --hover-glow-color-primary: #8b5cf6;
-    --hover-glow-color-secondary: #a855f7;
-    --hover-glow-opacity-strong: 0.5;
-    --hover-glow-opacity-medium: 0.3;
-    --hover-glow-opacity-soft: 0.2;
-    --inset-glow-color: rgba(139, 92, 246, 0.3);
-    --shadow-color-dark: rgba(0,0,0,0.1);
-
-    --switch-track-bg: #c0c0d0;
-    --switch-knob-bg: #fff;
-    --switch-active-bg: #8b5cf6;
-
-    --fab-inset-highlight: rgba(0,0,0,0.1);
-    --card-bg-hover-color: #e9e9f3;
-    --nav-item-glow-color-1: rgba(139, 92, 246, 0.3);
-    --nav-item-glow-color-2: rgba(168, 85, 247, 0.2);
-    --fab-hover-main-glow: rgba(139, 92, 246, 0.5);
 }
