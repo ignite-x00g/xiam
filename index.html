@@ -198,49 +198,99 @@
 
     <!-- Contact Us Modal (using provided structure) -->
     <div id="contact-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="contactModalTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h3>
-                <button class="close-modal" data-close-modal="contact-us-modal" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="contact-form">
-                    <div class="form-row">
-                        <div class="form-cell">
-                            <label for="contact-name" data-en="Name" data-es="Nombre">Name</label>
-                            <input type="text" id="contact-name" data-placeholder-en="Enter your name" data-placeholder-es="Ingrese su Nombre" required>
-                        </div>
-                        <div class="form-cell">
-                            <label for="contact-email" data-en="Email" data-es="Correo Electrónico">Email</label>
-                            <input type="email" id="contact-email" data-placeholder-en="Enter your email" data-placeholder-es="Ingrese su correo electrónico" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-cell">
-                             <label for="contact-number" data-en="Contact Number" data-es="Teléfono">Contact Number</label>
-                            <input type="tel" id="contact-number" data-placeholder-en="Enter your contact number" data-placeholder-es="Ingrese su número" required>
-                        </div>
-                        <div class="form-cell">
-                            <label for="contact-date" data-en="Preferred Date" data-es="Fecha Preferida">Preferred Date</label>
-                            <input type="date" id="contact-date" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-cell">
-                            <label for="contact-time" data-en="Preferred Time" data-es="Hora Preferida">Preferred Time</label>
-                            <input type="time" id="contact-time" required>
-                        </div>
-                        <div class="form-cell">
-                            <label for="contact-comments" data-en="Comments" data-es="Comentarios">Comments</label>
-                            <textarea id="contact-comments" rows="4" data-placeholder-en="What service are you interested in?" data-placeholder-es="En qué servicio está interesado?" required></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" form="contact-form" class="submit-button" data-en="Send" data-es="Enviar">Send</button>
-            </div>
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 id="contactModalTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h3>
+          <button class="close-modal" data-close-modal="contact-us-modal" aria-label="Close">&times;</button>
         </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="contact-form">
+
+            <!-- Name & Email -->
+            <div class="form-row">
+              <div class="form-cell">
+                <label for="contact-name" data-en="Name" data-es="Nombre">Name</label>
+                <input type="text" id="contact-name"
+                       data-placeholder-en="Enter your name"
+                       data-placeholder-es="Ingrese su Nombre"
+                       required>
+              </div>
+
+              <div class="form-cell">
+                <label for="contact-email" data-en="Email" data-es="Correo Electrónico">Email</label>
+                <input type="email" id="contact-email"
+                       data-placeholder-en="Enter your email"
+                       data-placeholder-es="Ingrese su correo electrónico"
+                       required>
+              </div>
+            </div>
+
+            <!-- Contact Number & Date -->
+            <div class="form-row">
+              <div class="form-cell">
+                <label for="contact-number" data-en="Contact Number" data-es="Número de Contacto">Contact Number</label>
+                <input type="tel" id="contact-number"
+                       data-placeholder-en="Enter your contact number"
+                       data-placeholder-es="Ingrese su número"
+                       required>
+              </div>
+
+              <div class="form-cell">
+                <label for="contact-date" data-en="Preferred Date" data-es="Fecha Preferida">Preferred Date</label>
+                <input type="date" id="contact-date"
+                       data-placeholder-en="Preferred Date"
+                       data-placeholder-es="Fecha Preferida"
+                       required>
+              </div>
+            </div>
+
+            <!-- Time & Interest Dropdown -->
+            <div class="form-row">
+              <div class="form-cell">
+                <label for="contact-time" data-en="Preferred Time" data-es="Hora Preferida">Preferred Time</label>
+                <input type="time" id="contact-time"
+                       data-placeholder-en="Preferred Time"
+                       data-placeholder-es="Hora Preferida"
+                       required>
+              </div>
+
+              <div class="form-cell">
+                <label for="contact-interest" data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</label>
+                <select id="contact-interest" required>
+                  <option value="" disabled selected data-en="Select an option" data-es="Seleccione una opción">Select an option</option>
+                  <option data-en="Business Operations" data-es="Gestión">Business Operations</option>
+                  <option data-en="Contact Center" data-es="Centro de Servicios">Contact Center</option>
+                  <option data-en="IT Support" data-es="Soporte Técnico">IT Support</option>
+                  <option data-en="Professionals" data-es="Profesionales">Professionals</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Comments -->
+            <div class="form-row">
+              <div class="form-cell" style="flex: 1 1 100%;">
+                <label for="contact-comments" data-en="Comments" data-es="Comentarios">Comments</label>
+                <textarea id="contact-comments" rows="4"
+                          data-placeholder-en="What service are you interested in?"
+                          data-placeholder-es="En qué servicio está interesado?"
+                          required></textarea>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="submit" form="contact-form" class="submit-button"
+                  data-en="Send" data-es="Enviar">Send</button>
+        </div>
+
+      </div>
     </div>
 
     <!-- Placeholder for other Modals (Service Modals, Chatbot) -->
@@ -341,6 +391,7 @@
     <script src="js/dynamic-modal-manager.js" defer></script>
     <!-- contact-form.js might be merged or adapted into dynamic-modal-manager or a new script for form handling -->
     <!-- <script src="js/contact-form.js" defer></script> -->
+    <script src="js/contact-form-handler.js" defer></script>
     <script src="js/mobile-menu.js" defer></script>
     <!-- script.js will be adapted for Join Us modal and other new interactions -->
     <script src="js/script.js" defer></script>
