@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
+       // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
         const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
         const mobileLangToggleText = language === 'en' ? 'EN' : 'ES';
 
@@ -108,8 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 mobileLangToggle.textContent = mobileLangToggleText;
             }
         }
-
-
         // Special handling for Join Us modal input placeholders (dynamic inputs)
         // This part seems specific and might be better handled by the component itself if possible
         // For now, keep it but ensure it's robust.
