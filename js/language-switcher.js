@@ -94,15 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+       // Update toggle button texts
+        // const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN'; // No longer needed for desktop
+        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows current lang
 
-       // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
-        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows only current lang
-
-        if (desktopLangToggle) {
-            // Set text to display only the current language
-            desktopLangToggle.textContent = desktopLangToggle.dataset[language];
-        }
-
+        // Desktop toggle will now use its data attributes like other elements
+        // if (desktopLangToggle) desktopLangToggle.textContent = langToggleText; //This line is handled by the generic translation logic now
+        if (mobileLangToggle) mobileLangToggle.textContent = mobileLangToggleText;
         if (mobileLangToggle) {
             // Mobile toggle should display the current language (e.g., "EN" or "ES")
             // It uses its own data-en/data-es attributes for its text content, not for the language it represents.
