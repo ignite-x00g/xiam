@@ -691,3 +691,130 @@ footer {
         font-size: 8px;
     }
 }
+
+/* === BEGIN Contact Us Modal Specific Styles === */
+/* These styles are adapted from the user-provided HTML <style> block */
+
+/* Contact Us Modal uses general .modal-overlay, .modal-content, .modal-header, .close-modal, .modal-body, .modal-footer */
+/* We will add specific rules for its form elements if they differ or need overrides */
+
+#contact-us-modal .modal-content {
+  /* max-width is already 800px by default, user sample was 600px. We can make it specific if needed */
+  /* max-width: 600px; */
+  /* font-family is inherited from body, user sample had 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif. Keep global for consistency. */
+}
+
+#contact-us-modal .modal-header h3 {
+  /* font-size: 1.5rem; color: #333; */ /* Already handled by general .modal-header h3 and theme variables */
+}
+
+#contact-us-modal .close-modal {
+  /* font-size: 1.5rem; background: none; border: none; color: #666; */ /* Mostly handled by general .close-modal */
+  /* color: var(--text-color-subtle); */ /* Ensure it uses theme variable */
+}
+
+#contact-us-modal form { /* Refers to #contact-form */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* This is good, keep it */
+}
+
+/* .form-row is already defined globally with grid.
+   The user's sample had .form-row with display: flex; flex-wrap: wrap; gap: 1rem;
+   The existing global .form-row is:
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+   And for #contact-us-modal .form-row:
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+   This existing setup should be fine for two columns.
+*/
+
+#contact-us-modal .form-cell {
+  /* flex: 1 1 48%; display: flex; flex-direction: column; */
+  /* This is handled by the grid layout of .form-row. Each cell is a grid item. */
+  /* We might need to ensure it still behaves as flex for label+input stacking if not default */
+  display: flex;
+  flex-direction: column;
+}
+
+#contact-us-modal label {
+  /* margin-bottom: 0.3rem; font-weight: 600; color: #444; */
+  /* Handled by global label styles:
+    font-weight: bold; margin-bottom: 0.3rem; font-size: 0.9rem; color: var(--text-color-subtle);
+    The font-weight: 600 is similar to bold. Color will use theme variable.
+  */
+}
+
+#contact-us-modal input,
+#contact-us-modal select,
+#contact-us-modal textarea {
+  /* padding: 0.6rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; */
+  /* Global styles are:
+    padding: 0.7rem 0.9rem; border: 1px solid var(--input-border-color); border-radius: 5px;
+    background-color: var(--input-bg-color); color: var(--text-color-main);
+    The padding is slightly different, border-radius too. We can align them or keep sample's.
+    Let's try to use global styles more for consistency but adapt if needed.
+  */
+  /* Example of adapting one property from sample: */
+  /* border-radius: 6px; */
+}
+
+#contact-us-modal textarea {
+  resize: vertical; /* This is good, keep it. Already in global textarea. */
+}
+
+#contact-us-modal .submit-button {
+  /* padding: 0.75rem 1.5rem; background-color: #6a1b9a; color: #fff; font-weight: bold; border: none; border-radius: 8px; */
+  /* Global .submit-button:
+    background-color: var(--accent-color); color: var(--button-text-color-on-accent);
+    padding: 0.6rem 1.2rem; border-radius: 4px; font-size: 0.9rem; font-weight: 500;
+    Let's make it use the theme variables.
+  */
+  background-color: var(--accent-color); /* Uses theme accent */
+  color: var(--button-text-color-on-accent); /* Uses theme text color for buttons on accent bg */
+  /* Keep sample's padding and radius if they are preferred for this specific button */
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold; /* Sample was bold, global is 500 */
+  transition: background-color 0.2s ease; /* From sample */
+}
+
+#contact-us-modal .submit-button:hover {
+  /* background-color: #4a148c; */ /* Sample hover */
+  /* Global hover is opacity: 0.85; */
+  /* Let's use a themed hover, e.g., darken the accent color or use a specific variable if available */
+  background-color: var(--accent-color-darker, var(--button-hover-bg-color)); /* Fallback to general button hover */
+  /* Or simply rely on the global .submit-button:hover opacity rule if that's preferred. */
+}
+
+/* Responsive part from sample for contact modal form cells */
+/* @media (max-width: 600px) {
+  #contact-us-modal .form-cell {
+    flex: 1 1 100%; // This was for flexbox.
+  }
+} */
+/* The global responsive rule for .form-row already handles stacking:
+   @media (max-width: 768px) {
+     .form-row, #contact-us-modal .form-row {
+        grid-template-columns: 1fr; // This makes grid items take full width.
+        gap: 0.8rem;
+     }
+   }
+   So, individual .form-cell styling for 100% width under 600px is likely covered.
+*/
+
+/* Special case for the comment cell that needs to span full width even on larger screens */
+#contact-us-modal .form-row .form-cell[style*="flex: 1 1 100%"] {
+    /* The inline style already sets flex-basis to 100%.
+       For grid, we need to make it span all columns.
+       Assuming the parent .form-row is 2 columns (1fr 1fr) from:
+       #contact-us-modal .form-row { grid-template-columns: 1fr 1fr; }
+    */
+    grid-column: 1 / -1; /* Span all columns */
+}
+
+
+/* === END Contact Us Modal Specific Styles === */
