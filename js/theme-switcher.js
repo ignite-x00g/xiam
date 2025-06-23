@@ -18,30 +18,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateButtonTexts(theme) {
         const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en';
-        let desktopText, mobileText, ariaLabel;
+        let desktopBaseText, mobileCurrentThemeText, ariaLabel;
+
+        // Desktop button base text
+        desktopBaseText = lang === 'es' ? 'Tema' : 'Theme';
 
         if (theme === 'light') {
-            desktopText = lang === 'es' ? 'Tema: Claro' : 'Theme: Light';
-            mobileText = lang === 'es' ? 'Claro' : 'Light';
+            mobileCurrentThemeText = lang === 'es' ? 'Claro' : 'Light';
             ariaLabel = lang === 'es' ? 'Cambiar a tema oscuro' : 'Switch to dark theme';
         } else { // dark theme
-            desktopText = lang === 'es' ? 'Tema: Oscuro' : 'Theme: Dark';
-            mobileText = lang === 'es' ? 'Oscuro' : 'Dark';
+            mobileCurrentThemeText = lang === 'es' ? 'Oscuro' : 'Dark';
             ariaLabel = lang === 'es' ? 'Cambiar a tema claro' : 'Switch to light theme';
         }
 
         if (desktopThemeToggle) {
-            desktopThemeToggle.textContent = desktopText;
+            desktopThemeToggle.textContent = desktopBaseText; // Only "Theme" or "Tema"
             desktopThemeToggle.setAttribute('aria-label', ariaLabel);
             desktopThemeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
         }
         if (mobileThemeToggle) {
-            // Mobile toggle usually shows the current state or the action to switch
-            // For simplicity, let's make it show the current state similar to language.
-            mobileThemeToggle.textContent = mobileText; // e.g., "Light" or "Dark"
-            mobileThemeToggle.setAttribute('aria-label', ariaLabel);
+            mobileThemeToggle.textContent = mobileCurrentThemeText; // e.g., "Light" or "Dark"
+            mobileThemeToggle.setAttribute('aria-label', ariaLabel); // Same aria-label as desktop for action
             mobileThemeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-
         }
     }
 
