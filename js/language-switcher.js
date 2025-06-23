@@ -96,10 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
       // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
-        const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
+        const desktopLangToggleText = language === 'en' ? 'EN' : 'ES'; // Corrected text for desktop
         const mobileLangToggleText = language === 'en' ? 'EN' : 'ES';
 
-        if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
+        if (desktopLangToggle) desktopLangToggle.textContent = desktopLangToggleText;
         if (mobileLangToggle) { // Mobile toggle might be just icon or icon + text
             const mobileToggleSpan = mobileLangToggle.querySelector('span');
             if (mobileToggleSpan) { // If it has a span for text (like Home, Services)
