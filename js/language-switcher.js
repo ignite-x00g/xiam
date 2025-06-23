@@ -96,17 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
        // Update toggle button texts (specific handling as they don't use data-en/es for their own text)
-        const langToggleText = language === 'en' ? 'EN/ES' : 'ES/EN';
-        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES';
+        const langToggleText = language === 'en' ? 'EN | ES' : 'ES | EN'; // Updated separator
+        const mobileLangToggleText = language === 'en' ? 'EN' : 'ES'; // Mobile shows only current lang
 
-        if (desktopLangToggle) desktopLangToggle.textContent = langToggleText;
-        if (mobileLangToggle) { // Mobile toggle might be just icon or icon + text
-            const mobileToggleSpan = mobileLangToggle.querySelector('span');
-            if (mobileToggleSpan) { // If it has a span for text (like Home, Services)
-                 // This is not for the language text itself but for items that might be language buttons
-            } else { // If it's the EN/ES button itself
-                mobileLangToggle.textContent = mobileLangToggleText;
-            }
+        if (desktopLangToggle) {
+            // Set text based on current language, but use the data attributes for the actual display text
+            // The button's initial text "EN | ES" or "ES | EN" will be set based on this logic too.
+            desktopLangToggle.textContent = language === 'en' ? desktopLangToggle.dataset.en + ' | ' + desktopLangToggle.dataset.es : desktopLangToggle.dataset.es + ' | ' + desktopLangToggle.dataset.en;
+        }
+
+        if (mobileLangToggle) {
+            // Mobile toggle should display the current language (e.g., "EN" or "ES")
+            // It uses its own data-en/data-es attributes for its text content, not for the language it represents.
+            // The text content of the mobile language toggle button itself should be "EN" or "ES"
+            mobileLangToggle.textContent = mobileLangToggle.dataset[language];
         }
         // Special handling for Join Us modal input placeholders (dynamic inputs)
         // This part seems specific and might be better handled by the component itself if possible
