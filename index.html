@@ -146,8 +146,10 @@
                           <button type="button" class="edit-btn" data-en="Edit" data-es="Editar" style="display: none;">Edit</button>
                         </div>
                         <div class="form-row"> <!-- Re-using form-row for the textarea to maintain similar styling if any -->
-                            <label for="comment" data-en="Tell us about yourself" data-es="Cuéntanos sobre ti">Tell us about yourself</label>
-                            <textarea id="comment" name="comment" rows="4" data-placeholder-en="Tell us about yourself..." data-placeholder-es="Cuéntanos sobre ti..."></textarea>
+                            <div class="floating-label-group">
+                                <textarea id="comment" name="comment" rows="4" placeholder=" " data-placeholder-en="Tell us about yourself..." data-placeholder-es="Cuéntanos sobre ti..."></textarea>
+                                <label for="comment" data-en="Tell us about yourself" data-es="Cuéntanos sobre ti">Tell us about yourself</label>
+                            </div>
                         </div>
                     </div>
                 <div class="form-footer">
