@@ -253,22 +253,8 @@ main {
 
 
 /* ===== Join Us & Contact Us Modal Specific Styles ===== */
-/* Language Toggle inside Join Us Modal */
-#join-us-modal .lang-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 3.5rem; /* Space for close button */
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0.3rem 0.5rem;
-    border-radius: 4px;
-    background-color: var(--button-secondary-bg-color);
-    color: var(--button-secondary-text-color);
-    font-size: 0.8rem;
-}
-/* #join-us-modal .lang-toggle:hover { */ /* Removed as the element is gone */
-    /* background-color: var(--button-secondary-hover-bg-color); */
-/* } */
+/* Language Toggle inside Join Us Modal -- REMOVED */
+/* #join-us-modal .lang-toggle { ... } */
 
 /* Join Us Modal - Two Column Layout */
 #join-us-modal .form-columns {
