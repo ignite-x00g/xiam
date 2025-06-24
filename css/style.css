@@ -444,20 +444,19 @@ textarea {
     overflow: hidden; /* Prevents internal button hover effects from spilling */
 }
 #join-us-modal .form-footer {
-    /* text-align: center; */ /* No longer centered */
-    margin-top: 1rem; /* Add some space above the footer */
-    position: relative; /* To position the button within this container */
-    height: 50px; /* Approximate height for the button, adjust as needed */
+    margin-top: 1rem; /* Space above the footer, below the textarea */
+    text-align: right; /* Align the button to the right */
+    /* Removed position: relative and height: 50px; */
 }
 .modal-content .submit-button, .modal-content .accept-btn, .modal-content .edit-btn {
     /* No specific changes needed if padding/margins are correct */
+    /* Ensure submit button in this context doesn't have conflicting margins */
 }
 
 #join-us-modal .submit-button {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    margin: 0; /* Resetting any default margins */
+    /* Removed absolute positioning */
+    /* margin: 0; */ /* Resetting margins can be kept or adjusted if needed */
+    /* The button will now flow naturally, aligned right by form-footer's text-align */
 }
 
 

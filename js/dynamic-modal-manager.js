@@ -1,27 +1,27 @@
 // js/dynamic-modal-manager.js
-console.log('[DMM] dynamic-modal-manager.js: Script start');
+// console.log('[DMM] dynamic-modal-manager.js: Script start');
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DMM] DOMContentLoaded event fired.');
+    // console.log('[DMM] DOMContentLoaded event fired.');
     const modalBackdrop = document.getElementById('modal-backdrop');
     if (!modalBackdrop) {
-        console.warn('[DMM] Modal backdrop element (#modal-backdrop) not found.');
+        // console.warn('[DMM] Modal backdrop element (#modal-backdrop) not found.');
     }
     let openModal = null; // Keep track of the currently open modal
     let lastFocusedElement = null; // To restore focus
 
     // Helper: Get focusable elements
     if (!window.getFocusableElements) {
-        console.log('[ModalManager] Defining window.getFocusableElements.'); // Log: Helper definition
+        // console.log('[ModalManager] Defining window.getFocusableElements.'); // Log: Helper definition
         window.getFocusableElements = function(parentElement) {
             if (!parentElement) {
-                console.warn('[ModalManager] getFocusableElements: parentElement is null.');
+                // console.warn('[ModalManager] getFocusableElements: parentElement is null.');
                 return [];
             }
             try {
                 const focusableSelector = 'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
                 const elements = Array.from(parentElement.querySelectorAll(focusableSelector));
-                console.log(`[ModalManager-Debug] getFocusableElements: Found ${elements.length} candidates in parent:`, parentElement);
+                // console.log(`[ModalManager-Debug] getFocusableElements: Found ${elements.length} candidates in parent:`, parentElement);
 
                 const visibleElements = elements.filter((el, index) => {
                     const computedStyle = window.getComputedStyle(el);
@@ -29,15 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const isVisibilityHidden = computedStyle.visibility === 'hidden';
                     const isDisplayNone = computedStyle.display === 'none'; // Also check computed display
 
-                    if (index < 5 || elements.length <= 5) { // Log details for first 5 or all if less than 5
-                        console.log(`[ModalManager-Debug] Candidate ${index}: ${el.tagName}${el.id ? '#' + el.id : ''}${el.className ? '.' + el.className.split(' ').join('.') : ''}`);
-                        console.log(`  - offsetParent:`, el.offsetParent);
-                        console.log(`  - computedStyle.display: ${computedStyle.display}`);
-                        console.log(`  - computedStyle.visibility: ${computedStyle.visibility}`);
-                        console.log(`  - el.disabled: ${el.disabled}`);
-                        console.log(`  - el.tabIndex: ${el.tabIndex}`);
-                        console.log(`  - Filtered out? offsetParentNull: ${isOffsetParentNull}, visibilityHidden: ${isVisibilityHidden}`);
-                    }
+                    // if (index < 5 || elements.length <= 5) { // Log details for first 5 or all if less than 5
+                        // console.log(`[ModalManager-Debug] Candidate ${index}: ${el.tagName}${el.id ? '#' + el.id : ''}${el.className ? '.' + el.className.split(' ').join('.') : ''}`);
+                        // console.log(`  - offsetParent:`, el.offsetParent);
+                        // console.log(`  - computedStyle.display: ${computedStyle.display}`);
+                        // console.log(`  - computedStyle.visibility: ${computedStyle.visibility}`);
+                        // console.log(`  - el.disabled: ${el.disabled}`);
+                        // console.log(`  - el.tabIndex: ${el.tabIndex}`);
+                        // console.log(`  - Filtered out? offsetParentNull: ${isOffsetParentNull}, visibilityHidden: ${isVisibilityHidden}`);
+                    // }
 
                     // Original simplified filter condition:
                     // return el.offsetParent !== null && computedStyle.visibility !== 'hidden';
@@ -46,33 +46,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Primary checks are offsetParent and visibility.
                     return !isOffsetParentNull && !isVisibilityHidden;
                 });
-                // console.log('[ModalManager] getFocusableElements in parent:', parentElement, 'found:', visibleElements);
+                // // console.log('[ModalManager] getFocusableElements in parent:', parentElement, 'found:', visibleElements);
                 return visibleElements;
             } catch (e) {
-                console.error('[ModalManager] Error in getFocusableElements:', e);
+                // console.error('[ModalManager] Error in getFocusableElements:', e); // Keep errors for now
                 return []; // Return empty array on error
             }
         };
     } else {
-        console.log('[ModalManager] window.getFocusableElements already defined.');
+        // console.log('[ModalManager] window.getFocusableElements already defined.');
     }
 
     function openModalHandler(modalId, triggerElement) {
-        console.log(`[ModalManager] openModalHandler called for modalId: "${modalId}"`, 'Trigger:', triggerElement); // Log: Handler start
+        // console.log(`[ModalManager] openModalHandler called for modalId: "${modalId}"`, 'Trigger:', triggerElement); // Log: Handler start
 
         const modal = document.getElementById(modalId);
         if (!modal) {
-            console.error(`[DMM] Modal with ID ${modalId} not found.`);
+            console.error(`[DMM] Modal with ID ${modalId} not found.`); // Keep error
             return;
         }
-        console.log(`[DMM] openModalHandler called for modalId: ${modalId}. Modal element:`, modal);
+        // console.log(`[DMM] openModalHandler called for modalId: ${modalId}. Modal element:`, modal);
         if (openModal && openModal !== modal) {
-            console.log(`[ModalManager] Closing currently open modal: "${openModal.id}" before opening "${modalId}".`);
+            // console.log(`[ModalManager] Closing currently open modal: "${openModal.id}" before opening "${modalId}".`);
             closeModalHandler(openModal);
         }
 
         lastFocusedElement = triggerElement || document.activeElement;
-        console.log('[ModalManager] Last focused element stored:', lastFocusedElement);
+        // console.log('[ModalManager] Last focused element stored:', lastFocusedElement);
 
         try {
             // Ensure modal object is valid and has a style property
