@@ -82,13 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             console.log(`[ModalManager] Attempting to display modal "${modalId}" and backdrop.`);
+            console.log(`[DMM] Setting ${modal.id}.style.display = 'flex'`);
             modal.style.display = 'flex'; // Or 'block' if using .modal-overlay as the flex container
+            console.log(`[DMM] After setting ${modal.id}.style.display:`, modal.style.display);
             // Log computed style for the modal immediately after setting
             const computedModalDisplay = window.getComputedStyle(modal).display;
             console.log(`[ModalManager] Modal "${modalId}" JS set to 'flex'. Computed display: ${computedModalDisplay}.`);
 
             if (modalBackdrop) {
+                console.log(`[DMM] Setting ${modalBackdrop.id}.style.display = 'block'`);
                 modalBackdrop.style.display = 'block';
+                console.log(`[DMM] After setting ${modalBackdrop.id}.style.display:`, modalBackdrop.style.display);
                 // Log computed style for the backdrop immediately after setting
                 const computedBackdropDisplay = window.getComputedStyle(modalBackdrop).display;
                 console.log(`[ModalManager] Modal backdrop JS set to 'block'. Computed display: ${computedBackdropDisplay}.`);
