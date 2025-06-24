@@ -121,6 +121,52 @@ main {
     box-shadow: 0 4px 8px var(--shadow-color-medium);
 }
 
+/* --- Riley: Chatbot Modal Placement (5px from FABs, vertically aligned) --- */
+#chatbot-modal.modal-overlay {
+    align-items: flex-end;   /* Pops up at bottom like FABs */
+    justify-content: flex-end; /* Align right */
+    padding: 0; /* Remove extra padding */
+}
+#chatbot-modal .modal-content {
+    margin-bottom: 20px; /* Same as .fab-container bottom */
+    margin-right: 75px;  /* 60px (FAB width) + 10px (gap) + 5px (required space) */
+    max-width: 360px;
+    min-width: 280px;
+    width: 100%;
+    box-shadow: 0 5px 32px var(--shadow-color-strong);
+    border-radius: 16px;
+    transition: all 0.2s;
+}
+@media (max-width: 768px) {
+    #chatbot-modal .modal-content {
+        margin-right: 65px; /* Slightly closer on mobile */
+        margin-bottom: 85px; /* Above mobile nav */
+        max-width: 96vw;
+    }
+}
+/* --- Riley: Chatbot Modal Placement (5px from FABs, vertically aligned) --- */
+#chatbot-modal.modal-overlay {
+    align-items: flex-end;   /* Pops up at bottom like FABs */
+    justify-content: flex-end; /* Align right */
+    padding: 0; /* Remove extra padding */
+}
+#chatbot-modal .modal-content {
+    margin-bottom: 20px; /* Same as .fab-container bottom */
+    margin-right: 75px;  /* 60px (FAB width) + 10px (gap) + 5px (required space) */
+    max-width: 360px;
+    min-width: 280px;
+    width: 100%;
+    box-shadow: 0 5px 32px var(--shadow-color-strong);
+    border-radius: 16px;
+    transition: all 0.2s;
+}
+@media (max-width: 768px) {
+    #chatbot-modal .modal-content {
+        margin-right: 65px; /* Slightly closer on mobile */
+        margin-bottom: 85px; /* Above mobile nav */
+        max-width: 96vw;
+    }
+}
 
 /* ===== Floating Action Buttons (FAB) Styling ===== */
 .fab-container {
