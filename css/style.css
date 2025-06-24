@@ -253,22 +253,8 @@ main {
 
 
 /* ===== Join Us & Contact Us Modal Specific Styles ===== */
-/* Language Toggle inside Join Us Modal */
-#join-us-modal .lang-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 3.5rem; /* Space for close button */
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0.3rem 0.5rem;
-    border-radius: 4px;
-    background-color: var(--button-secondary-bg-color);
-    color: var(--button-secondary-text-color);
-    font-size: 0.8rem;
-}
-/* #join-us-modal .lang-toggle:hover { */ /* Removed as the element is gone */
-    /* background-color: var(--button-secondary-hover-bg-color); */
-/* } */
+/* Language Toggle inside Join Us Modal -- REMOVED */
+/* #join-us-modal .lang-toggle { ... } */
 
 /* Join Us Modal - Two Column Layout */
 #join-us-modal .form-columns {
@@ -458,20 +444,19 @@ textarea {
     overflow: hidden; /* Prevents internal button hover effects from spilling */
 }
 #join-us-modal .form-footer {
-    /* text-align: center; */ /* No longer centered */
-    margin-top: 1rem; /* Add some space above the footer */
-    position: relative; /* To position the button within this container */
-    height: 50px; /* Approximate height for the button, adjust as needed */
+    margin-top: 1rem; /* Space above the footer, below the textarea */
+    text-align: right; /* Align the button to the right */
+    /* Removed position: relative and height: 50px; */
 }
 .modal-content .submit-button, .modal-content .accept-btn, .modal-content .edit-btn {
     /* No specific changes needed if padding/margins are correct */
+    /* Ensure submit button in this context doesn't have conflicting margins */
 }
 
 #join-us-modal .submit-button {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    margin: 0; /* Resetting any default margins */
+    /* Removed absolute positioning */
+    /* margin: 0; */ /* Resetting margins can be kept or adjusted if needed */
+    /* The button will now flow naturally, aligned right by form-footer's text-align */
 }
 
 

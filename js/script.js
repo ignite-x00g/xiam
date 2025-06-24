@@ -13,20 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Join Us Modal Specific Logic (adapted from provided example) ---
     const joinForm = document.getElementById('join-form');
-    const joinUsLangToggleBtn = document.getElementById('join-us-lang-toggle'); // Specific to Join Us modal
+    // const joinUsLangToggleBtn = document.getElementById('join-us-lang-toggle'); // Removed as element no longer exists
 
     // Language toggle within Join Us modal (if window.toggleLanguage is available from language-switcher.js)
-    if (joinUsLangToggleBtn && window.toggleLanguage) { // window.toggleLanguage is not standard, assuming it's from language-switcher
-        joinUsLangToggleBtn.addEventListener('click', () => {
-            if(window.applyTranslations && window.getCurrentLanguage) { // Check if global functions exist
-                let currentLang = window.getCurrentLanguage();
-                currentLang = currentLang === 'en' ? 'es' : 'en';
-                window.applyTranslations(currentLang); // This will update the lang toggle text too
-            } else {
-                console.warn("Global language functions (applyTranslations, getCurrentLanguage) not found.");
-            }
-        });
-    }
+    // Removed block as joinUsLangToggleBtn element no longer exists
+    // if (joinUsLangToggleBtn && window.toggleLanguage) { ... }
 
 
     joinUsModal.querySelectorAll('.form-section').forEach(section => {
