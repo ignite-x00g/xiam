@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('option[data-en][data-es]').forEach(opt => {
             opt.textContent = opt.getAttribute(lang === 'es' ? 'data-es' : 'data-en');
         });
+        // All aria-labels with data-aria-label-en / es
+        document.querySelectorAll('[data-aria-label-en], [data-aria-label-es]').forEach(el => {
+            const labelText = el.getAttribute(lang === 'es' ? 'data-aria-label-es' : 'data-aria-label-en');
+            if (labelText !== null) el.setAttribute('aria-label', labelText);
+        });
         // Sync button text
         if (langBtn) langBtn.textContent = lang === 'es' ? 'ES' : 'EN';
     }
