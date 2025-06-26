@@ -264,7 +264,18 @@ main {
 }
 .modal-body {
     margin-bottom: 1rem;
+    display: block; /* Ensure modal body is rendered */
+    visibility: visible;
+    opacity: 1;
 }
+
+/* Ensure forms within modals are also visible by default */
+.modal-body form {
+    display: block; /* Or flex, depending on form's internal layout needs */
+    visibility: visible;
+    opacity: 1;
+}
+
 .modal-footer {
     text-align: right;
     padding-top: 1rem;
