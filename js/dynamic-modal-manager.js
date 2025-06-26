@@ -229,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('[DMM] Contact Us FAB (fab-contact) clicked!');
             }
             openModalHandler(modalId, trigger);
+            event.stopPropagation(); // Prevent click from bubbling to backdrop/overlay
         });
     });
 
@@ -239,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger.addEventListener('click', (event) => {
             const modalId = trigger.dataset.serviceTarget;
             openModalHandler(modalId, trigger);
+            event.stopPropagation(); // Prevent click from bubbling to backdrop/overlay
         });
     });
 
@@ -246,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger.addEventListener('click', (event) => {
             const modalId = trigger.dataset.serviceTarget;
             openModalHandler(modalId, trigger);
+            event.stopPropagation(); // Prevent click from bubbling to backdrop/overlay
             // Optionally close the mobile services panel if it's open
             const mobileMenuPanel = document.getElementById('mobile-services-panel');
             if (mobileMenuPanel && mobileMenuPanel.classList.contains('open')) {
