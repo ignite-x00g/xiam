@@ -1,71 +1,71 @@
 // js/dynamic-modal-manager.js
-// console.log('[DMM] dynamic-modal-manager.js: Script start');
 
-document.addEventListener('DOMContentLoaded', () => {
-    // console.log('[DMM] DOMContentLoaded event fired.');
+/**
+ * Initializes and manages dynamic modals within the application.
+ * Handles opening, closing, focus trapping, and global API exposure.
+ */
+function initializeDynamicModalManager() {
     const modalBackdrop = document.getElementById('modal-backdrop');
-    if (!modalBackdrop) {
-        // console.warn('[DMM] Modal backdrop element (#modal-backdrop) not found.');
-    }
-    let openModal = null; // Keep track of the currently open modal
-    let lastFocusedElement = null; // To restore focus
+    // if (!modalBackdrop) {
+    //     console.warn('[DMM] Modal backdrop element (#modal-backdrop) not found.');
+    // }
+    let openModal = null; // Tracks the currently active modal element
+    let lastFocusedElement = null; // Stores the element that had focus before modal opened
+    const hiddenElements = []; // Stores elements hidden with aria-hidden when a modal is open
 
-    // Helper: Get focusable elements
-    if (!window.getFocusableElements) {
-        // console.log('[ModalManager] Defining window.getFocusableElements.'); // Log: Helper definition
-        window.getFocusableElements = function(parentElement) {
-            if (!parentElement) {
-                // console.warn('[ModalManager] getFocusableElements: parentElement is null.');
-                return [];
-            }
-            try {
-                const focusableSelector = 'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-                const elements = Array.from(parentElement.querySelectorAll(focusableSelector));
-                // console.log(`[ModalManager-Debug] getFocusableElements: Found ${elements.length} candidates in parent:`, parentElement);
+    /**
+     * Ensures `window.getFocusableElements` is defined.
+     * This function retrieves focusable elements within a given parent.
+     * If not already defined, it creates a default implementation.
+     */
+    function ensureGlobalGetFocusableElements() {
+        if (!window.getFocusableElements) {
+            // console.log('[ModalManager] Defining window.getFocusableElements.');
+            window.getFocusableElements = function(parentElement) {
+                if (!parentElement) {
+                    // console.warn('[ModalManager] getFocusableElements: parentElement is null.');
+                    return [];
+                }
+                try {
+                    // Standard focusable elements selector
+                    const focusableSelector = 'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+                    const elements = Array.from(parentElement.querySelectorAll(focusableSelector));
 
-                const visibleElements = elements.filter((el, index) => {
-                    const computedStyle = window.getComputedStyle(el);
-                    const isOffsetParentNull = el.offsetParent === null;
-                    const isVisibilityHidden = computedStyle.visibility === 'hidden';
-                    const isDisplayNone = computedStyle.display === 'none'; // Also check computed display
-
-                    // if (index < 5 || elements.length <= 5) { // Log details for first 5 or all if less than 5
-                        // console.log(`[ModalManager-Debug] Candidate ${index}: ${el.tagName}${el.id ? '#' + el.id : ''}${el.className ? '.' + el.className.split(' ').join('.') : ''}`);
-                        // console.log(`  - offsetParent:`, el.offsetParent);
-                        // console.log(`  - computedStyle.display: ${computedStyle.display}`);
-                        // console.log(`  - computedStyle.visibility: ${computedStyle.visibility}`);
-                        // console.log(`  - el.disabled: ${el.disabled}`);
-                        // console.log(`  - el.tabIndex: ${el.tabIndex}`);
-                        // console.log(`  - Filtered out? offsetParentNull: ${isOffsetParentNull}, visibilityHidden: ${isVisibilityHidden}`);
-                    // }
-
-                    // Original simplified filter condition:
-                    // return el.offsetParent !== null && computedStyle.visibility !== 'hidden';
-                    // Let's use the more complete original filter for logging, then apply the simplified one
-                    // The selector already handles :not([disabled]) and tabindex.
-                    // Primary checks are offsetParent and visibility.
-                    return !isOffsetParentNull && !isVisibilityHidden;
-                });
-                // // console.log('[ModalManager] getFocusableElements in parent:', parentElement, 'found:', visibleElements);
-                return visibleElements;
-            } catch (e) {
-                // console.error('[ModalManager] Error in getFocusableElements:', e); // Keep errors for now
-                return []; // Return empty array on error
-            }
-        };
-    } else {
-        // console.log('[ModalManager] window.getFocusableElements already defined.');
+                    // Filter for elements that are actually visible and interactive
+                    return elements.filter(el => {
+                        const computedStyle = window.getComputedStyle(el);
+                        // Element must have an offsetParent (not be display:none or detached)
+                        // and must not be visibility:hidden
+                        return el.offsetParent !== null &&
+                               computedStyle.visibility !== 'hidden' &&
+                               computedStyle.display !== 'none'; // Explicitly check computed display
+                    });
+                } catch (e) {
+                    console.error('[ModalManager] Error in getFocusableElements:', e);
+                    return []; // Return empty array on error
+                }
+            };
+        } else {
+            // console.log('[ModalManager] window.getFocusableElements already defined.');
+        }
     }
 
+    /**
+     * Opens a modal dialog by its ID.
+     * Manages focus, displays the modal and backdrop, and prevents body scrolling.
+     * @param {string} modalId - The ID of the modal HTML element to open.
+     * @param {HTMLElement} [triggerElement] - The element that triggered the modal opening, used to restore focus.
+     */
     function openModalHandler(modalId, triggerElement) {
-        // console.log(`[ModalManager] openModalHandler called for modalId: "${modalId}"`, 'Trigger:', triggerElement); // Log: Handler start
+        // console.log(`[ModalManager] openModalHandler called for modalId: "${modalId}"`, 'Trigger:', triggerElement);
 
         const modal = document.getElementById(modalId);
         if (!modal) {
-            console.error(`[DMM] Modal with ID ${modalId} not found.`); // Keep error
+            console.error(`[DMM] Modal with ID ${modalId} not found.`);
             return;
         }
-        // console.log(`[DMM] openModalHandler called for modalId: ${modalId}. Modal element:`, modal);
+
+        // If another modal is already open, close it first
         if (openModal && openModal !== modal) {
             // console.log(`[ModalManager] Closing currently open modal: "${openModal.id}" before opening "${modalId}".`);
             closeModalHandler(openModal);
@@ -75,223 +75,249 @@ document.addEventListener('DOMContentLoaded', () => {
         // console.log('[ModalManager] Last focused element stored:', lastFocusedElement);
 
         try {
-            // Ensure modal object is valid and has a style property
-            if (!modal || typeof modal.style === 'undefined') {
+            // Basic check for modal.style property
+            if (typeof modal.style === 'undefined') {
                 console.error(`[DMM] Modal element for ID "${modalId}" is invalid or has no style property. Cannot display.`);
                 return;
             }
 
-            console.log(`[ModalManager] Attempting to display modal "${modalId}" and backdrop.`);
-            console.log(`[DMM] Setting ${modal.id}.style.display = 'flex'`);
-            modal.style.display = 'flex'; // Or 'block' if using .modal-overlay as the flex container
-            console.log(`[DMM] After setting ${modal.id}.style.display:`, modal.style.display);
-            // Log computed style for the modal immediately after setting
-            const computedModalDisplay = window.getComputedStyle(modal).display;
-            console.log(`[ModalManager] Modal "${modalId}" JS set to 'flex'. Computed display: ${computedModalDisplay}.`);
+            // console.log(`[ModalManager] Attempting to display modal "${modalId}" and backdrop.`);
+            modal.style.display = 'flex'; // Use 'flex' for modern centering; adjust if CSS expects 'block'
+            modal.setAttribute('aria-modal', 'true');
+
+            // Accessibility: Check for role and accessible name (non-blocking warnings)
+            if (!modal.getAttribute('role') || !['dialog', 'alertdialog'].includes(modal.getAttribute('role'))) {
+                console.warn(`[DMM] Accessibility: Modal #${modal.id} should have a role of 'dialog' or 'alertdialog'.`);
+            }
+            if (!modal.getAttribute('aria-labelledby') && !modal.getAttribute('aria-label')) {
+                console.warn(`[DMM] Accessibility: Modal #${modal.id} should have an accessible name via 'aria-labelledby' or 'aria-label'.`);
+            }
 
             if (modalBackdrop) {
-                console.log(`[DMM] Setting ${modalBackdrop.id}.style.display = 'block'`);
                 modalBackdrop.style.display = 'block';
-                console.log(`[DMM] After setting ${modalBackdrop.id}.style.display:`, modalBackdrop.style.display);
-                // Log computed style for the backdrop immediately after setting
-                const computedBackdropDisplay = window.getComputedStyle(modalBackdrop).display;
-                console.log(`[ModalManager] Modal backdrop JS set to 'block'. Computed display: ${computedBackdropDisplay}.`);
-            } else {
-                console.warn('[ModalManager] Modal backdrop element not found.');
             }
-            document.body.style.overflow = 'hidden';
-            console.log('[ModalManager] Body overflow set to hidden.');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling of the page content behind the modal
 
-            // Focus trap
-            // Defer focus logic to allow browser to process display changes
+            // Accessibility: Hide background content from assistive technologies
+            Array.from(document.body.children).forEach(child => {
+                if (child !== modal && child !== modalBackdrop && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                    if (child.getAttribute('aria-hidden') !== 'true') {
+                        child.setAttribute('aria-hidden', 'true');
+                        hiddenElements.push(child);
+                    }
+                }
+            });
+
+            // Defer focus logic:
+            // This allows the browser to complete rendering updates (display changes)
+            // before attempting to move focus into the modal.
             setTimeout(() => {
                 try {
-                    console.log(`[ModalManager] Setting up focus trap for modal "${modalId}" (inside setTimeout).`);
+                    // console.log(`[ModalManager] Setting up focus trap for modal "${modalId}" (inside setTimeout).`);
                     const focusableElements = window.getFocusableElements(modal);
-                    console.log(`[ModalManager] Focusable elements in modal "${modalId}" (setTimeout):`, focusableElements.length, focusableElements);
-
                     if (focusableElements.length > 0) {
-                        focusableElements[0].focus();
-                        console.log(`[ModalManager] Focused first focusable element in modal "${modalId}" (setTimeout):`, focusableElements[0]);
+                        focusableElements[0].focus(); // Focus the first interactive element
                     } else {
-                        console.warn(`[ModalManager] No focusable elements found in modal "${modalId}" (setTimeout). Setting tabindex on modal itself.`);
-                        modal.setAttribute('tabindex', '-1'); // Make modal focusable if no interactive elements
+                        // If no interactive elements, make the modal itself focusable and focus it.
+                        modal.setAttribute('tabindex', '-1');
                         modal.focus();
-                        console.log(`[ModalManager] Focused modal "${modalId}" itself (setTimeout).`);
                     }
                 } catch (e) {
                     console.error(`[ModalManager] Error during modal "${modalId}" focus setup (setTimeout):`, e);
                 }
-            }, 0); // Use setTimeout with 0 delay
+            }, 0); // Zero delay setTimeout executes after current rendering pass
 
         } catch (e) {
             console.error(`[ModalManager] Error during modal "${modalId}" display (before setTimeout):`, e);
-            // Optionally, attempt to revert if critical error (though display is already flex)
-            // modal.style.display = 'none';
-            // if (modalBackdrop) modalBackdrop.style.display = 'none';
-            // document.body.style.overflow = '';
-            return; // Stop if there was a critical error here
+            // Attempt to revert style changes in case of an error during the display setup
+            modal.style.display = 'none';
+            if (modalBackdrop) modalBackdrop.style.display = 'none';
+            document.body.style.overflow = '';
+            return; // Stop further execution if a critical error occurred
         }
 
-        openModal = modal;
-        modal.addEventListener('keydown', trapFocus);
-        console.log(`[ModalManager] Modal "${modalId}" is now open. Event listener for keydown (trapFocus) added.`);
+        openModal = modal; // Set the currently open modal
+        modal.addEventListener('keydown', trapFocusInModal); // Add focus trapping
 
-        // Apply translations immediately, as they don't depend on focus/layout as much
+        // Apply translations if global translation functions are available
         try {
             if (window.applyTranslations && window.getCurrentLanguage) {
-                console.log(`[ModalManager] Attempting to apply translations for modal "${modalId}".`);
+                // console.log(`[ModalManager] Attempting to apply translations for modal "${modalId}".`);
                 window.applyTranslations(window.getCurrentLanguage());
-                console.log(`[ModalManager] Translations applied for modal "${modalId}".`);
-            } else {
-                console.warn(`[ModalManager] Translation functions (applyTranslations or getCurrentLanguage) not found on window.`);
             }
         } catch (e) {
             console.error(`[ModalManager] Error applying translations for modal "${modalId}":`, e);
         }
     }
-   function closeModalHandler(modalToClose, sourceEvent = null) {
-        console.log('[DMM] closeModalHandler called. Modal to close:', modalToClose, 'Source event:', sourceEvent);
-        if (sourceEvent && sourceEvent.target) {
-            console.log('[DMM] closeModalHandler - event target:', sourceEvent.target);
-        }
-        try {
-            throw new Error('[DMM] Stack trace for closeModalHandler');
-        } catch (e) {
-            console.log(e.stack);
-        }
 
-        if (!modalToClose && openModal) {
-            console.log('[DMM] modalToClose was null, defaulting to openModal:', openModal);
-            modalToClose = openModal;
-        }
+    /**
+     * Closes the specified modal (or the currently open one).
+     * Restores focus to the element that had focus before the modal was opened.
+     * @param {HTMLElement} [modalToCloseParam] - The modal element to close. Defaults to `openModal`.
+     * @param {Event} [sourceEvent] - The event that triggered the close (for logging/debugging).
+     */
+    function closeModalHandler(modalToCloseParam, sourceEvent = null) {
+        const modalToClose = modalToCloseParam || openModal; // Default to the currently open modal
 
         if (!modalToClose) {
-            console.log('[DMM] closeModalHandler: No modal to close, returning.');
+            // console.log('[DMM] closeModalHandler: No modal to close, returning.');
             return;
         }
 
-        console.log(`[DMM] Closing modal: ${modalToClose.id}`);
         modalToClose.style.display = 'none';
+        modalToClose.removeAttribute('aria-modal');
+
         if (modalBackdrop) {
-            console.log('[DMM] Hiding modal backdrop.');
             modalBackdrop.style.display = 'none';
         }
-        document.body.style.overflow = '';
-        console.log('[DMM] Body overflow restored.');
+        document.body.style.overflow = ''; // Restore body scrolling
 
-        modalToClose.removeEventListener('keydown', trapFocus);
+        // Accessibility: Restore visibility of background content
+        while(hiddenElements.length > 0) {
+            const el = hiddenElements.pop();
+            el.removeAttribute('aria-hidden');
+        }
+
+        modalToClose.removeEventListener('keydown', trapFocusInModal);
+
+        // Restore focus to the last focused element before the modal opened
         if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-            console.log('[DMM] Restoring focus to:', lastFocusedElement);
             lastFocusedElement.focus();
         }
-        openModal = null;
-        console.log('[DMM] openModal variable set to null.');
+
+        if (openModal === modalToClose) {
+            openModal = null; // Clear the reference if this was the active modal
+        }
     }
-    function trapFocus(event) {
-        if (event.key !== 'Tab' || !openModal) return;
+
+    /**
+     * Traps keyboard focus within the currently open modal.
+     * Allows tabbing through focusable elements, wrapping around from last to first and vice-versa.
+     * @param {KeyboardEvent} event - The keydown event object.
+     */
+    function trapFocusInModal(event) {
+        if (event.key !== 'Tab' || !openModal) {
+            return; // Only act on Tab key presses when a modal is open
+        }
 
         const focusableElements = window.getFocusableElements(openModal);
         if (focusableElements.length === 0) {
-            event.preventDefault();
+            event.preventDefault(); // No focusable elements, prevent tabbing out
             return;
         }
+
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
+        const currentActiveElement = document.activeElement;
 
-        if (event.shiftKey) { // Shift + Tab
-            if (document.activeElement === firstElement) {
-                lastElement.focus();
+        if (event.shiftKey) { // Shift + Tab (moving backwards)
+            if (currentActiveElement === firstElement) {
+                lastElement.focus(); // Wrap to the last element
                 event.preventDefault();
             }
-        } else { // Tab
-            if (document.activeElement === lastElement) {
-                firstElement.focus();
+        } else { // Tab (moving forwards)
+            if (currentActiveElement === lastElement) {
+                firstElement.focus(); // Wrap to the first element
                 event.preventDefault();
             }
         }
     }
 
-    // Event listeners for modal triggers
-    const modalTriggers = document.querySelectorAll('[data-modal-target]');
-    console.log(`[DMM] Found ${modalTriggers.length} modal triggers with [data-modal-target].`);
+    /**
+     * Initializes all delegated event listeners for modal interactions.
+     * This includes triggers for opening, closing, backdrop clicks, and ESC key.
+     */
+    function initializeModalEventListeners() {
+        // Delegated click listener for all modal interactions
+        document.addEventListener('click', (event) => {
+            const target = event.target;
 
-    modalTriggers.forEach(trigger => {
-        console.log(`[DMM] Attaching click listener to:`, trigger);
-        trigger.addEventListener('click', (event) => {
-            // Prevent default for anchor tags, though current FABs are buttons
-            if (trigger.tagName === 'A' && trigger.getAttribute('href') === '#') {
-                event.preventDefault();
+            // --- Modal Open Triggers ---
+            const openTrigger = target.closest('[data-modal-target]') ||
+                                target.closest('.services-navigation .service-nav-item[data-service-target]') ||
+                                target.closest('.mobile-services-menu button[data-service-target]');
+            if (openTrigger) {
+                if (openTrigger.tagName === 'A' && openTrigger.getAttribute('href') === '#') {
+                    event.preventDefault(); // Prevent anchor jump for placeholder links
+                }
+                // Ensure dataset exists and the specific target attributes are present
+                const modalId = openTrigger.dataset && (openTrigger.dataset.modalTarget || openTrigger.dataset.serviceTarget);
+                if (modalId) {
+                    openModalHandler(modalId, openTrigger);
+                    event.stopPropagation(); // Stop event from bubbling up, e.g., to a backdrop click
+
+                    // Special case: if opening from mobile services menu, close that menu
+                    if (target.closest('.mobile-services-menu button[data-service-target]')) {
+                        const mobileMenuPanel = document.getElementById('mobile-services-panel');
+                        if (mobileMenuPanel && mobileMenuPanel.classList.contains('open') && window.toggleMobileServicesMenu) {
+                            window.toggleMobileServicesMenu(false); // Assumes this function exists
+                        }
+                    }
+                } else {
+                    // console.warn('[DMM] Delegated click: Open trigger found, but modalId is missing.', openTrigger);
+                }
+                return; // Action taken, no need to check other triggers
             }
-            const modalId = trigger.dataset.modalTarget;
-            console.log(`[DMM] Clicked on trigger for modalId: ${modalId}. Trigger element:`, trigger);
-            if (trigger.id === 'fab-contact') {
-                console.log('[DMM] Contact Us FAB (fab-contact) clicked!');
+
+            // --- Modal Close Triggers (Buttons) ---
+            const closeButton = target.closest('[data-close-modal]');
+            if (closeButton) {
+                // Ensure dataset exists before trying to access its properties
+                const modalToCloseId = closeButton.dataset ? closeButton.dataset.closeModal : null;
+                let modalToClose = openModal; // Default: close the currently open modal
+
+                if (modalToCloseId) { // If a specific modal ID is provided by the button
+                    const specificModal = document.getElementById(modalToCloseId);
+                    if (specificModal) {
+                        modalToClose = specificModal;
+                    } else {
+                        // console.warn(`[DMM] Delegated click: Modal with ID "${modalToCloseId}" for data-close-modal not found.`);
+                    }
+                }
+
+                if (modalToClose) {
+                    closeModalHandler(modalToClose, event);
+                } else if (!modalToCloseId) { // No specific ID, and no modal was globally open
+                     // console.log('[DMM] Delegated click: Close button (general) clicked, but no modal is currently open.');
+                }
+                return; // Action taken
             }
-            openModalHandler(modalId, trigger);
-            event.stopPropagation(); // Prevent click from bubbling to backdrop/overlay
-        });
-    });
 
-    // Similar logging can be added to other listener attachment sections if needed (service nav, mobile menu)
-    // For brevity, I'll skip adding logs to those for now but the pattern would be the same.
+            // --- Backdrop Click ---
+            if (modalBackdrop && target === modalBackdrop && openModal) {
+                closeModalHandler(openModal, event);
+                return; // Action taken
+            }
 
-    document.querySelectorAll('.services-navigation .service-nav-item[data-service-target]').forEach(trigger => {
-        trigger.addEventListener('click', (event) => {
-            const modalId = trigger.dataset.serviceTarget;
-            openModalHandler(modalId, trigger);
-            event.stopPropagation(); // Prevent click from bubbling to backdrop/overlay
-        });
-    });
-
-    document.querySelectorAll('.mobile-services-menu button[data-service-target]').forEach(trigger => {
-        trigger.addEventListener('click', (event) => {
-            const modalId = trigger.dataset.serviceTarget;
-            openModalHandler(modalId, trigger);
-            event.stopPropagation(); // Prevent click from bubbling to backdrop/overlay
-            // Optionally close the mobile services panel if it's open
-            const mobileMenuPanel = document.getElementById('mobile-services-panel');
-            if (mobileMenuPanel && mobileMenuPanel.classList.contains('open')) {
-                if(window.toggleMobileServicesMenu) window.toggleMobileServicesMenu(false); // Assuming function exists in mobile-menu.js
+            // --- Modal Overlay Click (if modal element itself acts as overlay) ---
+            if (target.classList.contains('modal-overlay') && openModal && target.id === openModal.id) {
+                closeModalHandler(openModal, event);
             }
         });
-    });
 
-
-    // Event listeners for close buttons
-    document.querySelectorAll('[data-close-modal]').forEach(button => {
-        button.addEventListener('click', (event) => { // Added event
-            const modalToCloseId = button.dataset.closeModal;
-            const modalToClose = document.getElementById(modalToCloseId);
-            closeModalHandler(modalToClose, event); // Pass event
-        });
-    });
-
-    // Close modal on backdrop click
-    if (modalBackdrop) {
-        modalBackdrop.addEventListener('click', (event) => { // Added event
-            if (openModal) closeModalHandler(openModal, event); // Pass event
+        // ESC Key to Close Modal
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && openModal) {
+                closeModalHandler(openModal, event);
+            }
         });
     }
-    // Also handle clicks on .modal-overlay itself if it's the direct parent and not the content
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (event) => {
-            if (event.target === overlay && openModal && openModal.id === overlay.id) { // Ensure it's the correct overlay for the open modal
-                closeModalHandler(openModal, event); // Pass event
-            }
-        });
-    });
 
+    /**
+     * Exposes modal control functions (`openModal`, `closeModal`) on the global `window` object,
+     * allowing them to be called from other scripts or inline event handlers if necessary.
+     */
+    function exposeGlobalAPI() {
+        window.openModal = openModalHandler;
+        window.closeModal = closeModalHandler;
+        // console.log('[ModalManager] Modal manager initialization complete.');
+    }
 
-    // Close modal on ESC key
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && openModal) {
-            closeModalHandler(openModal, event); // Pass event
-        }
-    });
+    // --- Initialization Sequence ---
+    ensureGlobalGetFocusableElements(); // Define helper if not present
+    initializeModalEventListeners();   // Set up all event listeners
+    exposeGlobalAPI();                 // Make open/close functions globally available
+}
 
-    // Expose to global scope if needed by other scripts
-    window.openModal = openModalHandler;
-    window.closeModal = closeModalHandler;
-    console.log('[ModalManager] Modal manager initialization complete. openModal and closeModal exposed on window.');
-});
+// Wait for the DOM to be fully loaded before initializing the modal manager
+document.addEventListener('DOMContentLoaded', initializeDynamicModalManager);
