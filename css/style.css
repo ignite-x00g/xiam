@@ -480,6 +480,34 @@ textarea {
     opacity: 1; /* Firefox Fix */
 }
 
+/* Styling for invalid form fields */
+.form-field-invalid, input.form-field-invalid, textarea.form-field-invalid, select.form-field-invalid {
+    border-color: var(--danger-color, red) !important; /* Use a theme variable if available, else fallback to red */
+    /* Consider adding a subtle box-shadow or background change for more emphasis if desired */
+    /* e.g., box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2); */
+}
+/* Ensure focus styles on invalid fields still work or are distinct */
+.form-field-invalid:focus, input.form-field-invalid:focus, textarea.form-field-invalid:focus, select.form-field-invalid:focus {
+    border-color: var(--danger-color, red) !important; /* Keep border red */
+    box-shadow: 0 0 0 2px var(--danger-color-faded, rgba(255, 0, 0, 0.3)) !important; /* Adjust shadow to indicate focus on invalid field */
+}
+/* Styling for the error message container */
+.form-error-message {
+    color: var(--danger-color, red);
+    background-color: var(--danger-bg-color, #fdd); /* Light red background */
+    border: 1px solid var(--danger-border-color, var(--danger-color, red));
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: none; /* Hidden by default */
+}
+.form-error-message.visible {
+    display: block; /* Shown by JS */
+}
+
+
 /* Ensure buttons within modals are contained */
 .modal-content .form-section { /* form-footer removed from here to allow its own styling */
     overflow: hidden; /* Prevents internal button hover effects from spilling */

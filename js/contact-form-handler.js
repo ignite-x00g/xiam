@@ -93,43 +93,74 @@ function validateForm(form, lang) {
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
     const contactModal = document.getElementById('contact-us-modal');
+    const errorMessageContainer = document.getElementById('contact-form-error-message');
 
-    if (contactForm && contactModal) {
+    if (contactForm && contactModal && errorMessageContainer) {
         contactForm.addEventListener('submit', (event) => {
             event.preventDefault(); // Prevent default form submission
             const currentLang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en';
+            // Clear previous error messages
+            errorMessageContainer.textContent = '';
+            errorMessageContainer.classList.remove('visible');
 
-            // Validate form using the new function
-            if (!validateForm(contactForm, currentLang)) {
-                return; // Stop if validation fails
+            // Basic validation: Check if all required fields are filled
+            let isValid = true;
+            let firstInvalidField = null;
+            const requiredFields = contactForm.querySelectorAll('[required]');
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('form-field-invalid');
+                    field.setAttribute('aria-invalid', 'true');
+                    if (!firstInvalidField) {
+                        firstInvalidField = field;
+                    }
+                } else {
+                    field.classList.remove('form-field-invalid');
+                    field.removeAttribute('aria-invalid');
+                }
+            });
+
+            if (!isValid) {
+                const currentLang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en';
+                errorMessageContainer.textContent = currentLang === 'es' ? 'Por favor, complete todos los campos requeridos.' : 'Please fill in all required fields.';
+                errorMessageContainer.classList.add('visible');
+                if (firstInvalidField) {
+                    firstInvalidField.focus();
+                }
+                return;
             }
 
             // Simulate form submission
-            alert(getLocalizedString('successMessage', currentLang));
+            // const currentLang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'en'; // No longer needed for alert
+            // alert(currentLang === 'es' ? 'Gracias por contactarnos. Su mensaje ha sido enviado (simulado).' : 'Thank you for contacting us. Your message has been sent (simulated).'); // Removed success alert
 
             // Reset form fields
             contactForm.reset();
-            contactForm.querySelectorAll('[required]').forEach(field => {
-                field.style.borderColor = ''; // Reset borders after successful submission
+            requiredFields.forEach(field => {
+                field.classList.remove('form-field-invalid');
+                field.removeAttribute('aria-invalid');
             });
 
             // Close the modal
             closeContactModal(contactModal);
         });
-
-        // Reset border color for a field as the user types, using event delegation
-        contactForm.addEventListener('input', (event) => {
-            const targetField = event.target;
-            // Check if the event target is a required field and was marked invalid
-            if (targetField.hasAttribute('required') && targetField.style.borderColor === 'red') {
-                targetField.style.borderColor = '';
-                // Optionally, one could also re-trigger validation or clear the general error message here
-                // For now, keeping it simple: just reset the specific field's border.
-                // The general error message is handled by validateForm on submit.
-            }
+       // Optional: Reset border colors and aria-invalid when user starts typing in a field
+        contactForm.querySelectorAll('[required]').forEach(field => {
+            field.addEventListener('input', () => {
+                // If field has content, remove invalid class and aria-attribute
+                if (field.value.trim()) {
+                    field.classList.remove('form-field-invalid');
+                    field.removeAttribute('aria-invalid');
+                }
+                // No need for an 'else' here, as the submit validation will catch empty/invalid fields.
+                // This listener primarily serves to remove the error state as the user types.
+            });
         });
     } else {
         if (!contactForm) console.warn('Contact form (#contact-form) not found.');
         if (!contactModal) console.warn('Contact modal (#contact-us-modal) not found.');
+        if (!errorMessageContainer) console.warn('Error message container (#contact-form-error-message) not found.');
     }
 });
