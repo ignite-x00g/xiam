@@ -129,7 +129,11 @@ main {
 }
 #chatbot-modal .modal-content {
     margin-bottom: 20px; /* Same as .fab-container bottom */
-    margin-right: 75px;  /* 60px (FAB width) + 10px (gap) + 5px (required space) */
+    /* Adjusted for "5px to the left of FABs"
+       FAB container right: 20px. FAB width: 60px.
+       Desired modal right edge from viewport right: 20px (FAB container right) + 60px (FAB width) + 5px (spacing) = 85px
+    */
+    margin-right: 85px;
     max-width: 360px;
     min-width: 280px;
     width: 100%;
@@ -139,7 +143,11 @@ main {
 }
 @media (max-width: 768px) {
     #chatbot-modal .modal-content {
-        margin-right: 65px; /* Slightly closer on mobile */
+        /* Adjusted for "5px to the left of FABs" on mobile
+           FAB container right: 15px. FAB width: 54px.
+           Desired modal right edge from viewport right: 15px (FAB container right) + 54px (FAB width) + 5px (spacing) = 74px
+        */
+        margin-right: 74px;
         margin-bottom: 85px; /* Above mobile nav */
         max-width: 96vw;
     }
