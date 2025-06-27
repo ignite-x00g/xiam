@@ -125,6 +125,8 @@ function initializeDynamicModalManager() {
             }
 
             modal.style.display = 'flex'; // Use 'flex' for modern centering; adjust if CSS expects 'block'
+            modal.style.visibility = 'visible';
+            modal.style.opacity = '1';
             modal.setAttribute('aria-modal', 'true');
             modal.removeAttribute('aria-hidden'); // Ensure modal itself is not hidden
 
@@ -138,6 +140,8 @@ function initializeDynamicModalManager() {
 
             if (modalBackdrop) {
                 modalBackdrop.style.display = 'block';
+                modalBackdrop.style.visibility = 'visible';
+                modalBackdrop.style.opacity = '1'; // Assuming backdrop also uses opacity for transitions/visibility
             }
             document.body.style.overflow = 'hidden'; // Prevent scrolling of the page content
 
