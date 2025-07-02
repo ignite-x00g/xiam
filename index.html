@@ -218,10 +218,10 @@
     <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
 
     <!-- Join Us Modal (using provided structure) -->
-    <div id="join-us-modal" class="modal-overlay" style="display: none;">
+    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-labelledby="join-us-modal-title" style="display: none;">
             <div class="modal-content" id="modal-content"> <!-- Note: The user's HTML had id="modal-content" here. The existing index.html also uses this ID for its modals. This should be fine. -->
               <div class="modal-header">
-                <h2 data-en="Join Us" data-es="Únete">Join Us</h2> <!-- Added data attributes for translation -->
+                <h2 id="join-us-modal-title" data-en="Join Us" data-es="Únete">Join Us</h2> <!-- Added data attributes for translation -->
                 <button class="close-modal" id="close-modal-btn" data-close-modal="join-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button> <!-- Added data-close-modal and aria labels -->
               </div>
               <form id="join-form" autocomplete="off">
@@ -497,10 +497,10 @@
             </div>
         </div>
     </div>
-    <div id="chatbot-modal" class="modal-overlay" style="display:none;">
+    <div id="chatbot-modal" class="modal-overlay" role="dialog" aria-labelledby="chatbot-modal-title" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
+                <h3 id="chatbot-modal-title" data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
                 <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" data-en="Chatbot interface will go here..." data-es="La interfaz del Chatbot irá aquí...">
@@ -551,5 +551,44 @@
     <!-- script.js will be adapted for Join Us modal and other new interactions -->
     <script src="js/main_script.js" defer></script>
     <script src="js/global-toggles.js" defer></script>
+    <script src="js/mobile-fab-nav.js" defer></script>
+
+    <!-- New Mobile FAB Nav Menu -->
+    <button class="fab-toggle" id="newFabToggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <nav class="mobile-nav" id="newMobileNav">
+        <a href="index.html" class="mobile-nav-item" data-en-text="Home" data-es-text="Inicio">
+            <i class="fas fa-home"></i>
+            <span data-en="Home" data-es="Inicio">Home</span>
+        </a>
+
+        <button class="mobile-nav-item" id="newMobileServicesToggle" aria-expanded="false" aria-controls="newMobileServicesMenu" data-en-text="Services" data-es-text="Servicios">
+            <i class="fas fa-cogs"></i>
+            <span data-en="Services" data-es="Servicios">Services</span>
+        </button>
+
+        <button class="mobile-nav-item lang-toggle-btn" id="newMobileLanguageToggle" aria-label="Switch Language" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
+
+        <button class="mobile-nav-item theme-toggle-btn" id="newMobileThemeToggle" aria-label="Toggle Theme" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button>
+
+        <button class="mobile-nav-item" id="newMobileChatLauncher" data-modal-target="chatbot-modal" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat">
+            <i class="fas fa-comment-alt"></i>
+            <span data-en="Chat" data-es="Chat">Chat</span>
+        </button>
+    </nav>
+
+    <div class="mobile-services-menu" id="newMobileServicesMenu" aria-hidden="true">
+        <ul>
+            <!-- These will trigger existing modals -->
+            <li><button data-service-target="business-operations-modal" data-en="Business Operations" data-es="Operaciones Empresariales">Business Operations</button></li>
+            <li><button data-service-target="contact-center-modal" data-en="Contact Center" data-es="Centro de Contacto">Contact Center</button></li>
+            <li><button data-service-target="it-support-modal" data-en="IT Support" data-es="Soporte IT">IT Support</button></li>
+            <li><button data-service-target="professionals-modal" data-en="Professionals" data-es="Profesionales">Professionals</button></li>
+        </ul>
+    </div>
+    <!-- End New Mobile FAB Nav Menu -->
+
 </body>
 </html>
