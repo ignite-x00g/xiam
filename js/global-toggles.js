@@ -61,6 +61,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Global function to be called by theme togglers
+    window.toggleTheme = function() {
+        const newTheme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+        setCurrentTheme(newTheme);
+        applyTheme(newTheme); // This will now update body.dark and relevant button texts
+
+        // Explicitly update ARIA labels for all theme toggle buttons
+        const isDark = newTheme === 'dark';
+        document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+            const enLabel = isDark ? btn.dataset.enLabelLight : btn.dataset.enLabelDark;
+            const esLabel = isDark ? btn.dataset.esLabelLight : btn.dataset.esLabelDark;
+            const currentLang = getCurrentLanguage();
+            btn.setAttribute('aria-label', currentLang === 'es' ? esLabel : enLabel);
+            // Also update title attribute if used similarly
+            // Example: btn.title = currentLang === 'es' ? esLabel : enLabel;
+        });
+    };
+
+    window.toggleLanguage = function() {
+        const newLang = getCurrentLanguage() === 'en' ? 'es' : 'en';
+        setCurrentLanguage(newLang);
+        applyTranslations(newLang); // applyTranslations updates the main langBtn text
+
+        // Explicitly update text and ARIA for all language buttons
+        document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+            btn.textContent = newLang.toUpperCase();
+            // Update ARIA labels based on new language for these buttons
+            const enLabel = btn.dataset.enLabel; // e.g., "Switch to Spanish"
+            const esLabel = btn.dataset.esLabel; // e.g., "Cambiar a Inglés"
+            // The labels should describe the action for the *next* click
+            // So if current lang is ES, button shows ES, label says "Switch to English"
+            btn.setAttribute('aria-label', newLang === 'en' ? esLabel : enLabel);
+             // Also update title attribute if used similarly
+            // Example: btn.title = newLang === 'en' ? esLabel : enLabel;
+        });
+    };
+
+
     // ===== INIT STATE =====
     console.log('[DEBUG] Initializing toggle states...');
     const initialLang = getCurrentLanguage();
@@ -68,8 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTranslations(initialLang);
     applyTheme(initialTheme);
     console.log('[DEBUG] Toggle states initialized.');
-
-    // ===== HANDLE TOGGLES =====
+    // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
     if (langBtn) {
         langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Set initial text based on loaded lang
         langBtn.addEventListener('click', () => {
