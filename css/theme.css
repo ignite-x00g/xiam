@@ -5,7 +5,7 @@
     /* Core Palette */
     --primary-color: #333333; /* Dark Gray base */
     --secondary-color: #4F4F4F; /* Medium Dark Gray */
-    --accent-color: #8b5cf6; /* Purple accent from original FAB */
+    --accent-color: #8b5cf6; /* Purple accent from original FAB - RETAINED, as other elements might use it */
     --accent-color-faded: rgba(139, 92, 246, 0.2);
 
     /* Backgrounds */
@@ -45,9 +45,9 @@
     /* Buttons & Interactive Elements */
     --button-bg-color: var(--secondary-color);
     --button-hover-bg-color: #5A5A5A;
-    --fab-bg-color: var(--accent-color);
-    --fab-hover-bg-color: #a855f7; /* Lighter purple from original */
-    --fab-text-color: #FFFFFF;
+    --fab-bg-color: var(--button-bg-color); /* Changed from var(--accent-color) */
+    --fab-hover-bg-color: var(--button-hover-bg-color); /* Changed from #a855f7 */
+    --fab-text-color: #FFFFFF; /* Remains white, good contrast with dark grey */
     --success-color: #28a745; /* Green */
     --warning-color: #ffc107; /* Yellow */
     --danger-color: #dc3545;  /* Red */
