@@ -1,8 +1,15 @@
 // js/global-toggles.js
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('[DEBUG] global-toggles.js: DOMContentLoaded event fired.');
+
     const langBtn = document.getElementById('language-toggle-button');
     const themeBtn = document.getElementById('theme-toggle-button');
     const body = document.body;
+
+    console.log('[DEBUG] langBtn found:', langBtn);
+    console.log('[DEBUG] themeBtn found:', themeBtn);
+    console.log('[DEBUG] body found:', body);
+
 
     // ===== LANGUAGE TOGGLE =====
     // Default to English; save to localStorage
@@ -13,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ops_lang', lang);
     }
     function applyTranslations(lang) {
+        console.log('[DEBUG] applyTranslations called with lang:', lang);
         // All elements with data-en or data-es
         document.querySelectorAll('[data-en], [data-es]').forEach(el => {
             const text = el.getAttribute(lang === 'es' ? 'data-es' : 'data-en');
@@ -43,18 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ops_theme', theme);
     }
     function applyTheme(theme) {
-        // Consistently use body.dark: add for 'dark', remove for 'light'
-        if (theme === 'dark') {
-            body.classList.add('dark');
-            if (themeBtn) themeBtn.textContent = 'Dark'; // Main header button
-            // Also update the new mobile FAB theme button if it exists
-            const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
-            if (mobileThemeBtn) mobileThemeBtn.textContent = 'Dark';
-        } else { // 'light'
-            body.classList.remove('dark');
-            if (themeBtn) themeBtn.textContent = 'Light'; // Main header button
-            const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
-            if (mobileThemeBtn) mobileThemeBtn.textContent = 'Light';
+        console.log('[DEBUG] applyTheme called with theme:', theme);
+        if (theme === 'light') {
+            body.classList.add('light-theme');
+            if (themeBtn) themeBtn.textContent = 'Light';
+        } else {
+            body.classList.remove('light-theme');
+            if (themeBtn) themeBtn.textContent = 'Dark';
         }
     }
 
@@ -97,60 +100,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ===== INIT STATE =====
+    console.log('[DEBUG] Initializing toggle states...');
     const initialLang = getCurrentLanguage();
     const initialTheme = getCurrentTheme();
-    applyTranslations(initialLang); // This updates general text & main langBtn text
-    applyTheme(initialTheme);       // This updates body class & main themeBtn text
-
-    // Update ARIA labels for theme buttons on init
-    const isInitiallyDark = initialTheme === 'dark';
-    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-        const enLabel = isInitiallyDark ? btn.dataset.enLabelLight : btn.dataset.enLabelDark;
-        const esLabel = isInitiallyDark ? btn.dataset.esLabelLight : btn.dataset.esLabelDark;
-        btn.setAttribute('aria-label', initialLang === 'es' ? esLabel : enLabel);
-        btn.textContent = isInitiallyDark ? 'Dark' : 'Light'; // Ensure button text is also correct
-    });
-
-    // Update ARIA labels for lang buttons on init
-     document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
-        btn.textContent = initialLang.toUpperCase();
-        const enLabel = btn.dataset.enLabel;
-        const esLabel = btn.dataset.esLabel;
-        btn.setAttribute('aria-label', initialLang === 'en' ? esLabel : enLabel);
-    });
-
-
+    applyTranslations(initialLang);
+    applyTheme(initialTheme);
+    console.log('[DEBUG] Toggle states initialized.');
     // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
     if (langBtn) {
-        // langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Done by applyTranslations or init block above
+        langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Set initial text based on loaded lang
         langBtn.addEventListener('click', () => {
-            window.toggleLanguage(); // Use the new global toggle
-        });
-    }
-    if (themeBtn) {
-        // themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark'; // Done by applyTheme or init block above
-        themeBtn.addEventListener('click', () => {
-            window.toggleTheme(); // Use the new global toggle
-        });
-    }
-
-    // ====== EXPOSE GLOBALLY FOR OTHER SCRIPTS ======
-    // window.getCurrentLanguage, window.applyTranslations, window.getCurrentTheme, window.applyTheme are already exposed.
-    // window.toggleTheme and window.toggleLanguage are now also globally defined.
-});
-        langBtn.addEventListener('click', () => {
+            console.log('[DEBUG] Language toggle button clicked');
             const newLang = getCurrentLanguage() === 'en' ? 'es' : 'en';
             setCurrentLanguage(newLang);
             applyTranslations(newLang);
         });
+        console.log('[DEBUG] Language toggle event listener attached.');
+    } else {
+        console.warn('[DEBUG] Language toggle button (langBtn) not found. Listener not attached.');
     }
+
     if (themeBtn) {
-        themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark';
+        themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark'; // Set initial text based on loaded theme
         themeBtn.addEventListener('click', () => {
+            console.log('[DEBUG] Theme toggle button clicked');
             const newTheme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
             setCurrentTheme(newTheme);
             applyTheme(newTheme);
         });
+        console.log('[DEBUG] Theme toggle event listener attached.');
+    } else {
+        console.warn('[DEBUG] Theme toggle button (themeBtn) not found. Listener not attached.');
     }
 
     // ====== EXPOSE GLOBALLY FOR OTHER SCRIPTS ======
@@ -158,4 +138,5 @@ document.addEventListener('DOMContentLoaded', () => {
     window.applyTranslations = applyTranslations;
     window.getCurrentTheme = getCurrentTheme;
     window.applyTheme = applyTheme;
+    console.log('[DEBUG] Global toggle functions exposed on window object.');
 });
