@@ -927,3 +927,188 @@ footer {
 #join-us-modal .floating-label-group textarea::placeholder {
   color: transparent; /* Hide the actual placeholder space */
 }
+
+/* ===== New Mobile FAB Nav Styling ===== */
+/* Hide new FAB elements by default, show only via media query */
+#newFabToggle,
+#newMobileNav,
+#newMobileServicesMenu {
+    display: none;
+}
+
+/* Styles for screen sizes 768px and below */
+@media screen and (max-width: 768px) {
+    /* Hide the original mobile bottom bar and its panel */
+    .mobile-nav#mobile-bottom-nav,
+    .mobile-services-menu#mobile-services-panel {
+        display: none !important;
+    }
+
+    /* Display new FAB elements */
+    #newFabToggle {
+        display: flex; /* Or block, depending on content */
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--accent-color, #007bff); /* Use theme variable */
+        color: var(--button-text-color-on-accent, #fff); /* Use theme variable */
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        z-index: 4000;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        border: none;
+    }
+
+    #newMobileNav {
+        display: flex; /* Hidden by default, JS toggles 'active' */
+        position: fixed;
+        bottom: 20px; /* Align with FAB */
+        right: 90px; /* To the left of the FAB */
+        flex-direction: row-reverse; /* Icons appear from right to left */
+        gap: 10px;
+        background: var(--mobile-nav-bg-color, #fff); /* Theme variable */
+        padding: 0.5rem 1rem;
+        border-radius: 30px; /* Pill shape */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 3000;
+        transform: scaleX(0);
+        transform-origin: right; /* Expand from the right */
+        transition: transform 0.3s ease;
+    }
+
+    #newMobileNav.active {
+        transform: scaleX(1); /* Show the nav bar */
+    }
+
+    #newMobileNav .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--mobile-nav-text-color, #333); /* Theme variable */
+        background: none;
+        border: none;
+        font-size: 0.75rem;
+        cursor: pointer;
+        padding: 0.2rem; /* Small padding for items */
+    }
+
+    #newMobileNav .mobile-nav-item i {
+        font-size: 1.4rem; /* Icon size */
+        margin-bottom: 2px;
+    }
+
+    /* Specific styles for language and theme toggles if they are text-only */
+    #newMobileNav #newMobileLanguageToggle,
+    #newMobileNav #newMobileThemeToggle {
+        font-size: 0.8rem; /* Adjust if they look too small/big */
+        min-width: 40px; /* Ensure they have some width */
+        padding: 0.5rem 0.2rem; /* Adjust padding for text buttons */
+    }
+    /* Ensure span within button is also styled if needed */
+     #newMobileNav .mobile-nav-item span {
+        font-size: 0.7rem; /* Text under icon */
+        margin-top: 2px;
+     }
+
+
+    #newMobileServicesMenu {
+        /* display: none; by default, JS toggles 'active' */
+        position: fixed;
+        bottom: 90px; /* Above the FAB and expanded nav */
+        right: 20px; /* Align with the FAB's right edge */
+        background: var(--mobile-menu-panel-bg-color, #fff); /* Theme variable */
+        border: 1px solid var(--border-color-soft, #ccc); /* Theme variable */
+        padding: 1rem;
+        z-index: 2000;
+        border-radius: 10px;
+        max-height: 50%;
+        overflow-y: auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        /* Initially hidden, JS adds .active to show */
+        /* Using opacity and visibility for smoother transitions if preferred over display:none/block */
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #newMobileServicesMenu.active {
+        display: block; /* Or use visibility/opacity for transitions */
+        visibility: visible;
+        opacity: 1;
+    }
+
+    #newMobileServicesMenu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #newMobileServicesMenu li {
+        margin-bottom: 10px;
+    }
+    #newMobileServicesMenu li:last-child {
+        margin-bottom: 0;
+    }
+
+    #newMobileServicesMenu button { /* Changed from a to button */
+        text-decoration: none;
+        color: var(--mobile-menu-panel-text-color, #333); /* Theme variable */
+        font-size: 1rem;
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem 0.2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    #newMobileServicesMenu button:hover {
+        color: var(--accent-color, #007bff); /* Theme variable */
+    }
+
+    /* Dark mode adjustments for new FAB menu */
+    body.dark #newMobileNav,
+    body.dark #newMobileServicesMenu {
+        background: var(--dark-mobile-nav-bg-color, #222); /* Example dark theme variable */
+        color: var(--dark-text-color, #eee);
+        border-color: var(--dark-border-color, #444);
+    }
+
+    body.dark #newMobileNav .mobile-nav-item,
+    body.dark #newMobileServicesMenu button { /* Was a */
+        color: var(--dark-text-color, #eee);
+    }
+    body.dark #newMobileNav .mobile-nav-item:hover,
+    body.dark #newMobileServicesMenu button:hover { /* Was a */
+        color: var(--accent-color-dark-theme, var(--accent-color)); /* Use a specific dark theme accent if available */
+    }
+
+    body.dark #newFabToggle {
+        background-color: var(--dark-accent-color, var(--accent-color, #007bff)); /* Ensure FAB bg is themed */
+        color: var(--dark-button-text-color-on-accent, var(--button-text-color-on-accent, #fff)); /* Ensure FAB text/icon is themed */
+    }
+}
+
+/* Styles for screen sizes larger than 768px */
+@media screen and (min-width: 769px) {
+    #newFabToggle,
+    #newMobileNav,
+    #newMobileServicesMenu {
+        display: none !important; /* Ensure they are hidden on larger screens */
+    }
+
+    /* Restore original mobile nav display if it was meant to be shown on desktop for some reason */
+    /* (current setup hides it on desktop via .landing-page selector, so this might not be needed) */
+    /*
+    .mobile-nav#mobile-bottom-nav,
+    .mobile-services-menu#mobile-services-panel {
+        display: flex; // Or whatever their default display was for desktop
+    }
+    */
+}

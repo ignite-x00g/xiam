@@ -43,24 +43,101 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ops_theme', theme);
     }
     function applyTheme(theme) {
-        if (theme === 'light') {
-            body.classList.add('light-theme');
-            if (themeBtn) themeBtn.textContent = 'Light';
-        } else {
-            body.classList.remove('light-theme');
-            if (themeBtn) themeBtn.textContent = 'Dark';
+        // Consistently use body.dark: add for 'dark', remove for 'light'
+        if (theme === 'dark') {
+            body.classList.add('dark');
+            if (themeBtn) themeBtn.textContent = 'Dark'; // Main header button
+            // Also update the new mobile FAB theme button if it exists
+            const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
+            if (mobileThemeBtn) mobileThemeBtn.textContent = 'Dark';
+        } else { // 'light'
+            body.classList.remove('dark');
+            if (themeBtn) themeBtn.textContent = 'Light'; // Main header button
+            const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
+            if (mobileThemeBtn) mobileThemeBtn.textContent = 'Light';
         }
     }
+
+    // Global function to be called by theme togglers
+    window.toggleTheme = function() {
+        const newTheme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+        setCurrentTheme(newTheme);
+        applyTheme(newTheme); // This will now update body.dark and relevant button texts
+
+        // Explicitly update ARIA labels for all theme toggle buttons
+        const isDark = newTheme === 'dark';
+        document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+            const enLabel = isDark ? btn.dataset.enLabelLight : btn.dataset.enLabelDark;
+            const esLabel = isDark ? btn.dataset.esLabelLight : btn.dataset.esLabelDark;
+            const currentLang = getCurrentLanguage();
+            btn.setAttribute('aria-label', currentLang === 'es' ? esLabel : enLabel);
+            // Also update title attribute if used similarly
+            // Example: btn.title = currentLang === 'es' ? esLabel : enLabel;
+        });
+    };
+
+    window.toggleLanguage = function() {
+        const newLang = getCurrentLanguage() === 'en' ? 'es' : 'en';
+        setCurrentLanguage(newLang);
+        applyTranslations(newLang); // applyTranslations updates the main langBtn text
+
+        // Explicitly update text and ARIA for all language buttons
+        document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+            btn.textContent = newLang.toUpperCase();
+            // Update ARIA labels based on new language for these buttons
+            const enLabel = btn.dataset.enLabel; // e.g., "Switch to Spanish"
+            const esLabel = btn.dataset.esLabel; // e.g., "Cambiar a Inglés"
+            // The labels should describe the action for the *next* click
+            // So if current lang is ES, button shows ES, label says "Switch to English"
+            btn.setAttribute('aria-label', newLang === 'en' ? esLabel : enLabel);
+             // Also update title attribute if used similarly
+            // Example: btn.title = newLang === 'en' ? esLabel : enLabel;
+        });
+    };
+
 
     // ===== INIT STATE =====
     const initialLang = getCurrentLanguage();
     const initialTheme = getCurrentTheme();
-    applyTranslations(initialLang);
-    applyTheme(initialTheme);
+    applyTranslations(initialLang); // This updates general text & main langBtn text
+    applyTheme(initialTheme);       // This updates body class & main themeBtn text
 
-    // ===== HANDLE TOGGLES =====
+    // Update ARIA labels for theme buttons on init
+    const isInitiallyDark = initialTheme === 'dark';
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+        const enLabel = isInitiallyDark ? btn.dataset.enLabelLight : btn.dataset.enLabelDark;
+        const esLabel = isInitiallyDark ? btn.dataset.esLabelLight : btn.dataset.esLabelDark;
+        btn.setAttribute('aria-label', initialLang === 'es' ? esLabel : enLabel);
+        btn.textContent = isInitiallyDark ? 'Dark' : 'Light'; // Ensure button text is also correct
+    });
+
+    // Update ARIA labels for lang buttons on init
+     document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+        btn.textContent = initialLang.toUpperCase();
+        const enLabel = btn.dataset.enLabel;
+        const esLabel = btn.dataset.esLabel;
+        btn.setAttribute('aria-label', initialLang === 'en' ? esLabel : enLabel);
+    });
+
+
+    // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
     if (langBtn) {
-        langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN';
+        // langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Done by applyTranslations or init block above
+        langBtn.addEventListener('click', () => {
+            window.toggleLanguage(); // Use the new global toggle
+        });
+    }
+    if (themeBtn) {
+        // themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark'; // Done by applyTheme or init block above
+        themeBtn.addEventListener('click', () => {
+            window.toggleTheme(); // Use the new global toggle
+        });
+    }
+
+    // ====== EXPOSE GLOBALLY FOR OTHER SCRIPTS ======
+    // window.getCurrentLanguage, window.applyTranslations, window.getCurrentTheme, window.applyTheme are already exposed.
+    // window.toggleTheme and window.toggleLanguage are now also globally defined.
+});
         langBtn.addEventListener('click', () => {
             const newLang = getCurrentLanguage() === 'en' ? 'es' : 'en';
             setCurrentLanguage(newLang);
