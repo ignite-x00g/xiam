@@ -51,18 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ops_theme', theme);
     }
     function applyTheme(theme) {
-        // Consistently use body.dark: add for 'dark', remove for 'light'
-        if (theme === 'dark') {
-            body.classList.add('dark');
-            if (themeBtn) themeBtn.textContent = 'Dark'; // Main header button
-            // Also update the new mobile FAB theme button if it exists
-            const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
-            if (mobileThemeBtn) mobileThemeBtn.textContent = 'Dark';
-        } else { // 'light'
-            body.classList.remove('dark');
-            if (themeBtn) themeBtn.textContent = 'Light'; // Main header button
+        if (theme === 'light') {
+            body.classList.remove('dark'); // Remove .dark if it exists
+            body.classList.add('light-theme'); // Add .light-theme for light mode styles
+            if (themeBtn) themeBtn.textContent = 'Light';
             const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
             if (mobileThemeBtn) mobileThemeBtn.textContent = 'Light';
+        } else { // 'dark'
+            body.classList.remove('light-theme'); // Remove .light-theme
+            body.classList.add('dark'); // Add .dark for dark mode (even if :root is dark, for consistency)
+            if (themeBtn) themeBtn.textContent = 'Dark';
+            const mobileThemeBtn = document.getElementById('newMobileThemeToggle');
+            if (mobileThemeBtn) mobileThemeBtn.textContent = 'Dark';
         }
     }
 
@@ -109,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTheme = getCurrentTheme();
     applyTranslations(initialLang); // This updates general text & main langBtn text
     applyTheme(initialTheme);       // This updates body class & main themeBtn text
-
     // Update ARIA labels for theme buttons on init
     const isInitiallyDark = initialTheme === 'dark';
     document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
@@ -127,7 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.setAttribute('aria-label', initialLang === 'en' ? esLabel : enLabel);
     });
 
-  // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
+
+    // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
     if (langBtn) {
         // langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Done by applyTranslations or init block above
         langBtn.addEventListener('click', () => {
