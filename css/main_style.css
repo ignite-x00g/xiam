@@ -946,22 +946,43 @@ footer {
 
     /* Display new FAB elements */
     #newFabToggle {
-        display: flex; /* Or block, depending on content */
+        display: flex;
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 20px; /* Base position for the lowest FAB */
+        right: 20px;  /* Common right alignment */
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background-color: var(--accent-color, #007bff); /* Use theme variable */
-        color: var(--button-text-color-on-accent, #fff); /* Use theme variable */
+        background-color: var(--accent-color, #007bff);
+        color: var(--button-text-color-on-accent, #fff);
         justify-content: center;
         align-items: center;
         font-size: 1.5rem;
-        z-index: 4000;
+        z-index: 4000; /* Ensures it's above newMobileNav */
         cursor: pointer;
         box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         border: none;
+    }
+
+    /* Reposition .fab-container (Join Us, Contact, Chatbot) above #newFabToggle on mobile */
+    .fab-container {
+        /* Original mobile styles: bottom: 80px; right: 15px; gap: 8px; */
+        /* New positioning: */
+        right: 20px; /* Align with #newFabToggle */
+        /* #newFabToggle is bottom: 20px, height: 60px. Add gap of 10px. So bottom = 20 + 60 + 10 = 90px */
+        bottom: 90px;
+        gap: 10px; /* Consistent gap */
+        /* Other .fab-container styles like position:fixed, display:flex, flex-direction:column remain */
+    }
+    /* Ensure individual FABs in .fab-container maintain their size if previously different for mobile */
+    .fab-container .fab {
+        /* Original mobile styles: width: 54px; height: 54px; */
+        /* Let's make them consistent with #newFabToggle or slightly smaller if preferred.
+           For now, assume they should be similar or use existing mobile size if it looked good.
+           If #newFabToggle is 60x60, these were 54x54. Keeping them 54x54 for differentiation.
+        */
+        width: 54px;  /* Keep original mobile size */
+        height: 54px; /* Keep original mobile size */
     }
 
     #newMobileNav {
@@ -1086,13 +1107,19 @@ footer {
     }
     body.dark #newMobileNav .mobile-nav-item:hover,
     body.dark #newMobileServicesMenu button:hover { /* Was a */
-        color: var(--accent-color-dark-theme, var(--accent-color)); /* Use a specific dark theme accent if available */
+        color: var(--accent-color-dark-theme, var(--accent-color));
     }
 
-    body.dark #newFabToggle {
-        background-color: var(--dark-accent-color, var(--accent-color, #007bff)); /* Ensure FAB bg is themed */
-        color: var(--dark-button-text-color-on-accent, var(--button-text-color-on-accent, #fff)); /* Ensure FAB text/icon is themed */
+    /* Ensure all FABs use the primary accent color for background in dark mode on mobile */
+    body.dark #newFabToggle,
+    body.dark .fab-container .fab { /* Target main FABs within the container specifically for dark mode override if needed */
+        background-color: var(--accent-color); /* Main purple shade */
+        color: var(--fab-text-color, #fff);    /* Ensure icon/text contrast */
     }
+    /* If main FABs already correctly use --fab-bg-color which is var(--accent-color),
+       then only #newFabToggle might need specific override if its default dark was different.
+       The rule for .fab-container .fab ensures they also follow this if there was any more specific override.
+    */
 }
 
 /* Styles for screen sizes larger than 768px */
