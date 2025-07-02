@@ -1,8 +1,15 @@
 // js/global-toggles.js
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('[DEBUG] global-toggles.js: DOMContentLoaded event fired.');
+
     const langBtn = document.getElementById('language-toggle-button');
     const themeBtn = document.getElementById('theme-toggle-button');
     const body = document.body;
+
+    console.log('[DEBUG] langBtn found:', langBtn);
+    console.log('[DEBUG] themeBtn found:', themeBtn);
+    console.log('[DEBUG] body found:', body);
+
 
     // ===== LANGUAGE TOGGLE =====
     // Default to English; save to localStorage
@@ -13,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ops_lang', lang);
     }
     function applyTranslations(lang) {
+        console.log('[DEBUG] applyTranslations called with lang:', lang);
         // All elements with data-en or data-es
         document.querySelectorAll('[data-en], [data-es]').forEach(el => {
             const text = el.getAttribute(lang === 'es' ? 'data-es' : 'data-en');
@@ -95,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-
     // ===== INIT STATE =====
+    console.log('[DEBUG] Initializing toggle states...');
     const initialLang = getCurrentLanguage();
     const initialTheme = getCurrentTheme();
     applyTranslations(initialLang); // This updates general text & main langBtn text
@@ -119,19 +127,25 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.setAttribute('aria-label', initialLang === 'en' ? esLabel : enLabel);
     });
 
-
-    // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
+  // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
     if (langBtn) {
         // langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Done by applyTranslations or init block above
         langBtn.addEventListener('click', () => {
             window.toggleLanguage(); // Use the new global toggle
         });
+        console.log('[DEBUG] Language toggle event listener attached.');
+    } else {
+        console.warn('[DEBUG] Language toggle button (langBtn) not found. Listener not attached.');
     }
+
     if (themeBtn) {
         // themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark'; // Done by applyTheme or init block above
         themeBtn.addEventListener('click', () => {
             window.toggleTheme(); // Use the new global toggle
         });
+        console.log('[DEBUG] Theme toggle event listener attached.');
+    } else {
+        console.warn('[DEBUG] Theme toggle button (themeBtn) not found. Listener not attached.');
     }
 
     // ====== EXPOSE GLOBALLY FOR OTHER SCRIPTS ======
