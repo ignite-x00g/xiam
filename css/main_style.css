@@ -985,7 +985,6 @@ footer {
         height: 54px; /* Keep original mobile size */
     }
 
-
     #newMobileNav {
         display: flex; /* Hidden by default, JS toggles 'active' */
         position: fixed;
