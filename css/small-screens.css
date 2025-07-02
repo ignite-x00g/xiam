@@ -128,6 +128,23 @@
     grid-template-columns: 1fr;
   }
 
+  /* Make employment type checkboxes stack vertically on small screens */
+  .collapsible-checkbox-group .form-row.checkbox-row {
+    flex-direction: column;
+    /* The existing 'gap: 10px;' from global.css will now apply to vertical spacing */
+    align-items: stretch; /* Ensure items stretch to full width if they have basis/width like 100% */
+  }
+
+  .collapsible-checkbox-group .form-row.checkbox-row .checkbox-cell {
+    flex-basis: auto; /* Reset flex-basis from global.css */
+    width: 100%;     /* Make each checkbox cell take full width */
+    margin-bottom: 5px; /* Add some margin between stacked cells if gap isn't enough or for clarity */
+  }
+  /* Remove bottom margin from the last cell in a column to avoid double spacing with row's margin-bottom */
+  .collapsible-checkbox-group .form-row.checkbox-row .checkbox-cell:last-child {
+    margin-bottom: 0;
+  }
+
 /* =========================================================
    For screens ≥ 769px, hide mobile nav (redundant but safe)
    ========================================================= */

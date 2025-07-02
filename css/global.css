@@ -329,6 +329,87 @@ body[data-theme="dark"] .modal-content form {
   background-color: rgba(0,0,0,0.85);
 }
 
+body[data-theme="dark"] .toggle-button {
+  background-color: #2a2a3a; /* Darker background */
+  border-color: #bb86fc;    /* Lighter, theme-consistent border (like other dark mode elements) */
+  color: #bb86fc;           /* Lighter text color */
+}
+
+body[data-theme="dark"] .toggle-button:hover {
+  background-color: #3a3a4a; /* Slightly lighter on hover for dark mode */
+  color: #d0b3ff;
+  border-color: #d0b3ff; /* Match text color or a slightly brighter shade for hover */
+}
+
+/* Employment Type Section */
+.form-cell.full-width { /* Class for the label and button container */
+    grid-column: 1 / -1; /* Span full width in the grid */
+}
+
+#employment-type-checkboxes {
+    /* display: none; is handled by inline style, controlled by JS */
+    padding-top: 10px; /* Space above checkboxes */
+    padding-left: 15px; /* Horizontal padding for <--- ---> effect */
+    padding-right: 15px; /* Horizontal padding for <--- ---> effect */
+}
+
+/* Target .form-row that also has .checkbox-row for the flex layout */
+.collapsible-checkbox-group .form-row.checkbox-row {
+    display: flex; /* Arrange checkbox-cells in a row */
+    justify-content: space-between; /* Distribute space, or use gap */
+    gap: 10px; /* Space between the two checkbox cells */
+    margin-bottom: 8px; /* Spacing between checkbox rows, adjusted from 5px */
+}
+
+.checkbox-cell {
+    display: flex;
+    align-items: center; /* Align checkbox and label vertically */
+    flex: 1; /* Each cell takes equal width in the flex row */
+    /* Adding a bit of padding if needed, though label width 100% might cover it */
+    /* padding: 0 5px; */
+}
+
+.checkbox-cell label {
+    display: flex; /* Align text span and input within the label */
+    align-items: center;
+    cursor: pointer;
+    width: 100%; /* Make label take full width of cell for easier clicking */
+}
+
+.checkbox-cell input[type="checkbox"] {
+    margin-left: 10px; /* Space between text and checkbox */
+    order: 1; /* Checkbox to the right of the label text */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+
+.checkbox-cell label span {
+    flex-grow: 1; /* Text takes available space */
+    /* text-align: center; */ /* Uncomment if text itself needs to be centered */
+}
+
+.toggle-button {
+    background-color: #f2f0ff; /* Lighter, theme-related background */
+    border: 1px solid #9b87f5; /* Theme color border */
+    color: #7e69ab; /* Theme color text */
+    padding: 6px 10px; /* Slightly refined padding */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Added transition for border too */
+}
+
+.toggle-button:hover {
+    background-color: #e0d9fc; /* Slightly darker on hover */
+    color: #5c5470; /* Darker text on hover */
+    border-color: #7e69ab; /* Darker border on hover */
+}
+
+/* Ensure the modal form styling applies within the new section if needed */
+#join-form .form-row {
+    /* Existing styles should cover this, but can be fine-tuned if necessary */
+}
+
 /* ===========================================
    Mobile Overrides (Responsive Design)
  =========================================== */

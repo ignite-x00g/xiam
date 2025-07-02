@@ -184,6 +184,76 @@
                             </div>
                          
                         </div>
+                        <div class="form-row"> <!-- This div will span both columns for the title -->
+                            <div class="form-cell full-width"> <!-- Span across grid columns -->
+                                <label data-en="Employment Type" data-es="Tipo de Empleo">Employment Type</label>
+                                <button type="button" id="employment-type-toggle" class="toggle-button" aria-expanded="false" aria-controls="employment-type-checkboxes">
+                                    <span data-en="Show Options" data-es="Mostrar Opciones">Show Options</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="employment-type-checkboxes" class="collapsible-checkbox-group" style="display: none;"> <!-- Initially hidden -->
+                            <!-- Row 1 -->
+                            <div class="form-row checkbox-row">
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-remote">
+                                        <span data-en="Remote" data-es="Remoto">Remote</span>
+                                        <input type="checkbox" id="emp-remote" name="employment_type" value="Remote">
+                                    </label>
+                                </div>
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-hybrid">
+                                        <span data-en="Hybrid" data-es="Híbrido">Hybrid</span>
+                                        <input type="checkbox" id="emp-hybrid" name="employment_type" value="Hybrid">
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Row 2 -->
+                            <div class="form-row checkbox-row">
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-on-site">
+                                        <span data-en="On-Site" data-es="En el Sitio">On-Site</span>
+                                        <input type="checkbox" id="emp-on-site" name="employment_type" value="On-Site">
+                                    </label>
+                                </div>
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-freelance">
+                                        <span data-en="Freelance" data-es="Freelance">Freelance</span>
+                                        <input type="checkbox" id="emp-freelance" name="employment_type" value="Freelance">
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Row 3 -->
+                            <div class="form-row checkbox-row">
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-part-time">
+                                        <span data-en="Part-Time" data-es="Medio Tiempo">Part-Time</span>
+                                        <input type="checkbox" id="emp-part-time" name="employment_type" value="Part-Time">
+                                    </label>
+                                </div>
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-project-based">
+                                        <span data-en="Project-Based" data-es="Por Proyecto">Project-Based</span>
+                                        <input type="checkbox" id="emp-project-based" name="employment_type" value="Project-Based">
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Row 4 -->
+                            <div class="form-row checkbox-row">
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-temporary">
+                                        <span data-en="Temporary" data-es="Temporal">Temporary</span>
+                                        <input type="checkbox" id="emp-temporary" name="employment_type" value="Temporary">
+                                    </label>
+                                </div>
+                                <div class="form-cell checkbox-cell">
+                                    <label for="emp-voluntary">
+                                        <span data-en="Voluntary / NGO / Non-Profit" data-es="Voluntario / ONG / Sin Fines de Lucro">Voluntary / NGO / Non-Profit</span>
+                                        <input type="checkbox" id="emp-voluntary" name="employment_type" value="Voluntary">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-row">
                            <div class="form-cell">
                                 <label for="join-comment" data-en="Comment" data-es="Comentario">Comment</label>
