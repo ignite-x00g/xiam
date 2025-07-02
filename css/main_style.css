@@ -300,7 +300,6 @@ main {
     line-height: 1.7;
 }
 
-
 /* ===== Join Us & Contact Us Modal Specific Styles ===== */
 /* Language Toggle inside Join Us Modal -- REMOVED */
 /* #join-us-modal .lang-toggle { ... } */
@@ -515,7 +514,6 @@ textarea {
     display: block; /* Shown by JS */
 }
 
-
 /* Ensure buttons within modals are contained */
 .modal-content .form-section { /* form-footer removed from here to allow its own styling */
     overflow: hidden; /* Prevents internal button hover effects from spilling */
@@ -535,7 +533,6 @@ textarea {
     /* margin: 0; */ /* Resetting margins can be kept or adjusted if needed */
     /* The button will now flow naturally, aligned right by form-footer's text-align */
 }
-
 
 /* ===== Mobile Navigation Styling ===== */
 /* Hide on landing page */
@@ -887,7 +884,6 @@ footer {
     grid-column: 1 / -1; /* Span all columns */
 }
 
-
 /* === END Contact Us Modal Specific Styles === */
 
 /* Floating label styles for Join Us form textarea */
@@ -985,7 +981,6 @@ footer {
         height: 54px; /* Keep original mobile size */
     }
 
-
     #newMobileNav {
         display: flex; /* Hidden by default, JS toggles 'active' */
         position: fixed;
@@ -1037,7 +1032,6 @@ footer {
         font-size: 0.7rem; /* Text under icon */
         margin-top: 2px;
      }
-
 
     #newMobileServicesMenu {
         /* display: none; by default, JS toggles 'active' */
