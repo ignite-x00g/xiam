@@ -218,10 +218,10 @@
     <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
 
     <!-- Join Us Modal (using provided structure) -->
-    <div id="join-us-modal" class="modal-overlay" style="display: none;">
+    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-labelledby="join-us-modal-title" style="display: none;">
             <div class="modal-content" id="modal-content"> <!-- Note: The user's HTML had id="modal-content" here. The existing index.html also uses this ID for its modals. This should be fine. -->
               <div class="modal-header">
-                <h2 data-en="Join Us" data-es="Únete">Join Us</h2> <!-- Added data attributes for translation -->
+                <h2 id="join-us-modal-title" data-en="Join Us" data-es="Únete">Join Us</h2> <!-- Added data attributes for translation -->
                 <button class="close-modal" id="close-modal-btn" data-close-modal="join-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button> <!-- Added data-close-modal and aria labels -->
               </div>
               <form id="join-form" autocomplete="off">
@@ -497,10 +497,10 @@
             </div>
         </div>
     </div>
-    <div id="chatbot-modal" class="modal-overlay" style="display:none;">
+    <div id="chatbot-modal" class="modal-overlay" role="dialog" aria-labelledby="chatbot-modal-title" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
+                <h3 id="chatbot-modal-title" data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
                 <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" data-en="Chatbot interface will go here..." data-es="La interfaz del Chatbot irá aquí...">
