@@ -45,9 +45,9 @@
     /* Buttons & Interactive Elements */
     --button-bg-color: var(--secondary-color);
     --button-hover-bg-color: #5A5A5A;
-    --fab-bg-color: var(--accent-color);
-    --fab-hover-bg-color: #a855f7; /* Lighter purple from original */
-    --fab-text-color: #FFFFFF;
+    --fab-bg-color: var(--button-bg-color); /* Changed to use button's dark gray */
+    --fab-hover-bg-color: var(--button-hover-bg-color); /* Changed to use button's hover dark gray */
+    --fab-text-color: #FFFFFF; /* Remains white, good contrast with dark grey */
     --success-color: #28a745; /* Green */
     --warning-color: #ffc107; /* Yellow */
     --danger-color: #dc3545;  /* Red */
