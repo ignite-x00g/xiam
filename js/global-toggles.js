@@ -1,15 +1,8 @@
 // js/global-toggles.js
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DEBUG] global-toggles.js: DOMContentLoaded event fired.');
-
     const langBtn = document.getElementById('language-toggle-button');
     const themeBtn = document.getElementById('theme-toggle-button');
     const body = document.body;
-
-    console.log('[DEBUG] langBtn found:', langBtn);
-    console.log('[DEBUG] themeBtn found:', themeBtn);
-    console.log('[DEBUG] body found:', body);
-
 
     // ===== LANGUAGE TOGGLE =====
     // Default to English; save to localStorage
@@ -20,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ops_lang', lang);
     }
     function applyTranslations(lang) {
-        console.log('[DEBUG] applyTranslations called with lang:', lang);
         // All elements with data-en or data-es
         document.querySelectorAll('[data-en], [data-es]').forEach(el => {
             const text = el.getAttribute(lang === 'es' ? 'data-es' : 'data-en');
@@ -103,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+
     // ===== INIT STATE =====
-    console.log('[DEBUG] Initializing toggle states...');
     const initialLang = getCurrentLanguage();
     const initialTheme = getCurrentTheme();
     applyTranslations(initialLang); // This updates general text & main langBtn text
