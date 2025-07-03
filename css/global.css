@@ -1,0 +1,15 @@
+/* Global CSS - Will be populated with base styles, typography, etc. later */
+body {
+    margin: 0; /* Basic reset */
+    font-family: Arial, sans-serif; /* Default font */
+    line-height: 1.6;
+    background-color: var(--body-bg-color);
+    color: var(--text-color-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Add other global styles here as the project evolves */
