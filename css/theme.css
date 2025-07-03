@@ -33,7 +33,6 @@
     --button-text-color-on-warning: #000000;
     --button-secondary-text-color: var(--text-color-main);
 
-
     /* Borders */
     --header-border-color: #3A3A3A;
     --card-border-color: #454545;
@@ -41,12 +40,11 @@
     --border-color-soft: #404040; /* For modal headers/footers */
     --button-border-color: #555555;
 
-
     /* Buttons & Interactive Elements */
     --button-bg-color: var(--secondary-color);
     --button-hover-bg-color: #5A5A5A;
-    --fab-bg-color: var(--button-bg-color); /* Changed from var(--accent-color) */
-    --fab-hover-bg-color: var(--button-hover-bg-color); /* Changed from #a855f7 */
+    --fab-bg-color: var(--button-bg-color); /* Changed to use button's dark gray */
+    --fab-hover-bg-color: var(--button-hover-bg-color); /* Changed to use button's hover dark gray */
     --fab-text-color: #FFFFFF; /* Remains white, good contrast with dark grey */
     --success-color: #28a745; /* Green */
     --warning-color: #ffc107; /* Yellow */
@@ -92,7 +90,6 @@ body.light-theme {
     --form-section-bg-color: #F9F9FC;
     --button-secondary-bg-color: #E9E9F3;
     --button-secondary-hover-bg-color: #D9D9E3;
-
 
     /* Text */
     --text-color-main: #1A1A2E; /* Dark text for contrast */

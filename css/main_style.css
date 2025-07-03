@@ -1106,15 +1106,27 @@ footer {
     }
 
     /* Ensure all FABs use the primary accent color for background in dark mode on mobile */
+    /* This block is now commented out to allow theme.css --fab-bg-color (now gray for dark mode) to take effect. */
+    /*
     body.dark #newFabToggle,
-    body.dark .fab-container .fab { /* Target main FABs within the container specifically for dark mode override if needed */
-        background-color: var(--accent-color); /* Main purple shade */
-        color: var(--fab-text-color, #fff);    /* Ensure icon/text contrast */
+    body.dark .fab-container .fab {
+        background-color: var(--accent-color);
+        color: var(--fab-text-color, #fff);
     }
-    /* If main FABs already correctly use --fab-bg-color which is var(--accent-color),
-       then only #newFabToggle might need specific override if its default dark was different.
-       The rule for .fab-container .fab ensures they also follow this if there was any more specific override.
     */
+    /* General .fab styling (which uses var(--fab-bg-color)) will now apply. */
+    /* #newFabToggle will also use its default styling which should pick up var(--fab-bg-color) in dark mode,
+       or if its default is var(--accent-color), it will remain purple unless a body.dark #newFabToggle rule is added
+       to make it use var(--fab-bg-color).
+       Let's ensure #newFabToggle also uses var(--fab-bg-color) in dark mode explicitly if its default isn't already doing so.
+       The original default for #newFabToggle was var(--accent-color).
+       So, we need a rule for body.dark #newFabToggle.
+    */
+    body.dark #newFabToggle {
+        background-color: var(--fab-bg-color); /* This will now be the gray from theme.css */
+        color: var(--fab-text-color);
+    }
+    /* Main FABs (.fab) already use var(--fab-bg-color) globally, so they will pick up the theme change. */
 }
 
 /* Styles for screen sizes larger than 768px */

@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTheme = getCurrentTheme();
     applyTranslations(initialLang); // This updates general text & main langBtn text
     applyTheme(initialTheme);       // This updates body class & main themeBtn text
+
     // Update ARIA labels for theme buttons on init
     const isInitiallyDark = initialTheme === 'dark';
     document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
@@ -118,50 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.textContent = isInitiallyDark ? 'Dark' : 'Light'; // Ensure button text is also correct
     });
 
-    // ===== HANDLE TOGGLES - Using Event Delegation =====
-    // Attach listeners to a static parent, e.g., document.body or a specific header container if stable.
-    // Using document.body for broadness, but '.site-header' might be more performant if guaranteed static.
-    const headerElement = document.querySelector('.site-header');
+    // Update ARIA labels for lang buttons on init
+     document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+        btn.textContent = initialLang.toUpperCase();
+        const enLabel = btn.dataset.enLabel;
+        const esLabel = btn.dataset.esLabel;
+        btn.setAttribute('aria-label', initialLang === 'en' ? esLabel : enLabel);
+    });
 
-    if (headerElement) {
-        // Initialize button texts directly if buttons exist, as event listeners won't set them before a click
-        if (langBtn) langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN';
-        if (themeBtn) themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark';
 
-        headerElement.addEventListener('click', (event) => {
-            const targetLangBtn = event.target.closest('#language-toggle-button');
-            const targetThemeBtn = event.target.closest('#theme-toggle-button');
-
-            if (targetLangBtn) {
-                console.log('[DELEGATED DEBUG] Language toggle clicked. Event Target:', event.target, 'Actual Clicked Element (langBtn):', targetLangBtn);
-                // If manual debugging: debugger;
-                const newLang = getCurrentLanguage() === 'en' ? 'es' : 'en';
-                setCurrentLanguage(newLang);
-                applyTranslations(newLang); // This will update langBtn.textContent too
-            }
-
-            if (targetThemeBtn) {
-                console.log('[DELEGATED DEBUG] Theme toggle clicked. Event Target:', event.target, 'Actual Clicked Element (themeBtn):', targetThemeBtn);
-                // If manual debugging: debugger;
-                const newTheme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
-                setCurrentTheme(newTheme);
-                applyTheme(newTheme); // This will update themeBtn.textContent too
-            }
-        }, true); // Use capture phase for delegation as well, to catch early
-        console.log('[DEBUG] Delegated event listener attached to .site-header (capture phase).');
-
-        // Log if the original buttons were not found by getElementById, even though delegation might still work if they appear later with these IDs.
-        if (!langBtn) {
-            console.warn('[DEBUG] Language toggle button (#language-toggle-button) was not found by getElementById at listener setup time.');
-        }
-        if (!themeBtn) {
-            console.warn('[DEBUG] Theme toggle button (#theme-toggle-button) was not found by getElementById at listener setup time.');
-        }
-
-    } else {
-        console.error('[DEBUG] .site-header element not found. Cannot attach delegated event listeners for toggles.');
-        // Fallback or further error handling if header is crucial and missing
-        // For now, this means toggles won't work if header isn't there for delegation.
+    // ===== HANDLE TOGGLES (event listeners for main header buttons) =====
+    if (langBtn) {
+        // langBtn.textContent = initialLang === 'es' ? 'ES' : 'EN'; // Done by applyTranslations or init block above
+        langBtn.addEventListener('click', () => {
+            window.toggleLanguage(); // Use the new global toggle
+        });
+    }
+    if (themeBtn) {
+        // themeBtn.textContent = initialTheme === 'light' ? 'Light' : 'Dark'; // Done by applyTheme or init block above
+        themeBtn.addEventListener('click', () => {
+            window.toggleTheme(); // Use the new global toggle
+        });
     }
 
     // ====== EXPOSE GLOBALLY FOR OTHER SCRIPTS ======
