@@ -64,7 +64,7 @@
                         <span class="fab-text" data-en="Contact Us" data-es="Comuníquese">Contact Us</span>
                     </div>
                 </button>
-            <button id="fab-chatbot" class="fab" data-modal-target="chatbot-modal" data-modal-source="components/chatbot/chatbot.html"
+            <button id="fab-chatbot" class="fab" data-modal-target="chatbot-modal"
                     aria-label="Chatbot AI" data-aria-label-en="Chatbot AI" data-aria-label-es="Chatbot IA"
                     title="Chatbot AI" data-title-en="Chatbot AI" data-title-es="Chatbot IA">
                     <div class="fab-content-wrapper">
@@ -143,9 +143,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="chatbot-modal-title" data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
-                <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close">&times;</button>
+                <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body" style="padding: 0; overflow: hidden; height: calc(100% - 50px);"> <!-- Adjust height based on header -->
+                <iframe src="components/chatbot/chatbot.html" style="width: 100%; height: 100%; border: none;" title="Chatbot" data-title-en="Chatbot" data-title-es="Chatbot"></iframe>
+            </div>
         </div>
     </div>
 
@@ -157,7 +159,7 @@
     <nav class="mobile-nav" id="mobile-bottom-nav">
         <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
         <button class="mobile-nav-item" id="mobile-services-toggle"><i class="fas fa-bars"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <a href="#" id="mobile-chat-link" class="mobile-nav-item" data-modal-target="chatbot-modal" data-modal-source="components/chatbot/chatbot.html"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></a>
+        <a href="#" id="mobile-chat-link" class="mobile-nav-item" data-modal-target="chatbot-modal"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></a>
     </nav>
     <div class="mobile-services-menu" id="mobile-services-panel">
         <ul>
@@ -174,7 +176,7 @@
         <button class="mobile-nav-item" id="newMobileServicesToggle" aria-expanded="false" aria-controls="newMobileServicesMenu" data-en-text="Services" data-es-text="Servicios"><i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span></button>
         <button class="mobile-nav-item lang-toggle-btn" id="newMobileLanguageToggle" aria-label="Switch Language" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
         <button class="mobile-nav-item theme-toggle-btn" id="newMobileThemeToggle" aria-label="Toggle Theme" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button>
-        <button class="mobile-nav-item" id="newMobileChatLauncher" data-modal-target="chatbot-modal" data-modal-source="components/chatbot/chatbot.html" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
+        <button class="mobile-nav-item" id="newMobileChatLauncher" data-modal-target="chatbot-modal" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
     </nav>
     <div class="mobile-services-menu" id="newMobileServicesMenu" aria-hidden="true">
         <ul>
