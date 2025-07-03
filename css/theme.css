@@ -5,7 +5,7 @@
     /* Core Palette */
     --primary-color: #333333; /* Dark Gray base */
     --secondary-color: #4F4F4F; /* Medium Dark Gray */
-    --accent-color: #8b5cf6; /* Purple accent from original FAB */
+    --accent-color: #8b5cf6; /* Purple accent from original FAB - RETAINED, as other elements might use it */
     --accent-color-faded: rgba(139, 92, 246, 0.2);
 
     /* Backgrounds */
@@ -33,14 +33,12 @@
     --button-text-color-on-warning: #000000;
     --button-secondary-text-color: var(--text-color-main);
 
-
     /* Borders */
     --header-border-color: #3A3A3A;
     --card-border-color: #454545;
     --input-border-color: #505050;
     --border-color-soft: #404040; /* For modal headers/footers */
     --button-border-color: #555555;
-
 
     /* Buttons & Interactive Elements */
     --button-bg-color: var(--secondary-color);
@@ -92,7 +90,6 @@ body.light-theme {
     --form-section-bg-color: #F9F9FC;
     --button-secondary-bg-color: #E9E9F3;
     --button-secondary-hover-bg-color: #D9D9E3;
-
 
     /* Text */
     --text-color-main: #1A1A2E; /* Dark text for contrast */
