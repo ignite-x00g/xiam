@@ -7,6 +7,8 @@
     --secondary-color: #4F4F4F; /* Medium Dark Gray */
     --accent-color: #8b5cf6; /* Purple accent from original FAB */
     --accent-color-faded: rgba(139, 92, 246, 0.2);
+    --accent-color-darker: #7c3aed; /* A darker shade of the accent */
+
 
     /* Backgrounds */
     --body-bg-color: #242424; /* Dark gray for body */
@@ -19,6 +21,9 @@
     --form-section-bg-color: #292929; /* Slightly different for form sections */
     --button-secondary-bg-color: #4A4A4A;
     --button-secondary-hover-bg-color: #5A5A5A;
+    --danger-bg-color: rgba(220, 53, 69, 0.1); /* Faded danger background */
+    --danger-border-color: var(--danger-color);
+
 
     /* Text */
     --text-color-main: #E0E0E0; /* Light gray for readability */
@@ -45,12 +50,14 @@
     /* Buttons & Interactive Elements */
     --button-bg-color: var(--secondary-color);
     --button-hover-bg-color: #5A5A5A;
-    --fab-bg-color: var(--button-bg-color); /* Changed to use button's dark gray */
-    --fab-hover-bg-color: var(--button-hover-bg-color); /* Changed to use button's hover dark gray */
-    --fab-text-color: #FFFFFF; /* Remains white, good contrast with dark grey */
+    --fab-bg-color: var(--button-bg-color);
+    --fab-hover-bg-color: var(--button-hover-bg-color);
+    --fab-text-color: #FFFFFF;
     --success-color: #28a745; /* Green */
     --warning-color: #ffc107; /* Yellow */
     --danger-color: #dc3545;  /* Red */
+    --danger-color-faded: rgba(220, 53, 69, 0.3);
+
 
     /* Shadows */
     --shadow-color-soft: rgba(0,0,0,0.2);
@@ -66,6 +73,11 @@
     --mobile-menu-panel-text-color: var(--text-color-main);
     --mobile-menu-panel-hover-bg-color: #333333;
     --mobile-menu-panel-divider-color: var(--header-border-color);
+    --dark-mobile-nav-bg-color: #222; /* For new FAB nav dark */
+    --dark-text-color: #eee; /* For new FAB nav dark */
+    --dark-border-color: #444; /* For new FAB nav dark */
+    --accent-color-dark-theme: var(--accent-color); /* For new FAB nav dark hover */
+
 
     /* Glow effects (can be toned down or adjusted for dark theme) */
     --glow-effect-color-1: rgba(139, 92, 246, 0.1);
@@ -78,8 +90,10 @@ body.light-theme {
     /* Core Palette */
     --primary-color: #FFFFFF; /* Bright White base */
     --secondary-color: #F0F0F8; /* Cold White / Very Light Gray */
-    --accent-color: #8b5cf6; /* Purple accent */
-    --accent-color-faded: rgba(139, 92, 246, 0.15);
+    /* --accent-color: #8b5cf6; */ /* Purple accent - already defined in :root, no change */
+    --accent-color-faded: rgba(139, 92, 246, 0.15); /* Adjusted alpha for light */
+    --accent-color-darker: #7c3aed;
+
 
     /* Backgrounds */
     --body-bg-color: #FDFDFD; /* Bright white for body */
@@ -92,6 +106,8 @@ body.light-theme {
     --form-section-bg-color: #F9F9FC;
     --button-secondary-bg-color: #E9E9F3;
     --button-secondary-hover-bg-color: #D9D9E3;
+    --danger-bg-color: rgba(211, 47, 47, 0.05); /* Faded danger background for light */
+    --danger-border-color: var(--danger-color);
 
 
     /* Text */
@@ -99,12 +115,12 @@ body.light-theme {
     --text-color-subtle: #4A4A6E;
     --text-color-emphasis: #000000;
     --text-color-placeholder: #777788;
-    --main-logo-color: var(--accent-color);
+    /* --main-logo-color: var(--accent-color); */ /* No change */
     --sub-logo-color: var(--text-color-subtle);
     --button-text-color: var(--text-color-main);
     --button-hover-text-color: var(--text-color-main);
-    --button-text-color-on-accent: #FFFFFF;
-    --button-text-color-on-warning: #000000;
+    /* --button-text-color-on-accent: #FFFFFF; */ /* No change */
+    /* --button-text-color-on-warning: #000000; */ /* No change */
     --button-secondary-text-color: var(--text-color-main);
 
     /* Borders */
@@ -117,12 +133,14 @@ body.light-theme {
     /* Buttons & Interactive Elements */
     --button-bg-color: var(--secondary-color);
     --button-hover-bg-color: #E0E0E8;
-    --fab-bg-color: var(--accent-color);
-    --fab-hover-bg-color: #a855f7;
+    --fab-bg-color: var(--accent-color); /* FABs are accent colored in light mode */
+    --fab-hover-bg-color: #7c3aed; /* Darker accent for hover */
     --fab-text-color: #FFFFFF;
     --success-color: #228B22; /* Forest Green - slightly darker for light theme */
     --warning-color: #FFB300; /* Amber */
     --danger-color: #D32F2F;  /* Darker Red */
+    --danger-color-faded: rgba(211, 47, 47, 0.3);
+
 
     /* Shadows */
     --shadow-color-soft: rgba(0,0,0,0.05);
@@ -138,6 +156,8 @@ body.light-theme {
     --mobile-menu-panel-text-color: var(--text-color-main);
     --mobile-menu-panel-hover-bg-color: #EFEFF9;
     --mobile-menu-panel-divider-color: var(--header-border-color);
+    /* --dark-mobile-nav-bg-color, etc. are for dark mode only */
+
 
     /* Glow effects (can be adjusted for light theme) */
     --glow-effect-color-1: rgba(139, 92, 246, 0.08);
