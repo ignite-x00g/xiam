@@ -65,10 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (modalId === 'join-us-modal' && typeof window.initializeJoinUsFormSections === 'function') {
                         window.initializeJoinUsFormSections();
                     }
-                    // Example for other modals:
-                    // if (modalId === 'contact-us-modal' && typeof window.initializeContactForm === 'function') {
-                    //     window.initializeContactForm();
-                    // }
+                    if (modalId === 'contact-us-modal' && typeof window.initializeContactForm === 'function') {
+                        window.initializeContactForm();
+                    }
                 }, 0); // Timeout helps ensure content is fully in DOM
             }
 
