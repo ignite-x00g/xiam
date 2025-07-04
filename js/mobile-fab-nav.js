@@ -1,151 +1,103 @@
 // js/mobile-fab-nav.js
+// Handles the new FAB-based mobile navigation
+
 document.addEventListener('DOMContentLoaded', () => {
     const fabToggle = document.getElementById('newFabToggle');
     const mobileNav = document.getElementById('newMobileNav');
     const servicesToggle = document.getElementById('newMobileServicesToggle');
     const servicesMenu = document.getElementById('newMobileServicesMenu');
-    const langToggleBtn = document.getElementById('newMobileLanguageToggle');
-    const themeToggleBtn = document.getElementById('newMobileThemeToggle');
-    const chatLauncherBtn = document.getElementById('newMobileChatLauncher');
 
-    // Toggle mobile nav visibility
     if (fabToggle && mobileNav) {
-        fabToggle.addEventListener('click', () => {
+        // console.log("New FAB mobile nav elements found.");
+        fabToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent document click listener from closing it immediately
             mobileNav.classList.toggle('active');
-            // If nav is closed, also ensure services menu is closed
-            if (!mobileNav.classList.contains('active') && servicesMenu && servicesMenu.classList.contains('active')) {
+            const isExpanded = mobileNav.classList.contains('active');
+            fabToggle.setAttribute('aria-expanded', isExpanded);
+            const icon = fabToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isExpanded);
+                icon.classList.toggle('fa-times', isExpanded);
+            }
+            if (!isExpanded && servicesMenu && servicesMenu.classList.contains('active')) {
                 servicesMenu.classList.remove('active');
-                servicesToggle.setAttribute('aria-expanded', 'false');
                 servicesMenu.setAttribute('aria-hidden', 'true');
-            }
-        });
-    }
-
-    // Toggle services menu visibility
-    if (servicesToggle && servicesMenu) {
-        servicesToggle.addEventListener('click', () => {
-            servicesMenu.classList.toggle('active');
-            const isExpanded = servicesMenu.classList.contains('active');
-            servicesToggle.setAttribute('aria-expanded', isExpanded);
-            servicesMenu.setAttribute('aria-hidden', !isExpanded);
-        });
-    }
-
-    // Close menus if clicking outside
-    document.addEventListener('click', (event) => {
-        // Close mobileNav if click is outside fabToggle and mobileNav itself
-        if (mobileNav && mobileNav.classList.contains('active') &&
-            !fabToggle.contains(event.target) &&
-            !mobileNav.contains(event.target)) {
-            mobileNav.classList.remove('active');
-            // Also close servicesMenu if it's open
-            if (servicesMenu && servicesMenu.classList.contains('active')) {
-                servicesMenu.classList.remove('active');
-                servicesToggle.setAttribute('aria-expanded', 'false');
-                servicesMenu.setAttribute('aria-hidden', 'true');
-            }
-        }
-        // Close servicesMenu if click is outside servicesToggle and servicesMenu itself,
-        // but only if the mobileNav is already active (otherwise it's hidden)
-        else if (mobileNav && mobileNav.classList.contains('active') &&
-                 servicesMenu && servicesMenu.classList.contains('active') &&
-                 !servicesToggle.contains(event.target) &&
-                 !servicesMenu.contains(event.target) &&
-                 !fabToggle.contains(event.target) /* fabToggle click is handled above */ ) {
-            servicesMenu.classList.remove('active');
-            servicesToggle.setAttribute('aria-expanded', 'false');
-            servicesMenu.setAttribute('aria-hidden', 'true');
-        }
-    });
-
-
-    // Language Toggle Functionality
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener('click', () => {
-            // This assumes global `window.toggleLanguage` and `window.getCurrentLanguage` exist
-            // from global-toggles.js or a similar script.
-            if (window.toggleLanguage) {
-                window.toggleLanguage(); // Call the global language toggle function
-
-                // Update button text based on the new current language
-                // The global-toggles.js should ideally handle updating all lang buttons
-                // But if not, we can update this specific button here.
-                // For now, assume global-toggles.js handles this button's text update.
-                // If direct update is needed:
-                // const currentLang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
-                // langToggleBtn.textContent = currentLang.toUpperCase();
-            } else {
-                console.warn('Global language toggle function (window.toggleLanguage) not found.');
-            }
-        });
-    }
-
-    // Theme Toggle Functionality
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            // This assumes global `window.toggleTheme` exists from global-toggles.js or similar.
-            if (window.toggleTheme) {
-                window.toggleTheme(); // Call the global theme toggle function
-
-                // Update button text (e.g., "Light" / "Dark")
-                // The global-toggles.js should ideally handle updating all theme buttons
-                // For now, assume global-toggles.js handles this button's text update.
-                // If direct update needed:
-                // const isDark = document.body.classList.contains('dark');
-                // themeToggleBtn.textContent = isDark ? 'Dark' : 'Light';
-            } else {
-                console.warn('Global theme toggle function (window.toggleTheme) not found.');
-            }
-        });
-    }
-
-    // Chat Launcher Functionality
-    // The chat launcher button has `data-modal-target="chatbot-modal"`.
-    // This should be automatically handled by `js/dynamic-modal-manager.js`.
-    // No specific JS is needed here for that, unless custom behavior is required
-    // before or after the modal opens.
-    if (chatLauncherBtn) {
-        chatLauncherBtn.addEventListener('click', () => {
-            // Example: If we needed to do something before dynamic-modal-manager opens it
-            // console.log('Mobile FAB chat launcher clicked. Modal should open via dynamic-modal-manager.');
-            // Close the FAB menu itself if it's open
-            if (mobileNav && mobileNav.classList.contains('active')) {
-                mobileNav.classList.remove('active');
-            }
-            if (servicesMenu && servicesMenu.classList.contains('active')) {
-                servicesMenu.classList.remove('active');
                 if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
             }
         });
+    } else {
+        // console.warn("FAB Toggle (#newFabToggle) or Mobile Nav (#newMobileNav) not found.");
     }
 
-    // Service item click handling (for items within newMobileServicesMenu)
-    // These also have `data-service-target` which should be handled by dynamic-modal-manager.js
-    // if they are buttons.
-    if (servicesMenu) {
-        const serviceButtons = servicesMenu.querySelectorAll('button[data-service-target]');
-        serviceButtons.forEach(button => {
+    if (servicesToggle && servicesMenu) {
+        // console.log("New FAB mobile services menu elements found.");
+        servicesToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = servicesMenu.classList.toggle('active');
+            servicesMenu.setAttribute('aria-hidden', !isExpanded);
+            servicesToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        servicesMenu.querySelectorAll('button[data-service-target]').forEach(button => {
             button.addEventListener('click', () => {
-                // Close the FAB menu and services panel when a service is chosen
-                if (mobileNav && mobileNav.classList.contains('active')) {
-                    mobileNav.classList.remove('active');
-                }
-                if (servicesMenu.classList.contains('active')) {
+                 if (servicesMenu.classList.contains('active')) {
                     servicesMenu.classList.remove('active');
+                    servicesMenu.setAttribute('aria-hidden', 'true');
                     if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
-                }
-                // Modal opening itself is handled by dynamic-modal-manager.js
+                 }
+                 // dynamic-modal-manager will open the service modal
             });
+        });
+
+    } else {
+        // console.warn("Mobile Services Toggle (#newMobileServicesToggle) or Menu (#newMobileServicesMenu) not found.");
+    }
+
+    const mobileLangToggle = document.getElementById('newMobileLanguageToggle');
+    const mobileThemeToggle = document.getElementById('newMobileThemeToggle');
+
+    if (mobileLangToggle && typeof window.toggleLanguage === 'function') {
+        mobileLangToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.toggleLanguage();
+        });
+    }
+    if (mobileThemeToggle && typeof window.toggleTheme === 'function') {
+        mobileThemeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.toggleTheme();
         });
     }
 
-    // Ensure correct initial states for ARIA attributes
-    if (mobileNav) {
-        mobileNav.classList.remove('active'); // Start closed
-    }
-    if (servicesMenu && servicesToggle) {
-        servicesMenu.classList.remove('active'); // Start closed
-        servicesToggle.setAttribute('aria-expanded', 'false');
-        servicesMenu.setAttribute('aria-hidden', 'true');
-    }
+    // Close FAB menus if clicking outside
+    document.addEventListener('click', (event) => {
+        // Close main FAB nav if click is outside nav and toggle
+        if (mobileNav && mobileNav.classList.contains('active')) {
+            if (!mobileNav.contains(event.target) && fabToggle && !fabToggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+                if(fabToggle) {
+                    fabToggle.setAttribute('aria-expanded', 'false');
+                    const icon = fabToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+                // If main FAB nav is closed, also ensure services menu is closed
+                if (servicesMenu && servicesMenu.classList.contains('active')) {
+                    servicesMenu.classList.remove('active');
+                    servicesMenu.setAttribute('aria-hidden', 'true');
+                    if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
+        }
+        // Separately, close services menu if click is outside services menu and its toggle (and not inside main FAB nav)
+        if (servicesMenu && servicesMenu.classList.contains('active')) {
+             if (!servicesMenu.contains(event.target) && servicesToggle && !servicesToggle.contains(event.target) && mobileNav && !mobileNav.contains(event.target)) {
+                servicesMenu.classList.remove('active');
+                servicesMenu.setAttribute('aria-hidden', 'true');
+                if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
 });

@@ -1,0 +1,118 @@
+/* css/small-screen.css */
+/* Global responsive adjustments. Component-specific responsive rules should be with component styles. */
+
+@media (max-width: 768px) {
+    /* Example: Reduce base font size for the whole page on smaller screens */
+    /* body {
+        font-size: 14px;
+    } */
+
+    /* Example: Adjust main content padding for smaller screens */
+    main {
+        padding: 1rem; /* Less horizontal padding on smaller screens */
+        /* Padding bottom might be adjusted by specific mobile navs if they are fixed */
+    }
+
+    .site-header {
+        flex-direction: column;
+        padding: 1rem; /* Adjust header padding */
+        gap: 0.8rem; /* Space between logo area and toggles when stacked */
+    }
+    .header-content {
+        text-align: center; /* Center logo/title when stacked */
+    }
+    .main-header-text {
+        font-size: 2rem; /* Slightly smaller main title */
+    }
+    .sub-header-text {
+        font-size: 0.8rem; /* Slightly smaller sub-title */
+    }
+    .header-toggles {
+        margin-top: 10px; /* Space above toggles when header stacks */
+        gap: 10px; /* Smaller gap for toggles */
+        justify-content: center; /* Center toggles */
+        width: 100%; /* Allow toggles to take full width for centering */
+    }
+    .header-toggle-btn {
+        padding: 0.4rem 0.6rem; /* Smaller buttons */
+        font-size: 0.75rem;
+        min-width: 60px; /* Adjust min-width */
+    }
+
+    /* Hide desktop services navigation, mobile nav will take over */
+    .services-navigation {
+        display: none;
+    }
+
+    /* Adjust FAB container positioning if mobile nav appears */
+    /* This assumes new FAB nav is active on mobile. If old one, adjust accordingly. */
+    .fab-container {
+        /* bottom: 80px; /* Position above new FAB mobile nav (approx 60px height + 20px gap) */
+        /* right: 15px; */ /* Slightly less from edge on mobile */
+        /* gap: 8px; */ /* Smaller gap between FABs */
+    }
+    /* .fab {
+        width: 54px;
+        height: 54px;
+    }
+    .fab-icon-image-area {
+        font-size: 18px;
+    }
+    .fab-text {
+        font-size: 9px;
+    } */
+    /* Note: More specific FAB adjustments for newMobileNav are in main_style.css under its media query */
+
+
+    /* General modal content adjustments for smaller screens */
+    .modal-content {
+        padding: 1rem 1.5rem; /* Less padding inside modals */
+        max-height: 85vh; /* Ensure modal doesn't take full screen height */
+    }
+    .modal-header h3, #join-us-modal .modal-header h2 {
+        font-size: 1.3rem; /* Smaller modal titles */
+    }
+
+    /* General stacking for two-column form rows */
+    /* This rule might be too broad if some .form-row should not stack.
+       Specific modal form responsive rules are in main_style.css.
+       This one targets any .form-row globally.
+    */
+    /* .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    } */
+
+    footer {
+         /* Add padding-bottom if mobile navigation is fixed and might overlap */
+         /* padding-bottom: 70px; */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header-text {
+        font-size: 1.8rem; /* Even smaller title for very small screens */
+    }
+
+    /* .service-nav-item { // If desktop nav was visible, it would need this
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    } */
+
+    .modal-content {
+        padding: 1rem; /* Even less padding for very small modals */
+    }
+
+    /* .fab {
+        width: 50px;
+        height: 50px;
+    }
+    .fab-icon-image-area {
+        font-size: 16px;
+    }
+    .fab-text {
+        font-size: 8px;
+    } */
+    /* Note: More specific FAB adjustments for newMobileNav are in main_style.css under its media query */
+
+}
