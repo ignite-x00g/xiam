@@ -389,7 +389,67 @@ main {
     margin-top: 0; /* Align with grid gap */
 }
 #join-us-modal .submit-button {
-    /* Uses general .submit-button styles, no specific override needed unless desired */
+    background-color: var(--accent-color);
+    color: var(--button-text-color-on-accent);
+    padding: 0.6rem 1.2rem; /* From sample */
+    border: none; /* Assuming a flatter look */
+    border-radius: 4px; /* From sample */
+    cursor: pointer;
+    font-size: 1rem; /* Ensure consistent font size */
+}
+#join-us-modal .submit-button:hover {
+    background-color: var(--accent-color-darker); /* Or a hover variable */
+}
+
+/* Circle Buttons (Add/Remove) for Form Sections */
+#join-us-modal .form-section .circle-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    color: var(--button-text-color-on-accent); /* Assuming white/light text */
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    font-size: 1.2rem; /* Sample's font size */
+    display: inline-flex; /* Align icon better */
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove default padding */
+    line-height: 1; /* Ensure text is centered vertically */
+}
+
+#join-us-modal .form-section .circle-btn.add {
+    background-color: var(--accent-color);
+}
+#join-us-modal .form-section .circle-btn.add:hover {
+    background-color: var(--accent-color-darker);
+}
+
+#join-us-modal .form-section .circle-btn.remove {
+    background-color: var(--danger-color);
+}
+#join-us-modal .form-section .circle-btn.remove:hover {
+    background-color: var(--danger-color-faded); /* Using a faded version for hover on danger */
+}
+
+/* Accept and Edit Buttons */
+#join-us-modal .accept-btn {
+    background-color: var(--success-color);
+    color: var(--button-text-color-on-accent); /* Ensure this var exists or use direct color */
+    /* border: none; /* Uncomment if default button styles add an unwanted border */
+}
+#join-us-modal .accept-btn:hover {
+    opacity: 0.9; /* Simple hover effect */
+}
+
+#join-us-modal .edit-btn {
+    background-color: var(--warning-color);
+    color: var(--button-text-color-on-warning); /* Ensure this var exists or use direct color */
+    /* border: none; /* Uncomment if default button styles add an unwanted border */
+}
+#join-us-modal .edit-btn:hover {
+    opacity: 0.9; /* Simple hover effect */
 }
 
 
