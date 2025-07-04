@@ -395,38 +395,107 @@ main {
 
 /* ===== Contact Us Modal Specific Styles ===== */
 #contact-us-modal .modal-content {
-    /* max-width: 600px; /* Example if Contact Us is smaller */
+    max-width: 600px; /* As per example */
+    border-radius: 12px; /* As per example */
+    padding: 1.5rem; /* As per example, can adjust if too much with existing .modal-content padding */
+    box-shadow: 0 0 20px var(--shadow-color-modal, rgba(0,0,0,0.2)); /* Using a theme variable or a fallback */
+    /* font-family is inherited, no need to set 'Segoe UI' explicitly unless it differs from body */
 }
-#contact-us-modal form { /* Specific to #contact-form */
-    gap: 1rem; /* Space between form rows */
+
+/* Ensure modal-header within #contact-us-modal specifically follows the example */
+#contact-us-modal .modal-header {
+    /* display: flex; justify-content: space-between; align-items: center; are already general modal styles */
+    margin-bottom: 1rem; /* As per example */
+    /* border-bottom: 1px solid var(--border-color-soft); is general, keep unless example dictates otherwise */
+    /* padding-bottom: 0.8rem; is general, keep or adjust if needed */
 }
+
+#contact-us-modal .modal-header h3 {
+    /* margin: 0; is general */
+    font-size: 1.5rem; /* As per example */
+    /* color: var(--text-color-emphasis); is general, suitable */
+    /* font-weight: bold; is general */
+}
+
+#contact-us-modal .close-modal {
+    font-size: 1.5rem; /* As per example */
+    /* background: none; border: none; cursor: pointer; are general */
+    color: var(--text-color-subtle); /* General style is good, example used #666 */
+    /* padding: 0.25rem 0.5rem; line-height: 1; are general */
+}
+#contact-us-modal .close-modal:hover {
+    color: var(--text-color-main); /* General style is good, example had no hover for close */
+}
+
+#contact-us-modal .modal-body {
+    margin-bottom: 1rem; /* As per example */
+}
+
+#contact-us-modal form { /* Specific to #contact-form within this modal */
+    display: flex; /* As per example */
+    flex-direction: column; /* As per example */
+    gap: 1rem; /* As per example */
+}
+
 #contact-us-modal .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 0; /* Gap handled by form's main gap */
+    display: grid; /* Current implementation - can keep if responsive needs are met */
+    grid-template-columns: 1fr 1fr; /* Current implementation */
+    gap: 1rem; /* Example had 1rem for form-row and 1rem for form-cell gap, this is simpler */
+    /* Example used flex-wrap, grid is also fine for two columns */
+    /* margin-bottom: 0; /* Gap handled by form's main gap - this is fine */
 }
+
 #contact-us-modal .form-row .form-cell[style*="grid-column: 1 / -1"] { /* For full-width comment box */
     grid-column: 1 / -1;
 }
-/* Inputs within Contact Us, if they need to differ from global */
+
+#contact-us-modal .form-cell { /* New rule to target form-cell directly if needed for spacing */
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.3rem; /* Example has label margin-bottom, this could be an alternative */
+}
+
+
+#contact-us-modal label {
+    margin-bottom: 0.3rem; /* As per example */
+    font-weight: 600; /* As per example */
+    color: var(--text-color-label, var(--text-color-main)); /* Use a specific var or fallback to main text */
+}
+
 #contact-us-modal input,
 #contact-us-modal select,
 #contact-us-modal textarea {
-    /* Using global input styles, add overrides if needed */
-    /* e.g. border-radius: 6px; */
+    padding: 0.6rem; /* As per example */
+    border: 1px solid var(--input-border-color); /* General style */
+    border-radius: 6px; /* As per example */
+    font-size: 1rem; /* As per example */
+    background-color: var(--input-bg-color);
+    color: var(--text-color-input, var(--text-color-main));
 }
+
+#contact-us-modal textarea {
+    resize: vertical; /* As per example */
+}
+
 #contact-us-modal .submit-button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: bold;
+  padding: 0.75rem 1.5rem; /* As per example */
+  border-radius: 8px; /* As per example */
+  font-weight: bold; /* As per example */
+  background-color: var(--accent-color); /* Ensure it uses accent color */
+  color: var(--button-text-color-on-accent, #fff); /* Ensure good contrast on accent */
+  border: none; /* As per example */
+  transition: background-color 0.2s ease; /* As per example */
 }
+
 #contact-us-modal .submit-button:hover {
-  background-color: var(--accent-color-darker, var(--button-hover-bg-color));
+  /* Example used #4a148c, a darker purple. We can use a theme variable if available, or slightly darken the accent. */
+  background-color: var(--accent-color-darker, var(--button-hover-bg-color)); /* Fallback to general hover */
 }
+
 /* Form error message styling (already global but can be specific) */
 #contact-form-error-message.form-error-message {
     /* Specific overrides if needed */
+    /* Example didn't show error message styling, so existing global is likely fine */
 }
 
 
@@ -525,8 +594,9 @@ main {
 
 
     /* Contact Us Modal Responsive */
-    #contact-us-modal .form-row { /* Already handled by global small-screen.css if general */
-        /* grid-template-columns: 1fr; */ /* Stack form cells */
+    #contact-us-modal .form-row {
+        grid-template-columns: 1fr; /* Stack form cells */
+        gap: 1rem; /* Adjust gap if needed for single column layout */
     }
 
     /* Chatbot Modal Responsive (Shell) */
