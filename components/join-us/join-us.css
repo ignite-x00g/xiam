@@ -1,0 +1,11 @@
+/* components/join-us/join-us.css */
+/* Add any styles absolutely specific to the Join Us form that are not covered by global.css or theme.css */
+/* For example, if the layout within .form-pairs for Join Us needs very specific tweaks */
+
+/* Example:
+#join-us-modal .form-section .inputs input[type="text"] {
+    border-color: var(--accent-color); // Highly specific override
+}
+*/
+
+/* Most styles should come from css/main_style.css and css/theme.css using the existing selectors */

@@ -1,0 +1,104 @@
+/* css/global.css */
+
+/* Global Resets and Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0; /* Basic reset */
+    font-family: Arial, sans-serif; /* Default font */
+    line-height: 1.6;
+    background-color: var(--body-bg-color); /* From theme.css */
+    color: var(--text-color-main); /* From theme.css */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transitions */
+}
+
+/* Basic typography defaults - can be expanded */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500; /* A sensible default, can be overridden */
+    line-height: 1.2;
+    color: var(--text-color-emphasis); /* Emphasis color for headings */
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--accent-color); /* Use accent color for links */
+    text-decoration: none; /* Common practice to remove underline by default */
+}
+a:hover {
+    text-decoration: underline; /* Add underline on hover for clarity */
+    opacity: 0.8;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+    display: block; /* Makes them behave more like blocks */
+    max-width: 100%; /* Responsive images/media by default */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Basic form element defaults */
+button,
+input,
+select,
+textarea {
+    font-family: inherit; /* Inherit font from body/parent */
+    font-size: inherit;   /* Inherit font size */
+    line-height: inherit; /* Inherit line height */
+    margin: 0; /* Remove default margins */
+    /* Base text color for form elements - theme might override specific inputs */
+    color: var(--text-color-main);
+    /* Base background for form elements - theme might override specific inputs */
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px; /* Default border radius */
+    padding: 0.5em 0.75em; /* Default padding */
+}
+
+button {
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resize, not horizontal */
+}
+
+/* Accessibility: Skip link */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: -999;
+}
+.skip-link:focus, .skip-link:active {
+    color: var(--button-text-color);
+    background-color: var(--button-bg-color);
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    overflow: auto;
+    padding: 1em;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+    text-decoration: none;
+    z-index: 99999; /* Ensure it's on top */
+}
+
+/* Basic list reset */
+ul, ol {
+    padding-left: 20px; /* Default indentation */
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* Add other global styles here as the project evolves */
