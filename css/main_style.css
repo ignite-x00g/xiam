@@ -313,7 +313,7 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
-    margin-top: 500px; /* Added requested top margin */
+    margin-top: 250px; /* Added requested top margin */
 }
 
 .service-modal-center .modal-body {
