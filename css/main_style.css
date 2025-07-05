@@ -71,7 +71,8 @@ main {
 /* Services Section & Navigation */
 .services-section {
     text-align: center;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; Original value */
+    margin: 350px auto 0 auto; /* New positioning: 350px from top, centered horizontally, 0 bottom margin */
 }
 .services-section-title {
     font-size: 1.8rem;
@@ -280,7 +281,9 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
-    margin-top: 150px; /* Added requested top margin */
+    margin-top: 500px; /* Added requested top margin */
+}
+
 .service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
@@ -660,6 +663,11 @@ main {
         margin-bottom: 0; /* Rely on parent grid gap */
     }
 
+    /* Services Section Responsive */
+    .services-section {
+        margin-top: 200px; /* Smaller top margin for smaller screens */
+        /* Horizontal auto and bottom 0 from the non-media query rule will still apply if not overridden */
+    }
 
     /* Contact Us Modal Responsive */
     #contact-us-modal .form-row {
