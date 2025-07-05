@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
             addMessageToLog(userMessage, 'user-message');
             chatInput.value = ''; // Clear input
 
+            // Post message to parent to close the modal
+            window.parent.postMessage('closeChatbotModal', '*');
+
             // Simulate bot response
             setTimeout(() => {
                 simulateBotResponse(userMessage);

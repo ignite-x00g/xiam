@@ -100,4 +100,48 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Add ESC key listener for closing mobile FAB nav and its sub-menu
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            const isMobileNavActive = mobileNav && mobileNav.classList.contains('active');
+            const isServicesMenuActive = servicesMenu && servicesMenu.classList.contains('active');
+
+            if (isMobileNavActive || isServicesMenuActive) {
+                // Check if a modal is open. If so, let the modal's ESC handler take precedence.
+                const anyModalOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(
+                    modal => modal.style.display === 'flex' || modal.style.display === 'block'
+                );
+
+                if (!anyModalOpen) {
+                    if (isServicesMenuActive) {
+                        servicesMenu.classList.remove('active');
+                        servicesMenu.setAttribute('aria-hidden', 'true');
+                        if (servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
+                        // Typically, closing a submenu should not automatically close its parent menu
+                        // unless that's the desired UX. Here, we allow the main nav to remain.
+                        // If the main nav should also close, additional logic is needed.
+                        // For now, ESC will close the topmost active FAB menu element.
+                    } else if (isMobileNavActive) { // Only close main nav if service menu wasn't the target
+                        mobileNav.classList.remove('active');
+                        if (fabToggle) {
+                            fabToggle.setAttribute('aria-expanded', 'false');
+                            const icon = fabToggle.querySelector('i');
+                            if (icon) {
+                                icon.classList.remove('fa-times');
+                                icon.classList.add('fa-bars');
+                            }
+                        }
+                        // If services menu was open INSIDE mobileNav, it's already handled by the click-outside logic
+                        // or if we want explicit close:
+                        // if (servicesMenu && servicesMenu.classList.contains('active')) {
+                        //     servicesMenu.classList.remove('active');
+                        //     servicesMenu.setAttribute('aria-hidden', 'true');
+                        //     if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
+                        // }
+                    }
+                }
+            }
+        }
+    });
 });

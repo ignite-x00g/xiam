@@ -155,17 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Listen for close requests from the chatbot iframe
+    // Add listener for messages from iframes (e.g., chatbot)
     window.addEventListener('message', (event) => {
-        // It's good practice to check the origin of the message for security
-        // For example, if your chatbot iframe is always served from the same origin:
-        // if (event.origin !== window.location.origin) {
-        //     console.warn('Message received from unexpected origin:', event.origin);
-        //     return;
-        // }
-
-        if (event.data && event.data.type === 'ops-chatbot-close-request') {
+        // Consider checking event.origin for security if the source is known e.g.
+        // if (event.origin !== window.location.origin) return;
+        if (event.data === 'closeChatbotModal') {
             const chatbotModal = document.getElementById('chatbot-modal');
+            // Check if the modal exists and is currently displayed
             if (chatbotModal && (chatbotModal.style.display === 'flex' || chatbotModal.style.display === 'block')) {
                 window.closeModal(chatbotModal);
             }
