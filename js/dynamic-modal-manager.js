@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openModalById = function(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
-            if (modalBackdrop) modalBackdrop.style.display = 'block';
-            modal.style.display = 'flex';
+            if (modalBackdrop) modalBackdrop.style.setProperty('display', 'block', 'important');
+            modal.style.setProperty('display', 'flex', 'important');
             if (window.applyTranslations && window.getCurrentLanguage) {
                 setTimeout(() => window.applyTranslations(window.getCurrentLanguage()), 0);
             }
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const htmlText = await response.text();
             (modalBody || modal.querySelector('.modal-content')).innerHTML = htmlText; // Use modal-body, fallback to modal-content
 
-            if (modalBackdrop) modalBackdrop.style.display = 'block';
-            modal.style.display = 'flex';
+            if (modalBackdrop) modalBackdrop.style.setProperty('display', 'block', 'important');
+            modal.style.setProperty('display', 'flex', 'important');
 
             if (window.applyTranslations && window.getCurrentLanguage) {
                  setTimeout(() => {
@@ -87,16 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.applyTranslations(window.getCurrentLanguage());
                 }
             }
-            if (modalBackdrop) modalBackdrop.style.display = 'block'; // Still show modal, but with error
-            modal.style.display = 'flex';
+            if (modalBackdrop) modalBackdrop.style.setProperty('display', 'block', 'important'); // Still show modal, but with error
+            modal.style.setProperty('display', 'flex', 'important');
         }
     };
 
     window.closeModal = function(modalOrId) {
         const modal = typeof modalOrId === 'string' ? document.getElementById(modalOrId) : modalOrId;
-        if (modal && modal.style.display !== 'none') {
-            modal.style.display = 'none';
-            if (modalBackdrop) modalBackdrop.style.display = 'none';
+        if (modal && (modal.style.display === 'flex' || modal.style.display === 'block')) { // Check against flex or block
+            modal.style.setProperty('display', 'none', 'important'); // Also use important for closing
+            if (modalBackdrop) modalBackdrop.style.setProperty('display', 'none', 'important'); // Also use important for closing
 
             const modalBody = modal.querySelector('.modal-body');
             const modalContent = modal.querySelector('.modal-content'); // Fallback
