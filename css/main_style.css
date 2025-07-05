@@ -207,6 +207,13 @@ main {
     visibility: visible; /* Controlled by display:none/flex */
     opacity: 1;
 }
+
+/* Specific alignment for service modals */
+.service-modal-center.modal-overlay {
+    align-items: flex-start; /* Align content to the top */
+    /* justify-content: center; still applies if not overridden, which is fine */
+}
+
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
@@ -273,15 +280,7 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
-    position: fixed; /* Position relative to the viewport */
-    top: 350px; /* Specific offset from the top */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    /* Override any potential inherited display that might interfere */
-    display: block; /* Or flex, if inner content requires it, but block is fine for a container */
-    /* The width: 100% from .modal-content might make it too wide if not constrained by max-width.
-       Relying on max-width: 600px. Ensure width is not an issue. */
-}
+    margin-top: 500px; /* Added requested top margin */
 .service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
