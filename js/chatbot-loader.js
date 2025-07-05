@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileChatLauncher = document.getElementById('mobileChatLauncher');
   const desktopChatFab = document.getElementById('chatbot-fab-trigger');
 
-  const chatbotUrl = 'chatbot.html'; // Path relative to project root where chatbot.html is
+  const chatbotUrl = 'components/chatbot/chatbot.html'; // Path relative to project root where chatbot.html is
   let iframeLoaded = false;
   let chatbotIframe = null; // Store the iframe element
   let themeObserver = null; // Store the MutationObserver
@@ -130,12 +130,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = chatbotPlaceholder.querySelector('.chatbot-placeholder-close-btn');
     if(closeBtn) closeBtn.focus();
     else if (chatbotIframe) chatbotIframe.focus();
+
+    // Add event listener for click outside to close
+    // Use a timeout to prevent immediate closing if the click that opened it is also outside
+    setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+    }, 0);
   }
 
   function hideChatbot() {
-    if (chatbotPlaceholder) {
+    if (chatbotPlaceholder && chatbotPlaceholder.classList.contains('active')) {
       chatbotPlaceholder.classList.remove('active');
       console.log('INFO:ChatbotLoader/hideChatbot: Chatbot placeholder hidden.');
+      document.removeEventListener('click', handleClickOutside);
       // Consider disconnecting observer when hidden if performance is an issue,
       // but for theme changes it's likely low overhead.
       // if (themeObserver) {
@@ -144,6 +151,29 @@ document.addEventListener('DOMContentLoaded', () => {
       //   document.body.removeAttribute('data-theme-observed-by-chatbot');
       //   console.log('INFO:ChatbotLoader/hideChatbot: Theme observer disconnected.');
       // }
+      // Restore focus to the FAB or launcher if they exist
+      if (document.activeElement === chatbotIframe || chatbotPlaceholder.contains(document.activeElement)) {
+        if (desktopChatFab && window.getComputedStyle(desktopChatFab).display !== 'none') {
+            desktopChatFab.focus();
+        } else if (mobileChatLauncher && window.getComputedStyle(mobileChatLauncher).display !== 'none') {
+            mobileChatLauncher.focus();
+        }
+      }
+    }
+  }
+
+  function handleClickOutside(event) {
+    if (!chatbotPlaceholder || !chatbotPlaceholder.classList.contains('active')) {
+        return;
+    }
+    // Check if the click is outside the chatbotPlaceholder and not on any known launcher buttons
+    const isClickInsideChatbot = chatbotPlaceholder.contains(event.target);
+    const isClickOnFab = desktopChatFab && desktopChatFab.contains(event.target);
+    const isClickOnMobileLauncher = mobileChatLauncher && mobileChatLauncher.contains(event.target);
+
+    if (!isClickInsideChatbot && !isClickOnFab && !isClickOnMobileLauncher) {
+        console.log('INFO:ChatbotLoader/handleClickOutside: Click detected outside chatbot widget. Hiding.');
+        hideChatbot();
     }
   }
 
