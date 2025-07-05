@@ -105,24 +105,30 @@ ul, ol {
 
 /* Footer styles */
 footer {
-    text-align: center; /* Center the text within the footer */
-    padding: 1rem 0; /* Add some padding above and below the text */
-    width: 100%; /* Ensure the footer spans the full width */
-    /* The following properties help to stick the footer to the bottom */
-    position: relative; /* Changed from absolute to relative for better flow */
-    bottom: 0;
-    left: 0;
-    background-color: var(--body-bg-color); /* Ensure footer bg matches body */
-    color: var(--text-color-main); /* Ensure footer text color matches main text */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    /* Ensure it takes up significant viewport height to truly center the text within it,
+       or it's part of a larger container that does.
+       For this request, we'll make the footer itself a large portion of the screen
+       if the main content is short. */
+    flex-grow: 1; /* Allow footer to grow if main content is short */
+    background-color: var(--body-bg-color);
+    color: var(--text-color-main);
 }
 
-/* Adjustments for when the content is not enough to push footer to bottom */
+/* Adjustments for body and main to support footer centering */
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensure body takes at least full viewport height */
 }
 
 main {
-    flex: 1; /* Allows main content to grow and push footer down */
+    /* flex: 1; /* This was for sticky footer, might conflict with centering if footer is not last element */
+    /* We want the main content to take its natural height, and if it's short,
+       the footer (as a flex item in a column-direction body) can expand. */
 }
