@@ -109,13 +109,13 @@
 #chatbot-modal .modal-content {
     margin-bottom: 20px;
     margin-right: 85px;
-    max-width: 360px;
-    min-width: 280px;
+    max-width: 380px; /* Slightly wider */
+    min-width: 300px; /* Slightly wider min */
     width: 100%;
-    height: 70vh;
-    max-height: 500px;
-    box-shadow: 0 5px 32px var(--shadow-color-strong);
-    border-radius: 16px;
+    height: 75vh; /* Increased height */
+    max-height: 650px; /* Increased max-height */
+    box-shadow: 0 8px 40px var(--shadow-color-strong); /* Slightly stronger shadow */
+    border-radius: 12px; /* Adjusted border-radius */
     transition: all 0.2s;
     display: flex;
     flex-direction: column;
@@ -714,8 +714,11 @@
 
     /* Chatbot Modal Responsive (Shell) */
     #chatbot-modal .modal-content {
-        margin-right: 15px; margin-bottom: 85px;
-        max-width: calc(100vw - 30px); height: calc(70vh - 85px);
+        margin-right: 15px;
+        margin-bottom: 85px; /* Keeps it above potential mobile nav elements */
+        max-width: calc(100vw - 30px);
+        height: calc(75vh - 85px); /* Adjusted to match new vh, and account for mobile UI */
+        max-height: calc(100vh - 100px); /* Ensure it doesn't take full screen height on mobile */
     }
 
     /* --- New FAB Mobile Navigation --- */

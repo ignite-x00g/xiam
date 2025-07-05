@@ -210,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
     // Add listener for messages from iframes (e.g., chatbot)
     window.addEventListener('message', (event) => {
         // console.log('[DMM] Message received from iframe/window:', event.data, 'from origin:', event.origin); // Cleanup
@@ -225,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.closeModal(chatbotModal);
             } else {
                 // console.warn('[DMM] Chatbot modal not found or not visible. Cannot close.'); // Cleanup
+
             }
         }
     });
