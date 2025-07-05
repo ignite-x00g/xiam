@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const humanVerificationCheckbox = document.getElementById('human-verification-checkbox');
     const sendButton = document.getElementById('chat-send-button');
-
     // Disable send button and chat input initially
     if (sendButton) {
         sendButton.disabled = true;
@@ -30,9 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
-
             if (!userMessage || chatInput.disabled) { // Also check if input is disabled
-                // Optionally, provide feedback that message is empty or input is disabled
                 return;
             }
 
@@ -45,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             addMessageToLog(userMessage, 'user-message');
             chatInput.value = ''; // Clear input
+
+            // Post message to parent to close the modal
+            window.parent.postMessage('closeChatbotModal', '*');
 
             // Simulate bot response
             setTimeout(() => {
