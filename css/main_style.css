@@ -72,7 +72,7 @@ main {
 .services-section {
     text-align: center;
     /* margin-bottom: 2rem; Original value */
-    margin: 350px auto 0 auto; /* New positioning: 350px from top, centered horizontally, 0 bottom margin */
+    margin: 250px auto 0 auto; /* Adjusted: 250px from top, centered horizontally, 0 bottom margin */
 }
 .services-section-title {
     font-size: 1.8rem;
@@ -313,7 +313,7 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
-    margin-top: 250px; /* Added requested top margin */
+    margin-top: 500px; /* Added requested top margin */
 }
 
 .service-modal-center .modal-body {
@@ -842,7 +842,7 @@ main {
 
     /* Services Section Responsive */
     .services-section {
-        margin-top: 200px; /* Smaller top margin for smaller screens */
+        margin-top: 100px; /* Adjusted: Smaller top margin for smaller screens */
         /* Horizontal auto and bottom 0 from the non-media query rule will still apply if not overridden */
     }
 
