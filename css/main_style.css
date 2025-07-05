@@ -280,7 +280,7 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
-    margin-top: 500px; /* Added requested top margin */
+    margin-top: 150px; /* Added requested top margin */
 .service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
