@@ -102,3 +102,27 @@ ul, ol {
 }
 
 /* Add other global styles here as the project evolves */
+
+/* Footer styles */
+footer {
+    text-align: center; /* Center the text within the footer */
+    padding: 1rem 0; /* Add some padding above and below the text */
+    width: 100%; /* Ensure the footer spans the full width */
+    /* The following properties help to stick the footer to the bottom */
+    position: relative; /* Changed from absolute to relative for better flow */
+    bottom: 0;
+    left: 0;
+    background-color: var(--body-bg-color); /* Ensure footer bg matches body */
+    color: var(--text-color-main); /* Ensure footer text color matches main text */
+}
+
+/* Adjustments for when the content is not enough to push footer to bottom */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1; /* Allows main content to grow and push footer down */
+}
