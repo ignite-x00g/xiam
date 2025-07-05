@@ -16,10 +16,10 @@
       <div class="message bot-message" data-en="Hello! How can I help you today?" data-es="¡Hola! ¿Cómo puedo ayudarte hoy?">Hello! How can I help you today?</div>
     </div>
     <form id="chat-form" class="chat-form">
-      <input type="text" id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required />
+      <!-- Honeypot Field (first for semantic clarity, hidden anyway) -->
+      <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <!-- Honeypot Field -->
-      <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">
+      <input type="text" id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required />
 
       <!-- Placeholder for visible reCAPTCHA -->
       <div class="recaptcha-placeholder-container" id="recaptcha-inline-placeholder">
