@@ -272,6 +272,15 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
+    /* Ensure explicit centering */
+    position: fixed; /* Position relative to the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Override any potential inherited display that might interfere */
+    display: block; /* Or flex, if inner content requires it, but block is fine for a container */
+    /* The width: 100% from .modal-content might make it too wide if not constrained by max-width.
+       Relying on max-width: 600px. Ensure width is not an issue. */
 }
 .service-modal-center .modal-body {
     font-size: 1.1rem;
