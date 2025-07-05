@@ -30,6 +30,7 @@ body { /* Body of the iframe */
     overflow-y: auto;
     border-bottom: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-log-bg-color, #f9f9f9);
+    min-height: 200px; /* Significantly increase chat log height */
 }
 
 .message {
@@ -56,18 +57,21 @@ body { /* Body of the iframe */
 
 .chat-form {
     display: flex;
+    flex-direction: column; /* Stack elements vertically */
     padding: 10px;
     border-top: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-form-bg, #fff);
+    gap: 8px; /* Add space between form elements */
 }
 
-#chat-input {
-    flex-grow: 1;
+#chat-input { /* Textarea */
     padding: 10px;
     border: 1px solid var(--chatbot-input-border, #ddd);
-    border-radius: 20px;
-    margin-right: 5px;
+    border-radius: 8px; /* Adjusted for a more standard textarea look */
     font-size: 1em;
+    resize: vertical; /* Allow vertical resize, not horizontal */
+    min-height: 60px; /* Default height for textarea */
+    font-family: inherit; /* Inherit font from body */
 }
 #chat-input:focus {
     outline: none;
@@ -83,27 +87,26 @@ body { /* Body of the iframe */
     overflow: hidden;
 }
 
-.recaptcha-placeholder-container {
+.human-verification-container { /* Updated class name */
     display: flex;
     align-items: center;
-    margin: 0 8px; /* Spacing around reCAPTCHA */
-    padding: 5px;
-    border: 1px solid var(--chatbot-input-border, #ddd);
-    border-radius: 4px;
-    background-color: var(--chatbot-log-bg-color, #f9f9f9);
+    /* Removed border and background, cleaner look */
+    padding: 5px 0; /* Vertical padding, no horizontal */
 }
 
-.recaptcha-label {
+.human-verification-label { /* Updated class name */
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 0.85em;
+    font-size: 0.9em; /* Slightly larger for better readability */
     color: var(--chatbot-text-color, #333);
 }
 
-.recaptcha-label input[type="checkbox"] {
-    margin-right: 5px;
+.human-verification-label input[type="checkbox"] {
+    margin-right: 8px; /* More space between checkbox and text */
     cursor: pointer;
+    width: 16px; /* Custom size for checkbox */
+    height: 16px;
 }
 
 
@@ -112,15 +115,23 @@ body { /* Body of the iframe */
     background-color: var(--accent-color, #007bff);
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 8px; /* Consistent with textarea */
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
+    width: 100%; /* Make button full width */
 }
 
 #chat-send-button:hover {
     background-color: var(--accent-color-darker, #0056b3);
 }
+
+#chat-send-button:disabled {
+    background-color: var(--chatbot-border-color, #ccc);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 
 /* Theme variable defaults (can be overridden if theme.css is linked in chatbot.html) */
 :root {
