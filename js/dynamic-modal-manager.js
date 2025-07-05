@@ -154,4 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Add listener for messages from iframes (e.g., chatbot)
+    window.addEventListener('message', (event) => {
+        // Consider checking event.origin for security if the source is known e.g.
+        // if (event.origin !== window.location.origin) return;
+        if (event.data === 'closeChatbotModal') {
+            const chatbotModal = document.getElementById('chatbot-modal');
+            // Check if the modal exists and is currently displayed
+            if (chatbotModal && (chatbotModal.style.display === 'flex' || chatbotModal.style.display === 'block')) {
+                window.closeModal(chatbotModal);
+            }
+        }
+    });
 });
