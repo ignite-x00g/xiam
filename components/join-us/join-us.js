@@ -1,174 +1,137 @@
 // components/join-us/join-us.js
 
 /**
- * Initializes the Join Us form, including dynamic sections and language updates.
- * This function should be called after the Join Us modal's HTML content
- * has been loaded into the DOM.
+ * Initializes the interactive sections within the Join Us form.
+ * This function should be called after the Join Us modal's HTML content,
+ * including the form sections, has been loaded into the DOM.
  */
-window.initializeJoinUsModal = function() {
+window.initializeJoinUsFormSections = function() {
     const joinUsModal = document.getElementById('join-us-modal');
     if (!joinUsModal) {
-        // console.warn("Join Us modal (#join-us-modal) not found. Cannot initialize.");
+        // console.warn("Join Us modal not found when trying to initialize sections.");
         return;
     }
 
-    const joinForm = joinUsModal.querySelector('#join-form');
-    if (!joinForm) {
-        // console.warn("Join Us form (#join-form) not found within the modal. Cannot initialize form sections.");
-        return;
+    // console.log("Initializing Join Us form sections' interactivity...");
+
+    const formSections = joinUsModal.querySelectorAll('.form-section');
+    if (formSections.length === 0) {
+        // console.warn("No .form-section elements found within the Join Us modal.");
+        // This might happen if the HTML isn't loaded yet, or if there are no such sections.
     }
 
-    // ----- Language Update Function (adapted from sample) -----
-    // This function will be called by the global language switcher when the modal is open,
-    // or when the modal is first displayed.
-    window.updateJoinUsModalLanguage = function() {
-        const currentLang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
-        // console.log(`Updating Join Us modal language to: ${currentLang}`);
-
-        joinUsModal.querySelectorAll('[data-en]').forEach(el => {
-            const translation = el.getAttribute(`data-${currentLang}`);
-            if (translation) {
-                // Avoid changing text content if the element is a container for other translated items (e.g. a label for an input)
-                // Only change if it's a direct text node or specific elements like buttons, spans, h2 etc.
-                // This is a simple check; more robust might be needed if structure is complex.
-                let isLeafOrSpecific = true;
-                if (el.tagName === 'LABEL' && el.htmlFor) { // Don't change label text if it's for an input that might have its own placeholder
-                    isLeafOrSpecific = false;
-                }
-                // Check if it's a button or a span that should have its text changed
-                if (el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'H2' || el.tagName === 'OPTION' || (el.childElementCount === 0 && isLeafOrSpecific)) {
-                   el.textContent = translation;
-                }
-            }
-        });
-
-        joinUsModal.querySelectorAll('input[data-placeholder-en], textarea[data-placeholder-en]').forEach(el => {
-            const placeholderText = el.getAttribute(`data-placeholder-${currentLang}`);
-            if (placeholderText) {
-                el.placeholder = placeholderText;
-            }
-        });
-
-        joinUsModal.querySelectorAll('[data-aria-label-en]').forEach(el => {
-            const ariaLabelText = el.getAttribute(`data-aria-label-${currentLang}`);
-            if (ariaLabelText) {
-                el.setAttribute('aria-label', ariaLabelText);
-            }
-        });
-
-        // Update title of the modal if it has data-en/es (it's in index.html shell, so global switcher handles it)
-        // Update modal close button aria-label (it's in index.html shell, so global switcher handles it)
-    };
-
-    // ----- Dynamic Form Sections Logic (adapted from sample) -----
-    joinUsModal.querySelectorAll('.form-section').forEach(section => {
+    formSections.forEach(section => {
         const addBtn = section.querySelector('.add');
         const removeBtn = section.querySelector('.remove');
         const acceptBtn = section.querySelector('.accept-btn');
         const editBtn = section.querySelector('.edit-btn');
-        const inputsContainer = section.querySelector('.inputs'); // Corrected from 'inputs' to '.inputs'
-        const titleElement = section.querySelector('h2'); // Corrected from 'title' to 'h2'
+        const inputsContainer = section.querySelector('.inputs');
+        const titleElement = section.querySelector('h2'); // Used for placeholder text generation
 
         if (!addBtn || !removeBtn || !acceptBtn || !editBtn || !inputsContainer || !titleElement) {
-            // console.warn("A Join Us form section is missing one or more expected child elements:", section);
-            return;
+            // console.warn("A Join Us form section is missing one or more expected child elements (add, remove, accept, edit, inputs, h2):", section);
+            return; // Skip this section if critical elements are missing
         }
 
-        addBtn.onclick = () => {
+        const sectionTitleEn = titleElement.getAttribute('data-en') || 'item';
+        const sectionTitleEs = titleElement.getAttribute('data-es') || 'elemento';
+
+        addBtn.addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'text';
-            const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
-            const placeholderEn = `Enter ${titleElement.getAttribute('data-en')} info`;
-            const placeholderEs = `Ingresa ${titleElement.getAttribute('data-es')} info`;
+            input.className = 'form-control'; // Optional: for bootstrap or other global styling
 
-            input.setAttribute('data-placeholder-en', placeholderEn);
-            input.setAttribute('data-placeholder-es', placeholderEs);
-            input.placeholder = lang === 'es' ? placeholderEs : placeholderEn;
+            // Set data attributes for dynamic translation by global-toggles.js
+            // These placeholders will be applied by applyTranslations
+            input.setAttribute('data-placeholder-en', `Enter ${sectionTitleEn} details`);
+            input.setAttribute('data-placeholder-es', `Ingresa detalles de ${sectionTitleEs}`);
 
             inputsContainer.appendChild(input);
-            input.focus();
-        };
 
-        removeBtn.onclick = () => {
+            // Immediately apply translations to the newly added input
+            if (window.applyTranslations && window.getCurrentLanguage) {
+                window.applyTranslations(window.getCurrentLanguage());
+            } else {
+                // Fallback if global functions are not available (e.g., script load order issue)
+                const lang = localStorage.getItem('ops_lang') || 'en';
+                input.placeholder = lang === 'es' ?
+                                    input.getAttribute('data-placeholder-es') :
+                                    input.getAttribute('data-placeholder-en');
+            }
+            input.focus(); // Focus the new input
+        });
+
+        removeBtn.addEventListener('click', () => {
             const allInputs = inputsContainer.querySelectorAll('input');
-            if (allInputs.length) {
+            if (allInputs.length > 0) {
                 inputsContainer.removeChild(allInputs[allInputs.length - 1]);
             }
-        };
+        });
 
-        acceptBtn.onclick = () => {
-            if (!inputsContainer.querySelector('input')) {
+        acceptBtn.addEventListener('click', () => {
+            const currentInputsInThisSection = inputsContainer.querySelectorAll('input');
+            if (currentInputsInThisSection.length === 0) {
                 const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
-                const msg = lang === 'es' ? 'Agrega al menos una entrada.' : 'Please add at least one entry.';
-                alert(msg);
+                const sectionName = lang === 'es' ? sectionTitleEs : sectionTitleEn;
+                alert(lang === 'es' ? `Agrega al menos una entrada en ${sectionName}.` : `Please add at least one entry in ${sectionName}.`);
                 return;
             }
-            inputsContainer.querySelectorAll('input').forEach(input => input.disabled = true);
+            currentInputsInThisSection.forEach(input => input.disabled = true);
+            section.classList.add('completed');
             acceptBtn.style.display = 'none';
             editBtn.style.display = 'inline-block';
-            section.classList.add('completed');
-        };
+        });
 
-        editBtn.onclick = () => {
-            inputsContainer.querySelectorAll('input').forEach(input => {
+        editBtn.addEventListener('click', () => {
+            const currentInputsInThisSection = inputsContainer.querySelectorAll('input');
+            currentInputsInThisSection.forEach(input => {
                 input.disabled = false;
             });
-            if (inputsContainer.querySelectorAll('input').length > 0) {
-                 inputsContainer.querySelectorAll('input')[0].focus();
+            if (currentInputsInThisSection.length > 0) {
+                 currentInputsInThisSection[0].focus(); // Focus the first input in the section
             }
+            section.classList.remove('completed');
             acceptBtn.style.display = 'inline-block';
             editBtn.style.display = 'none';
-            section.classList.remove('completed');
-        };
+        });
     });
 
-    // ----- Form Submission (adapted from sample) -----
-    if (!joinForm.dataset.submissionHandlerAttached) { // Avoid double attachment
-        joinForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    // Handle the main form submission for Join Us (if not handled elsewhere)
+    const joinForm = joinUsModal.querySelector('#join-form');
+    if (joinForm && !joinForm.dataset.submissionHandlerAttached) { // Avoid double attachment
+        joinForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Perform any final validation if needed
             const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
-            alert(lang === 'es' ? 'Aplicación enviada (simulación).' : 'Application submitted (simulated).');
+            alert(lang === 'es' ? 'Aplicación enviada (simulación desde join-us.js).' : 'Application submitted (simulated from join-us.js).');
 
             if (typeof window.closeModal === 'function') {
-                window.closeModal(joinUsModal); // Use global closeModal
+                window.closeModal(joinUsModal);
             }
             joinForm.reset(); // Reset form fields
-
             // Reset dynamic sections to initial state
-            joinUsModal.querySelectorAll('.form-section').forEach(section => {
-                const inputsContainer = section.querySelector('.inputs');
-                if (inputsContainer) inputsContainer.innerHTML = ''; // Clear dynamic inputs
-
+            formSections.forEach(section => {
+                section.querySelector('.inputs').innerHTML = ''; // Clear dynamic inputs
                 section.classList.remove('completed');
-                const acceptBtn = section.querySelector('.accept-btn');
-                const editBtn = section.querySelector('.edit-btn');
-                if (acceptBtn) acceptBtn.style.display = 'inline-block';
-                if (editBtn) editBtn.style.display = 'none';
-
-                // Re-enable any inputs that might have been part of the initial HTML within a section (though not typical for these dynamic ones)
+                section.querySelector('.accept-btn').style.display = 'inline-block';
+                section.querySelector('.edit-btn').style.display = 'none';
                 section.querySelectorAll('input').forEach(inp => inp.disabled = false);
             });
+
+
         });
         joinForm.dataset.submissionHandlerAttached = 'true';
     }
-
-    // ----- Initial Language Update for the Modal -----
-    // Call this once after everything is set up to ensure correct language display
-    if (window.updateJoinUsModalLanguage) {
-        window.updateJoinUsModalLanguage();
-    }
-
-    // console.log("Join Us Modal Initialized.");
 };
 
-// The call to window.initializeJoinUsModal() is expected to be made by
-// dynamic-modal-manager.js after it loads components/join-us/join-us.html
-// into the modal shell and this script is executed.
-// Example (in dynamic-modal-manager.js or similar):
-// fetch(sourceUrl).then(response => response.text()).then(html => {
-//   modalBody.innerHTML = html;
-//   if (typeof window.initializeJoinUsModal === 'function') {
-//     window.initializeJoinUsModal();
-//   }
-//   // Potentially load component-specific CSS here too
+// Note: Actual initialization (calling window.initializeJoinUsFormSections())
+// is expected to be triggered by dynamic-modal-manager.js
+// after it loads components/join-us/join-us.html into the modal.
+// If the modal's HTML were static within index.html and not loaded dynamically,
+// then a DOMContentLoaded listener here would be appropriate to call it.
+// Example:
+// document.addEventListener('DOMContentLoaded', () => {
+//     if (document.getElementById('join-us-modal')) { // If modal is statically in page
+//         window.initializeJoinUsFormSections();
+//     }
 // });
