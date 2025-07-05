@@ -4,18 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatLog = document.getElementById('chat-log');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
-    // const humanVerificationCheckbox = document.getElementById('human-verification-checkbox'); // Removed
-    const honeypotInput = chatForm ? chatForm.querySelector('[name="chatbot-honeypot"]') : null;
-    const recaptchaSiteKey = 'YOUR_RECAPTCHA_V3_SITE_KEY_PLACEHOLDER'; // Store this, ideally from a config
-
+    const humanVerificationCheckbox = document.getElementById('human-verification-checkbox');
     // Attempt to apply theme from parent if possible (e.g. if theme.css is linked and body vars are set)
     // This is a simple example; more robust would be PostMessage API or localStorage observation.
     // For now, chatbot.css defines its own defaults that can be overridden if global theme vars are accessible.
-    // console.log("Chatbot widget JS loaded.");
-    const workerEndpoint = '/api/chat_submit_secure'; // Placeholder for actual worker endpoint
-
-    if (chatForm && chatInput && chatLog) { // Removed humanVerificationCheckbox from condition
-        chatForm.addEventListener('submit', async (event) => { // Made async
+  // console.log("Chatbot widget JS loaded.");
+    if (chatForm && chatInput && chatLog && humanVerificationCheckbox) {
+        chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
 
@@ -23,81 +18,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; // Don't send empty messages
             }
 
-            // 1. Honeypot Check
-            let isHoneypotFilled = false;
-            if (honeypotInput && honeypotInput.value !== '') {
-                console.warn('WARN:ChatbotWidget/submit: Honeypot filled. Potential bot.');
-                isHoneypotFilled = true;
-            }
-            // console.log(`INFO:ChatbotWidget/submit: Honeypot status: ${isHoneypotFilled}`); // Logged later with other payload data
-
-            // 2. reCAPTCHA v3 Token Retrieval
-            if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute === 'undefined') {
-                console.error('ERROR:ChatbotWidget/submit: grecaptcha not loaded. Cannot submit.');
-                addMessageToLog('Security check service not available. Please try again later.', 'bot');
+            if (!humanVerificationCheckbox.checked) {
+                addMessageToLog('Please verify you are human.', 'bot-message', window.parent); // Pass window.parent for translation
                 return;
             }
 
-            try {
-                const token = await new Promise((resolve, reject) => {
-                    grecaptcha.ready(() => {
-                        grecaptcha.execute(recaptchaSiteKey, { action: 'chat_submit' })
-                            .then(resolve)
-                            .catch(reject);
-                    });
-                });
+            addMessageToLog(userMessage, 'user-message');
+            chatInput.value = ''; // Clear input
 
-                console.log(`INFO:ChatbotWidget/submit: reCAPTCHA token obtained.`);
-
-                // Add user message to log after successful token retrieval
-                addMessageToLog(userMessage, 'user-message');
-                chatInput.value = '';
-
-                // 3. Call Cloudflare Worker
-                const payload = {
-                    message: userMessage,
-                    recaptchaToken: token,
-                    honeypotFilled: isHoneypotFilled,
-                };
-
-                console.log(`INFO:ChatbotWidget/submit: Sending to worker:`, payload);
-
-                const response = await fetch(workerEndpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                if (!response.ok) {
-                    // Try to get error message from worker response body if possible
-                    const errorData = await response.json().catch(() => ({ message: 'Request failed with status: ' + response.status }));
-                    console.error('ERROR:ChatbotWidget/submit: Worker request failed:', errorData);
-                    addMessageToLog(errorData.message || 'Sorry, your message could not be processed at this time.', 'bot');
-                    return;
-                }
-
-                const data = await response.json();
-
-                if (data.success) {
-                    addMessageToLog(data.botResponse || "I'll get back to you shortly.", 'bot');
-                } else {
-                    console.warn('WARN:ChatbotWidget/submit: Worker indicated submission failure:', data.error);
-                    addMessageToLog(data.error || 'Your message was not accepted. Please try again.', 'bot');
-                }
-
-            } catch (error) {
-                console.error('ERROR:ChatbotWidget/submit: Error during reCAPTCHA or fetch:', error);
-                addMessageToLog('An error occurred while sending your message. Please try again.', 'bot');
-            }
+            // Simulate bot response
+            setTimeout(() => {
+                simulateBotResponse(userMessage);
+            }, 1000);
         });
     } else {
-        console.error('Chatbot UI core elements not found in chatbot.html or honeypot field missing.');
+        console.error('Chatbot UI elements not found in chatbot.html');
     }
 });
 
-// Updated to include token for conceptual logging, will be removed when worker call is implemented
 function addMessageToLog(message, type, contextWindow = window) {
     const chatLog = document.getElementById('chat-log');
     if (!chatLog) return;

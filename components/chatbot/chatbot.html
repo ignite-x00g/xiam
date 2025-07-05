@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="chatbot.css">
   <!-- Optional: Link to global theme if iframe should inherit theme vars -->
   <!-- <link rel="stylesheet" href="../../css/theme.css"> -->
-  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_V3_SITE_KEY_PLACEHOLDER" async defer></script>
 </head>
 <body>
   <div id="chatbot-container">
@@ -17,13 +16,18 @@
       <div class="message bot-message" data-en="Hello! How can I help you today?" data-es="¡Hola! ¿Cómo puedo ayudarte hoy?">Hello! How can I help you today?</div>
     </div>
     <form id="chat-form" class="chat-form">
-      <!-- Honeypot Field (first for semantic clarity, hidden anyway) -->
-      <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
       <input type="text" id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required />
 
-      <!-- Removed "I am human" checkbox placeholder, reCAPTCHA v3 is mostly invisible -->
+      <!-- Honeypot Field -->
+      <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">
 
+      <!-- Placeholder for visible reCAPTCHA -->
+      <div class="recaptcha-placeholder-container" id="recaptcha-inline-placeholder">
+        <label class="recaptcha-label">
+          <input type="checkbox" id="human-verification-checkbox" name="human-verification" required>
+          <span class="recaptcha-text" data-en="I am human" data-es="Soy humano">I am human</span>
+        </label>
+      </div>
       <button type="submit" id="chat-send-button" aria-label="Send Message" data-aria-label-en="Send Message" data-aria-label-es="Enviar Mensaje">
         Send
       </button>

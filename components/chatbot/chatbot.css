@@ -56,42 +56,41 @@ body { /* Body of the iframe */
 
 .chat-form {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: stretch; /* Stretch items to fill width */
     padding: 10px;
     border-top: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-form-bg, #fff);
 }
 
 #chat-input {
-    /* flex-grow: 1; remove as it's not in a row anymore */
+    flex-grow: 1;
     padding: 10px;
     border: 1px solid var(--chatbot-input-border, #ddd);
-    border-radius: 8px; /* Adjusted border-radius */
-    margin-bottom: 8px; /* Space below input */
+    border-radius: 20px;
+    margin-right: 5px;
     font-size: 1em;
-    width: auto; /* Allow it to take available width minus padding/border */
 }
 #chat-input:focus {
     outline: none;
     border-color: var(--accent-color, #007bff); /* Use accent from theme if available */
 }
 
-/* Honeypot field should be visually hidden - ensure it doesn't take up layout space */
+/* Honeypot field should be visually hidden */
 .ops-chatbot-honeypot-field {
-    display: none !important; /* Overriding potential inline style for absolute positioning */
+    position: absolute;
+    left: -5000px; /* Move off-screen */
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
-
 
 .recaptcha-placeholder-container {
     display: flex;
     align-items: center;
-    margin-bottom: 8px; /* Space below checkbox area */
+    margin: 0 8px; /* Spacing around reCAPTCHA */
     padding: 5px;
-    /* border: 1px solid var(--chatbot-input-border, #ddd); remove border for cleaner look */
+    border: 1px solid var(--chatbot-input-border, #ddd);
     border-radius: 4px;
-    /* background-color: var(--chatbot-log-bg-color, #f9f9f9); remove background for cleaner look */
-    justify-content: flex-start; /* Align label to the left */
+    background-color: var(--chatbot-log-bg-color, #f9f9f9);
 }
 
 .recaptcha-label {
@@ -109,15 +108,14 @@ body { /* Body of the iframe */
 
 
 #chat-send-button {
-    padding: 8px 12px; /* Reduced padding to make button smaller */
+    padding: 10px 15px;
     background-color: var(--accent-color, #007bff);
     color: white;
     border: none;
-    border-radius: 8px; /* Adjusted border-radius */
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 0.9em; /* Reduced font size */
+    font-size: 1em;
     transition: background-color 0.2s;
-    align-self: flex-start; /* Align button to the left in the column */
 }
 
 #chat-send-button:hover {
