@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chatInput.value = ''; // Clear input
 
             // Post message to parent to close the modal
+            // console.log('[ChatbotWidget] Form submitted. Attempting to post "closeChatbotModal" message to parent.'); // Cleanup
             window.parent.postMessage('closeChatbotModal', '*');
 
             // Simulate bot response
