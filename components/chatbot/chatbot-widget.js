@@ -6,15 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const humanVerificationCheckbox = document.getElementById('human-verification-checkbox');
     const sendButton = document.getElementById('chat-send-button');
-
-    // Disable send button initially
+    // Disable send button and chat input initially
     if (sendButton) {
         sendButton.disabled = true;
     }
+    if (chatInput) {
+        chatInput.disabled = true;
+    }
 
-    if (humanVerificationCheckbox && sendButton) {
+    if (humanVerificationCheckbox && sendButton && chatInput) {
         humanVerificationCheckbox.addEventListener('change', () => {
-            sendButton.disabled = !humanVerificationCheckbox.checked;
+            const isChecked = humanVerificationCheckbox.checked;
+            sendButton.disabled = !isChecked;
+            chatInput.disabled = !isChecked;
+            if (isChecked) {
+                chatInput.focus(); // Focus on input when enabled
+            }
         });
     }
 
@@ -22,15 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
-
-            if (!userMessage) {
-                // Optionally, provide feedback that message is empty
+            if (!userMessage || chatInput.disabled) { // Also check if input is disabled
                 return;
             }
 
             if (!humanVerificationCheckbox.checked) {
                 addMessageToLog('Please verify you are human.', 'bot-message', window.parent);
-                sendButton.disabled = true; // Ensure button is disabled
+                sendButton.disabled = true;
+                chatInput.disabled = true;
                 return;
             }
 

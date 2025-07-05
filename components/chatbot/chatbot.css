@@ -77,6 +77,11 @@ body { /* Body of the iframe */
     outline: none;
     border-color: var(--accent-color, #007bff); /* Use accent from theme if available */
 }
+#chat-input:disabled {
+    background-color: var(--chatbot-log-bg-color, #f1f1f1); /* Match chat log or a bit lighter */
+    opacity: 0.7;
+    cursor: not-allowed;
+}
 
 /* Honeypot field should be visually hidden */
 .ops-chatbot-honeypot-field {
