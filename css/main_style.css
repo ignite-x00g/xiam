@@ -269,12 +269,76 @@ main {
     flex-direction: column;
     gap: 1rem; /* Default gap for form children */
 }
+
+/* General label styling within modal bodies */
+.modal-body label {
+    margin-bottom: 0.4rem; /* Consistent spacing */
+    font-weight: 600; /* Default boldness for labels */
+    color: var(--text-color-label, var(--text-color-main)); /* Use theme variable */
+    display: block; /* Ensure labels take full width if needed and proper spacing */
+    font-size: 0.9rem; /* Standardize label font size in modals */
+}
+
+/* General input/select/textarea styling within modal bodies */
+.modal-body input[type="text"],
+.modal-body input[type="email"],
+.modal-body input[type="tel"],
+.modal-body input[type="date"],
+.modal-body input[type="time"],
+.modal-body select,
+.modal-body textarea {
+    padding: 0.7rem 0.8rem; /* Consistent padding */
+    border: 1px solid var(--input-border-color, #ccc); /* Use theme variable */
+    border-radius: 6px; /* Consistent border radius */
+    font-size: 1rem;
+    background-color: var(--input-bg-color, #fff); /* Use theme variable */
+    color: var(--text-color-input, var(--text-color-main)); /* Use theme variable */
+    width: 100%; /* Make them take full width of their cell */
+    box-sizing: border-box; /* Important for width: 100% and padding */
+}
+.modal-body textarea {
+    resize: vertical;
+    min-height: 80px; /* Default minimum height for textareas */
+}
+
 .modal-footer {
-    text-align: right;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    align-items: center;
+    gap: 0.75rem; /* Space between buttons */
     padding-top: 1rem;
     border-top: 1px solid var(--border-color-soft);
     margin-top: auto; /* Push footer to bottom if modal body is flex */
 }
+
+.modal-footer .btn-cancel {
+    background-color: var(--button-secondary-bg-color, #6c757d);
+    color: var(--button-secondary-text-color, #fff);
+    border: 1px solid var(--button-secondary-border-color, transparent);
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    /* margin-right: 0.5rem; /* Replaced by gap in .modal-footer */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.modal-footer .btn-cancel:hover {
+    background-color: var(--button-secondary-hover-bg-color, #5a6268);
+    border-color: var(--button-secondary-hover-border-color, transparent);
+}
+
+.dark .modal-footer .btn-cancel {
+    background-color: var(--dark-button-secondary-bg-color, #495057);
+    color: var(--dark-button-secondary-text-color, #f8f9fa);
+    border-color: var(--dark-button-secondary-border-color, transparent);
+}
+
+.dark .modal-footer .btn-cancel:hover {
+    background-color: var(--dark-button-secondary-hover-bg-color, #3A3F44);
+    border-color: var(--dark-button-secondary-hover-border-color, transparent);
+}
+
 
 /* Service Modals (centered content) */
 .service-modal-center .modal-content {
@@ -303,9 +367,13 @@ main {
     gap: 1rem; /* Increased gap for better spacing within a block */
 }
 #join-us-modal .form-block label { /* Labels within a .form-block (e.g. Name, Email, Phone) */
-    font-size: 1.1rem; /* From user's specific Join Us CSS */
-    font-weight: bold;
-    margin-bottom: 0.18rem;
+    /* This style is for the old structure.
+       New structure uses .form-cell directly for Name/Email/Phone, which will get .modal-body label styles.
+       If .form-block is still used elsewhere in join-us, these styles might apply.
+       For now, let's make them less prominent if they are still hit. */
+    font-size: 1rem; /* Adjusted from 1.1rem */
+    font-weight: 600; /* Align with general modal label */
+    margin-bottom: 0.4rem; /* Align with general modal label */
     letter-spacing: 0.01em;
     color: var(--text-color-subtle);
 }
@@ -314,11 +382,11 @@ main {
 #join-us-modal .form-block input[type="tel"],
 #join-us-modal .form-block textarea, /* Though textarea is in floating-label-group */
 #join-us-modal .form-block select {
-    padding: 0.6rem 0.8rem; /* Consistent padding for these inputs */
-    margin-top: 0.1rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    /* Other styles like width, border, background, color from global input styles or theme */
+    /* These inputs, if still under a .form-block, should also try to align with general modal inputs.
+       The new general .modal-body input styles will provide base styling (padding, border, radius, etc.).
+       This rule can be removed if .form-block is no longer used for direct input children
+       or if its styling is meant to be identical to general modal inputs. */
+    /* Example: border-radius: 6px; to match general modal style */
 }
 
 /* Form Sections (Skills, Education, etc.) within Join Us */
@@ -349,6 +417,11 @@ main {
     margin: 0;
     font-size: 1rem;
     /* Other styles from global input */
+}
+#join-us-modal .form-section .section-controls {
+    display: flex; /* Align buttons in a row */
+    gap: 0.5rem; /* Space between accept and edit buttons */
+    margin-top: 0.5rem; /* Space above the button controls */
 }
 #join-us-modal .accept-btn, #join-us-modal .edit-btn {
     padding: 0.4rem 1rem;
@@ -564,6 +637,142 @@ main {
 #contact-form-error-message.form-error-message {
     /* Specific overrides if needed */
     /* Example didn't show error message styling, so existing global is likely fine */
+}
+
+
+/* ===== Join Us Modal Specific Styles (Adapted from New Sample) ===== */
+#join-us-modal .modal-content {
+    max-width: 850px;
+    padding: 2rem;
+}
+
+#join-us-modal .form-row {
+    margin-bottom: 1rem;
+}
+
+#join-us-modal .form-section {
+    border: 1px solid var(--border-color-soft);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background: var(--form-section-bg-color, var(--card-bg-color-light));
+}
+.dark #join-us-modal .form-section {
+    background: var(--dark-form-section-bg-color, var(--dark-card-bg-color));
+    border-color: var(--dark-border-color-soft, #444);
+}
+
+#join-us-modal .form-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+#join-us-modal .form-section .section-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color-emphasis);
+}
+
+#join-us-modal .form-section .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#join-us-modal .form-section .inputs input[type="text"] {
+    margin: 0;
+}
+
+#join-us-modal .form-section .circle-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--button-text-color-on-accent);
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+.dark #join-us-modal .form-section .circle-btn {
+    background-color: var(--dark-accent-color, var(--accent-color));
+}
+
+#join-us-modal .form-section .circle-btn.remove {
+    background-color: var(--danger-color);
+}
+.dark #join-us-modal .form-section .circle-btn.remove {
+    background-color: var(--dark-danger-color, var(--danger-color));
+}
+
+#join-us-modal .form-section .accept-btn,
+#join-us-modal .form-section .edit-btn {
+    padding: 0.4rem 1rem;
+    border: none;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#join-us-modal .form-section .accept-btn {
+    background-color: var(--success-color);
+    color: var(--button-text-color-on-accent);
+}
+.dark #join-us-modal .form-section .accept-btn {
+    background-color: var(--dark-success-color, var(--success-color));
+}
+
+#join-us-modal .form-section .edit-btn {
+    background-color: var(--warning-color);
+    color: var(--button-text-color-on-warning);
+}
+.dark #join-us-modal .form-section .edit-btn {
+    background-color: var(--dark-warning-color, var(--warning-color));
+    color: var(--dark-button-text-color-on-warning, var(--button-text-color-on-warning));
+}
+
+#join-us-modal .form-section.completed .section-header h2 {
+    color: var(--success-color);
+}
+#join-us-modal .form-section.completed .section-header h2::after {
+    content: " ✅";
+    font-size: 1rem;
+}
+.dark #join-us-modal .form-section.completed .section-header h2 {
+    color: var(--dark-success-color, var(--success-color));
+}
+
+#join-us-modal .form-footer {
+    text-align: right;
+    margin-top: 2rem;
+}
+
+#join-us-modal .submit-button {
+    padding: 0.6rem 1.2rem;
+    background: var(--accent-color);
+    border: none;
+    color: var(--button-text-color-on-accent);
+    cursor: pointer;
+    border-radius: 4px;
+}
+#join-us-modal .submit-button:hover {
+    background: var(--accent-color-darker);
+}
+.dark #join-us-modal .submit-button {
+    background: var(--dark-accent-color, var(--accent-color));
+}
+.dark #join-us-modal .submit-button:hover {
+    background: var(--dark-accent-color-darker, var(--accent-color-darker));
 }
 
 
