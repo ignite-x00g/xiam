@@ -65,6 +65,7 @@ main {
     padding: 1rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 3rem; /* Ensure space for the fixed footer */
 }
 
 /* Services Section & Navigation */
@@ -282,6 +283,7 @@ main {
     text-align: center;
     margin-top: 500px; /* Added requested top margin */
 }
+
 .service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
@@ -817,4 +819,23 @@ main {
     /* Restore display of old mobile nav if it was different for desktop (unlikely) */
      .mobile-nav#mobile-bottom-nav { display: none; } /* Keep old nav hidden on desktop too */
      .mobile-services-menu#mobile-services-panel { display: none; }
+}
+
+/* ===== Footer Styling ===== */
+footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--header-bg-color); /* Using header background as a sensible default */
+    color: var(--text-color-main); /* Ensure text color matches theme */
+    padding: 0.5rem;
+    text-align: center;
+    z-index: 998; /* Below FABs (1020) and Modals (1040/1050) but above general content */
+    border-top: 1px solid var(--header-border-color); /* Consistent with header */
+}
+
+footer p {
+    margin: 0; /* Remove default paragraph margin */
+    font-size: 0.85rem; /* Slightly smaller text for footer */
 }
