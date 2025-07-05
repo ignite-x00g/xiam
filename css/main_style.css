@@ -70,7 +70,8 @@ main {
 /* Services Section & Navigation */
 .services-section {
     text-align: center;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; Original value */
+    margin: 250px auto 0 auto; /* Adjusted: 250px from top, centered horizontally, 0 bottom margin */
 }
 .services-section-title {
     font-size: 1.8rem;
@@ -206,6 +207,13 @@ main {
     visibility: visible; /* Controlled by display:none/flex */
     opacity: 1;
 }
+
+/* Specific alignment for service modals */
+.service-modal-center.modal-overlay {
+    align-items: flex-start; /* Align content to the top */
+    /* justify-content: center; still applies if not overridden, which is fine */
+}
+
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
@@ -272,6 +280,7 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
+    margin-top: 500px; /* Added requested top margin */
 }
 .service-modal-center .modal-body {
     font-size: 1.1rem;
@@ -652,6 +661,11 @@ main {
         margin-bottom: 0; /* Rely on parent grid gap */
     }
 
+    /* Services Section Responsive */
+    .services-section {
+        margin-top: 100px; /* Adjusted: Smaller top margin for smaller screens */
+        /* Horizontal auto and bottom 0 from the non-media query rule will still apply if not overridden */
+    }
 
     /* Contact Us Modal Responsive */
     #contact-us-modal .form-row {
