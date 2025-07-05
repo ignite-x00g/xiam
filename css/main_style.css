@@ -1,10 +1,8 @@
 /* css/main_style.css */
 /* Contains component, layout, and utility styles. */
 /* Assumes theme.css (variables) and global.css (resets, base elements) are already linked. */
-
 /* Main content area - specific styling beyond global.css defaults if any */
 /* main { } */ /* Global 'main' styles are in global.css */
-
 /* ===== Header Styling ===== */
 .site-header {
     background-color: var(--header-bg-color);
@@ -66,7 +64,8 @@
 /* Services Section & Navigation */
 .services-section {
     text-align: center;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; Original value */
+    margin: 200px auto 0 auto; /* Adjusted: 200px from top, centered horizontally, 0 bottom margin */
 }
 .services-section-title {
     font-size: 1.8rem;
@@ -199,6 +198,13 @@
     padding: 1rem;
     display: none; /* JS handles display */
 }
+
+/* Specific alignment for service modals */
+.service-modal-center.modal-overlay {
+    align-items: flex-start; /* Align content to the top */
+    /* justify-content: center; still applies if not overridden, which is fine */
+}
+
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
@@ -222,7 +228,7 @@
 .modal-header h3,
 .modal-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* General modal title size */
     color: var(--text-color-emphasis);
     font-weight: bold;
     letter-spacing: 0.01em;
@@ -259,6 +265,7 @@
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
+    margin-top: 500px; /* Added requested top margin */
 }
 .service-modal-center .modal-body {
     font-size: 1.1rem;
@@ -269,7 +276,7 @@
 #join-us-modal .modal-content {
     max-width: 950px;
 }
-#join-us-modal .form-pairs {
+ .form-pairs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.3rem 2rem;
@@ -302,7 +309,7 @@
     border: 1px solid var(--border-color-soft);
     padding: 1rem;
     margin-bottom: 0;
-    border-radius: 8px;
+     border-radius: 8px;
     background: var(--form-section-bg-color);
     display: flex;
     flex-direction: column;
@@ -411,7 +418,6 @@
     display: none;
 }
 .form-error-message.visible { display: block; }
-
 /* General .submit-button, .circle-btn, .accept-btn, .edit-btn styles (if not overridden by specific modals) */
 .submit-button {
     background-color: var(--accent-color);
@@ -481,7 +487,7 @@
 }
 .mobile-services-menu#mobile-services-panel li:last-child button { border-bottom: none; }
 .mobile-services-menu#mobile-services-panel li button:hover {
-    background-color: var(--mobile-menu-panel-hover-bg-color); color: var(--accent-color);
+ background-color: var(--mobile-menu-panel-hover-bg-color); color: var(--accent-color);
 }
 
 /* Responsive Adjustments (Component Specific & New FAB Nav) */
@@ -505,7 +511,7 @@
      body:not(.landing-page) .mobile-nav#mobile-bottom-nav,
      body:not(.landing-page) .mobile-services-menu#mobile-services-panel,
      body:not(.landing-page) #mobile-menu-toggle { /* Top hamburger for old mobile menu system */
-        display: none !important;
+     display: none !important;
     }
 
     #newFabToggle {

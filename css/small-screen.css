@@ -5,7 +5,7 @@
     main {
         padding: 1rem; /* Less horizontal padding on smaller screens */
         /* padding-bottom might be adjusted by specific mobile navs if they are fixed and not handled by their own component CSS */
-    }
+   }
 
     .site-header {
         flex-direction: column;
@@ -53,6 +53,7 @@
          /* Add padding-bottom if mobile navigation is fixed and might overlap */
          /* This is often handled by specific mobile nav CSS or main content padding */
          /* For now, if a global fixed nav exists, this might be needed: */
+
          /* padding-bottom: 70px; */
     }
 }
