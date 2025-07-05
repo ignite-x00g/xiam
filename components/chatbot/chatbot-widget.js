@@ -5,12 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const humanVerificationCheckbox = document.getElementById('human-verification-checkbox');
-
     // Attempt to apply theme from parent if possible (e.g. if theme.css is linked and body vars are set)
     // This is a simple example; more robust would be PostMessage API or localStorage observation.
     // For now, chatbot.css defines its own defaults that can be overridden if global theme vars are accessible.
-    // console.log("Chatbot widget JS loaded.");
-
+  // console.log("Chatbot widget JS loaded.");
     if (chatForm && chatInput && chatLog && humanVerificationCheckbox) {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();

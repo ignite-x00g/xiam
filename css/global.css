@@ -1,46 +1,48 @@
 /* css/global.css */
 
 /* Global Resets and Base Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
 body {
-    margin: 0; /* Basic reset */
-    font-family: Arial, sans-serif; /* Default font */
+    margin: 0;
+    font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: var(--body-bg-color); /* From theme.css */
-    color: var(--text-color-main); /* From theme.css */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transitions */
+    background-color: var(--body-bg-color);
+    color: var(--text-color-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Basic typography defaults - can be expanded */
+/* Basic typography defaults */
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-weight: 500; /* A sensible default, can be overridden */
+    margin-bottom: 0.5rem; /* Common spacing */
+    font-weight: 500;
     line-height: 1.2;
-    color: var(--text-color-emphasis); /* Emphasis color for headings */
+    color: var(--text-color-emphasis);
 }
 
 p {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem; /* Default paragraph spacing */
 }
 
 a {
-    color: var(--accent-color); /* Use accent color for links */
-    text-decoration: none; /* Common practice to remove underline by default */
+    color: var(--accent-color);
+    text-decoration: none;
 }
 a:hover {
-    text-decoration: underline; /* Add underline on hover for clarity */
-    opacity: 0.8;
+    text-decoration: underline;
+    opacity: 0.8; /* Slight fade on hover */
 }
 
 img, svg, video, canvas, audio, iframe, embed, object {
-    display: block; /* Makes them behave more like blocks */
-    max-width: 100%; /* Responsive images/media by default */
-    height: auto; /* Maintain aspect ratio */
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 /* Basic form element defaults */
@@ -48,25 +50,32 @@ button,
 input,
 select,
 textarea {
-    font-family: inherit; /* Inherit font from body/parent */
-    font-size: inherit;   /* Inherit font size */
-    line-height: inherit; /* Inherit line height */
-    margin: 0; /* Remove default margins */
-    /* Base text color for form elements - theme might override specific inputs */
+    font-family: inherit;
+    font-size: 1em;   /* Use 1em for better scalability with parent font size */
+    line-height: inherit;
+    margin: 0;
     color: var(--text-color-main);
-    /* Base background for form elements - theme might override specific inputs */
     background-color: var(--input-bg-color);
     border: 1px solid var(--input-border-color);
-    border-radius: 4px; /* Default border radius */
-    padding: 0.5em 0.75em; /* Default padding */
+    border-radius: 4px;
+    padding: 0.5em 0.75em;
 }
 
 button {
     cursor: pointer;
+    /* Remove default browser button styling if needed, or style more specifically in main_style.css */
+    /* background-color: transparent; */
+    /* border: 1px solid transparent; */
 }
 
 textarea {
-    resize: vertical; /* Allow vertical resize, not horizontal */
+    resize: vertical;
+    width: 100%; /* Textareas often need to be full width */
+}
+
+select {
+    /* Consider appearance property for cross-browser consistency or custom styling */
+    /* appearance: none; */
 }
 
 /* Accessibility: Skip link */
@@ -79,24 +88,25 @@ textarea {
     overflow: hidden;
     z-index: -999;
 }
-.skip-link:focus, .skip-link:active {
-    color: var(--button-text-color);
-    background-color: var(--button-bg-color);
-    left: auto;
-    top: auto;
+.skip-link:focus,
+.skip-link:active {
+    color: var(--button-text-color-on-accent, #fff); /* Ensure high contrast */
+    background-color: var(--accent-color, #007bff);
+    left: 10px; /* Position consistently */
+    top: 10px;
     width: auto;
     height: auto;
     overflow: auto;
-    padding: 1em;
+    padding: 0.5em 1em; /* Adjust padding */
     border-radius: 3px;
-    box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+    box-shadow: 0 0 5px rgba(0,0,0,.5); /* Softer shadow */
     text-decoration: none;
-    z-index: 99999; /* Ensure it's on top */
+    z-index: 99999;
 }
 
 /* Basic list reset */
 ul, ol {
-    padding-left: 20px; /* Default indentation */
+    padding-left: 20px;
     margin-top: 0;
     margin-bottom: 1rem;
 }
@@ -127,6 +137,7 @@ body {
     min-height: 100vh; /* Ensure body takes at least full viewport height */
 }
 
+/* Main content area global setup */
 main {
     /* flex: 1; /* This was for sticky footer, might conflict with centering if footer is not last element */
     /* We want the main content to take its natural height, and if it's short,
