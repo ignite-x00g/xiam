@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`[DMM] Setting modal ${modalId} display to flex !important`);
             modal.style.setProperty('display', 'flex', 'important');
             console.log(`[DMM] Modal ${modalId} display after set: ${modal.style.display}`);
-
             if (window.applyTranslations && window.getCurrentLanguage) {
                 setTimeout(() => window.applyTranslations(window.getCurrentLanguage()), 0);
             }
@@ -73,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`[DMM] Content fetched for ${modalId}. Length: ${htmlText.length}. Injecting into modal body.`);
             (modalBody || modal.querySelector('.modal-content')).innerHTML = htmlText; // Use modal-body, fallback to modal-content
             console.log(`[DMM] Content injected for ${modalId}.`);
-
             console.log(`[DMM] Attempting to display modal ${modalId} and backdrop after content injection.`);
             if (modalBackdrop) {
                 console.log(`[DMM] Setting backdrop display to block !important for ${modalId}`);
@@ -83,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`[DMM] Setting modal ${modalId} display to flex !important`);
             modal.style.setProperty('display', 'flex', 'important');
             console.log(`[DMM] Modal ${modalId} display after set: ${modal.style.display}`);
-
             if (window.applyTranslations && window.getCurrentLanguage) {
                  setTimeout(() => {
                     window.applyTranslations(window.getCurrentLanguage());
@@ -134,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (modalBackdrop) modalBackdrop.style.setProperty('display', 'none', 'important'); // Also use important for closing
             console.log(`[DMM] Modal ${modalIdForLog} display after close set: ${modal.style.display}`);
             if (modalBackdrop) console.log(`[DMM] Backdrop display after close set: ${modalBackdrop.style.display}`);
-
             const modalBody = modal.querySelector('.modal-body');
             const modalContent = modal.querySelector('.modal-content'); // Fallback
             const targetForClear = modalBody || modalContent;
