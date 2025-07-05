@@ -10,7 +10,7 @@
     /* Example: Adjust main content padding for smaller screens */
     main {
         padding: 1rem; /* Less horizontal padding on smaller screens */
-        /* Padding bottom might be adjusted by specific mobile navs if they are fixed */
+        padding-bottom: 7rem; /* Adjusted to clear mobile navs (which are on top of the new footer) */
     }
 
     .site-header {
@@ -82,11 +82,6 @@
         grid-template-columns: 1fr;
         gap: 0.8rem;
     } */
-
-    footer {
-         /* Add padding-bottom if mobile navigation is fixed and might overlap */
-         /* padding-bottom: 70px; */
-    }
 }
 
 @media (max-width: 480px) {
