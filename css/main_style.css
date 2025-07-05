@@ -608,6 +608,142 @@ main {
 }
 
 
+/* ===== Join Us Modal Specific Styles (Adapted from New Sample) ===== */
+#join-us-modal .modal-content {
+    max-width: 850px;
+    padding: 2rem;
+}
+
+#join-us-modal .form-row {
+    margin-bottom: 1rem;
+}
+
+#join-us-modal .form-section {
+    border: 1px solid var(--border-color-soft);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background: var(--form-section-bg-color, var(--card-bg-color-light));
+}
+.dark #join-us-modal .form-section {
+    background: var(--dark-form-section-bg-color, var(--dark-card-bg-color));
+    border-color: var(--dark-border-color-soft, #444);
+}
+
+#join-us-modal .form-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+#join-us-modal .form-section .section-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color-emphasis);
+}
+
+#join-us-modal .form-section .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#join-us-modal .form-section .inputs input[type="text"] {
+    margin: 0;
+}
+
+#join-us-modal .form-section .circle-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--button-text-color-on-accent);
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+.dark #join-us-modal .form-section .circle-btn {
+    background-color: var(--dark-accent-color, var(--accent-color));
+}
+
+#join-us-modal .form-section .circle-btn.remove {
+    background-color: var(--danger-color);
+}
+.dark #join-us-modal .form-section .circle-btn.remove {
+    background-color: var(--dark-danger-color, var(--danger-color));
+}
+
+#join-us-modal .form-section .accept-btn,
+#join-us-modal .form-section .edit-btn {
+    padding: 0.4rem 1rem;
+    border: none;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#join-us-modal .form-section .accept-btn {
+    background-color: var(--success-color);
+    color: var(--button-text-color-on-accent);
+}
+.dark #join-us-modal .form-section .accept-btn {
+    background-color: var(--dark-success-color, var(--success-color));
+}
+
+#join-us-modal .form-section .edit-btn {
+    background-color: var(--warning-color);
+    color: var(--button-text-color-on-warning);
+}
+.dark #join-us-modal .form-section .edit-btn {
+    background-color: var(--dark-warning-color, var(--warning-color));
+    color: var(--dark-button-text-color-on-warning, var(--button-text-color-on-warning));
+}
+
+#join-us-modal .form-section.completed .section-header h2 {
+    color: var(--success-color);
+}
+#join-us-modal .form-section.completed .section-header h2::after {
+    content: " ✅";
+    font-size: 1rem;
+}
+.dark #join-us-modal .form-section.completed .section-header h2 {
+    color: var(--dark-success-color, var(--success-color));
+}
+
+#join-us-modal .form-footer {
+    text-align: right;
+    margin-top: 2rem;
+}
+
+#join-us-modal .submit-button {
+    padding: 0.6rem 1.2rem;
+    background: var(--accent-color);
+    border: none;
+    color: var(--button-text-color-on-accent);
+    cursor: pointer;
+    border-radius: 4px;
+}
+#join-us-modal .submit-button:hover {
+    background: var(--accent-color-darker);
+}
+.dark #join-us-modal .submit-button {
+    background: var(--dark-accent-color, var(--accent-color));
+}
+.dark #join-us-modal .submit-button:hover {
+    background: var(--dark-accent-color-darker, var(--accent-color-darker));
+}
+
+
 /* ===== Mobile Navigation Common Styles ===== */
 .mobile-nav { /* Common base for both old and new bottom navs */
     position: fixed;
