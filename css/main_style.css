@@ -1,7 +1,8 @@
 /* css/main_style.css */
 /* Contains component, layout, and utility styles. */
 /* Assumes theme.css (variables) and global.css (resets, base elements) are already linked. */
-
+/* Main content area - specific styling beyond global.css defaults if any */
+/* main { } */ /* Global 'main' styles are in global.css */
 /* ===== Header Styling ===== */
 .site-header {
     background-color: var(--header-bg-color);
@@ -60,18 +61,11 @@
     transform: translateY(-1px);
 }
 
-/* Main content area */
-main {
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 3rem; /* Ensure space for the fixed footer */
-}
-
 /* Services Section & Navigation */
 .services-section {
     text-align: center;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; Original value */
+    margin: 200px auto 0 auto; /* Adjusted: 200px from top, centered horizontally, 0 bottom margin */
 }
 .services-section-title {
     font-size: 1.8rem;
@@ -112,26 +106,25 @@ main {
     justify-content: flex-end;
     padding: 0;
 }
-#chatbot-modal .modal-content { /* Styling for the modal box itself */
+#chatbot-modal .modal-content {
     margin-bottom: 20px;
     margin-right: 85px;
     max-width: 360px;
     min-width: 280px;
     width: 100%;
-    height: 70vh; /* Give iframe container a good height */
-    max-height: 500px; /* Max height for chatbot modal */
+    height: 70vh;
+    max-height: 500px;
     box-shadow: 0 5px 32px var(--shadow-color-strong);
     border-radius: 16px;
     transition: all 0.2s;
-    display: flex; /* Ensure modal-content itself is flex if its children need it */
-    flex-direction: column; /* Stack header and body */
+    display: flex;
+    flex-direction: column;
 }
-#chatbot-modal .modal-body { /* Ensure body takes up space for iframe */
+#chatbot-modal .modal-body {
     flex-grow: 1;
-    padding: 0; /* Remove padding if iframe handles it */
-    overflow: hidden; /* If iframe has its own scroll */
+    padding: 0;
+    overflow: hidden;
 }
-
 
 /* ===== Floating Action Buttons (FAB) Styling ===== */
 .fab-container {
@@ -187,15 +180,14 @@ main {
 
 /* ===== General Modal Styling (Overlay & Content Box) ===== */
 .modal-backdrop {
-    /* display: none; */ /* JS handles display */
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: var(--modal-backdrop-bg);
     z-index: 1040;
+    display: none; /* JS handles display */
 }
 .modal-overlay {
-    /* display: none; */ /* JS handles display */
     align-items: center;
     justify-content: center;
     position: fixed;
@@ -204,8 +196,7 @@ main {
     background-color: var(--modal-backdrop-bg);
     z-index: 1050;
     padding: 1rem;
-    visibility: visible; /* Controlled by display:none/flex */
-    opacity: 1;
+    display: none; /* JS handles display */
 }
 
 /* Specific alignment for service modals */
@@ -217,10 +208,7 @@ main {
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
-    visibility: visible;
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-    max-width: 800px; /* Default max-width, can be overridden by specific modals */
+    max-width: 800px;
     border-radius: 10px;
     width: 100%;
     position: relative;
@@ -237,13 +225,12 @@ main {
     padding-bottom: 0.8rem;
     margin-bottom: 1rem;
 }
-/* Covers h3 in Contact Us, h2 in Join Us (as per current Join Us CSS) */
 .modal-header h3,
 .modal-header h2 {
     margin: 0;
     font-size: 1.5rem; /* General modal title size */
     color: var(--text-color-emphasis);
-    font-weight: bold; /* Ensure titles are bold */
+    font-weight: bold;
     letter-spacing: 0.01em;
 }
 .close-modal {
@@ -260,14 +247,12 @@ main {
     color: var(--text-color-main);
 }
 .modal-body {
-    margin-bottom: 1rem; /* Space before footer if any */
-    /* display: block; */ /* Not needed if content determines display */
-    /* visibility: visible; opacity: 1; */ /* Not needed, parent controls this */
+    margin-bottom: 1rem;
 }
-.modal-body form { /* General form within modal body */
-    display: flex; /* Often forms are flex containers */
+.modal-body form {
+    display: flex;
     flex-direction: column;
-    gap: 1rem; /* Default gap for form children */
+    gap: 1rem;
 }
 
 /* General label styling within modal bodies */
@@ -308,7 +293,7 @@ main {
     gap: 0.75rem; /* Space between buttons */
     padding-top: 1rem;
     border-top: 1px solid var(--border-color-soft);
-    margin-top: auto; /* Push footer to bottom if modal body is flex */
+    margin-top: auto;
 }
 
 .modal-footer .btn-cancel {
@@ -344,7 +329,8 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
-    margin-top: 150px; /* Added requested top margin */
+    margin-top: 500px; /* Added requested top margin */
+}
 .service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
@@ -352,10 +338,9 @@ main {
 
 /* ===== Join Us Modal Specific Styles ===== */
 #join-us-modal .modal-content {
-    max-width: 950px; /* Specific width for Join Us */
+    max-width: 950px;
 }
-/* Layout: Using form-pairs for two columns, as per existing CSS for #join-us-modal */
-#join-us-modal .form-pairs {
+ .form-pairs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.3rem 2rem;
@@ -364,8 +349,9 @@ main {
 #join-us-modal .form-block {
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Increased gap for better spacing within a block */
+    gap: 1rem;
 }
+
 #join-us-modal .form-block label { /* Labels within a .form-block (e.g. Name, Email, Phone) */
     /* This style is for the old structure.
        New structure uses .form-cell directly for Name/Email/Phone, which will get .modal-body label styles.
@@ -380,7 +366,7 @@ main {
 #join-us-modal .form-block input[type="text"],
 #join-us-modal .form-block input[type="email"],
 #join-us-modal .form-block input[type="tel"],
-#join-us-modal .form-block textarea, /* Though textarea is in floating-label-group */
+#join-us-modal .form-block textarea,
 #join-us-modal .form-block select {
     /* These inputs, if still under a .form-block, should also try to align with general modal inputs.
        The new general .modal-body input styles will provide base styling (padding, border, radius, etc.).
@@ -389,19 +375,18 @@ main {
     /* Example: border-radius: 6px; to match general modal style */
 }
 
-/* Form Sections (Skills, Education, etc.) within Join Us */
-#join-us-modal .form-section { /* Styles specific to form-section inside Join Us */
+#join-us-modal .form-section {
     border: 1px solid var(--border-color-soft);
     padding: 1rem;
-    margin-bottom: 0; /* Gap is handled by .form-pairs or .form-block parent */
-    border-radius: 8px;
+    margin-bottom: 0;
+     border-radius: 8px;
     background: var(--form-section-bg-color);
     display: flex;
     flex-direction: column;
-    gap: 0.8rem; /* Space between header, inputs div, and buttons */
+    gap: 0.8rem;
 }
 #join-us-modal .form-section .section-header h2 {
-    font-size: 1.1rem; /* From user's specific Join Us CSS for section headers */
+    font-size: 1.1rem;
     font-weight: bold;
     margin:0;
     letter-spacing: 0.01em;
@@ -416,7 +401,6 @@ main {
     padding: 0.6rem 0.8rem;
     margin: 0;
     font-size: 1rem;
-    /* Other styles from global input */
 }
 #join-us-modal .form-section .section-controls {
     display: flex; /* Align buttons in a row */
@@ -425,220 +409,120 @@ main {
 }
 #join-us-modal .accept-btn, #join-us-modal .edit-btn {
     padding: 0.4rem 1rem;
-    margin-top: 0.2rem; /* Small top margin */
+    margin-top: 0.2rem;
     margin-right: 0.5rem;
     font-size: 0.9rem;
 }
 #join-us-modal .completed h2 { color: var(--success-color); }
 #join-us-modal .completed h2::after { content: " ✅"; font-size: 1rem; }
 
-/* Floating label for "Tell us about yourself" in Join Us */
 #join-us-modal .floating-label-group {
     position: relative;
-    /* margin-top: 1.5rem; /* Let parent .form-block handle spacing */
 }
 #join-us-modal .floating-label-group textarea {
     padding: 1.2rem 0.8rem 0.6rem 0.8rem;
-    min-height: 100px; /* Ensure decent height */
+    min-height: 100px;
 }
-#join-us-modal .floating-label-group label { /* This is the actual <label> element */
+#join-us-modal .floating-label-group label {
     color: var(--text-color-placeholder);
     font-size: 1rem;
-    font-weight: normal; /* Overrides the general bold label for floating effect */
+    font-weight: normal;
     position: absolute;
     pointer-events: none;
-    left: 0.8rem; /* Match textarea padding */
-    top: 1rem;  /* Initial position */
+    left: 0.8rem;
+    top: 1rem;
     transition: 0.2s ease all;
-    background-color: var(--input-bg-color); /* Match textarea bg for clean float */
-    padding: 0 0.25rem; /* Horizontal padding so text doesn't touch border */
+    background-color: var(--input-bg-color);
+    padding: 0 0.25rem;
 }
 #join-us-modal .floating-label-group textarea:focus ~ label,
 #join-us-modal .floating-label-group textarea:not(:placeholder-shown) ~ label {
-    top: -0.6rem; /* Move label up above the border */
+    top: -0.6rem;
     font-size: 0.75rem;
     color: var(--accent-color);
 }
 #join-us-modal .floating-label-group textarea::placeholder {
-  color: transparent; /* Make actual placeholder transparent */
+  color: transparent;
 }
 
-/* Join Us modal footer and submit button */
 #join-us-modal .form-footer {
-    border-top: none; /* Remove double border if .modal-body form also has footer */
-    padding-top: 0.5rem; /* Adjust spacing */
-    margin-top: 0; /* Align with grid gap */
+    border-top: none;
+    padding-top: 0.5rem;
+    margin-top: 0;
 }
-#join-us-modal .submit-button {
-    background-color: var(--accent-color);
-    color: var(--button-text-color-on-accent);
-    padding: 0.6rem 1.2rem; /* From sample */
-    border: none; /* Assuming a flatter look */
-    border-radius: 4px; /* From sample */
-    cursor: pointer;
-    font-size: 1rem; /* Ensure consistent font size */
-}
-#join-us-modal .submit-button:hover {
-    background-color: var(--accent-color-darker); /* Or a hover variable */
-}
-
-/* Circle Buttons (Add/Remove) for Form Sections */
-#join-us-modal .form-section .circle-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: none;
-    color: var(--button-text-color-on-accent); /* Assuming white/light text */
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    font-size: 1.2rem; /* Sample's font size */
-    display: inline-flex; /* Align icon better */
-    align-items: center;
-    justify-content: center;
-    padding: 0; /* Remove default padding */
-    line-height: 1; /* Ensure text is centered vertically */
-}
-
-#join-us-modal .form-section .circle-btn.add {
-    background-color: var(--accent-color);
-}
-#join-us-modal .form-section .circle-btn.add:hover {
-    background-color: var(--accent-color-darker);
-}
-
-#join-us-modal .form-section .circle-btn.remove {
-    background-color: var(--danger-color);
-}
-#join-us-modal .form-section .circle-btn.remove:hover {
-    background-color: var(--danger-color-faded); /* Using a faded version for hover on danger */
-}
-
-/* Accept and Edit Buttons */
-#join-us-modal .accept-btn {
-    background-color: var(--success-color);
-    color: var(--button-text-color-on-accent); /* Ensure this var exists or use direct color */
-    /* border: none; /* Uncomment if default button styles add an unwanted border */
-}
-#join-us-modal .accept-btn:hover {
-    opacity: 0.9; /* Simple hover effect */
-}
-
-#join-us-modal .edit-btn {
-    background-color: var(--warning-color);
-    color: var(--button-text-color-on-warning); /* Ensure this var exists or use direct color */
-    /* border: none; /* Uncomment if default button styles add an unwanted border */
-}
-#join-us-modal .edit-btn:hover {
-    opacity: 0.9; /* Simple hover effect */
-}
-
 
 /* ===== Contact Us Modal Specific Styles ===== */
-#contact-us-modal .modal-content {
-    max-width: 600px; /* As per example */
-    border-radius: 12px; /* As per example */
-    padding: 1.5rem; /* As per example, can adjust if too much with existing .modal-content padding */
-    box-shadow: 0 0 20px var(--shadow-color-modal, rgba(0,0,0,0.2)); /* Using a theme variable or a fallback */
-    /* font-family is inherited, no need to set 'Segoe UI' explicitly unless it differs from body */
+#contact-us-modal form {
+    gap: 1rem;
 }
-
-/* Ensure modal-header within #contact-us-modal specifically follows the example */
-#contact-us-modal .modal-header {
-    /* display: flex; justify-content: space-between; align-items: center; are already general modal styles */
-    margin-bottom: 1rem; /* As per example */
-    /* border-bottom: 1px solid var(--border-color-soft); is general, keep unless example dictates otherwise */
-    /* padding-bottom: 0.8rem; is general, keep or adjust if needed */
-}
-
-#contact-us-modal .modal-header h3 {
-    /* margin: 0; is general */
-    font-size: 1.5rem; /* As per example */
-    /* color: var(--text-color-emphasis); is general, suitable */
-    /* font-weight: bold; is general */
-}
-
-#contact-us-modal .close-modal {
-    font-size: 1.5rem; /* As per example */
-    /* background: none; border: none; cursor: pointer; are general */
-    color: var(--text-color-subtle); /* General style is good, example used #666 */
-    /* padding: 0.25rem 0.5rem; line-height: 1; are general */
-}
-#contact-us-modal .close-modal:hover {
-    color: var(--text-color-main); /* General style is good, example had no hover for close */
-}
-
-#contact-us-modal .modal-body {
-    margin-bottom: 1rem; /* As per example */
-}
-
-#contact-us-modal form { /* Specific to #contact-form within this modal */
-    display: flex; /* As per example */
-    flex-direction: column; /* As per example */
-    gap: 1rem; /* As per example */
-}
-
 #contact-us-modal .form-row {
-    display: grid; /* Current implementation - can keep if responsive needs are met */
-    grid-template-columns: 1fr 1fr; /* Current implementation */
-    gap: 1rem; /* Example had 1rem for form-row and 1rem for form-cell gap, this is simpler */
-    /* Example used flex-wrap, grid is also fine for two columns */
-    /* margin-bottom: 0; /* Gap handled by form's main gap - this is fine */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 0;
 }
-
-#contact-us-modal .form-row .form-cell[style*="grid-column: 1 / -1"] { /* For full-width comment box */
+#contact-us-modal .form-row .form-cell[style*="grid-column: 1 / -1"] {
     grid-column: 1 / -1;
 }
-
-#contact-us-modal .form-cell { /* New rule to target form-cell directly if needed for spacing */
-    display: flex;
-    flex-direction: column;
-    /* gap: 0.3rem; /* Example has label margin-bottom, this could be an alternative */
-}
-
-
-#contact-us-modal label {
-    margin-bottom: 0.3rem; /* As per example */
-    font-weight: 600; /* As per example */
-    color: var(--text-color-label, var(--text-color-main)); /* Use a specific var or fallback to main text */
-}
-
-#contact-us-modal input,
-#contact-us-modal select,
-#contact-us-modal textarea {
-    padding: 0.6rem; /* As per example */
-    border: 1px solid var(--input-border-color); /* General style */
-    border-radius: 6px; /* As per example */
-    font-size: 1rem; /* As per example */
-    background-color: var(--input-bg-color);
-    color: var(--text-color-input, var(--text-color-main));
-}
-
-#contact-us-modal textarea {
-    resize: vertical; /* As per example */
-}
-
 #contact-us-modal .submit-button {
-  padding: 0.75rem 1.5rem; /* As per example */
-  border-radius: 8px; /* As per example */
-  font-weight: bold; /* As per example */
-  background-color: var(--accent-color); /* Ensure it uses accent color */
-  color: var(--button-text-color-on-accent, #fff); /* Ensure good contrast on accent */
-  border: none; /* As per example */
-  transition: background-color 0.2s ease; /* As per example */
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
 }
-
 #contact-us-modal .submit-button:hover {
-  /* Example used #4a148c, a darker purple. We can use a theme variable if available, or slightly darken the accent. */
-  background-color: var(--accent-color-darker, var(--button-hover-bg-color)); /* Fallback to general hover */
+  background-color: var(--accent-color-darker, var(--button-hover-bg-color));
 }
 
-/* Form error message styling (already global but can be specific) */
-#contact-form-error-message.form-error-message {
-    /* Specific overrides if needed */
-    /* Example didn't show error message styling, so existing global is likely fine */
+/* Form field validation styles (can be considered global utilities) */
+.form-field-invalid, input.form-field-invalid, textarea.form-field-invalid, select.form-field-invalid {
+    border-color: var(--danger-color) !important;
 }
+.form-field-invalid:focus, input.form-field-invalid:focus, textarea.form-field-invalid:focus, select.form-field-invalid:focus {
+    border-color: var(--danger-color) !important;
+    box-shadow: 0 0 0 2px var(--danger-color-faded) !important;
+}
+.form-error-message {
+    color: var(--danger-color);
+    background-color: var(--danger-bg-color);
+    border: 1px solid var(--danger-border-color);
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: none;
+}
+.form-error-message.visible { display: block; }
+/* General .submit-button, .circle-btn, .accept-btn, .edit-btn styles (if not overridden by specific modals) */
+.submit-button {
+    background-color: var(--accent-color);
+    color: var(--button-text-color-on-accent);
+    /* padding, border-radius, etc. from global.css or more specific rules */
+}
+.circle-btn {
+    width: 28px; height: 28px; border-radius: 50%; border: none;
+    background-color: var(--accent-color); color: var(--button-text-color-on-accent);
+    font-weight: bold; cursor: pointer; margin-left: 0.5rem; font-size: 1.2rem;
+    transition: background-color 0.2s;
+}
+.circle-btn.remove { background-color: var(--danger-color); }
+.circle-btn:hover { opacity: 0.85; }
 
+.accept-btn {
+    background-color: var(--success-color);
+    color: var(--button-text-color-on-accent);
+}
+.edit-btn {
+    background-color: var(--warning-color);
+    color: var(--button-text-color-on-warning);
+}
+.accept-btn, .edit-btn { /* Common properties if not overridden by #join-us-modal */
+    padding: 0.6rem 1.2rem; border: none; margin-top: 0.5rem;
+    cursor: pointer; border-radius: 4px; margin-right: 0.5rem;
+    font-size: 0.9rem; font-weight: 500;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+.accept-btn:hover, .edit-btn:hover { opacity: 0.85; }
 
 /* ===== Join Us Modal Specific Styles (Adapted from New Sample) ===== */
 #join-us-modal .modal-content {
@@ -777,61 +661,34 @@ main {
 
 
 /* ===== Mobile Navigation Common Styles ===== */
-.mobile-nav { /* Common base for both old and new bottom navs */
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.mobile-nav {
+    position: fixed; bottom: 0; left: 0; width: 100%;
     background-color: var(--mobile-nav-bg-color);
     border-top: 1px solid var(--mobile-nav-border-color);
-    z-index: 1000;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
+    z-index: 1000; display: flex;
+    justify-content: space-around; padding: 0.5rem 0;
 }
 .mobile-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--mobile-nav-text-color);
-    text-decoration: none;
-    font-size: 0.75rem;
-    padding: 0.3rem 0.5rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    flex: 1;
-    text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--mobile-nav-text-color); text-decoration: none;
+    font-size: 0.75rem; padding: 0.3rem 0.5rem;
+    border: none; background: transparent; cursor: pointer;
+    flex: 1; text-align: center;
 }
-.mobile-nav-item i {
-    font-size: 1.5rem;
-    margin-bottom: 0.2rem;
-}
-.mobile-nav-item:hover, .mobile-nav-item.active {
-    color: var(--accent-color);
-}
+.mobile-nav-item i { font-size: 1.5rem; margin-bottom: 0.2rem; }
+.mobile-nav-item:hover, .mobile-nav-item.active { color: var(--accent-color); }
 
 /* Old Mobile Services Panel (#mobile-services-panel) */
 .mobile-services-menu#mobile-services-panel {
-    /* display: none; JS toggles .open */
-    position: fixed;
-    bottom: 60px; /* Approx height of .mobile-nav#mobile-bottom-nav */
-    left: 0;
-    width: 100%;
+    position: fixed; bottom: 60px; left: 0; width: 100%;
     background-color: var(--mobile-menu-panel-bg-color);
     box-shadow: 0 -2px 10px var(--shadow-color-medium);
-    z-index: 999;
-    border-top: 1px solid var(--mobile-nav-border-color);
-    transform: translateY(100%);
-    opacity: 0;
+    z-index: 999; border-top: 1px solid var(--mobile-nav-border-color);
+    transform: translateY(100%); opacity: 0;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    display: none; /* JS toggles .open */
 }
-.mobile-services-menu#mobile-services-panel.open {
-    /* display: block; */ /* Not needed if using transform/opacity for transition */
-    transform: translateY(0);
-    opacity: 1;
-}
+.mobile-services-menu#mobile-services-panel.open { transform: translateY(0); opacity: 1; display: block; }
 .mobile-services-menu#mobile-services-panel ul { list-style: none; padding: 0; margin: 0; }
 .mobile-services-menu#mobile-services-panel li button {
     display: block; padding: 0.8rem 1.5rem; color: var(--mobile-menu-panel-text-color);
@@ -841,148 +698,75 @@ main {
 }
 .mobile-services-menu#mobile-services-panel li:last-child button { border-bottom: none; }
 .mobile-services-menu#mobile-services-panel li button:hover {
-    background-color: var(--mobile-menu-panel-hover-bg-color);
-    color: var(--accent-color);
+ background-color: var(--mobile-menu-panel-hover-bg-color); color: var(--accent-color);
 }
 
-
-/* ===== New Mobile FAB Nav Styling ===== */
-/* #newFabToggle, #newMobileNav, #newMobileServicesMenu are initially display:none (from global.css or inline) */
-/* Responsive overrides for these are in the @media (max-width: 768px) block below */
-
-/* Responsive Adjustments (Component Specific) */
+/* Responsive Adjustments (Component Specific & New FAB Nav) */
 @media (max-width: 768px) {
     /* Join Us Modal Responsive */
-    #join-us-modal .modal-content {
-        padding: 1.1rem; /* From original site CSS */
-    }
-    #join-us-modal .form-pairs {
-        grid-template-columns: 1fr;
-        gap: 1.1rem 0; /* From original site CSS */
-    }
-    /* Ensure .form-block within .form-pairs also stacks if it contains multiple items */
-    #join-us-modal .form-pairs > .form-block {
-        gap: 1rem; /* Adjust gap for stacked items within a block */
-    }
-     /* Ensure .form-section itself doesn't get too much bottom margin when stacked */
-    #join-us-modal .form-pairs .form-section {
-        margin-bottom: 0; /* Rely on parent grid gap */
-    }
-
+    #join-us-modal .modal-content { padding: 1.1rem; }
+    #join-us-modal .form-pairs { grid-template-columns: 1fr; gap: 1.1rem 0; }
+    #join-us-modal .form-pairs > .form-block { gap: 1rem; }
+    #join-us-modal .form-pairs .form-section { margin-bottom: 0; }
 
     /* Contact Us Modal Responsive */
-    #contact-us-modal .form-row {
-        grid-template-columns: 1fr; /* Stack form cells */
-        gap: 1rem; /* Adjust gap if needed for single column layout */
-    }
+    #contact-us-modal .form-row { grid-template-columns: 1fr; }
 
     /* Chatbot Modal Responsive (Shell) */
     #chatbot-modal .modal-content {
-        margin-right: 15px; /* Adjust for smaller FABs/screen edge */
-        margin-bottom: 85px; /* Above new mobile nav */
-        max-width: calc(100vw - 30px); /* Nearly full width */
-        height: calc(70vh - 85px); /* Adjust height considering nav */
+        margin-right: 15px; margin-bottom: 85px;
+        max-width: calc(100vw - 30px); height: calc(70vh - 85px);
     }
 
     /* --- New FAB Mobile Navigation --- */
-    /* Hide old mobile nav if new one is active (JS might also do this) */
      body:not(.landing-page) .mobile-nav#mobile-bottom-nav,
-     body:not(.landing-page) .mobile-services-menu#mobile-services-panel {
-        display: none !important;
+     body:not(.landing-page) .mobile-services-menu#mobile-services-panel,
+     body:not(.landing-page) #mobile-menu-toggle { /* Top hamburger for old mobile menu system */
+     display: none !important;
     }
 
     #newFabToggle {
-        display: flex !important; /* Override display:none from above */
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background-color: var(--accent-color);
-        color: var(--button-text-color-on-accent);
-        justify-content: center;
-        align-items: center;
-        font-size: 1.5rem;
-        z-index: 1035; /* Above FAB container, below modals */
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        border: none;
+        display: flex !important; position: fixed; bottom: 20px; right: 20px;
+        width: 60px; height: 60px; border-radius: 50%;
+        background-color: var(--accent-color); color: var(--button-text-color-on-accent);
+        justify-content: center; align-items: center; font-size: 1.5rem;
+        z-index: 1035; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: none;
     }
-    body.dark #newFabToggle {
-        background-color: var(--fab-bg-color);
-        color: var(--fab-text-color);
-    }
+    body.dark #newFabToggle { background-color: var(--fab-bg-color); color: var(--fab-text-color); }
 
-    .fab-container { /* Original FABs (Join, Contact, Chatbot) on mobile */
-        right: 20px;
-        bottom: 90px; /* Positioned above #newFabToggle */
-        gap: 10px;
-    }
-    .fab-container .fab {
-        width: 54px;
-        height: 54px;
-    }
+    .fab-container { right: 20px; bottom: 90px; gap: 10px; }
+    .fab-container .fab { width: 54px;  height: 54px; }
     .fab-container .fab .fab-icon-image-area { font-size: 18px; }
     .fab-container .fab .fab-text { font-size: 9px; }
 
-    #newMobileNav { /* The expanding nav bar itself */
-        display: flex !important; /* Override display:none from above */
-        /* display: flex; (already set by .mobile-nav) */
-        position: fixed;
-        bottom: 20px;
-        right: 90px; /* To the left of the #newFabToggle */
-        flex-direction: row-reverse;
-        gap: 10px;
-        background: var(--mobile-nav-bg-color);
-        padding: 0.5rem 1rem;
-        border-radius: 30px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        z-index: 1030; /* Below newFabToggle but above content */
-        transform: scaleX(0); /* Initially hidden */
-        transform-origin: right;
-        transition: transform 0.3s ease;
+    #newMobileNav {
+        display: flex !important; position: fixed; bottom: 20px; right: 90px;
+        flex-direction: row-reverse; gap: 10px;
+        background: var(--mobile-nav-bg-color); padding: 0.5rem 1rem;
+        border-radius: 30px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 1030; transform: scaleX(0);
+        transform-origin: right; transition: transform 0.3s ease;
     }
-    #newMobileNav.active { transform: scaleX(1); } /* JS adds .active */
-
-    #newMobileNav .mobile-nav-item { /* Items within the new FAB nav */
-        /* display: flex; (already set by .mobile-nav-item) */
-        /* Other .mobile-nav-item styles apply */
-    }
+    #newMobileNav.active { transform: scaleX(1); }
     #newMobileNav .mobile-nav-item i { font-size: 1.4rem; margin-bottom: 2px; }
     #newMobileNav .mobile-nav-item span { font-size: 0.7rem; margin-top: 2px; }
-
     #newMobileNav #newMobileLanguageToggle,
-    #newMobileNav #newMobileThemeToggle { /* Text-based toggles in new FAB nav */
-        font-size: 0.8rem;
-        min-width: 40px;
-        padding: 0.5rem 0.2rem;
+    #newMobileNav #newMobileThemeToggle {
+        font-size: 0.8rem; min-width: 40px; padding: 0.5rem 0.2rem;
     }
 
-    #newMobileServicesMenu { /* Panel for services in new FAB nav */
-        display: block !important; /* Override display:none from above */
-        visibility: hidden; /* Control visibility with JS adding .active */
-        opacity: 0;
-        position: fixed;
-        bottom: 90px; /* Above #newFabToggle and #newMobileNav */
-        right: 20px;
-        width: auto; /* Fit content */
-        min-width: 200px; /* Minimum width */
+    #newMobileServicesMenu {
+        display: block !important; visibility: hidden; opacity: 0;
+        position: fixed; bottom: 90px; right: 20px;
+        width: auto; min-width: 200px;
         background: var(--mobile-menu-panel-bg-color);
         border: 1px solid var(--border-color-soft);
-        padding: 1rem;
-        z-index: 1025; /* Below main FAB nav, above FAB container */
-        border-radius: 10px;
-        max-height: 50vh; /* Limit height */
-        overflow-y: auto;
+        padding: 1rem; z-index: 1025; border-radius: 10px;
+        max-height: 50vh; overflow-y: auto;
         box-shadow: 0 2px 10px rgba(0,0,0,0.15);
         transition: opacity 0.3s ease, visibility 0s 0.3s;
     }
-    #newMobileServicesMenu.active {
-        visibility: visible;
-        opacity: 1;
-        transition: opacity 0.3s ease, visibility 0s 0s;
-    }
+    #newMobileServicesMenu.active { visibility: visible; opacity: 1; transition: opacity 0.3s ease, visibility 0s 0s; }
     #newMobileServicesMenu ul { list-style: none; margin: 0; padding: 0; }
     #newMobileServicesMenu li { margin-bottom: 10px; }
     #newMobileServicesMenu li:last-child { margin-bottom: 0; }
@@ -996,47 +780,33 @@ main {
 
     body.dark #newMobileNav,
     body.dark #newMobileServicesMenu {
-        background: var(--dark-mobile-nav-bg-color);
-        color: var(--dark-text-color);
+        background: var(--dark-mobile-nav-bg-color); color: var(--dark-text-color);
         border-color: var(--dark-border-color);
     }
     body.dark #newMobileNav .mobile-nav-item,
-    body.dark #newMobileServicesMenu button {
-        color: var(--dark-text-color);
-    }
+    body.dark #newMobileServicesMenu button { color: var(--dark-text-color); }
     body.dark #newMobileNav .mobile-nav-item:hover,
-    body.dark #newMobileServicesMenu button:hover {
-        color: var(--accent-color-dark-theme);
-    }
+    body.dark #newMobileServicesMenu button:hover { color: var(--accent-color-dark-theme); }
 }
 
-@media screen and (min-width: 769px) {
-    /* Ensure new FAB nav system is hidden on desktop */
-    #newFabToggle,
-    #newMobileNav,
-    #newMobileServicesMenu {
-        display: none !important;
-    }
-    /* Restore display of old mobile nav if it was different for desktop (unlikely) */
-     .mobile-nav#mobile-bottom-nav { display: none; } /* Keep old nav hidden on desktop too */
-     .mobile-services-menu#mobile-services-panel { display: none; }
+/* Styles for very small screens (component specific adjustments) */
+@media (max-width: 480px) {
+    /* FABs become slightly smaller on very small screens */
+    .fab-container .fab { width: 50px; height: 50px; }
+    .fab-container .fab .fab-icon-image-area { font-size: 16px; }
+    .fab-container .fab .fab-text { font-size: 8px; }
+    #newFabToggle { width: 56px; height: 56px; font-size: 1.4rem; }
 }
 
-/* ===== Footer Styling ===== */
-footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--header-bg-color); /* Using header background as a sensible default */
-    color: var(--text-color-main); /* Ensure text color matches theme */
-    padding: 0.5rem;
-    text-align: center;
-    z-index: 998; /* Below FABs (1020) and Modals (1040/1050) but above general content */
-    border-top: 1px solid var(--header-border-color); /* Consistent with header */
-}
+/* Footer - (Global styles already in global.css, responsive adjustments in small-screen.css) */
+/* footer { } */
 
-footer p {
-    margin: 0; /* Remove default paragraph margin */
-    font-size: 0.85rem; /* Slightly smaller text for footer */
+/* Landing page specific overrides (to hide mobile navs) */
+.landing-page .mobile-nav,
+.landing-page .mobile-services-menu,
+.landing-page #mobile-menu-toggle, /* Original hamburger */
+.landing-page #newFabToggle, /* New FAB system */
+.landing-page #newMobileNav,
+.landing-page #newMobileServicesMenu {
+    display: none !important;
 }

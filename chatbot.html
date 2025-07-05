@@ -39,10 +39,10 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 350px;
-            max-width: 90vw;
-            height: 500px;
-            max-height: 70vh;
+            width: 400px; /* Increased base width for larger screens */
+            max-width: 90vw; /* Responsive max-width for smaller screens */
+            height: 600px; /* Increased base height for larger screens */
+            max-height: 80vh; /* Responsive max-height, adjusted to 80% target */
             border: 1px solid #ccc;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             border-radius: 8px;
@@ -50,6 +50,7 @@
             display: none;
             flex-direction: column;
             background-color: #fff;
+            /* Default to bottom-right for larger screens */
         }
         body[data-theme="dark"] #chatbot-placeholder {
             border-color: #555;
@@ -58,6 +59,21 @@
 
         #chatbot-placeholder.active {
             display: flex;
+        }
+
+        /* Media query for smaller screens to center the chatbot */
+        @media (max-width: 768px) {
+            #chatbot-placeholder {
+                /* Override bottom/right positioning */
+                bottom: auto;
+                right: auto;
+                /* Center the element */
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                /* Ensure max width/height are respected for centering */
+                /* max-width: 90vw; and max-height: 80vh; are already set */
+            }
         }
 
         /* Basic styling for the close button added by the loader */
