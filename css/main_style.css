@@ -206,6 +206,13 @@ main {
     visibility: visible; /* Controlled by display:none/flex */
     opacity: 1;
 }
+
+/* Specific alignment for service modals */
+.service-modal-center.modal-overlay {
+    align-items: flex-start; /* Align content to the top */
+    /* justify-content: center; still applies if not overridden, which is fine */
+}
+
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
@@ -272,6 +279,7 @@ main {
 .service-modal-center .modal-content {
     max-width: 600px;
     text-align: center;
+    margin-top: 500px; /* Added requested top margin */
 }
 .service-modal-center .modal-body {
     font-size: 1.1rem;
