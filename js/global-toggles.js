@@ -95,22 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const newLang = window.getCurrentLanguage() === 'en' ? 'es' : 'en';
         window.setCurrentLanguage(newLang);
         window.applyTranslations(newLang);
-
-        // START MODIFICATION for Chatbot
-        const chatbotIframe = document.querySelector('#chatbot-modal iframe');
-        if (chatbotIframe && chatbotIframe.contentWindow) {
-            try {
-                chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: newLang }, window.location.origin); // More specific target origin
-            } catch (e) {
-                console.warn("Could not post message to chatbot iframe. It might not be loaded or accessible.", e);
-                // Fallback for scenarios where origin might be 'null' for local files, allow '*' but log it.
-                if (window.location.origin === 'null' || window.location.origin === undefined) {
-                    console.warn("Attempting to postMessage to chatbot with '*' origin due to local file context.");
-                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: newLang }, '*');
+        // Post message to chatbot iframe about language change
+        const chatbotModal = document.getElementById('chatbot-modal');
+        if (chatbotModal && chatbotModal.style.display !== 'none') {
+            const chatbotIframe = chatbotModal.querySelector('iframe');
+            if (chatbotIframe && chatbotIframe.contentWindow) {
+                try {
+                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', language: newLang }, window.location.origin);
+                } catch (e) {
+                    console.warn("Could not post message to chatbot iframe for language change.", e);
                 }
             }
         }
-        // END MODIFICATION
 
         const currentTheme = window.getCurrentTheme();
         document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
@@ -151,6 +147,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTheme = window.getCurrentTheme() === 'dark' ? 'light' : 'dark';
         window.setCurrentTheme(newTheme);
         window.applyTheme(newTheme);
+
+        // Post message to chatbot iframe about theme change
+        const chatbotModal = document.getElementById('chatbot-modal');
+        if (chatbotModal && chatbotModal.style.display !== 'none') {
+            const chatbotIframe = chatbotModal.querySelector('iframe');
+            if (chatbotIframe && chatbotIframe.contentWindow) {
+                try {
+                    chatbotIframe.contentWindow.postMessage({ type: 'themeChange', theme: newTheme }, window.location.origin);
+                } catch (e) {
+                    console.warn("Could not post message to chatbot iframe. This might be due to cross-origin restrictions if origins don't match or iframe is not fully loaded/accessible.", e);
+                }
+            }
+        }
 
         const currentLang = window.getCurrentLanguage();
         document.querySelectorAll('.theme-toggle-btn').forEach(btn => {

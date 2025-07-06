@@ -16,20 +16,18 @@
       <div class="message bot-message" data-en="Hello! How can I help you today?" data-es="¡Hola! ¿Cómo puedo ayudarte hoy?">Hello! How can I help you today?</div>
     </div>
     <form id="chat-form" class="chat-form">
-      <input type="text" id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required />
+      <textarea id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required rows="3"></textarea>
 
       <!-- Honeypot Field - position unchanged, still hidden -->
       <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">
-
-      <!-- Human Verification Area -->
-      <div class="recaptcha-placeholder-container" id="recaptcha-inline-placeholder">
-        <label class="recaptcha-label">
+      <!-- "I am human" checkbox -->
+      <div class="human-verification-container" id="human-verification-container">
+        <label class="human-verification-label">
           <input type="checkbox" id="human-verification-checkbox" name="human-verification" required>
-          <span class="recaptcha-text" data-en="I am human" data-es="Soy humano">I am human</span>
+          <span class="human-verification-text" data-en="I am human" data-es="Soy humano">I am human</span>
         </label>
       </div>
 
-      <!-- Send Button -->
       <button type="submit" id="chat-send-button" aria-label="Send Message" data-aria-label-en="Send Message" data-aria-label-es="Enviar Mensaje">
         Send
       </button>

@@ -5,24 +5,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const humanVerificationCheckbox = document.getElementById('human-verification-checkbox');
+    const sendButton = document.getElementById('chat-send-button');
 
-    // Set initial language - will be 'en' by default, or overwritten by message from parent.
-    applyChatbotTranslations(getCurrentChatbotLanguage());
+    // Disable send button and chat input initially
+    if (sendButton) {
+        sendButton.disabled = true;
+    }
+    if (chatInput) {
+        chatInput.disabled = true;
+    }
 
+    if (humanVerificationCheckbox && sendButton && chatInput) {
+        humanVerificationCheckbox.addEventListener('change', () => {
+            const isChecked = humanVerificationCheckbox.checked;
+            sendButton.disabled = !isChecked;
+            chatInput.disabled = !isChecked;
+            if (isChecked) {
+                chatInput.focus(); // Focus on input when enabled
+            }
+        });
+    }
 
-    if (chatForm && chatInput && chatLog && humanVerificationCheckbox) {
+    if (chatForm && chatInput && chatLog && humanVerificationCheckbox && sendButton) {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
-
-            if (!userMessage) {
+            if (!userMessage || chatInput.disabled) { // Also check if input is disabled
+                // Optionally, provide feedback that message is empty or input is disabled
                 return;
             }
 
             if (!humanVerificationCheckbox.checked) {
-                const lang = getCurrentChatbotLanguage();
-                const verifyMsg = lang === 'es' ? "Por favor, verifica que eres humano." : "Please verify you are human.";
-                addMessageToLog(verifyMsg, 'bot-message');
+                addMessageToLog('Please verify you are human.', 'bot-message', window.parent);
+                sendButton.disabled = true;
+                chatInput.disabled = true;
                 return;
             }
 
@@ -33,142 +49,157 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000);
         });
     } else {
-        console.error('Chatbot UI elements not found in chatbot.html');
+        console.error('Chatbot UI elements not found in chatbot.html. Needed: chat-form, chat-input, chat-log, human-verification-checkbox, chat-send-button');
     }
-});
 
-function getCurrentChatbotLanguage() {
-    return document.documentElement.lang || 'en';
-}
-
-function applyChatbotTranslations(lang) {
-    if (!['en', 'es'].includes(lang)) {
-        console.warn(`Unsupported language '${lang}' for chatbot, defaulting to 'en'.`);
-        lang = 'en';
-    }
-    document.documentElement.lang = lang; // Store current language
-
-    // Translate static text content
-    const elements = document.querySelectorAll('[data-en], [data-es]');
-    elements.forEach(el => {
-        const translationKey = lang === 'es' ? 'data-es' : 'data-en';
-        const text = el.getAttribute(translationKey);
-        if (text !== null) {
-            // Preserve icons if any - simplistic version for chatbot
-            let icon = el.querySelector('i.fas, i.far, i.fab'); // General icon classes
-            if (icon) {
-                let textNode = null;
-                for(let i=0; i < el.childNodes.length; i++){
-                    if(el.childNodes[i].nodeType === Node.TEXT_NODE && el.childNodes[i].textContent.trim().length > 0){
-                        textNode = el.childNodes[i];
-                        break;
-                    }
-                }
-                if(textNode){
-                    textNode.textContent = " " + text; // Add space before text if icon is first
-                } else {
-                     el.appendChild(document.createTextNode(" " + text));
-                }
-            } else {
-                el.textContent = text;
-            }
-        }
-    });
-
-    // Translate placeholders
-    const placeholders = document.querySelectorAll('[data-placeholder-en], [data-placeholder-es]');
-    placeholders.forEach(el => {
-        const placeholderKey = lang === 'es' ? 'data-placeholder-es' : 'data-placeholder-en';
-        const text = el.getAttribute(placeholderKey);
-        if (text !== null) {
-            el.placeholder = text;
-        }
-    });
-
-    // Translate ARIA labels
-    const ariaLabels = document.querySelectorAll('[data-aria-label-en], [data-aria-label-es]');
-    ariaLabels.forEach(el => {
-        const ariaLabelKey = lang === 'es' ? 'data-aria-label-es' : 'data-aria-label-en';
-        const text = el.getAttribute(ariaLabelKey);
-        if (text !== null) {
-            el.setAttribute('aria-label', text);
-        }
-    });
-
-    // Translate title attributes
-    const titles = document.querySelectorAll('[data-title-en], [data-title-es]');
-    titles.forEach(el => {
-        const titleKey = lang === 'es' ? 'data-title-es' : 'data-title-en';
-        const text = el.getAttribute(titleKey);
-        if (text !== null) {
-            el.setAttribute('title', text);
-        }
-    });
-}
-
-window.addEventListener('message', (event) => {
-    // Basic security: check origin if possible.
-    // For file:// origin, event.origin can be "null" which is tricky.
-    // if (event.origin !== window.location.origin && event.origin !== "null") {
-    //     console.warn("Chatbot: Message ignored from unexpected origin:", event.origin);
-    //     return;
+    // The actual close button (X) is in the parent modal.
+    // If there were a close button *inside* the iframe, it would be:
+    // const closeButtonInIframe = document.getElementById('close-chatbot-iframe-button');
+    // if (closeButtonInIframe) {
+    //     closeButtonInIframe.addEventListener('click', () => {
+    //         // Send a message to the parent window to close the modal
+    //         if (window.parent) {
+    //             window.parent.postMessage({ type: 'ops-chatbot-close-request' }, '*'); // Consider a specific target origin
+    //         }
+    //     });
     // }
 
-    if (event.data && event.data.type === 'languageChange') {
-        const lang = event.data.lang;
-        if (lang) {
+    // Listen for messages from parent (theme/language changes)
+    window.addEventListener('message', (event) => {
+        // Basic security check for origin if possible
+        // Note: For file:// origin or sandboxed iframes, event.origin can be null or tricky.
+        // For production, ensure this matches the parent's actual origin.
+        // Example: if (event.origin !== 'https://yourparentdomain.com') return;
+        // console.log('Chatbot iframe received message:', event.data);
+
+        if (event.data && event.data.type === 'themeChange') {
+            const theme = event.data.theme; // 'light' or 'dark'
+            document.body.setAttribute('data-theme', theme);
+            // console.log('Chatbot iframe theme changed to:', theme);
+        } else if (event.data && event.data.type === 'languageChange') {
+            const lang = event.data.language;
+            // console.log('Chatbot iframe language change requested to:', lang);
             applyChatbotTranslations(lang);
         }
+    });
+
+    // Function to apply translations within the chatbot iframe
+    function applyChatbotTranslations(lang) {
+        // Store current language perhaps in a global scope for the widget if needed elsewhere
+        // window.currentChatbotLanguage = lang;
+
+        // Translate text content
+        document.querySelectorAll('[data-en], [data-es]').forEach(el => {
+            const textKey = (lang === 'es') ? 'data-es' : 'data-en';
+            const text = el.getAttribute(textKey);
+            if (text !== null) {
+                // For messages in chat-log, they are added dynamically.
+                // This part will handle static text in the initial HTML of the iframe.
+                if (el.classList.contains('message')) { // Don't re-translate existing messages this way
+                    // Potentially, re-translate known bot messages if they have keys
+                    // Or, ensure new messages are added with correct language from start
+                } else {
+                     el.textContent = text;
+                }
+            }
+        });
+
+        // Translate placeholders
+        const chatInputElement = document.getElementById('chat-input');
+        if (chatInputElement) {
+            const placeholderKey = (lang === 'es') ? 'data-placeholder-es' : 'data-placeholder-en';
+            const placeholderText = chatInputElement.getAttribute(placeholderKey);
+            if (placeholderText !== null) {
+                chatInputElement.setAttribute('placeholder', placeholderText);
+            }
+        }
+
+        // Translate ARIA labels and titles if any within the iframe structure
+        document.querySelectorAll('[data-aria-label-en], [data-aria-label-es]').forEach(el => {
+            const labelKey = (lang === 'es') ? 'data-aria-label-es' : 'data-aria-label-en';
+            const labelText = el.getAttribute(labelKey);
+            if (labelText !== null) el.setAttribute('aria-label', labelText);
+        });
+
+        document.querySelectorAll('[data-title-en], [data-title-es]').forEach(el => {
+            const titleKey = (lang === 'es') ? 'data-title-es' : 'data-title-en';
+            const titleText = el.getAttribute(titleKey);
+            if (titleText !== null) el.setAttribute('title', titleText);
+        });
+
+        // If there's an initial bot message in HTML, translate it:
+        const initialBotMessage = document.querySelector('.bot-message[data-en][data-es]');
+        if(initialBotMessage){
+            const textKey = (lang === 'es') ? 'data-es' : 'data-en';
+            initialBotMessage.textContent = initialBotMessage.getAttribute(textKey);
+        }
     }
+
+    // Apply initial translations based on parent's language if possible (e.g., via a query param or initial message)
+    // For now, it will rely on the first 'languageChange' message.
+    // Or, try to get it from parent directly on load if allowed and parent functions are ready.
+    // This part is tricky due to loading timing and cross-origin policies.
+    // The postMessage approach is more reliable for updates.
+    // To get initial state, parent could post current lang/theme when iframe signals it's ready,
+    // or iframe could try to fetch it.
+    // For simplicity, we assume parent will send an initial message or user interaction will trigger it.
+
 });
 
-function addMessageToLog(message, type) {
+// Store current language for the chatbot, default to 'en'
+let currentChatbotLanguage = 'en';
+
+function addMessageToLog(message, type) { // Removed contextWindow, will use currentChatbotLanguage
     const chatLog = document.getElementById('chat-log');
     if (!chatLog) return;
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', type);
     messageDiv.textContent = message; // Assumes message is already translated or is user input
-
+    let translatedMessage = message;
+    if (type === 'bot-message') {
+        // Example: Simple key-based translation for known bot responses
+        // This should be expanded or use a more robust i18n system for many messages
+        if (message.toLowerCase().includes("hello! how can i help you today?")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "¡Hola! ¿Cómo puedo ayudarte hoy?" : "Hello! How can I help you today?";
+        } else if (message.toLowerCase().includes("please verify you are human.")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "Por favor, verifica que eres humano." : "Please verify you are human.";
+        } else if (message.toLowerCase().includes("i'm sorry, i didn't understand that. can you rephrase?")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "Lo siento, no entendí eso. ¿Puedes reformularlo?" : "I'm sorry, I didn't understand that. Can you rephrase?";
+        } else if (message.toLowerCase().includes("hello there! how can i assist you today?")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "¡Hola! ¿En qué puedo ayudarte hoy?" : "Hello there! How can I assist you today?";
+        } else if (message.toLowerCase().includes("we offer business operations, contact center, it support, and professional services. which one are you interested in?")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "Ofrecemos servicios de Operaciones Comerciales, Centro de Contacto, Soporte de TI y Profesionales. ¿Cuál te interesa?" : "We offer Business Operations, Contact Center, IT Support, and Professional services. Which one are you interested in?";
+        } else if (message.toLowerCase().includes("for pricing information, please contact our sales team through the contact us form.")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "Para obtener información sobre precios, comunícate con nuestro equipo de ventas a través del formulario Contáctanos." : "For pricing information, please contact our sales team through the Contact Us form.";
+        } else if (message.toLowerCase().includes("you're welcome!")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "¡De nada!" : "You're welcome!";
+        } else if (message.toLowerCase().includes("goodbye! have a great day.")) {
+            translatedMessage = (currentChatbotLanguage === 'es') ? "¡Adiós que tengas un buen día!" : "Goodbye! Have a great day.";
+        }
+    }
+    messageDiv.textContent = translatedMessage;
     chatLog.appendChild(messageDiv);
     chatLog.scrollTop = chatLog.scrollHeight;
 }
 
 function simulateBotResponse(userMessage) {
-    const lang = getCurrentChatbotLanguage();
-    let botResponse;
+    let botResponse = "I'm sorry, I didn't understand that. Can you rephrase?"; // Default fallback
     const lowerUserMessage = userMessage.toLowerCase();
 
-    // Keywords for matching
-    const greetings = { en: ['hello', 'hi'], es: ['hola'] };
-    const services = { en: 'services', es: 'servicios' };
-    const pricing = { en: ['price', 'pricing'], es: ['precio'] };
-    const thanks = { en: 'thank', es: 'gracias' };
-    const bye = { en: 'bye', es: ['adiós', 'adios'] };
-
-    // Responses
-    const responses = {
-        greeting: { en: 'Hello there! How can I assist you today?', es: '¡Hola! ¿Cómo puedo ayudarte hoy?' },
-        servicesInfo: { en: 'We offer Business Operations, Contact Center, IT Support, and Professional services. Which one are you interested in?', es: 'Ofrecemos Operaciones Comerciales, Centro de Contacto, Soporte de TI y servicios Profesionales. ¿Cuál te interesa?' },
-        pricingInfo: { en: 'For pricing information, please contact our sales team through the Contact Us form.', es: 'Para información de precios, por favor contacta a nuestro equipo de ventas mediante el formulario de Contacto.' },
-        thankYouResponse: { en: "You're welcome!", es: 'De nada.' },
-        goodbye: { en: "Goodbye! Have a great day.", es: '¡Adiós! Que tengas un buen día.' },
-        default: { en: "I'm sorry, I didn't understand that. Can you rephrase?", es: 'Lo siento, no entendí eso. ¿Puedes reformularlo?' }
-    };
-
-    if (greetings[lang].some(g => lowerUserMessage.includes(g))) {
-        botResponse = responses.greeting[lang];
-    } else if (lowerUserMessage.includes(services[lang])) {
-        botResponse = responses.servicesInfo[lang];
-    } else if (pricing[lang].some(p => lowerUserMessage.includes(p))) {
-        botResponse = responses.pricingInfo[lang];
-    } else if (lowerUserMessage.includes(thanks[lang])) {
-        botResponse = responses.thankYouResponse[lang];
-    } else if (bye[lang].some(b => lowerUserMessage.includes(b))) {
-        botResponse = responses.goodbye[lang];
-    } else {
-        botResponse = responses.default[lang];
+    // These are keys for translation, actual response text is now handled in addMessageToLog
+    if (lowerUserMessage.includes('hello') || lowerUserMessage.includes('hi')) {
+        botResponse = 'Hello there! How can I assist you today?';
+    } else if (lowerUserMessage.includes('services')) {
+        botResponse = 'We offer Business Operations, Contact Center, IT Support, and Professional services. Which one are you interested in?';
+    } else if (lowerUserMessage.includes('price') || lowerUserMessage.includes('pricing')) {
+        botResponse = 'For pricing information, please contact our sales team through the Contact Us form.';
+    } else if (lowerUserMessage.includes('thank')) {
+        botResponse = "You're welcome!";
+    } else if (lowerUserMessage.includes('bye')) {
+        botResponse = "Goodbye! Have a great day.";
     }
+    // Add more sophisticated response logic here
     addMessageToLog(botResponse, 'bot-message');
 }
 
