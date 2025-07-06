@@ -648,3 +648,110 @@
 .landing-page #newMobileServicesMenu {
     display: none !important;
 }
+
+/* Chatbot Placeholder and FAB styles (moved from index.html) */
+#chatbot-placeholder {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px; /* Increased base width for larger screens */
+    max-width: 90vw; /* Responsive max-width for smaller screens */
+    height: 600px; /* Increased base height for larger screens */
+    max-height: 80vh; /* Responsive max-height, adjusted to 80% target */
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    background-color: #fff;
+    z-index: 1030; /* Was 1000, now above .fab-container (1020) & below modal-backdrop (1040) */
+}
+body[data-theme="dark"] #chatbot-placeholder {
+    border-color: #555;
+    background-color: #222;
+}
+#chatbot-placeholder.active {
+    display: flex;
+}
+/* Media query for smaller screens to center the chatbot placeholder */
+@media (max-width: 768px) {
+    #chatbot-placeholder {
+        bottom: auto;
+        right: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+.chatbot-placeholder-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #f1f1f1;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 26px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10; /* Above iframe content */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.chatbot-placeholder-close-btn:hover {
+    background: #e0e0e0;
+}
+body[data-theme="dark"] .chatbot-placeholder-close-btn {
+    background: #4f4f4f;
+    border-color: #666;
+    color: #f0f0f0;
+}
+body[data-theme="dark"] .chatbot-placeholder-close-btn:hover {
+    background: #5a5a5a;
+}
+
+/* Chatbot FAB trigger styles */
+/* This #chatbot-fab-trigger ID is what loader.js looks for by default for desktop */
+/* Note: #chatbot-fab-trigger in index.html also has class="fab". ID styles will take precedence. */
+#chatbot-fab-trigger {
+    position: fixed; /* This might be redundant if .fab already positions it, but ensures it if .fab styles change */
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Overrides .fab's border-radius: 16px if #chatbot-fab-trigger also has .fab class */
+    background-color: #007bff; /* Example color, may override var(--fab-bg-color) */
+    color: white; /* Example color, may override var(--fab-text-color) */
+    /* display: flex; align-items: center; justify-content: center; are in .fab */
+    /* box-shadow: 0 2px 10px rgba(0,0,0,0.2); is slightly different from .fab's var(--fab-shadow-color) */
+    z-index: 999; /* Below placeholder when active, above other content */
+    /* cursor: pointer; border: none; are in .fab */
+}
+body[data-theme="dark"] #chatbot-fab-trigger {
+    background-color: #0069d9; /* Dark theme FAB color */
+}
+#chatbot-fab-trigger:hover {
+    background-color: #0056b3; /* Overrides .fab:hover background-color */
+}
+body[data-theme="dark"] #chatbot-fab-trigger:hover {
+    background-color: #004085;
+}
+
+/* Hide FAB if placeholder is active (using :has for modern browsers) */
+/* This needs to be specific enough if #chatbot-fab-trigger is not the only FAB */
+/*
+body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
+    display: none !important; // Ensure it hides, even if other .fab rules try to show it
+}
+*/
+/* Fallback for non-:has supporting browsers will be handled by loader.js adding a class to body or similar */
+
+/* Mobile Chat Launcher specific styles (if any beyond .mobile-nav-item) */
+#mobileChatLauncher {
+    /* Styles are largely inherited from .mobile-nav-item via index.html structure. */
+    /* Add specific overrides here if #mobileChatLauncher needs unique styling not covered by .mobile-nav-item */
+}

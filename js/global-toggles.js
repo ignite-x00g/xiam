@@ -96,14 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.setCurrentLanguage(newLang);
         window.applyTranslations(newLang);
         // Post message to chatbot iframe about language change
-        const chatbotModal = document.getElementById('chatbot-modal');
-        if (chatbotModal && chatbotModal.style.display !== 'none') {
-            const chatbotIframe = chatbotModal.querySelector('iframe');
+        const chatbotPlaceholder = document.getElementById('chatbot-placeholder');
+        if (chatbotPlaceholder && chatbotPlaceholder.classList.contains('active')) { // Check if chat placeholder is active
+            const chatbotIframe = chatbotPlaceholder.querySelector('iframe');
             if (chatbotIframe && chatbotIframe.contentWindow) {
                 try {
                     chatbotIframe.contentWindow.postMessage({ type: 'languageChange', language: newLang }, window.location.origin);
+                    console.log(`INFO:GlobalToggles/toggleLanguage: Sent languageChange message to chatbot iframe for lang "${newLang}".`);
                 } catch (e) {
-                    console.warn("Could not post message to chatbot iframe for language change.", e);
+                    console.warn("Could not post languageChange message to chatbot iframe.", e);
                 }
             }
         }
@@ -149,14 +150,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.applyTheme(newTheme);
 
         // Post message to chatbot iframe about theme change
-        const chatbotModal = document.getElementById('chatbot-modal');
-        if (chatbotModal && chatbotModal.style.display !== 'none') {
-            const chatbotIframe = chatbotModal.querySelector('iframe');
+        const chatbotPlaceholder = document.getElementById('chatbot-placeholder');
+        if (chatbotPlaceholder && chatbotPlaceholder.classList.contains('active')) { // Check if chat placeholder is active
+            const chatbotIframe = chatbotPlaceholder.querySelector('iframe');
             if (chatbotIframe && chatbotIframe.contentWindow) {
                 try {
                     chatbotIframe.contentWindow.postMessage({ type: 'themeChange', theme: newTheme }, window.location.origin);
+                    console.log(`INFO:GlobalToggles/toggleTheme: Sent themeChange message to chatbot iframe for theme "${newTheme}".`);
                 } catch (e) {
-                    console.warn("Could not post message to chatbot iframe. This might be due to cross-origin restrictions if origins don't match or iframe is not fully loaded/accessible.", e);
+                    console.warn("Could not post themeChange message to chatbot iframe.", e);
                 }
             }
         }
