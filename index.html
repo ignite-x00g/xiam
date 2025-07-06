@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="components/join-us/join-us.css"> <!-- Linking join-us.css as it exists -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        /* Chatbot Placeholder and FAB styles */
+        /* Chatbot Placeholder styles */
         #chatbot-placeholder {
             position: fixed;
             bottom: 20px;
@@ -77,38 +77,27 @@
             background: #5a5a5a;
         }
 
-        /* Styling for the new FAB trigger specifically if not using existing FAB styles */
-        /* This #chatbot-fab-trigger ID is what loader.js looks for by default for desktop */
-        #chatbot-fab-trigger {
-            position: fixed;
-            bottom: 20px; /* Adjust as needed, ensure it doesn't overlap with other FABs if they are kept */
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #007bff; /* Example color */
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 999; /* Below placeholder when active, above other content */
-            cursor: pointer;
-            border: none; /* Assuming it's a button, reset border */
-        }
-        body[data-theme="dark"] #chatbot-fab-trigger {
-            background-color: #0069d9; /* Dark theme FAB color */
-        }
-        #chatbot-fab-trigger:hover {
-            background-color: #0056b3;
-        }
-        body[data-theme="dark"] #chatbot-fab-trigger:hover {
-            background-color: #004085;
+        /*
+        The #chatbot-fab-trigger button is part of the .fab-container
+        and will be styled by the .fab class and positioned by .fab-container.
+        The specific fixed positioning and appearance styles previously here
+        are removed to allow it to behave as a standard FAB within the container.
+        Loader.js looks for #chatbot-fab-trigger for desktop and #mobileChatLauncher for mobile.
+        */
+
+        /* Hide main FAB trigger if placeholder is active (using :has for modern browsers) */
+        /* Note: #chatbot-fab-trigger is one of the FABs in .fab-container */
+        body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
+            display: none !important; /* Ensure chat fab itself is hidden */
         }
 
-        /* Hide FAB if placeholder is active (using :has for modern browsers) */
-        body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
-            display: none;
+        /* Ensure other FABs in the container remain visible and interactive */
+        body:has(#chatbot-placeholder.active) .fab-container > .fab:not(#chatbot-fab-trigger) {
+            display: flex !important; /* .fab elements use display: flex */
+            opacity: 1 !important;
+            visibility: visible !important;
+            /* z-index should be inherited from .fab-container (1020) which is above #chatbot-placeholder (1000) */
+            /* If specific promotion is needed: z-index: 1021; */
         }
         /* Fallback for non-:has supporting browsers will be handled by loader.js adding a class to body or similar */
 
@@ -116,15 +105,7 @@
         /* If reusing an existing one, these might not be needed or need adjustment */
         #mobileChatLauncher { /* This ID is what loader.js looks for by default for mobile */
             /* Styles might be inherited if it's an existing, styled button. Add specific overrides if needed. */
-            /* Example minimal styling if it were a plain button: */
-            /* padding: 10px 15px; */
-            /* margin: 5px; */
-            /* cursor: pointer; */
-            /* border: 1px solid #007bff; */
-            /* background-color: #007bff; */
-            /* color: white; */
-            /* border-radius: 5px; */
-            /* font-size: 1em; */
+            /* This button is part of #newMobileNav and styled by .mobile-nav-item */
         }
     </style>
 </head>
