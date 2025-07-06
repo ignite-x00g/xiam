@@ -17,6 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (focusableElements.length > 0) {
                 focusableElements[0].focus();
             }
+
+            // START MODIFICATION for Chatbot initial language
+            if (modalId === 'chatbot-modal') {
+                const chatbotIframe = modal.querySelector('iframe');
+                if (chatbotIframe) {
+                    const sendMessageToChatbot = () => {
+                        if (chatbotIframe.contentWindow && window.getCurrentLanguage) {
+                            const currentLang = window.getCurrentLanguage();
+                            try {
+                                chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: currentLang }, window.location.origin);
+                            } catch (e) {
+                                 console.warn("Could not post message to chatbot iframe on open. It might not be loaded or accessible.", e);
+                                if (window.location.origin === 'null' || window.location.origin === undefined) {
+                                    console.warn("Attempting to postMessage to chatbot with '*' origin due to local file context (on open).");
+                                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: currentLang }, '*');
+                                }
+                            }
+                        }
+                    };
+
+                    if (chatbotIframe.contentDocument && chatbotIframe.contentDocument.readyState === 'complete') {
+                        // If already loaded (e.g. modal was hidden and reshown)
+                        sendMessageToChatbot();
+                    } else {
+                        // Otherwise, wait for load event
+                        chatbotIframe.onload = sendMessageToChatbot;
+                    }
+                }
+            }
+            // END MODIFICATION
         } else {
             console.warn(`Modal with ID ${modalId} not found.`);
         }
