@@ -18,9 +18,8 @@
     <form id="chat-form" class="chat-form">
       <textarea id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required rows="3"></textarea>
 
-      <!-- Honeypot Field -->
+      <!-- Honeypot Field - position unchanged, still hidden -->
       <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">
-
       <!-- "I am human" checkbox -->
       <div class="human-verification-container" id="human-verification-container">
         <label class="human-verification-label">
@@ -34,7 +33,6 @@
       </button>
     </form>
   </div>
-
   <script src="chatbot-widget.js" defer></script>
 </body>
 </html>

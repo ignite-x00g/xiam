@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
-
             if (!userMessage || chatInput.disabled) { // Also check if input is disabled
                 // Optionally, provide feedback that message is empty or input is disabled
                 return;
@@ -44,9 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             addMessageToLog(userMessage, 'user-message');
-            chatInput.value = ''; // Clear input
-
-            // Simulate bot response
+            chatInput.value = '';
             setTimeout(() => {
                 simulateBotResponse(userMessage);
             }, 1000);
@@ -158,7 +155,7 @@ function addMessageToLog(message, type) { // Removed contextWindow, will use cur
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', type);
-
+    messageDiv.textContent = message; // Assumes message is already translated or is user input
     let translatedMessage = message;
     if (type === 'bot-message') {
         // Example: Simple key-based translation for known bot responses
@@ -183,7 +180,7 @@ function addMessageToLog(message, type) { // Removed contextWindow, will use cur
     }
     messageDiv.textContent = translatedMessage;
     chatLog.appendChild(messageDiv);
-    chatLog.scrollTop = chatLog.scrollHeight; // Scroll to the bottom
+    chatLog.scrollTop = chatLog.scrollHeight;
 }
 
 function simulateBotResponse(userMessage) {
@@ -206,44 +203,18 @@ function simulateBotResponse(userMessage) {
     addMessageToLog(botResponse, 'bot-message');
 }
 
-// Example of how the iframe could listen for theme changes from the parent
-// This requires the parent page to send a message when its theme changes.
-// window.addEventListener('message', (event) => {
-//    // Ensure the message is from a trusted source if implementing this
-//    // if (event.origin !== 'expected-parent-origin') return;
-//
-//    if (event.data && event.data.type === 'themeChange') {
-//        const theme = event.data.theme; // 'light' or 'dark'
-//        document.body.setAttribute('data-theme', theme); // Assuming chatbot.css uses this
-//        console.log('Chatbot iframe received theme change:', theme);
-//        // Potentially re-apply some styles or trigger JS updates if needed
-//    }
-// });
-
-// To make the chatbot translatable by parent's global-toggles.js (if not using iframe approach or if iframe links parent's JS)
-// This would be more complex if it's a separate iframe document.
-// The current addMessageToLog has a very basic attempt.
-// For full translation, the chatbot would need its own data-en/es attributes on templated messages,
-// and its own applyTranslations function or a way to call the parent's.
-// If chatbot.html links to global-toggles.js and theme.css from parent, it could work more seamlessly.
-// Example: if chatbot.html included <script src="../../js/global-toggles.js" defer></script>
-// then window.applyTranslations would be available directly.
-// However, this creates tighter coupling.
-// For now, the chatbot's internal text is mostly static or simple responses.
-// The "I am human" text is in its HTML and can have data-en/es.
-document.addEventListener('DOMContentLoaded', () => {
-    if (typeof window.applyTranslations === 'function' && typeof window.getCurrentLanguage === 'function') {
-        // If global translation functions are available (e.g. parent scripts somehow affect iframe, or scripts are shared)
-        // This is unlikely for a simple iframe src load without more setup.
-        // window.applyTranslations(window.getCurrentLanguage());
-    } else if (window.parent && typeof window.parent.applyTranslations === 'function' && typeof window.parent.getCurrentLanguage === 'function') {
-        // Try to use parent's translation functions
-        // This might have cross-origin issues if domains differ.
-        try {
-            // window.parent.applyTranslations(window.parent.getCurrentLanguage());
-            // console.log("Applied parent's translations to chatbot iframe.");
-        } catch (e) {
-            // console.warn("Could not apply parent's translations to chatbot iframe due to security restrictions or functions not available.");
+// Attempt to get initial language from parent in case messages are missed or iframe loads late.
+// This is a bit of a belt-and-suspenders approach. The parent postMessage on load is preferred.
+if (window.parent && window.parent !== window) {
+    // Check if parent has getCurrentLanguage (simple check, not foolproof for cross-origin)
+    try {
+        if (typeof window.parent.getCurrentLanguage === 'function') {
+            const parentLang = window.parent.getCurrentLanguage();
+            if (parentLang) {
+                applyChatbotTranslations(parentLang);
+            }
         }
+    } catch (e) {
+        // console.warn("Cannot directly access parent language. Relying on postMessage.");
     }
-});
+}

@@ -42,16 +42,6 @@ window.initializeContactForm = function() {
             if(errorMessageDiv) {
                 errorMessageDiv.style.display = 'none';
             }
-
-            // ***** CONCEPTUAL: Gather form data for API call *****
-            // const formData = new FormData(contactForm);
-            // const data = Object.fromEntries(formData.entries());
-            // console.log("Contact Us Form Data for API:", data);
-            // At this point, 'data' would be sent to a Cloudflare Worker.
-            // e.g., fetch('/api/submit-contact', { method: 'POST', body: JSON.stringify(data) });
-            // For now, the existing alert, reset, and close actions will serve as placeholders.
-            // *****************************************************
-
             const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
             alert(lang === 'es' ? 'Formulario de contacto enviado (simulado).' : 'Contact form submitted (simulated).');
 

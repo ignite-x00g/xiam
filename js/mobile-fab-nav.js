@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // console.warn("Mobile Services Toggle (#newMobileServicesToggle) or Menu (#newMobileServicesMenu) not found.");
     }
-
     const mobileLangToggle = document.getElementById('newMobileLanguageToggle');
     const mobileThemeToggle = document.getElementById('newMobileThemeToggle');
 
@@ -96,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
              if (!servicesMenu.contains(event.target) && servicesToggle && !servicesToggle.contains(event.target) && mobileNav && !mobileNav.contains(event.target)) {
                 servicesMenu.classList.remove('active');
                 servicesMenu.setAttribute('aria-hidden', 'true');
-                if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
             }
         }
     });

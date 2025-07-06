@@ -102,9 +102,9 @@
 
 /* Chatbot Modal Placement (Shell) */
 #chatbot-modal.modal-overlay {
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding: 0;
+    align-items: flex-end !important; /* Ensure override */
+    justify-content: flex-end !important; /* Ensure override */
+    padding: 0 !important; /* Reset padding, especially padding-top */
 }
 #chatbot-modal .modal-content {
     margin-bottom: 20px;
@@ -188,35 +188,48 @@
     display: none; /* JS handles display */
 }
 .modal-overlay {
-    align-items: center;
-    justify-content: center;
+    display: none; /* JS handles display */
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: var(--modal-backdrop-bg);
     z-index: 1050;
-    padding: 1rem;
-    display: none; /* JS handles display */
+    padding: 1rem; /* Default padding, can be overridden */
+    justify-content: center; /* Default horizontal centering */
+    align-items: center; /* Default vertical centering */
+    overflow-y: auto; /* Allows scrolling if content is too tall for viewport */
 }
 
-/* Specific alignment for service modals */
-.service-modal-center.modal-overlay {
-    align-items: flex-start; /* Align content to the top */
-    /* justify-content: center; still applies if not overridden, which is fine */
+/* Specific overrides for service modals */
+.modal-overlay.service-modal-center {
+    align-items: flex-start; /* Align content to the top of the flex container */
+    padding-top: 150px; /* Push content down by 150px from the top of viewport */
+    /* justify-content: center; is inherited */
 }
 
+/* Default modal content styles */
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
-    max-width: 800px;
+    max-width: 800px; /* Default max-width */
     border-radius: 10px;
-    width: 100%;
+    width: 100%; /* Responsive width */
     position: relative;
-    overflow-y: auto;
-    max-height: 90vh;
+    overflow-y: auto; /* Internal scroll for content */
+    max-height: 90vh; /* Default max height */
     box-shadow: 0 5px 15px var(--shadow-color-strong);
     border: 1px solid var(--card-border-color);
+    margin: 0 auto; /* Ensures horizontal centering if width is constrained by max-width */
 }
+
+/* Specific adjustments for modal-content within service modals */
+.modal-overlay.service-modal-center .modal-content {
+    /* max-width can be specifically set here if different from default, e.g., 600px from old .service-modal-center .modal-content */
+    /* text-align: center; can be added if that's still desired from old .service-modal-center .modal-content */
+    max-height: calc(100vh - 150px - 2rem); /* 150px for padding-top, 2rem for bottom padding/margin */
+    /* margin-top: 500px; This is removed */
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -254,38 +267,6 @@
     flex-direction: column;
     gap: 1rem;
 }
-
-/* General label styling within modal bodies */
-.modal-body label {
-    margin-bottom: 0.4rem; /* Consistent spacing */
-    font-weight: 600; /* Default boldness for labels */
-    color: var(--text-color-label, var(--text-color-main)); /* Use theme variable */
-    display: block; /* Ensure labels take full width if needed and proper spacing */
-    font-size: 0.9rem; /* Standardize label font size in modals */
-}
-
-/* General input/select/textarea styling within modal bodies */
-.modal-body input[type="text"],
-.modal-body input[type="email"],
-.modal-body input[type="tel"],
-.modal-body input[type="date"],
-.modal-body input[type="time"],
-.modal-body select,
-.modal-body textarea {
-    padding: 0.7rem 0.8rem; /* Consistent padding */
-    border: 1px solid var(--input-border-color, #ccc); /* Use theme variable */
-    border-radius: 6px; /* Consistent border radius */
-    font-size: 1rem;
-    background-color: var(--input-bg-color, #fff); /* Use theme variable */
-    color: var(--text-color-input, var(--text-color-main)); /* Use theme variable */
-    width: 100%; /* Make them take full width of their cell */
-    box-sizing: border-box; /* Important for width: 100% and padding */
-}
-.modal-body textarea {
-    resize: vertical;
-    min-height: 80px; /* Default minimum height for textareas */
-}
-
 .modal-footer {
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
@@ -296,51 +277,27 @@
     margin-top: auto;
 }
 
-.modal-footer .btn-cancel {
-    background-color: var(--button-secondary-bg-color, #6c757d);
-    color: var(--button-secondary-text-color, #fff);
-    border: 1px solid var(--button-secondary-border-color, transparent);
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    /* margin-right: 0.5rem; /* Replaced by gap in .modal-footer */
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.modal-footer .btn-cancel:hover {
-    background-color: var(--button-secondary-hover-bg-color, #5a6268);
-    border-color: var(--button-secondary-hover-border-color, transparent);
-}
-
-.dark .modal-footer .btn-cancel {
-    background-color: var(--dark-button-secondary-bg-color, #495057);
-    color: var(--dark-button-secondary-text-color, #f8f9fa);
-    border-color: var(--dark-button-secondary-border-color, transparent);
-}
-
-.dark .modal-footer .btn-cancel:hover {
-    background-color: var(--dark-button-secondary-hover-bg-color, #3A3F44);
-    border-color: var(--dark-button-secondary-hover-border-color, transparent);
-}
-
-
 /* Service Modals (centered content) */
-.service-modal-center .modal-content {
-    max-width: 600px;
-    text-align: center;
-    margin-top: 500px; /* Added requested top margin */
+/* This selector is now more specific due to .modal-overlay.service-modal-center .modal-content taking precedence for layout */
+.modal-overlay.service-modal-center .modal-content {
+    max-width: 600px; /* Specific max-width for service modals */
+    text-align: center; /* Center text content within service modals */
+    /* margin-top: 500px; /* REMOVED */
+    /* max-height is handled by the rule above: .modal-overlay.service-modal-center .modal-content */
 }
-.service-modal-center .modal-body {
+
+/* Styles for the body of service modals specifically, if needed */
+.modal-overlay.service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
+    /* text-align will be inherited from .modal-content if it's set to center there */
 }
 
 /* ===== Join Us Modal Specific Styles ===== */
 #join-us-modal .modal-content {
     max-width: 950px;
 }
- .form-pairs {
+#join-us-modal .form-pairs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.3rem 2rem;
@@ -351,15 +308,10 @@
     flex-direction: column;
     gap: 1rem;
 }
-
-#join-us-modal .form-block label { /* Labels within a .form-block (e.g. Name, Email, Phone) */
-    /* This style is for the old structure.
-       New structure uses .form-cell directly for Name/Email/Phone, which will get .modal-body label styles.
-       If .form-block is still used elsewhere in join-us, these styles might apply.
-       For now, let's make them less prominent if they are still hit. */
-    font-size: 1rem; /* Adjusted from 1.1rem */
-    font-weight: 600; /* Align with general modal label */
-    margin-bottom: 0.4rem; /* Align with general modal label */
+#join-us-modal .form-block label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.18rem;
     letter-spacing: 0.01em;
     color: var(--text-color-subtle);
 }
@@ -368,18 +320,17 @@
 #join-us-modal .form-block input[type="tel"],
 #join-us-modal .form-block textarea,
 #join-us-modal .form-block select {
-    /* These inputs, if still under a .form-block, should also try to align with general modal inputs.
-       The new general .modal-body input styles will provide base styling (padding, border, radius, etc.).
-       This rule can be removed if .form-block is no longer used for direct input children
-       or if its styling is meant to be identical to general modal inputs. */
-    /* Example: border-radius: 6px; to match general modal style */
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.1rem;
+    font-size: 1rem;
+    border-radius: 4px;
 }
 
 #join-us-modal .form-section {
     border: 1px solid var(--border-color-soft);
     padding: 1rem;
     margin-bottom: 0;
-     border-radius: 8px;
+    border-radius: 8px;
     background: var(--form-section-bg-color);
     display: flex;
     flex-direction: column;
@@ -401,11 +352,6 @@
     padding: 0.6rem 0.8rem;
     margin: 0;
     font-size: 1rem;
-}
-#join-us-modal .form-section .section-controls {
-    display: flex; /* Align buttons in a row */
-    gap: 0.5rem; /* Space between accept and edit buttons */
-    margin-top: 0.5rem; /* Space above the button controls */
 }
 #join-us-modal .accept-btn, #join-us-modal .edit-btn {
     padding: 0.4rem 1rem;
@@ -446,20 +392,33 @@
 }
 
 #join-us-modal .form-footer {
-    border-top: none;
-    padding-top: 0.5rem;
-    margin-top: 0;
+    border-top: none; /* As it was */
+    padding-top: 0.5rem; /* As it was */
+    margin-top: 1rem; /* Added some top margin for spacing from elements above */
+    display: flex; /* Allow buttons to sit side-by-side */
+    justify-content: flex-end; /* Align buttons to the right, common for form actions */
+    gap: 0.75rem; /* Space between buttons */
 }
 
 /* ===== Contact Us Modal Specific Styles ===== */
+#contact-us-modal .modal-content {
+    /* Potentially a more specific max-width for contact-us modal if needed, e.g. 700px */
+    /* max-width: 700px; */ /* Example */
+}
+
 #contact-us-modal form {
-    gap: 1rem;
+    display: flex; /* Use flex to manage children (form-rows) */
+    flex-direction: column;
+    gap: 1rem; /* This will be the gap between .form-row elements */
+    /* If form should be narrower than modal-body and centered: */
+    /* max-width: 600px; /* Example: constrain form width */
+    /* margin: 0 auto; /* Center the form block if max-width is set */
 }
 #contact-us-modal .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 0;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 1.5rem; /* Gap between the two cells in a row */
+    /* margin-bottom: 0; /* Not needed if form has `gap` */
 }
 #contact-us-modal .form-row .form-cell[style*="grid-column: 1 / -1"] {
     grid-column: 1 / -1;
@@ -471,6 +430,44 @@
 }
 #contact-us-modal .submit-button:hover {
   background-color: var(--accent-color-darker, var(--button-hover-bg-color));
+}
+
+/* General Button Styles */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--button-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+}
+.btn:hover, .btn:focus {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-text-color);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+/* Secondary Button Style (e.g., for Cancel, Close) */
+.btn-secondary {
+    background-color: var(--button-secondary-bg-color, var(--card-bg-color)); /* Fallback to card-bg if specific secondary not set */
+    color: var(--button-secondary-text-color, var(--text-color-main));
+    border-color: var(--button-secondary-border-color, var(--card-border-color));
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--button-secondary-hover-bg-color, var(--card-bg-hover-color));
+    color: var(--button-secondary-hover-text-color, var(--text-color-emphasis));
+    border-color: var(--accent-color-subtle, var(--accent-color));
+}
+
+/* Ensure .submit-button in Join Us form also benefits from .btn styles if not already specific enough */
+#join-us-modal .submit-button { /* Assuming it might need base .btn styles */
+    /* It has .submit-button class; let's ensure it aligns with .btn or make .submit-button extend .btn */
+    /* For now, let's assume it's styled sufficiently or we can add .btn class to it in HTML */
 }
 
 /* Form field validation styles (can be considered global utilities) */
@@ -492,30 +489,6 @@
     font-size: 0.9rem;
     display: none;
 }
-.form-error-message.visible { display: block; }
-/* General .submit-button, .circle-btn, .accept-btn, .edit-btn styles (if not overridden by specific modals) */
-.submit-button {
-    background-color: var(--accent-color);
-    color: var(--button-text-color-on-accent);
-    /* padding, border-radius, etc. from global.css or more specific rules */
-}
-.circle-btn {
-    width: 28px; height: 28px; border-radius: 50%; border: none;
-    background-color: var(--accent-color); color: var(--button-text-color-on-accent);
-    font-weight: bold; cursor: pointer; margin-left: 0.5rem; font-size: 1.2rem;
-    transition: background-color 0.2s;
-}
-.circle-btn.remove { background-color: var(--danger-color); }
-.circle-btn:hover { opacity: 0.85; }
-
-.accept-btn {
-    background-color: var(--success-color);
-    color: var(--button-text-color-on-accent);
-}
-.edit-btn {
-    background-color: var(--warning-color);
-    color: var(--button-text-color-on-warning);
-}
 .accept-btn, .edit-btn { /* Common properties if not overridden by #join-us-modal */
     padding: 0.6rem 1.2rem; border: none; margin-top: 0.5rem;
     cursor: pointer; border-radius: 4px; margin-right: 0.5rem;
@@ -523,143 +496,6 @@
     transition: background-color 0.2s, opacity 0.2s;
 }
 .accept-btn:hover, .edit-btn:hover { opacity: 0.85; }
-
-/* ===== Join Us Modal Specific Styles (Adapted from New Sample) ===== */
-#join-us-modal .modal-content {
-    max-width: 850px;
-    padding: 2rem;
-}
-
-#join-us-modal .form-row {
-    margin-bottom: 1rem;
-}
-
-#join-us-modal .form-section {
-    border: 1px solid var(--border-color-soft);
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    background: var(--form-section-bg-color, var(--card-bg-color-light));
-}
-.dark #join-us-modal .form-section {
-    background: var(--dark-form-section-bg-color, var(--dark-card-bg-color));
-    border-color: var(--dark-border-color-soft, #444);
-}
-
-#join-us-modal .form-section .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.8rem;
-}
-
-#join-us-modal .form-section .section-header h2 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--text-color-emphasis);
-}
-
-#join-us-modal .form-section .inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-#join-us-modal .form-section .inputs input[type="text"] {
-    margin: 0;
-}
-
-#join-us-modal .form-section .circle-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--accent-color);
-    color: var(--button-text-color-on-accent);
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    font-size: 1.2rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    line-height: 1;
-}
-.dark #join-us-modal .form-section .circle-btn {
-    background-color: var(--dark-accent-color, var(--accent-color));
-}
-
-#join-us-modal .form-section .circle-btn.remove {
-    background-color: var(--danger-color);
-}
-.dark #join-us-modal .form-section .circle-btn.remove {
-    background-color: var(--dark-danger-color, var(--danger-color));
-}
-
-#join-us-modal .form-section .accept-btn,
-#join-us-modal .form-section .edit-btn {
-    padding: 0.4rem 1rem;
-    border: none;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-right: 0.5rem;
-    font-size: 0.9rem;
-}
-
-#join-us-modal .form-section .accept-btn {
-    background-color: var(--success-color);
-    color: var(--button-text-color-on-accent);
-}
-.dark #join-us-modal .form-section .accept-btn {
-    background-color: var(--dark-success-color, var(--success-color));
-}
-
-#join-us-modal .form-section .edit-btn {
-    background-color: var(--warning-color);
-    color: var(--button-text-color-on-warning);
-}
-.dark #join-us-modal .form-section .edit-btn {
-    background-color: var(--dark-warning-color, var(--warning-color));
-    color: var(--dark-button-text-color-on-warning, var(--button-text-color-on-warning));
-}
-
-#join-us-modal .form-section.completed .section-header h2 {
-    color: var(--success-color);
-}
-#join-us-modal .form-section.completed .section-header h2::after {
-    content: " ✅";
-    font-size: 1rem;
-}
-.dark #join-us-modal .form-section.completed .section-header h2 {
-    color: var(--dark-success-color, var(--success-color));
-}
-
-#join-us-modal .form-footer {
-    text-align: right;
-    margin-top: 2rem;
-}
-
-#join-us-modal .submit-button {
-    padding: 0.6rem 1.2rem;
-    background: var(--accent-color);
-    border: none;
-    color: var(--button-text-color-on-accent);
-    cursor: pointer;
-    border-radius: 4px;
-}
-#join-us-modal .submit-button:hover {
-    background: var(--accent-color-darker);
-}
-.dark #join-us-modal .submit-button {
-    background: var(--dark-accent-color, var(--accent-color));
-}
-.dark #join-us-modal .submit-button:hover {
-    background: var(--dark-accent-color-darker, var(--accent-color-darker));
-}
-
-
 /* ===== Mobile Navigation Common Styles ===== */
 .mobile-nav {
     position: fixed; bottom: 0; left: 0; width: 100%;
@@ -698,7 +534,7 @@
 }
 .mobile-services-menu#mobile-services-panel li:last-child button { border-bottom: none; }
 .mobile-services-menu#mobile-services-panel li button:hover {
- background-color: var(--mobile-menu-panel-hover-bg-color); color: var(--accent-color);
+    background-color: var(--mobile-menu-panel-hover-bg-color); color: var(--accent-color);
 }
 
 /* Responsive Adjustments (Component Specific & New FAB Nav) */
@@ -725,7 +561,7 @@
      body:not(.landing-page) .mobile-nav#mobile-bottom-nav,
      body:not(.landing-page) .mobile-services-menu#mobile-services-panel,
      body:not(.landing-page) #mobile-menu-toggle { /* Top hamburger for old mobile menu system */
-     display: none !important;
+        display: none !important;
     }
 
     #newFabToggle {
@@ -741,7 +577,6 @@
     .fab-container .fab { width: 54px;  height: 54px; }
     .fab-container .fab .fab-icon-image-area { font-size: 18px; }
     .fab-container .fab .fab-text { font-size: 9px; }
-
     #newMobileNav {
         display: flex !important; position: fixed; bottom: 20px; right: 90px;
         flex-direction: row-reverse; gap: 10px;

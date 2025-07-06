@@ -1,160 +1,111 @@
-<!-- No longer a standalone form, but content to be injected into a modal shell -->
-<!-- The modal shell (overlay, content, header, body, footer) will be in index.html -->
-<!-- This file will now only contain the content for the modal-body and parts of modal-header/footer if unique -->
-
 <form id="join-form" autocomplete="off">
+    <div class="form-pairs"> <!-- Using .form-pairs as per existing CSS for #join-us-modal -->
 
-    <!-- Name, Email, Phone adapted to form-row/form-cell -->
-    <div class="form-row">
-        <div class="form-cell">
+        <!-- Column 1: Basic Info + Some Sections -->
+        <div class="form-block"> <!-- Matches existing CSS structure for a column/block -->
+            <!-- Basic Info: Name, Email, Phone -->
             <label for="join-name" data-en="Name" data-es="Nombre">Name</label>
             <input type="text" id="join-name" name="name" required
                    data-placeholder-en="Enter your full name"
                    data-placeholder-es="Ingresa tu nombre completo"
                    placeholder="Enter your full name">
-        </div>
-        <div class="form-cell">
             <label for="join-email" data-en="Email" data-es="Correo Electrónico">Email</label>
             <input type="email" id="join-email" name="email" required
                    data-placeholder-en="Enter your email address"
                    data-placeholder-es="Ingresa tu correo electrónico"
                    placeholder="Enter your email address">
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-cell">
             <label for="join-phone" data-en="Phone" data-es="Teléfono">Phone</label>
             <input type="tel" id="join-phone" name="phone" required
                    data-placeholder-en="Enter your phone number"
                    data-placeholder-es="Ingresa tu número de teléfono"
                    placeholder="Enter your phone number">
         </div>
-        <div class="form-cell">
-            <!-- Placeholder for potential second field in this row, or can be left for styling -->
-        </div>
-    </div>
-
-    <!-- Dynamic Sections: Skills, Education, Experience -->
-    <!-- Each section will be in its own full-width row for now -->
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <div class="form-section" data-section="Skills">
-                <div class="section-header">
-                    <h2 data-en="Skills" data-es="Habilidades">Skills</h2>
-                    <div>
-                        <button type="button" class="circle-btn add" aria-label="Add Skill" data-aria-label-en="Add Skill" data-aria-label-es="Añadir Habilidad">+</button>
-                        <button type="button" class="circle-btn remove" aria-label="Remove Last Skill" data-aria-label-en="Remove Last Skill" data-aria-label-es="Eliminar Última Habilidad">−</button>
-                    </div>
-                </div>
-                <div class="inputs"></div>
-                <div class="section-controls">
-                    <button type="button" class="accept-btn" data-en="Accept Skills" data-es="Aceptar Habilidades">Accept Skills</button>
-                    <button type="button" class="edit-btn" style="display:none;" data-en="Edit Skills" data-es="Editar Habilidades">Edit Skills</button>
+        <div class="form-section" data-section="Skills">
+            <div class="section-header">
+                <h2 data-en="Skills" data-es="Habilidades">Skills</h2>
+                <div>
+                    <button type="button" class="circle-btn add" aria-label="Add Skill" data-aria-label-en="Add Skill" data-aria-label-es="Añadir Habilidad">+</button>
+                    <button type="button" class="circle-btn remove" aria-label="Remove Last Skill" data-aria-label-en="Remove Last Skill" data-aria-label-es="Eliminar Última Habilidad">−</button>
                 </div>
             </div>
+            <div class="inputs"></div>
+            <button type="button" class="accept-btn" data-en="Accept Skills" data-es="Aceptar Habilidades">Accept Skills</button>
+            <button type="button" class="edit-btn" style="display:none;" data-en="Edit Skills" data-es="Editar Habilidades">Edit Skills</button>
         </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <div class="form-section" data-section="Education">
-                <div class="section-header">
-                    <h2 data-en="Education" data-es="Educación">Education</h2>
-                    <div>
-                        <button type="button" class="circle-btn add" aria-label="Add Education" data-aria-label-en="Add Education" data-aria-label-es="Añadir Educación">+</button>
-                        <button type="button" class="circle-btn remove" aria-label="Remove Last Education" data-aria-label-en="Remove Last Education" data-aria-label-es="Eliminar Última Educación">−</button>
-                    </div>
-                </div>
-                <div class="inputs"></div>
-                <div class="section-controls">
-                    <button type="button" class="accept-btn" data-en="Accept Education" data-es="Aceptar Educación">Accept Education</button>
-                    <button type="button" class="edit-btn" style="display:none;" data-en="Edit Education" data-es="Editar Educación">Edit Education</button>
+        <div class="form-section" data-section="Education">
+            <div class="section-header">
+                <h2 data-en="Education" data-es="Educación">Education</h2>
+                <div>
+                    <button type="button" class="circle-btn add" aria-label="Add Education" data-aria-label-en="Add Education" data-aria-label-es="Añadir Educación">+</button>
+                    <button type="button" class="circle-btn remove" aria-label="Remove Last Education" data-aria-label-en="Remove Last Education" data-aria-label-es="Eliminar Última Educación">−</button>
                 </div>
             </div>
+            <div class="inputs"></div>
+            <button type="button" class="accept-btn" data-en="Accept Education" data-es="Aceptar Educación">Accept Education</button>
+            <button type="button" class="edit-btn" style="display:none;" data-en="Edit Education" data-es="Editar Educación">Edit Education</button>
         </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <div class="form-section" data-section="Experience">
-                <div class="section-header">
-                    <h2 data-en="Experience" data-es="Experiencia">Experience</h2>
-                    <div>
-                        <button type="button" class="circle-btn add" aria-label="Add Experience" data-aria-label-en="Add Experience" data-aria-label-es="Añadir Experiencia">+</button>
-                        <button type="button" class="circle-btn remove" aria-label="Remove Last Experience" data-aria-label-en="Remove Last Experience" data-aria-label-es="Eliminar Última Experiencia">−</button>
-                    </div>
-                </div>
-                <div class="inputs"></div>
-                <div class="section-controls">
-                    <button type="button" class="accept-btn" data-en="Accept Experience" data-es="Aceptar Experiencia">Accept Experience</button>
-                    <button type="button" class="edit-btn" style="display:none;" data-en="Edit Experience" data-es="Editar Experiencia">Edit Experience</button>
+        <div class="form-section" data-section="Experience">
+            <div class="section-header">
+                <h2 data-en="Experience" data-es="Experiencia">Experience</h2>
+                <div>
+                    <button type="button" class="circle-btn add" aria-label="Add Experience" data-aria-label-en="Add Experience" data-aria-label-es="Añadir Experiencia">+</button>
+                    <button type="button" class="circle-btn remove" aria-label="Remove Last Experience" data-aria-label-en="Remove Last Experience" data-aria-label-es="Eliminar Última Experiencia">−</button>
                 </div>
             </div>
+            <div class="inputs"></div>
+            <button type="button" class="accept-btn" data-en="Accept Experience" data-es="Aceptar Experiencia">Accept Experience</button>
+            <button type="button" class="edit-btn" style="display:none;" data-en="Edit Experience" data-es="Editar Experiencia">Edit Experience</button>
         </div>
-    </div>
 
-    <!-- Dynamic Sections: Continued Education, Certification, Hobbies -->
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <div class="form-section" data-section="Continued Education">
-                <div class="section-header">
-                    <h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2>
-                    <div>
-                        <button type="button" class="circle-btn add" aria-label="Add Continued Education" data-aria-label-en="Add Continued Education" data-aria-label-es="Añadir Educación Continua">+</button>
-                        <button type="button" class="circle-btn remove" aria-label="Remove Last Continued Education" data-aria-label-en="Remove Last Continued Education" data-aria-label-es="Eliminar Última Educación Continua">−</button>
-                    </div>
-                </div>
-                <div class="inputs"></div>
-                <div class="section-controls">
-                    <button type="button" class="accept-btn" data-en="Accept Cont. Edu." data-es="Aceptar Edu. Cont.">Accept Cont. Edu.</button>
-                    <button type="button" class="edit-btn" style="display:none;" data-en="Edit Cont. Edu." data-es="Editar Edu. Cont.">Edit Cont. Edu.</button>
+    </div> <!-- End of first .form-block / column for grid -->
+
+    <!-- Column 2: More Sections -->
+    <div class="form-block"> <!-- Matches existing CSS structure for a column/block -->
+        <div class="form-section" data-section="Continued Education">
+            <div class="section-header">
+                <h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2>
+                <div>
+                    <button type="button" class="circle-btn add" aria-label="Add Continued Education" data-aria-label-en="Add Continued Education" data-aria-label-es="Añadir Educación Continua">+</button>
+                    <button type="button" class="circle-btn remove" aria-label="Remove Last Continued Education" data-aria-label-en="Remove Last Continued Education" data-aria-label-es="Eliminar Última Educación Continua">−</button>
                 </div>
             </div>
+            <div class="inputs"></div>
+            <button type="button" class="accept-btn" data-en="Accept Cont. Edu." data-es="Aceptar Edu. Cont.">Accept Cont. Edu.</button>
+            <button type="button" class="edit-btn" style="display:none;" data-en="Edit Cont. Edu." data-es="Editar Edu. Cont.">Edit Cont. Edu.</button>
         </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <div class="form-section" data-section="Certification">
-                <div class="section-header">
-                    <h2 data-en="Certification" data-es="Certificación">Certification</h2>
-                    <div>
-                        <button type="button" class="circle-btn add" aria-label="Add Certification" data-aria-label-en="Add Certification" data-aria-label-es="Añadir Certificación">+</button>
-                        <button type="button" class="circle-btn remove" aria-label="Remove Last Certification" data-aria-label-en="Remove Last Certification" data-aria-label-es="Eliminar Última Certificación">−</button>
-                    </div>
-                </div>
-                <div class="inputs"></div>
-                <div class="section-controls">
-                    <button type="button" class="accept-btn" data-en="Accept Certifications" data-es="Aceptar Certificaciones">Accept Certifications</button>
-                    <button type="button" class="edit-btn" style="display:none;" data-en="Edit Certifications" data-es="Editar Certificaciones">Edit Certifications</button>
+        <div class="form-section" data-section="Certification">
+            <div class="section-header">
+                <h2 data-en="Certification" data-es="Certificación">Certification</h2>
+                <div>
+                    <button type="button" class="circle-btn add" aria-label="Add Certification" data-aria-label-en="Add Certification" data-aria-label-es="Añadir Certificación">+</button>
+                    <button type="button" class="circle-btn remove" aria-label="Remove Last Certification" data-aria-label-en="Remove Last Certification" data-aria-label-es="Eliminar Última Certificación">−</button>
                 </div>
             </div>
+            <div class="inputs"></div>
+            <button type="button" class="accept-btn" data-en="Accept Certifications" data-es="Aceptar Certificaciones">Accept Certifications</button>
+            <button type="button" class="edit-btn" style="display:none;" data-en="Edit Certifications" data-es="Editar Certificaciones">Edit Certifications</button>
         </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <div class="form-section" data-section="Hobbies">
-                <div class="section-header">
-                    <h2 data-en="Hobbies" data-es="Pasatiempos">Hobbies</h2>
-                    <div>
-                        <button type="button" class="circle-btn add" aria-label="Add Hobby" data-aria-label-en="Add Hobby" data-aria-label-es="Añadir Pasatiempo">+</button>
-                        <button type="button" class="circle-btn remove" aria-label="Remove Last Hobby" data-aria-label-en="Remove Last Hobby" data-aria-label-es="Eliminar Último Pasatiempo">−</button>
-                    </div>
-                </div>
-                <div class="inputs"></div>
-                <div class="section-controls">
-                    <button type="button" class="accept-btn" data-en="Accept Hobbies" data-es="Aceptar Pasatiempos">Accept Hobbies</button>
-                    <button type="button" class="edit-btn" style="display:none;" data-en="Edit Hobbies" data-es="Editar Pasatiempos">Edit Hobbies</button>
+        <div class="form-section" data-section="Hobbies">
+            <div class="section-header">
+                <h2 data-en="Hobbies" data-es="Pasatiempos">Hobbies</h2>
+                <div>
+                    <button type="button" class="circle-btn add" aria-label="Add Hobby" data-aria-label-en="Add Hobby" data-aria-label-es="Añadir Pasatiempo">+</button>
+                    <button type="button" class="circle-btn remove" aria-label="Remove Last Hobby" data-aria-label-en="Remove Last Hobby" data-aria-label-es="Eliminar Último Pasatiempo">−</button>
                 </div>
             </div>
+            <div class="inputs"></div>
+            <button type="button" class="accept-btn" data-en="Accept Hobbies" data-es="Aceptar Pasatiempos">Accept Hobbies</button>
+            <button type="button" class="edit-btn" style="display:none;" data-en="Edit Hobbies" data-es="Editar Pasatiempos">Edit Hobbies</button>
         </div>
-    </div>
-    <!-- Interest Dropdown -->
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;"> <!-- Full width for clarity -->
-            <label for="join-interest" data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</label>
+
+        <!-- Interest Dropdown - Placed in the second column for balance -->
+        <div class="form-section" data-section="Interest"> <!-- Using form-section for consistent styling -->
+            <h2 data-en="Area of Interest" data-es="Área de Interés">Area of Interest</h2>
+            <!-- <div class="form-cell"> No .form-cell in sample, directly use select -->
             <select id="join-interest" name="interest" required>
               <option value="" disabled selected data-en="Select an option" data-es="Seleccione una opción">Select an option</option>
               <option data-en="Business Operations" data-es="Gestión" value="Business Operations">Business Operations</option>
@@ -162,24 +113,24 @@
               <option data-en="IT Support" data-es="Soporte Técnico" value="IT Support">IT Support</option>
               <option data-en="Professionals" data-es="Profesionales" value="Professionals">Professionals</option>
             </select>
+            <!-- </div> -->
         </div>
-    </div>
 
-    <!-- Comments/Textarea -->
-    <div class="form-row">
-        <div class="form-cell" style="flex: 1 1 100%;">
-            <!-- The floating label functionality needs CSS. For structure, label first. -->
+    </div> <!-- End of second .form-block / column for grid -->
+
+    <!-- Full Width Elements below the columns -->
+    <div class="form-block" style="grid-column: 1 / -1;"> <!-- Make this block span both columns -->
+        <div class="floating-label-group">
             <label for="join-comment" data-en="Tell us about yourself" data-es="Cuéntanos sobre ti">Tell us about yourself</label>
-            <textarea id="join-comment" name="comment" rows="4"
+            <textarea id="join-comment" name="comment" rows="5"
+                      placeholder=" "
                       data-placeholder-en="Tell us about yourself..."
-                      data-placeholder-es="Cuéntanos sobre ti..."
-                      placeholder="Tell us about yourself..."></textarea>
-            <!-- Removed floating-label-group div, will rely on CSS for label behavior if needed, or simplify -->
+                      data-placeholder-es="Cuéntanos sobre ti..."></textarea>
         </div>
     </div>
 
-    <div class="form-footer">
-        <button type="button" class="btn btn-cancel" data-close-modal="join-us-modal" data-en="Cancel" data-es="Cancelar">Cancel</button>
+    <div class="form-footer" style="grid-column: 1 / -1;"> <!-- Make footer span both columns -->
+        <button type="button" class="btn-secondary close-modal-btn" data-close-modal="join-us-modal" data-en="Cancel" data-es="Cancelar">Cancel</button>
         <button type="submit" class="submit-button" data-en="Submit Application" data-es="Enviar Aplicación">Submit Application</button>
     </div>
 </form>

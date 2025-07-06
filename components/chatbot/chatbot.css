@@ -59,6 +59,7 @@ body { /* Body of the iframe */
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     padding: 10px;
+    gap: 8px; /* Added gap between items */
     border-top: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-form-bg, #fff);
     gap: 8px; /* Add space between form elements */
@@ -192,9 +193,6 @@ body[data-theme='light'] {
     --accent-color-darker: #0056b3;
 }
 
-
-/* Example: How chatbot.css might use variables from a linked theme.css */
-/* This requires chatbot.html to link to ../../css/theme.css
 body {
     background-color: var(--modal-content-bg);
     color: var(--text-color-main);
@@ -226,4 +224,3 @@ body {
     background-color: var(--button-secondary-bg-color);
     color: var(--button-secondary-text-color);
 }
-*/

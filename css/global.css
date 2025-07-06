@@ -139,7 +139,7 @@ body {
 
 /* Main content area global setup */
 main {
-    /* flex: 1; /* This was for sticky footer, might conflict with centering if footer is not last element */
-    /* We want the main content to take its natural height, and if it's short,
-       the footer (as a flex item in a column-direction body) can expand. */
+    padding: 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }

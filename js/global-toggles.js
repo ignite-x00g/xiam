@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const newLang = window.getCurrentLanguage() === 'en' ? 'es' : 'en';
         window.setCurrentLanguage(newLang);
         window.applyTranslations(newLang);
-
         // Post message to chatbot iframe about language change
         const chatbotModal = document.getElementById('chatbot-modal');
         if (chatbotModal && chatbotModal.style.display !== 'none') {

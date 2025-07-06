@@ -2,7 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const modalBackdrop = document.getElementById('modal-backdrop');
-
     // Function to open a modal by its ID (for modals with static content)
     window.openModalById = function(modalId) {
         const modal = document.getElementById(modalId);
@@ -18,6 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (focusableElements.length > 0) {
                 focusableElements[0].focus();
             }
+
+            // START MODIFICATION for Chatbot initial language
+            if (modalId === 'chatbot-modal') {
+                const chatbotIframe = modal.querySelector('iframe');
+                if (chatbotIframe) {
+                    const sendMessageToChatbot = () => {
+                        if (chatbotIframe.contentWindow && window.getCurrentLanguage) {
+                            const currentLang = window.getCurrentLanguage();
+                            try {
+                                chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: currentLang }, window.location.origin);
+                            } catch (e) {
+                                 console.warn("Could not post message to chatbot iframe on open. It might not be loaded or accessible.", e);
+                                if (window.location.origin === 'null' || window.location.origin === undefined) {
+                                    console.warn("Attempting to postMessage to chatbot with '*' origin due to local file context (on open).");
+                                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: currentLang }, '*');
+                                }
+                            }
+                        }
+                    };
+
+                    if (chatbotIframe.contentDocument && chatbotIframe.contentDocument.readyState === 'complete') {
+                        // If already loaded (e.g. modal was hidden and reshown)
+                        sendMessageToChatbot();
+                    } else {
+                        // Otherwise, wait for load event
+                        chatbotIframe.onload = sendMessageToChatbot;
+                    }
+                }
+            }
+            // END MODIFICATION
         } else {
             console.warn(`Modal with ID ${modalId} not found.`);
         }
@@ -91,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = 'flex';
         }
     };
-
     window.closeModal = function(modalOrId) {
         const modal = typeof modalOrId === 'string' ? document.getElementById(modalOrId) : modalOrId;
         if (modal && modal.style.display !== 'none') {
@@ -107,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-
     document.addEventListener('click', (event) => {
         const trigger = event.target.closest('[data-modal-target]');
         if (trigger) {
@@ -127,6 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const modalToClose = closeButton.closest('.modal-overlay') || document.getElementById(closeButton.dataset.closeModal);
             if(modalToClose) window.closeModal(modalToClose);
+            return; // Modal closed, no further action needed for this click
+        }
+
+        // Check if a 'Send' button inside a modal was clicked
+        // Assumes 'Send' buttons will have a class like 'modal-send-button'
+        const sendButton = event.target.closest('.modal-send-button');
+        if (sendButton) {
+            const modalToClose = sendButton.closest('.modal-overlay');
+            if (modalToClose && (modalToClose.style.display === 'flex' || modalToClose.style.display === 'block')) {
+                event.preventDefault(); // Prevent default button action if necessary
+                window.closeModal(modalToClose);
+                // Assuming 'Send' implies action completion, modal should close.
+                // If there's a success message to show first, this logic might need adjustment
+                // or the success message should be shown before this generic handler closes it.
+            }
         }
     });
 
