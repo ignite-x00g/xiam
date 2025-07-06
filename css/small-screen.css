@@ -5,8 +5,7 @@
     main {
         padding: 1rem; /* Less horizontal padding on smaller screens */
         /* padding-bottom might be adjusted by specific mobile navs if they are fixed and not handled by their own component CSS */
-   }
-
+    }
     .site-header {
         flex-direction: column;
         padding: 1rem;

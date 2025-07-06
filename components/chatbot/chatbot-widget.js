@@ -5,68 +5,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const humanVerificationCheckbox = document.getElementById('human-verification-checkbox');
-    const sendButton = document.getElementById('chat-send-button');
-    // Disable send button and chat input initially
-    if (sendButton) {
-        sendButton.disabled = true;
-    }
-    if (chatInput) {
-        chatInput.disabled = true;
-    }
+    // Attempt to apply theme from parent if possible (e.g. if theme.css is linked and body vars are set)
+    // This is a simple example; more robust would be PostMessage API or localStorage observation.
+    // For now, chatbot.css defines its own defaults that can be overridden if global theme vars are accessible.
+    // console.log("Chatbot widget JS loaded.");
 
-    if (humanVerificationCheckbox && sendButton && chatInput) {
-        humanVerificationCheckbox.addEventListener('change', () => {
-            const isChecked = humanVerificationCheckbox.checked;
-            sendButton.disabled = !isChecked;
-            chatInput.disabled = !isChecked;
-            if (isChecked) {
-                chatInput.focus(); // Focus on input when enabled
-            }
-        });
-    }
-
-    if (chatForm && chatInput && chatLog && humanVerificationCheckbox && sendButton) {
+    if (chatForm && chatInput && chatLog && humanVerificationCheckbox) {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
-            if (!userMessage || chatInput.disabled) { // Also check if input is disabled
-                return;
+
+            if (!userMessage) {
+                return; // Don't send empty messages
             }
 
             if (!humanVerificationCheckbox.checked) {
-                addMessageToLog('Please verify you are human.', 'bot-message', window.parent);
-                sendButton.disabled = true;
-                chatInput.disabled = true;
+                addMessageToLog('Please verify you are human.', 'bot-message', window.parent); // Pass window.parent for translation
                 return;
             }
 
             addMessageToLog(userMessage, 'user-message');
             chatInput.value = ''; // Clear input
-
-            // Post message to parent to close the modal
-            // console.log('[ChatbotWidget] Form submitted. Attempting to post "closeChatbotModal" message to parent.'); // Cleanup
-            window.parent.postMessage('closeChatbotModal', '*');
-
             // Simulate bot response
             setTimeout(() => {
                 simulateBotResponse(userMessage);
             }, 1000);
         });
     } else {
-        console.error('Chatbot UI elements not found in chatbot.html. Needed: chat-form, chat-input, chat-log, human-verification-checkbox, chat-send-button');
+        console.error('Chatbot UI elements not found in chatbot.html');
     }
-
-    // The actual close button (X) is in the parent modal.
-    // If there were a close button *inside* the iframe, it would be:
-    // const closeButtonInIframe = document.getElementById('close-chatbot-iframe-button');
-    // if (closeButtonInIframe) {
-    //     closeButtonInIframe.addEventListener('click', () => {
-    //         // Send a message to the parent window to close the modal
-    //         if (window.parent) {
-    //             window.parent.postMessage({ type: 'ops-chatbot-close-request' }, '*'); // Consider a specific target origin
-    //         }
-    //     });
-    // }
 });
 
 function addMessageToLog(message, type, contextWindow = window) {

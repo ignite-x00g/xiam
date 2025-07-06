@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // console.warn("Mobile Services Toggle (#newMobileServicesToggle) or Menu (#newMobileServicesMenu) not found.");
     }
-
     const mobileLangToggle = document.getElementById('newMobileLanguageToggle');
     const mobileThemeToggle = document.getElementById('newMobileThemeToggle');
 
@@ -71,18 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close FAB menus if clicking outside
     document.addEventListener('click', (event) => {
-        const isMobileNavActive = mobileNav && mobileNav.classList.contains('active');
-        const isServicesMenuActive = servicesMenu && servicesMenu.classList.contains('active');
-
         // Close main FAB nav if click is outside nav and toggle
-        if (isMobileNavActive) {
-            const clickedInsideNav = mobileNav.contains(event.target);
-            const clickedOnFabToggle = fabToggle && fabToggle.contains(event.target);
-
-            if (!clickedInsideNav && !clickedOnFabToggle) {
-                // console.log('[MFN] Clicked outside main mobile nav and its toggle. Closing main nav.'); // Cleanup
+        if (mobileNav && mobileNav.classList.contains('active')) {
+            if (!mobileNav.contains(event.target) && fabToggle && !fabToggle.contains(event.target)) {
                 mobileNav.classList.remove('active');
-                if (fabToggle) {
+                if(fabToggle) {
                     fabToggle.setAttribute('aria-expanded', 'false');
                     const icon = fabToggle.querySelector('i');
                     if (icon) {
@@ -98,109 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        // Separately, close services menu if click is outside services menu and its toggle
-        // This logic should consider if the click was inside the main mobileNav, as servicesMenu is often triggered from within mobileNav
-        if (isServicesMenuActive) {
-            const clickedInsideServicesMenu = servicesMenu.contains(event.target);
-            const clickedOnServicesToggle = servicesToggle && servicesToggle.contains(event.target);
-
-            // If the click is outside the services menu itself AND outside its toggle button
-            if (!clickedInsideServicesMenu && !clickedOnServicesToggle) {
-                // Further check: if the main mobile nav is still open and the click was inside it,
-                // the services menu might not need to close, depending on desired UX.
-                // For now, if click is outside services menu & its toggle, it closes.
-                // console.log('[MFN] Clicked outside services menu and its toggle. Closing services menu.'); // Cleanup
+        // Separately, close services menu if click is outside services menu and its toggle (and not inside main FAB nav)
+        if (servicesMenu && servicesMenu.classList.contains('active')) {
+             if (!servicesMenu.contains(event.target) && servicesToggle && !servicesToggle.contains(event.target) && mobileNav && !mobileNav.contains(event.target)) {
                 servicesMenu.classList.remove('active');
                 servicesMenu.setAttribute('aria-hidden', 'true');
-                if (servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
-            }
-        }
-    });
-
-    // Add ESC key listener for closing mobile FAB nav and its sub-menu
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            const isMobileNavActive = mobileNav && mobileNav.classList.contains('active');
-            const isServicesMenuActive = servicesMenu && servicesMenu.classList.contains('active');
-
-            if (isMobileNavActive || isServicesMenuActive) {
-                // Check if a modal is open. If so, let the modal's ESC handler take precedence.
-                const anyModalOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(
-                    modal => modal.style.display === 'flex' || modal.style.display === 'block'
-                );
-
-                if (!anyModalOpen) {
-                    if (isServicesMenuActive) {
-                        servicesMenu.classList.remove('active');
-                        servicesMenu.setAttribute('aria-hidden', 'true');
-                        if (servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
-                        // Typically, closing a submenu should not automatically close its parent menu
-                        // unless that's the desired UX. Here, we allow the main nav to remain.
-                        // If the main nav should also close, additional logic is needed.
-                        // For now, ESC will close the topmost active FAB menu element.
-                    } else if (isMobileNavActive) { // Only close main nav if service menu wasn't the target
-                        mobileNav.classList.remove('active');
-                        if (fabToggle) {
-                            fabToggle.setAttribute('aria-expanded', 'false');
-                            const icon = fabToggle.querySelector('i');
-                            if (icon) {
-                                icon.classList.remove('fa-times');
-                                icon.classList.add('fa-bars');
-                            }
-                        }
-                        // If services menu was open INSIDE mobileNav, it's already handled by the click-outside logic
-                        // or if we want explicit close:
-                        // if (servicesMenu && servicesMenu.classList.contains('active')) {
-                        //     servicesMenu.classList.remove('active');
-                        //     servicesMenu.setAttribute('aria-hidden', 'true');
-                        //     if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
-                        // }
-                    }
-                }
-            }
-        }
-    });
-
-    // Add ESC key listener for closing mobile FAB nav and its sub-menu
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            const isMobileNavActive = mobileNav && mobileNav.classList.contains('active');
-            const isServicesMenuActive = servicesMenu && servicesMenu.classList.contains('active');
-
-            if (isMobileNavActive || isServicesMenuActive) {
-                // Check if a modal is open. If so, let the modal's ESC handler take precedence.
-                const anyModalOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(
-                    modal => modal.style.display === 'flex' || modal.style.display === 'block'
-                );
-
-                if (!anyModalOpen) {
-                    if (isServicesMenuActive) {
-                        servicesMenu.classList.remove('active');
-                        servicesMenu.setAttribute('aria-hidden', 'true');
-                        if (servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
-                        // Typically, closing a submenu should not automatically close its parent menu
-                        // unless that's the desired UX. Here, we allow the main nav to remain.
-                        // If the main nav should also close, additional logic is needed.
-                        // For now, ESC will close the topmost active FAB menu element.
-                    } else if (isMobileNavActive) { // Only close main nav if service menu wasn't the target
-                        mobileNav.classList.remove('active');
-                        if (fabToggle) {
-                            fabToggle.setAttribute('aria-expanded', 'false');
-                            const icon = fabToggle.querySelector('i');
-                            if (icon) {
-                                icon.classList.remove('fa-times');
-                                icon.classList.add('fa-bars');
-                            }
-                        }
-                        // If services menu was open INSIDE mobileNav, it's already handled by the click-outside logic
-                        // or if we want explicit close:
-                        // if (servicesMenu && servicesMenu.classList.contains('active')) {
-                        //     servicesMenu.classList.remove('active');
-                        //     servicesMenu.setAttribute('aria-hidden', 'true');
-                        //     if(servicesToggle) servicesToggle.setAttribute('aria-expanded', 'false');
-                        // }
-                    }
-                }
             }
         }
     });
