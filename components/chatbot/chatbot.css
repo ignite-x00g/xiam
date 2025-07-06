@@ -30,6 +30,7 @@ body { /* Body of the iframe */
     overflow-y: auto;
     border-bottom: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-log-bg-color, #f9f9f9);
+    min-height: 200px; /* Significantly increase chat log height */
 }
 
 .message {
@@ -56,22 +57,30 @@ body { /* Body of the iframe */
 
 .chat-form {
     display: flex;
+    flex-direction: column; /* Stack elements vertically */
     padding: 10px;
     border-top: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-form-bg, #fff);
+    gap: 8px; /* Add space between form elements */
 }
 
-#chat-input {
-    flex-grow: 1;
+#chat-input { /* Textarea */
     padding: 10px;
     border: 1px solid var(--chatbot-input-border, #ddd);
-    border-radius: 20px;
-    margin-right: 5px;
+    border-radius: 8px; /* Adjusted for a more standard textarea look */
     font-size: 1em;
+    resize: vertical; /* Allow vertical resize, not horizontal */
+    min-height: 60px; /* Default height for textarea */
+    font-family: inherit; /* Inherit font from body */
 }
 #chat-input:focus {
     outline: none;
     border-color: var(--accent-color, #007bff); /* Use accent from theme if available */
+}
+#chat-input:disabled {
+    background-color: var(--chatbot-log-bg-color, #f1f1f1); /* Match chat log or a bit lighter */
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 /* Honeypot field should be visually hidden */
@@ -83,27 +92,28 @@ body { /* Body of the iframe */
     overflow: hidden;
 }
 
-.recaptcha-placeholder-container {
+.human-verification-container { /* Updated class name */
     display: flex;
     align-items: center;
-    margin: 0 8px; /* Spacing around reCAPTCHA */
-    padding: 5px;
-    border: 1px solid var(--chatbot-input-border, #ddd);
-    border-radius: 4px;
-    background-color: var(--chatbot-log-bg-color, #f9f9f9);
+    padding: 5px 0; /* Vertical padding, no horizontal */
+    min-height: 26px; /* Ensure it takes some space, checkbox is 16px + padding */
+    visibility: visible !important; /* Explicitly visible */
+    opacity: 1 !important; /* Explicitly opaque */
 }
 
-.recaptcha-label {
+.human-verification-label { /* Updated class name */
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 0.85em;
+    font-size: 0.9em; /* Slightly larger for better readability */
     color: var(--chatbot-text-color, #333);
 }
 
-.recaptcha-label input[type="checkbox"] {
-    margin-right: 5px;
+.human-verification-label input[type="checkbox"] {
+    margin-right: 8px; /* More space between checkbox and text */
     cursor: pointer;
+    width: 16px; /* Custom size for checkbox */
+    height: 16px;
 }
 
 
@@ -112,15 +122,27 @@ body { /* Body of the iframe */
     background-color: var(--accent-color, #007bff);
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 8px; /* Consistent with textarea */
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
+    width: 100%; /* Make button full width */
+    min-height: 40px; /* Ensure it takes some space */
+    display: block !important; /* Ensure it's displayed as a block */
+    visibility: visible !important; /* Explicitly visible */
+    opacity: 1 !important; /* Explicitly opaque */
 }
 
 #chat-send-button:hover {
     background-color: var(--accent-color-darker, #0056b3);
 }
+
+#chat-send-button:disabled {
+    background-color: var(--chatbot-border-color, #ccc);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 
 /* Theme variable defaults (can be overridden if theme.css is linked in chatbot.html) */
 :root {
@@ -138,6 +160,38 @@ body { /* Body of the iframe */
     --accent-color: #007bff;
     --accent-color-darker: #0056b3;
 }
+
+/* Theme overrides based on body[data-theme] attribute */
+body[data-theme='dark'] {
+    --chatbot-bg-color: #2c2c2c; /* Darker background */
+    --chatbot-text-color: #f1f1f1; /* Lighter text */
+    --chatbot-border-color: #444444; /* Darker border */
+    --chatbot-log-bg-color: #1e1e1e; /* Dark chat log background */
+    --chatbot-form-bg: #2c2c2c; /* Dark form background */
+    --chatbot-input-border: #555555; /* Darker input border */
+    --chatbot-user-msg-bg: #005f9e; /* Adjusted user message for dark */
+    --chatbot-user-msg-text: #ffffff;
+    --chatbot-bot-msg-bg: #3a3a3a;   /* Darker bot message background */
+    --chatbot-bot-msg-text: #f1f1f1;  /* Lighter bot message text */
+    --accent-color: #007bff; /* Accent can remain same or be adjusted */
+    --accent-color-darker: #0056b3;
+}
+
+body[data-theme='light'] {
+    --chatbot-bg-color: #ffffff;
+    --chatbot-text-color: #333333;
+    --chatbot-border-color: #cccccc;
+    --chatbot-log-bg-color: #f9f9f9;
+    --chatbot-form-bg: #ffffff;
+    --chatbot-input-border: #dddddd;
+    --chatbot-user-msg-bg: #007bff;
+    --chatbot-user-msg-text: white;
+    --chatbot-bot-msg-bg: #e9e9eb;
+    --chatbot-bot-msg-text: #333333;
+    --accent-color: #007bff;
+    --accent-color-darker: #0056b3;
+}
+
 
 /* Example: How chatbot.css might use variables from a linked theme.css */
 /* This requires chatbot.html to link to ../../css/theme.css

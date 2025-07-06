@@ -96,6 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
         window.setCurrentLanguage(newLang);
         window.applyTranslations(newLang);
 
+        // Post message to chatbot iframe about language change
+        const chatbotModal = document.getElementById('chatbot-modal');
+        if (chatbotModal && chatbotModal.style.display !== 'none') {
+            const chatbotIframe = chatbotModal.querySelector('iframe');
+            if (chatbotIframe && chatbotIframe.contentWindow) {
+                try {
+                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', language: newLang }, window.location.origin);
+                } catch (e) {
+                    console.warn("Could not post message to chatbot iframe for language change.", e);
+                }
+            }
+        }
+
         const currentTheme = window.getCurrentTheme();
         document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
             const ariaEn = btn.dataset.enLabel || "Switch to English";
@@ -135,6 +148,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTheme = window.getCurrentTheme() === 'dark' ? 'light' : 'dark';
         window.setCurrentTheme(newTheme);
         window.applyTheme(newTheme);
+
+        // Post message to chatbot iframe about theme change
+        const chatbotModal = document.getElementById('chatbot-modal');
+        if (chatbotModal && chatbotModal.style.display !== 'none') {
+            const chatbotIframe = chatbotModal.querySelector('iframe');
+            if (chatbotIframe && chatbotIframe.contentWindow) {
+                try {
+                    chatbotIframe.contentWindow.postMessage({ type: 'themeChange', theme: newTheme }, window.location.origin);
+                } catch (e) {
+                    console.warn("Could not post message to chatbot iframe. This might be due to cross-origin restrictions if origins don't match or iframe is not fully loaded/accessible.", e);
+                }
+            }
+        }
 
         const currentLang = window.getCurrentLanguage();
         document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
