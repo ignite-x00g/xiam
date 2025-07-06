@@ -392,9 +392,12 @@
 }
 
 #join-us-modal .form-footer {
-    border-top: none;
-    padding-top: 0.5rem;
-    margin-top: 0;
+    border-top: none; /* As it was */
+    padding-top: 0.5rem; /* As it was */
+    margin-top: 1rem; /* Added some top margin for spacing from elements above */
+    display: flex; /* Allow buttons to sit side-by-side */
+    justify-content: flex-end; /* Align buttons to the right, common for form actions */
+    gap: 0.75rem; /* Space between buttons */
 }
 
 /* ===== Contact Us Modal Specific Styles ===== */
@@ -427,6 +430,44 @@
 }
 #contact-us-modal .submit-button:hover {
   background-color: var(--accent-color-darker, var(--button-hover-bg-color));
+}
+
+/* General Button Styles */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--button-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+}
+.btn:hover, .btn:focus {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-text-color);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+/* Secondary Button Style (e.g., for Cancel, Close) */
+.btn-secondary {
+    background-color: var(--button-secondary-bg-color, var(--card-bg-color)); /* Fallback to card-bg if specific secondary not set */
+    color: var(--button-secondary-text-color, var(--text-color-main));
+    border-color: var(--button-secondary-border-color, var(--card-border-color));
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--button-secondary-hover-bg-color, var(--card-bg-hover-color));
+    color: var(--button-secondary-hover-text-color, var(--text-color-emphasis));
+    border-color: var(--accent-color-subtle, var(--accent-color));
+}
+
+/* Ensure .submit-button in Join Us form also benefits from .btn styles if not already specific enough */
+#join-us-modal .submit-button { /* Assuming it might need base .btn styles */
+    /* It has .submit-button class; let's ensure it aligns with .btn or make .submit-button extend .btn */
+    /* For now, let's assume it's styled sufficiently or we can add .btn class to it in HTML */
 }
 
 /* Form field validation styles (can be considered global utilities) */
