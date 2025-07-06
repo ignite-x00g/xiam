@@ -73,7 +73,6 @@ body { /* Body of the iframe */
     outline: none;
     border-color: var(--accent-color, #007bff); /* Use accent from theme if available */
 }
-
 /* Honeypot field should be visually hidden */
 .ops-chatbot-honeypot-field {
     position: absolute;
@@ -82,7 +81,6 @@ body { /* Body of the iframe */
     height: 1px;
     overflow: hidden;
 }
-
 
 .recaptcha-placeholder-container {
     display: flex;

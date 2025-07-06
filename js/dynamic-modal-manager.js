@@ -2,7 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const modalBackdrop = document.getElementById('modal-backdrop');
-
     // Function to open a modal by its ID (for modals with static content)
     window.openModalById = function(modalId) {
         const modal = document.getElementById(modalId);
@@ -91,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = 'flex';
         }
     };
-
     window.closeModal = function(modalOrId) {
         const modal = typeof modalOrId === 'string' ? document.getElementById(modalOrId) : modalOrId;
         if (modal && modal.style.display !== 'none') {
@@ -107,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-
     document.addEventListener('click', (event) => {
         const trigger = event.target.closest('[data-modal-target]');
         if (trigger) {

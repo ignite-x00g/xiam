@@ -111,10 +111,30 @@ ul, ol {
     margin-bottom: 1rem;
 }
 
-/* Placeholder styling - can be here or in main_style.css if more complex */
-::placeholder {
-    color: var(--text-color-placeholder);
-    opacity: 1; /* Firefox Fix */
+/* Add other global styles here as the project evolves */
+
+/* Footer styles */
+footer {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    /* Ensure it takes up significant viewport height to truly center the text within it,
+       or it's part of a larger container that does.
+       For this request, we'll make the footer itself a large portion of the screen
+       if the main content is short. */
+    flex-grow: 1; /* Allow footer to grow if main content is short */
+    background-color: var(--body-bg-color);
+    color: var(--text-color-main);
+}
+
+/* Adjustments for body and main to support footer centering */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body takes at least full viewport height */
 }
 
 /* Main content area global setup */

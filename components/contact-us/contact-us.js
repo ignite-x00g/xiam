@@ -42,7 +42,6 @@ window.initializeContactForm = function() {
             if(errorMessageDiv) {
                 errorMessageDiv.style.display = 'none';
             }
-
             const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
             alert(lang === 'es' ? 'Formulario de contacto enviado (simulado).' : 'Contact form submitted (simulated).');
 
