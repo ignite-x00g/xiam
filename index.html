@@ -88,12 +88,16 @@
         /* Hide main FAB trigger if placeholder is active (using :has for modern browsers) */
         /* Note: #chatbot-fab-trigger is one of the FABs in .fab-container */
         body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
-            /* This rule might need to hide the whole .fab-container or just the specific FAB.
-               For now, assuming it hides just the trigger. If the whole container should hide,
-               this selector would need to be more general or JS would handle it.
-               Given loader.js behavior, hiding just #chatbot-fab-trigger is probably correct. */
-            display: none;
+            display: none !important; /* Ensure chat fab itself is hidden */
         }
+
+        /* Ensure other FABs in the container remain visible and interactive */
+        body:has(#chatbot-placeholder.active) .fab-container > .fab:not(#chatbot-fab-trigger) {
+            display: flex !important; /* .fab elements use display: flex */
+            opacity: 1 !important;
+            visibility: visible !important;
+            /* z-index should be inherited from .fab-container (1020) which is above #chatbot-placeholder (1000) */
+            /* If specific promotion is needed: z-index: 1021; */        }
         /* Fallback for non-:has supporting browsers will be handled by loader.js adding a class to body or similar */
 
         /* Ensure mobile chat launcher is styled if it's a new button */
