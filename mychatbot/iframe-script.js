@@ -183,6 +183,61 @@ document.addEventListener('DOMContentLoaded', () => {
 // Store current language for the chatbot, default to 'en'
 let currentChatbotLanguage = 'en';
 
+// Function to apply translations within the chatbot iframe
+function applyChatbotTranslations(lang) {
+    currentChatbotLanguage = lang; // Update the script's current language state
+    // Store current language perhaps in a global scope for the widget if needed elsewhere
+    // window.currentChatbotLanguage = lang;
+    currentChatbotLanguage = lang; // Update the script's current language state for dynamic messages
+
+    // Translate text content
+    document.querySelectorAll('[data-en], [data-es]').forEach(el => {
+        const textKey = (lang === 'es') ? 'data-es' : 'data-en';
+        const text = el.getAttribute(textKey);
+        if (text !== null) {
+            // For messages in chat-log, they are added dynamically.
+            // This part will handle static text in the initial HTML of the iframe.
+            if (el.classList.contains('message')) { // Don't re-translate existing messages this way
+                // Potentially, re-translate known bot messages if they have keys
+                // Or, ensure new messages are added with correct language from start
+            } else {
+                 el.textContent = text;
+            }
+        }
+    });
+
+    // Translate placeholders
+    const chatInputElement = document.getElementById('chat-input');
+    if (chatInputElement) {
+        const placeholderKey = (lang === 'es') ? 'data-placeholder-es' : 'data-placeholder-en';
+        const placeholderText = chatInputElement.getAttribute(placeholderKey);
+        if (placeholderText !== null) {
+            chatInputElement.setAttribute('placeholder', placeholderText);
+        }
+    }
+
+    // Translate ARIA labels and titles if any within the iframe structure
+    document.querySelectorAll('[data-aria-label-en], [data-aria-label-es]').forEach(el => {
+        const labelKey = (lang === 'es') ? 'data-aria-label-es' : 'data-aria-label-en';
+        const labelText = el.getAttribute(labelKey);
+        if (labelText !== null) el.setAttribute('aria-label', labelText);
+    });
+
+    document.querySelectorAll('[data-title-en], [data-title-es]').forEach(el => {
+        const titleKey = (lang === 'es') ? 'data-title-es' : 'data-title-en';
+        const titleText = el.getAttribute(titleKey);
+        if (titleText !== null) el.setAttribute('title', titleText);
+    });
+
+    // If there's an initial bot message in HTML, translate it:
+    const initialBotMessage = document.querySelector('.bot-message[data-en][data-es]');
+    if(initialBotMessage){
+        const textKey = (lang === 'es') ? 'data-es' : 'data-en';
+        initialBotMessage.textContent = initialBotMessage.getAttribute(textKey);
+    }
+}
+
+
 function addMessageToLog(message, type) { // Removed contextWindow, will use currentChatbotLanguage
     const chatLog = document.getElementById('chat-log');
     if (!chatLog) return;
