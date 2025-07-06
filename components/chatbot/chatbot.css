@@ -56,18 +56,22 @@ body { /* Body of the iframe */
 
 .chat-form {
     display: flex;
+    flex-direction: column; /* Changed from row to column */
     padding: 10px;
+    gap: 8px; /* Added gap between items */
     border-top: 1px solid var(--chatbot-border-color, #ccc);
     background-color: var(--chatbot-form-bg, #fff);
 }
 
 #chat-input {
-    flex-grow: 1;
+    flex-grow: 1; /* Remains useful if form has fixed height, else just takes its content size */
     padding: 10px;
     border: 1px solid var(--chatbot-input-border, #ddd);
     border-radius: 20px;
-    margin-right: 5px;
+    /* margin-right: 5px; Removed, as items are stacked vertically */
     font-size: 1em;
+    width: auto; /* Ensure it doesn't try to take 100% if not desired, flex-grow handles expansion */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 #chat-input:focus {
     outline: none;
@@ -85,11 +89,13 @@ body { /* Body of the iframe */
 .recaptcha-placeholder-container {
     display: flex;
     align-items: center;
-    margin: 0 8px; /* Spacing around reCAPTCHA */
-    padding: 5px;
+    /* margin: 0 8px; Adjusted for column layout, top/bottom margin handled by form gap */
+    margin: 0 auto; /* Center horizontally if its content is narrower */
+    padding: 5px 8px; /* Ensure some horizontal padding */
     border: 1px solid var(--chatbot-input-border, #ddd);
     border-radius: 4px;
     background-color: var(--chatbot-log-bg-color, #f9f9f9);
+    width: fit-content; /* Size to its content */
 }
 
 .recaptcha-label {
@@ -115,6 +121,8 @@ body { /* Body of the iframe */
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.2s;
+    align-self: center; /* Center button in the column layout */
+    min-width: 100px; /* Give it a decent minimum width */
 }
 
 #chat-send-button:hover {

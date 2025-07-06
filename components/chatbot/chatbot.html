@@ -18,15 +18,18 @@
     <form id="chat-form" class="chat-form">
       <input type="text" id="chat-input" placeholder="Ask me anything..." data-placeholder-en="Ask me anything..." data-placeholder-es="Pregúntame lo que sea..." autocomplete="off" required />
 
-      <!-- Honeypot Field -->
+      <!-- Honeypot Field - position unchanged, still hidden -->
       <input type="text" name="chatbot-honeypot" class="ops-chatbot-honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">
-      <!-- Placeholder for visible reCAPTCHA -->
+
+      <!-- Human Verification Area -->
       <div class="recaptcha-placeholder-container" id="recaptcha-inline-placeholder">
         <label class="recaptcha-label">
           <input type="checkbox" id="human-verification-checkbox" name="human-verification" required>
           <span class="recaptcha-text" data-en="I am human" data-es="Soy humano">I am human</span>
         </label>
       </div>
+
+      <!-- Send Button -->
       <button type="submit" id="chat-send-button" aria-label="Send Message" data-aria-label-en="Send Message" data-aria-label-es="Enviar Mensaje">
         Send
       </button>

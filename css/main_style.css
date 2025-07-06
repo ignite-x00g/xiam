@@ -188,32 +188,48 @@
     display: none; /* JS handles display */
 }
 .modal-overlay {
-    /* align-items: center; Default, now overridden for general modals */
-    align-items: flex-start; /* Align to top */
-    padding-top: 15vh; /* Push down from top ~150px on 1000px screen, adjust as needed */
-    justify-content: center;
+    display: none; /* JS handles display */
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: var(--modal-backdrop-bg);
     z-index: 1050;
-    padding: 1rem;
-    display: none; /* JS handles display */
+    padding: 1rem; /* Default padding, can be overridden */
+    justify-content: center; /* Default horizontal centering */
+    align-items: center; /* Default vertical centering */
+    overflow-y: auto; /* Allows scrolling if content is too tall for viewport */
 }
 
+/* Specific overrides for service modals */
+.modal-overlay.service-modal-center {
+    align-items: flex-start; /* Align content to the top of the flex container */
+    padding-top: 150px; /* Push content down by 150px from the top of viewport */
+    /* justify-content: center; is inherited */
+}
+
+/* Default modal content styles */
 .modal-content {
     background: var(--modal-content-bg);
     padding: 1.5rem 2rem;
-    max-width: 800px;
+    max-width: 800px; /* Default max-width */
     border-radius: 10px;
-    width: 100%;
+    width: 100%; /* Responsive width */
     position: relative;
-    overflow-y: auto;
-    max-height: calc(90vh - 15vh); /* Adjusted for overlay padding-top */
-    /* Or max-height: 75vh; */
+    overflow-y: auto; /* Internal scroll for content */
+    max-height: 90vh; /* Default max height */
     box-shadow: 0 5px 15px var(--shadow-color-strong);
     border: 1px solid var(--card-border-color);
+    margin: 0 auto; /* Ensures horizontal centering if width is constrained by max-width */
 }
+
+/* Specific adjustments for modal-content within service modals */
+.modal-overlay.service-modal-center .modal-content {
+    /* max-width can be specifically set here if different from default, e.g., 600px from old .service-modal-center .modal-content */
+    /* text-align: center; can be added if that's still desired from old .service-modal-center .modal-content */
+    max-height: calc(100vh - 150px - 2rem); /* 150px for padding-top, 2rem for bottom padding/margin */
+    /* margin-top: 500px; This is removed */
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -262,14 +278,19 @@
 }
 
 /* Service Modals (centered content) */
-.service-modal-center .modal-content {
-    max-width: 600px;
-    text-align: center;
-    margin-top: 500px; /* Added requested top margin */
+/* This selector is now more specific due to .modal-overlay.service-modal-center .modal-content taking precedence for layout */
+.modal-overlay.service-modal-center .modal-content {
+    max-width: 600px; /* Specific max-width for service modals */
+    text-align: center; /* Center text content within service modals */
+    /* margin-top: 500px; /* REMOVED */
+    /* max-height is handled by the rule above: .modal-overlay.service-modal-center .modal-content */
 }
-.service-modal-center .modal-body {
+
+/* Styles for the body of service modals specifically, if needed */
+.modal-overlay.service-modal-center .modal-body {
     font-size: 1.1rem;
     line-height: 1.7;
+    /* text-align will be inherited from .modal-content if it's set to center there */
 }
 
 /* ===== Join Us Modal Specific Styles ===== */
@@ -377,14 +398,24 @@
 }
 
 /* ===== Contact Us Modal Specific Styles ===== */
+#contact-us-modal .modal-content {
+    /* Potentially a more specific max-width for contact-us modal if needed, e.g. 700px */
+    /* max-width: 700px; */ /* Example */
+}
+
 #contact-us-modal form {
-    gap: 1rem;
+    display: flex; /* Use flex to manage children (form-rows) */
+    flex-direction: column;
+    gap: 1rem; /* This will be the gap between .form-row elements */
+    /* If form should be narrower than modal-body and centered: */
+    /* max-width: 600px; /* Example: constrain form width */
+    /* margin: 0 auto; /* Center the form block if max-width is set */
 }
 #contact-us-modal .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 0;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 1.5rem; /* Gap between the two cells in a row */
+    /* margin-bottom: 0; /* Not needed if form has `gap` */
 }
 #contact-us-modal .form-row .form-cell[style*="grid-column: 1 / -1"] {
     grid-column: 1 / -1;
