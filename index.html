@@ -11,6 +11,122 @@
     <!-- Link to component-specific CSS if/when created, e.g., components/join-us/join-us.css -->
     <link rel="stylesheet" href="components/join-us/join-us.css"> <!-- Linking join-us.css as it exists -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Chatbot Placeholder and FAB styles */
+        #chatbot-placeholder {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px; /* Increased base width for larger screens */
+            max-width: 90vw; /* Responsive max-width for smaller screens */
+            height: 600px; /* Increased base height for larger screens */
+            max-height: 80vh; /* Responsive max-height, adjusted to 80% target */
+            border: 1px solid #ccc;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            background-color: #fff;
+            z-index: 1000; /* Ensure it's above other content like FABs */
+        }
+        body[data-theme="dark"] #chatbot-placeholder {
+            border-color: #555;
+            background-color: #222;
+        }
+        #chatbot-placeholder.active {
+            display: flex;
+        }
+        /* Media query for smaller screens to center the chatbot */
+        @media (max-width: 768px) {
+            #chatbot-placeholder {
+                bottom: auto;
+                right: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .chatbot-placeholder-close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #f1f1f1;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 26px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 10; /* Above iframe content */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .chatbot-placeholder-close-btn:hover {
+            background: #e0e0e0;
+        }
+        body[data-theme="dark"] .chatbot-placeholder-close-btn {
+            background: #4f4f4f;
+            border-color: #666;
+            color: #f0f0f0;
+        }
+        body[data-theme="dark"] .chatbot-placeholder-close-btn:hover {
+            background: #5a5a5a;
+        }
+
+        /* Styling for the new FAB trigger specifically if not using existing FAB styles */
+        /* This #chatbot-fab-trigger ID is what loader.js looks for by default for desktop */
+        #chatbot-fab-trigger {
+            position: fixed;
+            bottom: 20px; /* Adjust as needed, ensure it doesn't overlap with other FABs if they are kept */
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #007bff; /* Example color */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 999; /* Below placeholder when active, above other content */
+            cursor: pointer;
+            border: none; /* Assuming it's a button, reset border */
+        }
+        body[data-theme="dark"] #chatbot-fab-trigger {
+            background-color: #0069d9; /* Dark theme FAB color */
+        }
+        #chatbot-fab-trigger:hover {
+            background-color: #0056b3;
+        }
+        body[data-theme="dark"] #chatbot-fab-trigger:hover {
+            background-color: #004085;
+        }
+
+        /* Hide FAB if placeholder is active (using :has for modern browsers) */
+        body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
+            display: none;
+        }
+        /* Fallback for non-:has supporting browsers will be handled by loader.js adding a class to body or similar */
+
+        /* Ensure mobile chat launcher is styled if it's a new button */
+        /* If reusing an existing one, these might not be needed or need adjustment */
+        #mobileChatLauncher { /* This ID is what loader.js looks for by default for mobile */
+            /* Styles might be inherited if it's an existing, styled button. Add specific overrides if needed. */
+            /* Example minimal styling if it were a plain button: */
+            /* padding: 10px 15px; */
+            /* margin: 5px; */
+            /* cursor: pointer; */
+            /* border: 1px solid #007bff; */
+            /* background-color: #007bff; */
+            /* color: white; */
+            /* border-radius: 5px; */
+            /* font-size: 1em; */
+        }
+    </style>
 </head>
 <body class="dark"> <!-- Default to dark, global-toggles.js will adjust -->
 
@@ -66,12 +182,13 @@
                         <span class="fab-text" data-en="Contact Us" data-es="Comuníquese">Contact Us</span>
                     </div>
                 </button>
-            <button id="fab-chatbot" class="fab" data-modal-target="chatbot-modal"
-                    aria-label="Chatbot AI" data-aria-label-en="Chatbot AI" data-aria-label-es="Chatbot IA"
-                    title="Chatbot AI" data-title-en="Chatbot AI" data-title-es="Chatbot IA">
+            <!-- fab-chatbot will be changed to chatbot-fab-trigger and styled by the new CSS -->
+            <button id="chatbot-fab-trigger" class="fab"
+                    aria-label="Open Chat" data-aria-label-en="Open Chat" data-aria-label-es="Abrir Chat"
+                    title="Open Chat" data-title-en="Open Chat" data-title-es="Abrir Chat">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
-                        <span class="fab-text" data-en="Chatbot" data-es="Chatbot">Chatbot</span>
+                        <span class="fab-text" data-en="Chat" data-es="Chat">Chat</span>
                     </div>
                 </button>
             </div>
@@ -141,16 +258,11 @@
             <div class="modal-body"></div>
         </div>
     </div>
-    <div id="chatbot-modal" class="modal-overlay" role="dialog" aria-labelledby="chatbot-modal-title" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="chatbot-modal-title" data-en="Let's Chat" data-es="Hablemos">Let's Chat</h3>
-                <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
-            </div>
-            <div class="modal-body" style="padding: 0; overflow: hidden; height: calc(100% - 50px);"> <!-- Adjust height based on header -->
-                <iframe src="components/chatbot/chatbot.html" style="width: 100%; height: 100%; border: none;" title="Let's Chat" data-title-en="Let's Chat" data-title-es="Hablemos"></iframe>
-            </div>
-        </div>
+    <!-- Removed old chatbot-modal div -->
+
+    <!-- Chatbot placeholder for mychatbot -->
+    <div id="chatbot-placeholder">
+        <!-- The loader script (mychatbot/loader.js) will inject a close button and the iframe here. -->
     </div>
 
     <footer>
@@ -161,7 +273,7 @@
     <nav class="mobile-nav" id="mobile-bottom-nav">
         <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
         <button class="mobile-nav-item" id="mobile-services-toggle"><i class="fas fa-bars"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <a href="#" id="mobile-chat-link" class="mobile-nav-item" data-modal-target="chatbot-modal"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></a>
+        <!-- Removed old mobile-chat-link, new one is in #newMobileNav -->
     </nav>
     <div class="mobile-services-menu" id="mobile-services-panel">
         <ul>
@@ -177,7 +289,7 @@
         <button class="mobile-nav-item" id="newMobileServicesToggle" aria-expanded="false" aria-controls="newMobileServicesMenu" data-en-text="Services" data-es-text="Servicios"><i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span></button>
         <button class="mobile-nav-item lang-toggle-btn" id="newMobileLanguageToggle" aria-label="Switch Language" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
         <button class="mobile-nav-item theme-toggle-btn" id="newMobileThemeToggle" aria-label="Toggle Theme" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button>
-        <button class="mobile-nav-item" id="newMobileChatLauncher" data-modal-target="chatbot-modal" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
+        <button class="mobile-nav-item" id="mobileChatLauncher" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
     </nav>
     <div class="mobile-services-menu" id="newMobileServicesMenu" aria-hidden="true">
         <ul>
@@ -198,5 +310,6 @@
     <script src="components/join-us/join-us.js" defer></script>
     <!-- For Join Us, it will be explicitly linked as per plan -->
 
+    <script src="mychatbot/loader.js" defer></script>
 </body>
 </html>
