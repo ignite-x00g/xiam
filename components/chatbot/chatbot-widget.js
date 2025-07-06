@@ -15,14 +15,43 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.disabled = true;
     }
 
+    function updateSendButtonState() {
+        if (sendButton && chatInput && humanVerificationCheckbox) {
+            const isHumanVerified = humanVerificationCheckbox.checked;
+            const hasText = chatInput.value.trim() !== '';
+            sendButton.disabled = !(isHumanVerified && hasText);
+        }
+    }
+
+    function updateChatInputState() {
+        if (chatInput && humanVerificationCheckbox) {
+            const isHumanVerified = humanVerificationCheckbox.checked;
+            chatInput.disabled = !isHumanVerified;
+            if (isHumanVerified && document.activeElement !== chatInput) {
+                 // Only focus if not already focused to avoid annoyance on checkbox click
+                // and if the input just became enabled.
+                // Check if the focus was on the checkbox itself or if input was previously disabled.
+                const chatInputPreviouslyDisabled = chatInput.disabled; // This is before state change
+                if (chatInputPreviouslyDisabled || document.activeElement === humanVerificationCheckbox) {
+                   // chatInput.focus();
+                }
+            }
+        }
+    }
+
+
     if (humanVerificationCheckbox && sendButton && chatInput) {
         humanVerificationCheckbox.addEventListener('change', () => {
-            const isChecked = humanVerificationCheckbox.checked;
-            sendButton.disabled = !isChecked;
-            chatInput.disabled = !isChecked;
-            if (isChecked) {
-                chatInput.focus(); // Focus on input when enabled
+            updateChatInputState();
+            updateSendButtonState();
+            // If checkbox is checked and input becomes enabled, focus it.
+            if (humanVerificationCheckbox.checked && !chatInput.disabled) {
+                chatInput.focus();
             }
+        });
+
+        chatInput.addEventListener('input', () => {
+            updateSendButtonState();
         });
     }
 
@@ -30,20 +59,25 @@ document.addEventListener('DOMContentLoaded', () => {
         chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const userMessage = chatInput.value.trim();
-            if (!userMessage || chatInput.disabled) { // Also check if input is disabled
-                // Optionally, provide feedback that message is empty or input is disabled
+
+            if (!humanVerificationCheckbox.checked) {
+                addMessageToLog('Please verify you are human.', 'bot-message'); // Removed window.parent from here
+                // Ensure states are correct if submission fails due to human verification
+                chatInput.disabled = true;
+                sendButton.disabled = true;
                 return;
             }
 
-            if (!humanVerificationCheckbox.checked) {
-                addMessageToLog('Please verify you are human.', 'bot-message', window.parent);
-                sendButton.disabled = true;
-                chatInput.disabled = true;
+            // User message check should happen after human verification for clarity of feedback
+            if (!userMessage) {
+                // Optionally, provide feedback that message is empty
+                // sendButton is already managed by input and checkbox state, so no direct disable here unless specific UX desired
                 return;
             }
 
             addMessageToLog(userMessage, 'user-message');
             chatInput.value = '';
+            updateSendButtonState(); // After clearing input, update button state
             setTimeout(() => {
                 simulateBotResponse(userMessage);
             }, 1000);
