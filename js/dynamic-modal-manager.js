@@ -154,6 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const modalToClose = closeButton.closest('.modal-overlay') || document.getElementById(closeButton.dataset.closeModal);
             if(modalToClose) window.closeModal(modalToClose);
+            return; // Modal closed, no further action needed for this click
+        }
+
+        // Check if a 'Send' button inside a modal was clicked
+        // Assumes 'Send' buttons will have a class like 'modal-send-button'
+        const sendButton = event.target.closest('.modal-send-button');
+        if (sendButton) {
+            const modalToClose = sendButton.closest('.modal-overlay');
+            if (modalToClose && (modalToClose.style.display === 'flex' || modalToClose.style.display === 'block')) {
+                event.preventDefault(); // Prevent default button action if necessary
+                window.closeModal(modalToClose);
+                // Assuming 'Send' implies action completion, modal should close.
+                // If there's a success message to show first, this logic might need adjustment
+                // or the success message should be shown before this generic handler closes it.
+            }
         }
     });
 
