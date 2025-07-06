@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileChatLauncher = document.getElementById('mobileChatLauncher');
   const desktopChatFab = document.getElementById('chatbot-fab-trigger');
 
-  const chatbotUrl = 'components/chatbot/chatbot.html'; // Path relative to project root where chatbot.html is
+  const chatbotUrl = 'iframe-content.html'; // Path relative to the loader's location (mychatbot/)
   let iframeLoaded = false;
   let chatbotIframe = null; // Store the iframe element
   let themeObserver = null; // Store the MutationObserver

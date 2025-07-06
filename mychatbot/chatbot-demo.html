@@ -159,12 +159,12 @@
 
     </style>
     <head>
-    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="../css/theme.css">
     </head>
 <body data-theme="light"> <!-- Default theme -->
     <div class="controls">
         <h1>Chatbot Loader Demo</h1>
-        <p>This page demonstrates loading the chatbot widget (<code>chatbot.html</code>) into an iframe using <code>js/chatbot-loader.js</code>.</p>
+        <p>This page demonstrates loading the chatbot widget (<code>iframe-content.html</code>) into an iframe using <code>loader.js</code>.</p>
         <button onclick="toggleTheme()">Toggle Page Theme</button>
         <hr>
         <button id="mobileChatLauncher">Open Chat (Button)</button>
@@ -186,10 +186,10 @@
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', newTheme);
             console.log('Parent page theme toggled to:', newTheme);
-            // The chatbot-loader.js will detect this change and update the iframe's theme.
+            // The loader.js will detect this change and update the iframe's theme.
         }
     </script>
-    <script src="js/chatbot-loader.js" defer></script>
+    <script src="loader.js" defer></script>
 
 </body>
 </html>
