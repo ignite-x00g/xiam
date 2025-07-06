@@ -96,6 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
         window.setCurrentLanguage(newLang);
         window.applyTranslations(newLang);
 
+        // START MODIFICATION for Chatbot
+        const chatbotIframe = document.querySelector('#chatbot-modal iframe');
+        if (chatbotIframe && chatbotIframe.contentWindow) {
+            try {
+                chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: newLang }, window.location.origin); // More specific target origin
+            } catch (e) {
+                console.warn("Could not post message to chatbot iframe. It might not be loaded or accessible.", e);
+                // Fallback for scenarios where origin might be 'null' for local files, allow '*' but log it.
+                if (window.location.origin === 'null' || window.location.origin === undefined) {
+                    console.warn("Attempting to postMessage to chatbot with '*' origin due to local file context.");
+                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', lang: newLang }, '*');
+                }
+            }
+        }
+        // END MODIFICATION
+
         const currentTheme = window.getCurrentTheme();
         document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
             const ariaEn = btn.dataset.enLabel || "Switch to English";
