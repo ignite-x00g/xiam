@@ -760,16 +760,16 @@ body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
 @media (min-width: 769px) {
     #fab-contact { /* Contact Us FAB */
         position: fixed;
-        bottom: 50px;
+        bottom: 75px; /* Was 50px, moved up 25px */
         right: 50px;
         z-index: 1021; /* Ensure it's above general fab-container if needed, but respects modal z-indexes */
     }
 
     #fab-join { /* Join Us FAB */
         position: fixed;
-        /* Position above #fab-contact. Assuming fab height of 60px + 10px gap = 70px offset */
-        /* 50px (bottom of #fab-contact) + 60px (height of #fab-contact) + 10px (desired gap) = 120px */
-        bottom: 120px;
+        /* Position above #fab-contact. Original: 120px */
+        /* New: 75px (bottom of #fab-contact) + 60px (height of #fab-contact) + 10px (desired gap) = 145px */
+        bottom: 145px; /* Was 120px, moved up 25px */
         right: 50px;
         z-index: 1021;
     }
