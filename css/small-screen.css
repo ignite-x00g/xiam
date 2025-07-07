@@ -22,6 +22,11 @@
     display: none;
   }
   */
+
+  /* Hide the main FAB stack on mobile screens */
+  .fab-stack {
+    display: none;
+  }
 }
 
 /* Styles for screens wider than 768px (typical desktop) */
