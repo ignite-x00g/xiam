@@ -7,9 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const servicesToggle = document.getElementById('newMobileServicesToggle');
     const servicesMenu = document.getElementById('newMobileServicesMenu');
 
+    // DEBUG: console.log('Mobile FAB Nav: DOMContentLoaded fired. Attempting to find elements...');
+    // DEBUG: console.log('Mobile FAB Nav: fabToggle found?', !!fabToggle);
+    // DEBUG: console.log('Mobile FAB Nav: mobileNav found?', !!mobileNav);
+
     if (fabToggle && mobileNav) {
-        // console.log("New FAB mobile nav elements found.");
+        // DEBUG: console.log("Mobile FAB Nav: #newFabToggle and #newMobileNav found. Adding click listener to toggle.");
         fabToggle.addEventListener('click', (e) => {
+            // DEBUG: console.log("Mobile FAB Nav: #newFabToggle clicked.");
             e.stopPropagation(); // Prevent document click listener from closing it immediately
             mobileNav.classList.toggle('active');
             const isExpanded = mobileNav.classList.contains('active');

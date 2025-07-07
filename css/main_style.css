@@ -755,3 +755,31 @@ body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
     /* Styles are largely inherited from .mobile-nav-item via index.html structure. */
     /* Add specific overrides here if #mobileChatLauncher needs unique styling not covered by .mobile-nav-item */
 }
+
+/* Specific positioning for Join Us and Contact Us FABs on larger screens */
+@media (min-width: 769px) {
+    #fab-contact { /* Contact Us FAB */
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        z-index: 1021; /* Ensure it's above general fab-container if needed, but respects modal z-indexes */
+    }
+
+    #fab-join { /* Join Us FAB */
+        position: fixed;
+        /* Position above #fab-contact. Assuming fab height of 60px + 10px gap = 70px offset */
+        /* 50px (bottom of #fab-contact) + 60px (height of #fab-contact) + 10px (desired gap) = 120px */
+        bottom: 120px;
+        right: 50px;
+        z-index: 1021;
+    }
+
+    /* The #chatbot-fab-trigger will remain controlled by its position within .fab-container,
+       which is bottom: 20px, right: 20px on desktop, or adjusted on mobile by other rules.
+       The .fab-container itself might only contain the #chatbot-fab-trigger visually on desktop
+       if #fab-join and #fab-contact are fixed positioned independently.
+       If .fab-container still imposes flex layout that affects #chatbot-fab-trigger's perceived position
+       due to the space left by the fixed-positioned items, further adjustments might be needed.
+       For now, this directly positions #fab-join and #fab-contact.
+    */
+}
