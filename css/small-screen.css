@@ -1,84 +1,40 @@
 /* css/small-screen.css */
-/* Global responsive adjustments. Component-specific responsive rules should be with component styles in main_style.css or component CSS. */
 
-@media (max-width: 768px) {
-    main {
-        padding: 1rem; /* Less horizontal padding on smaller screens */
-        /* padding-bottom might be adjusted by specific mobile navs if they are fixed and not handled by their own component CSS */
-    }
-    .site-header {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 0.8rem;
-    }
-    .header-content {
-        text-align: center;
-    }
-    .main-header-text {
-        font-size: 2rem;
-    }
-    .sub-header-text {
-        font-size: 0.8rem;
-    }
-    .header-toggles {
-        margin-top: 10px;
-        gap: 10px;
-        justify-content: center;
-        width: 100%;
-    }
-    .header-toggle-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.75rem;
-        min-width: 60px;
-    }
+/* Styles for screens 768px wide or less (typical mobile/tablet portrait) */
+@media(max-width:768px){
+  /* Ensure #mobile-bottom-nav and its toggle are visible */
+  /* #mobile-bottom-nav is styled in main_style.css with position fixed bottom, display flex */
+  /* #mobile-services-toggle is a button within it, so it will be visible if parent is. */
 
-    /* Hide desktop services navigation, mobile nav will take over */
-    .services-navigation {
-        display: none;
-    }
+  /* Ensure #newFabToggle and #newMobileNav are visible */
+  /* #newFabToggle is styled in main_style.css with position fixed, display flex */
+  /* #newMobileNav display is handled by its .active class for transform (from scaleY(0) to scaleY(1)) */
+  /* So, these should be visible by default on small screens based on main_style.css, */
+  /* unless overridden by a min-width rule first. */
 
-    /* General modal content adjustments for smaller screens */
-    /* Note: #chatbot-modal .modal-content has more specific responsive rules in main_style.css */
-    .modal-overlay:not(#chatbot-modal) .modal-content { /* Apply to general modals, not chatbot which has own responsive */
-        padding: 1rem 1.5rem;
-        max-height: 85vh;
-    }
-     .modal-header h3,
-     .modal-header h2 { /* General modal titles */
-        font-size: 1.3rem;
-    }
+  /* No specific overrides from the sample's mobile nav section seem necessary here, */
+  /* as base styles in main_style.css and JS .active class toggles should handle appearance. */
+  /* The main purpose of this block is to counteract any min-width styles that might hide them. */
 
-    footer {
-         /* Add padding-bottom if mobile navigation is fixed and might overlap */
-         /* This is often handled by specific mobile nav CSS or main content padding */
-         /* For now, if a global fixed nav exists, this might be needed: */
-
-         /* padding-bottom: 70px; */
-    }
+  /* If .fab-container (desktop FABs) should be hidden on mobile: */
+  /*
+  .fab-container {
+    display: none;
+  }
+  */
 }
 
-@media (max-width: 480px) {
-    .main-header-text {
-        font-size: 1.8rem; /* Even smaller title for very small screens */
-    }
+/* Styles for screens wider than 768px (typical desktop) */
+@media(min-width:769px){
+  /* Hide all mobile-specific navigation elements */
+  #mobile-bottom-nav,
+  #mobile-services-panel,
+  #newFabToggle,
+  #newMobileNav,
+  #newMobileServicesMenu {
+    display:none !important; /* Ensure these are hidden on larger screens */
+  }
 
-    .modal-overlay:not(#chatbot-modal) .modal-content {
-        padding: 1rem; /* Even less padding for very small modals */
-    }
-}
-
-/* Desktop: Ensure new FAB nav system is hidden on larger screens */
-/* This is a global rule for these specific IDs, so it fits here. */
-@media screen and (min-width: 769px) {
-    #newFabToggle,
-    #newMobileNav,
-    #newMobileServicesMenu {
-        display: none !important;
-    }
-    /* Ensure old mobile nav is also hidden on desktop if it wasn't meant to be shown */
-     .mobile-nav#mobile-bottom-nav,
-     .mobile-services-menu#mobile-services-panel,
-     #mobile-menu-toggle { /* The original hamburger for top panel */
-        display: none !important;
-    }
+  /* #mobile-services-toggle is part of #mobile-bottom-nav, so it's hidden with its parent. */
+  /* #newMobileServicesToggle is part of #newMobileNav, hidden with its parent. */
 }
