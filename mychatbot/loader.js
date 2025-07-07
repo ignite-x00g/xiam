@@ -30,7 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Wait for iframe to load its content before trying to access its document
     chatbotIframe.onload = () => {
         console.log('INFO:ChatbotLoader/setupThemeSync: Chatbot iframe "onload" event triggered.');
-        applyThemeToIframe(currentTheme);
+        applyThemeToIframe(currentTheme); // Apply initial theme
+
+        // Send initial language
+        if (typeof window.getCurrentLanguage === 'function') {
+            const currentLang = window.getCurrentLanguage();
+            if (chatbotIframe.contentWindow) {
+                try {
+                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', language: currentLang }, window.location.origin);
+                    console.log(`INFO:ChatbotLoader/onload: Sent initial language "${currentLang}" to chatbot iframe.`);
+                } catch (e) {
+                    console.warn("Could not post initial language message to chatbot iframe (onload).", e);
+                }
+            }
+        }
 
         // Setup MutationObserver after iframe is loaded and theme initially applied
         if (themeObserver) themeObserver.disconnect(); // Disconnect previous observer if any
@@ -51,7 +64,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // and contentDocument is accessible, try applying theme.
      if (chatbotIframe.contentDocument && chatbotIframe.contentDocument.readyState === 'complete') {
         console.log('INFO:ChatbotLoader/setupThemeSync: Chatbot iframe already loaded, applying theme.');
-        applyThemeToIframe(currentTheme);
+        applyThemeToIframe(currentTheme); // Apply initial theme
+
+        // Send initial language if not sent by onload
+        if (typeof window.getCurrentLanguage === 'function') {
+            const currentLang = window.getCurrentLanguage();
+            if (chatbotIframe.contentWindow) {
+                try {
+                    chatbotIframe.contentWindow.postMessage({ type: 'languageChange', language: currentLang }, window.location.origin);
+                    console.log(`INFO:ChatbotLoader/alreadyLoaded: Sent initial language "${currentLang}" to chatbot iframe.`);
+                } catch (e) {
+                    console.warn("Could not post initial language message to chatbot iframe (already loaded).", e);
+                }
+            }
+        }
+
          // Also setup observer here if needed, though onload should ideally handle it.
         if (!themeObserver && chatbotIframe.contentWindow && chatbotIframe.contentWindow.document) {
             if (themeObserver) themeObserver.disconnect();
