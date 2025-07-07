@@ -130,8 +130,13 @@ window.initializeJoinUsFormSections = function() {
 // If the modal's HTML were static within index.html and not loaded dynamically,
 // then a DOMContentLoaded listener here would be appropriate to call it.
 // Example:
-// document.addEventListener('DOMContentLoaded', () => {
-//     if (document.getElementById('join-us-modal')) { // If modal is statically in page
-//         window.initializeJoinUsFormSections();
-//     }
-// });
+document.addEventListener('DOMContentLoaded', () => {
+    // Ensure the function is available globally or directly call it if it's in the same scope
+    // and this script runs after the function definition.
+    if (typeof window.initializeJoinUsFormSections === 'function' && document.getElementById('join-us-modal')) {
+        // console.log("DOM fully loaded and parsed. Initializing Join Us form sections if modal is present.");
+        window.initializeJoinUsFormSections();
+    } else {
+        // console.log("Join Us modal not found in static DOM on DOMContentLoaded, or initializeJoinUsFormSections not defined yet.");
+    }
+});
