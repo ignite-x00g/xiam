@@ -40,12 +40,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Handle opening modals via data-modal-target
+    // Handle opening/toggling modals via data-modal-target
     qsa('[data-modal-target]').forEach(button => {
         button.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default action if it's an <a> or <button type="submit">
+            e.preventDefault();
             const modalId = button.dataset.modalTarget;
-            openModal(modalId);
+            const modal = qs('#' + modalId); // qs is assumed to be defined globally
+
+            if (modal) {
+                if (modal.classList.contains('active')) {
+                    // If the modal is already active, close it
+                    closeModal(modal); // closeModal can take an element or ID
+                } else {
+                    // Otherwise, open it
+                    // Potentially, ensure other modals are closed before opening a new one, if that's desired behavior.
+                    // For now, just opening the targeted one.
+                    openModal(modalId);
+                }
+            } else {
+                console.warn(`Modal with ID "${modalId}" not found when toggling.`);
+            }
         });
     });
 
