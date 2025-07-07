@@ -425,3 +425,70 @@ body.dark .mobile-services-menu button {
     width: auto;
     min-width: 200px;
 }
+
+/* ───────────────────────────────────────────────────────────
+   Home-page hero alignment (07--)
+   • Brand (OPS + tagline)   →  25 px from top-left
+   • Language toggle buttons →  25 px from top-right, same right offset as FABs
+   • “Our Services” block    →  centred horizontally, ~250 px from top
+   ─────────────────────────────────────────────────────────── */
+
+/* 1 ▸ site brand */
+.header-content { /* Targets the wrapper for OPS h1 and tagline p */
+  position: fixed;      /* lock to viewport */
+  top: 25px;            /* 25 px from the top edge */
+  left: 25px;           /* 25 px from the left edge */
+  margin: 0;            /* cancel default h1 / p margins if they were on this div */
+  line-height: 1.15;    /* Kept from original, good for text within */
+  z-index: 1100;        /* Ensure it's above general content but potentially below modals/toggles if needed */
+}
+
+/* Individual text elements within .header-content might need margin:0 if they have user-agent styles */
+.header-content .main-header-text,
+.header-content .sub-header-text {
+    margin: 0; /* Explicitly remove margins from h1 and p */
+}
+
+/* 2 ▸ language toggle (EN | ES) */
+.lang-toggle-btn {  /* Using existing button selector */
+  position: fixed;
+  top: 25px;
+  right: 20px;          /* same 20 px gap as FABs */
+  z-index: 1200;        /* make sure it sits above other UI (including header-content) */
+}
+
+/* 3 ▸ services block (headline + pills) */
+.services-section { /* Targets the existing section wrapping <h2> + service buttons */
+  position: fixed;
+  top: 250px;                     /* ~250 px below the top edge    */
+  left: 50%;                      /* centre horizontally           */
+  transform: translateX(-50%);    /* true centring                 */
+  text-align: center;
+  /* display: inline-block; */   /* Replaced with flex for better control if needed, though text-align:center on block might be enough */
+  display: block; /* Changed to block for full width before centering with margin auto or transform */
+  padding: 20px;                  /* Added some padding for better appearance */
+  background: var(--clr-bg);      /* Ensure it has a background if it overlays other fixed elements */
+  z-index: 1000;                  /* Default stacking context, can be adjusted */
+  width: auto; /* Allow content to define width, then inline-block or similar can shrink-wrap */
+}
+
+/* To ensure the content inside .services-section (like .service-nav-list) is also centered if .services-section is block */
+.services-section .services-navigation,
+.services-section .service-nav-list {
+    display: inline-block; /* To make them shrink-wrap and respect text-align:center of parent */
+    text-align: left; /* Reset text-align for the content of these elements if needed */
+}
+.services-section .services-section-title {
+    /* Title is already block and will be centered by text-align:center on .services-section */
+}
+
+
+/* Optional: keep it centred on very small screens too */
+@media (max-width: 480px) {
+  .services-section { /* Adjusted selector */
+    width: 90vw;                  /* let it breathe on phones      */
+    top: 200px; /* Slightly adjusted top for smaller screens */
+    left: 50%; /* ensure left is still 50% for transform to work correctly */
+    transform: translateX(-50%);
+  }
+}
