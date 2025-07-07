@@ -278,5 +278,25 @@
     <script src="components/join-us/join-us.js" defer></script>
     <!-- For Join Us, it will be explicitly linked as per plan -->
 
+    <!-- ===== MOBILE NAV (from sample) ===== -->
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html" class="mobile-nav-item" title="Home"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
+      <button class="mobile-nav-item" id="mobile-services-toggle" aria-expanded="false" aria-controls="mobile-services-menu" title="Services">
+        <i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span>
+      </button>
+      <button class="mobile-nav-item" id="mobile-language-toggle" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
+      <button class="mobile-nav-item" id="mobile-theme-toggle" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button> <!-- Initial text based on default theme -->
+      <button class="mobile-nav-item" data-modal-target="chatbot-modal" data-modal="chatbot-modal" title="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button> <!-- Added data-modal for sample's JS -->
+    </nav>
+
+    <!-- ===== SERVICES POP-UP (from sample) ===== -->
+    <div class="mobile-services-menu" id="mobile-services-menu" aria-hidden="true">
+      <!-- Links in sample are direct hrefs. Current site uses JS to load modals. Will adapt to use button and data-attributes. -->
+      <button data-modal-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Gestion">Business Operations</button>
+      <button data-modal-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</button>
+      <button data-modal-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte Tecnico">IT Support</button>
+      <button data-modal-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button>
+    </div>
+    <script src="js/sample-interactions.js" defer></script>
 </body>
 </html>
