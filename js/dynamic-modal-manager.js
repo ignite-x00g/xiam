@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
     // Close modal on window click outside (on the backdrop or overlay itself)
     window.addEventListener('click', e => {
         if (e.target.classList.contains('modal-overlay') && e.target.classList.contains('active')) {
