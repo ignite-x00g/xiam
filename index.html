@@ -11,7 +11,6 @@
     <!-- Link to component-specific CSS if/when created, e.g., components/join-us/join-us.css -->
     <link rel="stylesheet" href="components/join-us/join-us.css"> <!-- Linking join-us.css as it exists -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Chatbot Placeholder and FAB styles moved to css/main_style.css -->
 </head>
 <body class="dark"> <!-- Default to dark, global-toggles.js will adjust -->
 
@@ -67,13 +66,12 @@
                         <span class="fab-text" data-en="Contact Us" data-es="Comuníquese">Contact Us</span>
                     </div>
                 </button>
-            <!-- fab-chatbot will be changed to chatbot-fab-trigger and styled by the new CSS -->
-            <button id="chatbot-fab-trigger" class="fab"
-                    aria-label="Open Chat" data-aria-label-en="Open Chat" data-aria-label-es="Abrir Chat"
-                    title="Open Chat" data-title-en="Open Chat" data-title-es="Abrir Chat">
+            <button id="fab-chatbot" class="fab" data-modal-target="chatbot-modal"
+                    aria-label="Chatbot AI" data-aria-label-en="Chatbot AI" data-aria-label-es="Chatbot IA"
+                    title="Chatbot AI" data-title-en="Chatbot AI" data-title-es="Chatbot IA">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
-                        <span class="fab-text" data-en="Chat" data-es="Chat">Chat</span>
+                        <span class="fab-text" data-en="Chatbot" data-es="Chatbot">Chatbot</span>
                     </div>
                 </button>
             </div>
@@ -83,7 +81,7 @@
     <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
 
     <!-- Modal Shells: Content will be loaded dynamically -->
-    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="join-us-modal-title" style="display: none;">
+    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-labelledby="join-us-modal-title" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="join-us-modal-title" data-en="Join Us" data-es="Únete">Join Us</h3>
@@ -107,47 +105,52 @@
       </div>
     </div>
 
-    <div id="business-operations-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="bo-modal-title" style="display:none;">
+    <div id="business-operations-modal" class="modal-overlay service-modal-center" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="bo-modal-title" data-en="Business Operations" data-es="Gestion">Business Operations</h3>
+                <h3 data-en="Business Operations" data-es="Gestion">Business Operations</h3>
                 <button class="close-modal" data-close-modal="business-operations-modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body"></div>
         </div>
     </div>
-    <div id="contact-center-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="cc-modal-title" style="display:none;">
+    <div id="contact-center-modal" class="modal-overlay service-modal-center" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="cc-modal-title" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</h3>
+                <h3 data-en="Contact Center" data-es="Centro de Servicios">Contact Center</h3>
                 <button class="close-modal" data-close-modal="contact-center-modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body"></div>
         </div>
     </div>
-    <div id="it-support-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="it-modal-title" style="display:none;">
+    <div id="it-support-modal" class="modal-overlay service-modal-center" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="it-modal-title" data-en="IT Support" data-es="Soporte Tecnico">IT Support</h3>
+                <h3 data-en="IT Support" data-es="Soporte Tecnico">IT Support</h3>
                 <button class="close-modal" data-close-modal="it-support-modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body"></div>
         </div>
     </div>
-    <div id="professionals-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="prof-modal-title" style="display:none;">
+    <div id="professionals-modal" class="modal-overlay service-modal-center" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="prof-modal-title" data-en="Professionals" data-es="Profesionales">Professionals</h3>
+                <h3 data-en="Professionals" data-es="Profesionales">Professionals</h3>
                 <button class="close-modal" data-close-modal="professionals-modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body"></div>
         </div>
     </div>
-    <!-- Removed old chatbot-modal div -->
-
-    <!-- Chatbot placeholder for mychatbot -->
-    <div id="chatbot-placeholder">
-        <!-- The loader script (mychatbot/loader.js) will inject a close button and the iframe here. -->
+    <div id="chatbot-modal" class="modal-overlay" role="dialog" aria-labelledby="chatbot-modal-title" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="chatbot-modal-title" data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
+                <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0; overflow: hidden; height: calc(100% - 50px);"> <!-- Adjust height based on header -->
+                <iframe src="components/chatbot/chatbot.html" style="width: 100%; height: 100%; border: none;" title="Chatbot" data-title-en="Chatbot" data-title-es="Chatbot"></iframe>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -158,7 +161,7 @@
     <nav class="mobile-nav" id="mobile-bottom-nav">
         <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
         <button class="mobile-nav-item" id="mobile-services-toggle"><i class="fas fa-bars"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <!-- Removed old mobile-chat-link, new one is in #newMobileNav -->
+        <a href="#" id="mobile-chat-link" class="mobile-nav-item" data-modal-target="chatbot-modal"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></a>
     </nav>
     <div class="mobile-services-menu" id="mobile-services-panel">
         <ul>
@@ -174,7 +177,7 @@
         <button class="mobile-nav-item" id="newMobileServicesToggle" aria-expanded="false" aria-controls="newMobileServicesMenu" data-en-text="Services" data-es-text="Servicios"><i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span></button>
         <button class="mobile-nav-item lang-toggle-btn" id="newMobileLanguageToggle" aria-label="Switch Language" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
         <button class="mobile-nav-item theme-toggle-btn" id="newMobileThemeToggle" aria-label="Toggle Theme" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button>
-        <button class="mobile-nav-item" id="mobileChatLauncher" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
+        <button class="mobile-nav-item" id="newMobileChatLauncher" data-modal-target="chatbot-modal" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
     </nav>
     <div class="mobile-services-menu" id="newMobileServicesMenu" aria-hidden="true">
         <ul>
@@ -195,6 +198,5 @@
     <script src="components/join-us/join-us.js" defer></script>
     <!-- For Join Us, it will be explicitly linked as per plan -->
 
-    <script src="mychatbot/loader.js" defer></script>
 </body>
 </html>
