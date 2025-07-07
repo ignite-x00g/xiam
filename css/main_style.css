@@ -124,6 +124,27 @@ body.dark .human-check { color: #bbb; }
 /* Responsive adjustments for chatbot if its container is not fixed width */
 /* @media(max-width:600px){#chatbot-container{height:45vh;width:85%}} - This was in sample, but modal sizing handles it */
 
+/************* FAB MODAL STYLES (80% screen) *************/
+/* Default FAB Modal style (80% screen, standard padding) */
+#join-us-modal .modal-content,
+#contact-us-modal .modal-content {
+  width: 80vw;
+  height: 80vh;
+  max-width: 80vw;
+  max-height: 80vh;
+  padding: 20px; /* Standard padding for these FAB modals */
+}
+
+/* Chatbot FAB Modal style (80% screen, specific padding) */
+#chatbot-modal .modal-content {
+  width: 80vw;
+  height: 80vh;
+  max-width: 80vw;
+  max-height: 80vh;
+  padding: 0; /* Chatbot specific padding */
+}
+
+
 /*************  MOBILE NAV (from sample) *************/
 /* This section is for the new mobile nav introduced by the sample */
 /* It might conflict with or replace existing .mobile-nav, .mobile-services-menu styles if not scoped properly or if old ones are not removed */
