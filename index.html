@@ -74,6 +74,7 @@
                         <span class="fab-text" data-en="Chatbot" data-es="Chatbot">Chatbot</span>
                     </div>
                 </button>
+            <button class="fab-btn" id="menuToggle" title="Menu" data-en-title="Menu" data-es-title="Menú"><i class="fas fa-bars"></i></button>
             </div>
         </section>
     </main>
@@ -81,27 +82,94 @@
     <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
 
     <!-- Modal Shells: Content will be loaded dynamically -->
-    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-labelledby="join-us-modal-title" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="join-us-modal-title" data-en="Join Us" data-es="Únete">Join Us</h3>
-                <button class="close-modal" data-close-modal="join-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Content for Join Us modal will be loaded here from components/join-us/join-us.html -->
-            </div>
-        </div>
-    </div>
-
-    <div id="contact-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" style="display: none;">
+    <!-- ===== JOIN MODAL (from sample) ===== -->
+    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="joinTitle" style="display: none;">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 id="contactModalTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h3>
-          <button class="close-modal" data-close-modal="contact-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
+          <h2 id="joinTitle" data-en="Join Us" data-es="Únase">Join Us</h2>
+          <button class="close-modal" data-close-modal="join-us-modal" data-close>&times;</button> <!-- Added data-close for sample's JS -->
         </div>
-        <div class="modal-body">
-            <!-- Content for Contact Us modal will be loaded here from components/contact-us/contact-us.html -->
+        <form id="joinForm" autocomplete="off">
+          <div class="modal-body"> <!-- Keep modal-body for consistency if other modals use it, or remove if not needed by sample structure -->
+            <div class="form-pairs">
+              <!-- Row 1 -->
+              <div class="form-block"><label for="jn-name" data-en="Name" data-es="Nombre">Name</label><input id="jn-name" name="name" type="text" required placeholder="Enter your name" data-en-placeholder="Enter your name" data-es-placeholder="Ingrese su nombre"></div>
+              <div class="form-block"><label for="jn-email" data-en="Email" data-es="Correo">Email</label><input id="jn-email" name="email" type="email" required placeholder="Enter your email" data-en-placeholder="Enter your email" data-es-placeholder="Ingrese su correo"></div>
+              <!-- Row 2 -->
+              <div class="form-block"><label for="jn-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="jn-phone" name="phone" type="tel" required placeholder="Enter your phone" data-en-placeholder="Enter your phone" data-es-placeholder="Ingrese su teléfono"></div>
+              <div></div> <!-- Empty div for grid spacing as in sample -->
+              <!-- Row 3+ -->
+              <div class="form-section" data-section="Skills">
+                <div class="section-header"><h2 data-en="Skills" data-es="Habilidades">Skills</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+                <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
+              </div>
+              <div class="form-section" data-section="Education">
+                <div class="section-header"><h2 data-en="Education" data-es="Educación">Education</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+                <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
+              </div>
+              <div class="form-section" data-section="Certification">
+                <div class="section-header"><h2 data-en="Certification" data-es="Certificación">Certification</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+                <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
+              </div>
+              <div class="form-section" data-section="Hobbies">
+                <div class="section-header"><h2 data-en="Hobbies" data-es="Pasatiempos">Hobbies</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+                <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
+              </div>
+              <div class="form-section">
+                <h2 data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</h2>
+                <select id="jn-interest" name="interest" required> <!-- Added name attribute -->
+                  <option value="" disabled selected data-en="Select an option" data-es="Seleccione una opción">Select an option</option>
+                  <option data-en="Business Operations" data-es="Gestión">Business Operations</option><option data-en="Contact Center" data-es="Centro de Servicios">Contact Center</option><option data-en="IT Support" data-es="Soporte Técnico">IT Support</option><option data-en="Professionals" data-es="Profesionales">Professionals</option>
+                </select>
+              </div>
+              <div class="form-section" data-section="Continued Education">
+                <div class="section-header"><h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+                <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
+              </div>
+              <div class="form-section" data-section="Experience">
+                <div class="section-header"><h2 data-en="Experience" data-es="Experiencia">Experience</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+                <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
+              </div>
+              <div class="form-block"><label for="jn-comment" data-en="Tell us about yourself" data-es="Cuéntenos sobre usted">Tell us about yourself</label><textarea id="jn-comment" name="comment" rows="5" placeholder="Tell us about yourself..." data-en-placeholder="Tell us about yourself..." data-es-placeholder="Cuéntenos sobre usted..."></textarea></div>
+            </div>
+          </div>
+          <div class="modal-footer"><button type="submit" class="fab-btn" data-en="Submit" data-es="Enviar">Submit</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== CONTACT MODAL (from sample) ===== -->
+    <div id="contact-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactTitle" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="contactTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h2>
+          <button class="close-modal" data-close-modal="contact-us-modal" data-close>&times;</button> <!-- Added data-close -->
         </div>
+        <form id="contactForm">
+          <div class="modal-body"> <!-- Keep modal-body for consistency -->
+            <div class="form-row">
+              <div class="form-cell"><label for="ct-name" data-en="Name" data-es="Nombre">Name</label><input id="ct-name" name="name" type="text" required placeholder="Enter your name" data-en-placeholder="Enter your name" data-es-placeholder="Ingrese su nombre"></div>
+              <div class="form-cell"><label for="ct-email" data-en="Email" data-es="Correo Electrónico">Email</label><input id="ct-email" name="email" type="email" required placeholder="Enter your email" data-en-placeholder="Enter your email" data-es-placeholder="Ingrese su correo"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-cell"><label for="ct-phone" data-en="Contact Number" data-es="Número de Contacto">Contact Number</label><input id="ct-phone" name="phone" type="tel" required placeholder="Enter your contact number" data-en-placeholder="Enter your contact number" data-es-placeholder="Ingrese su número de contacto"></div>
+              <div class="form-cell"><label for="ct-date" data-en="Preferred Date" data-es="Fecha Preferida">Preferred Date</label><input id="ct-date" name="date" type="date" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-cell"><label for="ct-time" data-en="Preferred Time" data-es="Hora Preferida">Preferred Time</label><input id="ct-time" name="time" type="time" required></div>
+              <div class="form-cell"><label for="ct-interest" data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</label>
+                <select id="ct-interest" name="interest" required>
+                  <option value="" disabled selected data-en="Select an option" data-es="Seleccione una opción">Select an option</option>
+                  <option data-en="Business Operations" data-es="Gestión">Business Operations</option><option data-en="Contact Center" data-es="Centro de Servicios">Contact Center</option><option data-en="IT Support" data-es="Soporte Técnico">IT Support</option><option data-en="Professionals" data-es="Profesionales">Professionals</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-cell" style="flex:1 1 100%"><label for="ct-comment" data-en="Comments" data-es="Comentarios">Comments</label><textarea id="ct-comment" name="comments" rows="4" placeholder="What service are you interested in?" data-en-placeholder="What service are you interested in?" data-es-placeholder="¿En qué servicio está interesado?"></textarea></div>
+            </div>
+          </div>
+          <div class="modal-footer"><button type="submit" class="fab-btn" data-en="Send" data-es="Enviar">Send</button></div>
+        </form>
       </div>
     </div>
 
@@ -141,16 +209,25 @@
             <div class="modal-body"></div>
         </div>
     </div>
-    <div id="chatbot-modal" class="modal-overlay" role="dialog" aria-labelledby="chatbot-modal-title" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="chatbot-modal-title" data-en="Chatbot" data-es="Chatbot">Chatbot</h3>
-                <button class="close-modal" data-close-modal="chatbot-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
-            </div>
-            <div class="modal-body" style="padding: 0; overflow: hidden; height: calc(100% - 50px);"> <!-- Adjust height based on header -->
-                <iframe src="components/chatbot/chatbot.html" style="width: 100%; height: 100%; border: none;" title="Chatbot" data-title-en="Chatbot" data-title-es="Chatbot"></iframe>
+    <!-- ===== CHATBOT MODAL (from sample) ===== -->
+    <div id="chatbot-modal" class="modal-overlay" role="dialog" aria-labelledby="chatbotModalTitle" style="display:none;"> <!-- Changed aria-labelledby to match sample if needed, or keep original -->
+      <div class="modal-content" style="padding:0; max-width: 295px;"> <!-- Adjusted padding and max-width as per #chatbot-container style -->
+        <div id="chatbot-container"> <!-- This is the main container from the sample -->
+            <div id="chatbot-header" data-en="OPS AI Chatbot" data-es="Chatbot OPS AI">OPS AI Chatbot</div>
+            <div id="chat-log"></div>
+            <div id="chatbot-form-container">
+              <form id="chatbot-input-row" autocomplete="off">
+                <input id="chatbot-input" type="text" placeholder="Type your message..." required maxlength="256" data-en-placeholder="Type your message..." data-es-placeholder="Escriba su mensaje...">
+                <button id="chatbot-send" type="submit" disabled data-en="Send" data-es="Enviar">Send</button>
+              </form>
+              <label class="human-check"><input type="checkbox" id="human-check"><span data-en="I am human" data-es="Soy humano">I am human</span></label>
             </div>
         </div>
+        <!-- Note: The sample's chatbot doesn't have a separate .modal-header or .close-modal button. -->
+        <!-- If a close button is desired for consistency with other modals, it needs to be added or the sample's JS needs to handle closing this differently. -->
+        <!-- For now, assuming the sample's structure is complete for the chatbot modal. -->
+        <!-- A close button can be added if required, e.g. by adding a header with a close button outside #chatbot-container but inside .modal-content -->
+      </div>
     </div>
 
     <footer>
@@ -197,5 +274,26 @@
     <!-- Component-specific JS will be added here or loaded by dynamic-modal-manager -->
     <script src="components/join-us/join-us.js" defer></script>
     <!-- For Join Us, it will be explicitly linked as per plan -->
+
+    <!-- ===== MOBILE NAV (from sample) ===== -->
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html" class="mobile-nav-item" title="Home"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
+      <button class="mobile-nav-item" id="mobile-services-toggle" aria-expanded="false" aria-controls="mobile-services-menu" title="Services">
+        <i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span>
+      </button>
+      <button class="mobile-nav-item" id="mobile-language-toggle" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
+      <button class="mobile-nav-item" id="mobile-theme-toggle" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button> <!-- Initial text based on default theme -->
+      <button class="mobile-nav-item" data-modal-target="chatbot-modal" data-modal="chatbot-modal" title="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button> <!-- Added data-modal for sample's JS -->
+    </nav>
+
+    <!-- ===== SERVICES POP-UP (from sample) ===== -->
+    <div class="mobile-services-menu" id="mobile-services-menu" aria-hidden="true">
+      <!-- Links in sample are direct hrefs. Current site uses JS to load modals. Will adapt to use button and data-attributes. -->
+      <button data-modal-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Gestion">Business Operations</button>
+      <button data-modal-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</button>
+      <button data-modal-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte Tecnico">IT Support</button>
+      <button data-modal-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button>
+    </div>
+    <script src="js/sample-interactions.js" defer></script>
 </body>
 </html>
