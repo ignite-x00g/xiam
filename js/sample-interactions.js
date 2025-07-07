@@ -2,6 +2,9 @@
 const qs=(sel,ctx=document)=>ctx.querySelector(sel);
 const qsa=(sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
 
+// Endpoint for the chatbot API. Set window.CHAT_API_URL in config.js to override.
+const CHAT_API_URL = window.CHAT_API_URL || 'https://api.example.com/chat';
+
 /* ---------- Modal open/close ---------- */
 // New modal triggers based on data-modal attribute
 qsa('[data-modal]').forEach(btn => {
@@ -179,8 +182,8 @@ if (chatLog && chatInput && chatBotForm && chatSendBtn && humanChk) {
         chatInput.value = '';
         addChatMsg('…', 'bot'); // Thinking indicator
         try {
-            // Using a placeholder URL as the sample did. Replace with actual endpoint.
-            const r = await fetch('https://example.com/api/chat', {
+            // Send chat messages to your backend. Configure CHAT_API_URL in config.js.
+            const r = await fetch(CHAT_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg })
