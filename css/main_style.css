@@ -449,13 +449,35 @@ body.dark .mobile-services-menu button {
     margin: 0; /* Explicitly remove margins from h1 and p */
 }
 
-/* 2 ▸ language toggle (EN | ES) */
-.lang-toggle-btn {  /* Using existing button selector */
-  position: fixed;
-  top: 25px;
-  right: 20px;          /* same 20 px gap as FABs */
-  z-index: 1200;        /* make sure it sits above other UI (including header-content) */
+/* 2 ▸ Toggles container (Theme & Language) */
+.header-toggles {
+    position: fixed;
+    top: 25px;
+    right: 20px;          /* same 20 px gap as FABs */
+    z-index: 1200;        /* make sure it sits above other UI (including header-content) */
+    display: flex;
+    align-items: center;
 }
+
+/* Styling for individual toggle buttons within .header-toggles */
+.theme-toggle-btn {
+  /* Specific styles for theme toggle if needed, beyond .header-toggle-btn */
+  /* Example: ensure it has some base styling if not already covered by a shared class */
+}
+
+.lang-toggle-btn {  /* Using existing button selector */
+  /* position, top, right, z-index are now handled by .header-toggles */
+  margin-left: 5px; /* Space between theme toggle and language toggle */
+}
+
+/* Shared class for toggle buttons, if you have one like .header-toggle-btn, ensure it has base styles:
+.header-toggle-btn {
+    padding: 5px 10px;
+    border: 1px solid #ccc; (example)
+    background-color: #f0f0f0; (example)
+    cursor: pointer;
+}
+*/
 
 /* 3 ▸ services block (headline + pills) */
 .services-section { /* Targets the existing section wrapping <h2> + service buttons */
