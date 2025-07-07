@@ -128,73 +128,34 @@
         }
     </style>
 </head>
-<body class="dark"> <!-- Default to dark, global-toggles.js will adjust -->
+<body>
 
-    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" data-en="Skip to main content" data-es="Saltar al contenido principal">Skip to main content</a>
+<!-- ===== FAB STACK ===== -->
+<div class="fab-stack">
+  <button class="fab-btn" data-modal="joinModal"    title="Join Us"><i class="fas fa-user-plus"></i></button>
+  <button class="fab-btn" data-modal="contactModal" title="Contact"><i class="fas fa-envelope"></i></button>
+  <button class="fab-btn" data-modal="chatbotModal" title="Chatbot"><i class="fas fa-comment"></i></button>
+  <button class="fab-btn" id="menuToggle"           title="Menu"><i class="fas fa-bars"></i></button>
+</div>
 
-    <header class="site-header">
-        <div class="header-content">
-            <h1 class="main-header-text" data-en="OPS" data-es="OPS">OPS</h1>
-            <p class="sub-header-text" data-en="OPS Online Support&trade;" data-es="OPS Online Support&trade;">OPS Online Support&trade;</p>
-        </div>
-        <div class="header-toggles">
-         <button id="theme-toggle-button" class="header-toggle-btn theme-toggle-btn"
-                 aria-label="Toggle theme"
-                 data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro"
-                 data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro"
-                 title="Toggle Theme">Dark</button>
-         <button id="language-toggle-button" class="header-toggle-btn lang-toggle-btn"
-                 aria-label="Toggle language"
-                 data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés"
-                 title="Toggle Language"
-                 data-en="EN" data-es="ES">EN</button>
-        </div>
-    </header>
+<!-- ===== MOBILE NAV ===== -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="mobile-nav-item" title="Home"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
+  <button class="mobile-nav-item" id="mobile-services-toggle" aria-expanded="false" aria-controls="mobile-services-menu" title="Services">
+    <i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span>
+  </button>
+  <button class="mobile-nav-item" id="mobile-language-toggle" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
+  <button class="mobile-nav-item" id="mobile-theme-toggle"   title="Toggle Theme">Light</button>
+  <button class="mobile-nav-item" data-modal="chatbotModal" title="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
+</nav>
 
-    <main id="main-content">
-        <section id="services" class="services-section">
-            <h2 class="services-section-title" data-en="Our Services" data-es="Nuestros Servicios">Our Services</h2>
-            <nav aria-label="Main services" class="services-navigation">
-                <div class="service-nav-list">
-                    <button class="service-nav-item" data-modal-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Gestion">Business Operations</button>
-                    <button class="service-nav-item" data-modal-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</button>
-                    <button class="service-nav-item" data-modal-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte Tecnico">IT Support</button>
-                    <button class="service-nav-item" data-modal-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button>
-                </div>
-            </nav>
-        </section>
-
-        <section id="floating-action-buttons">
-            <div class="fab-container">
-            <button id="fab-join" class="fab" data-modal-target="join-us-modal" data-modal-source="components/join-us/join-us.html"
-                    aria-label="Join Us" data-aria-label-en="Join Us" data-aria-label-es="Únete"
-                    title="Join Us" data-title-en="Join Us" data-title-es="Únete">
-                    <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area"><i class="fas fa-user-plus"></i></div>
-                        <span class="fab-text" data-en="Join Us" data-es="Únete">Join Us</span>
-                    </div>
-                </button>
-            <button id="fab-contact" class="fab" data-modal-target="contact-us-modal" data-modal-source="components/contact-us/contact-us.html"
-                    aria-label="Contact Us" data-aria-label-en="Contact Us" data-aria-label-es="Comuníquese con nosotros"
-                    title="Contact Us" data-title-en="Contact Us" data-title-es="Comuníquese">
-                    <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area"><i class="fas fa-envelope"></i></div>
-                        <span class="fab-text" data-en="Contact Us" data-es="Comuníquese">Contact Us</span>
-                    </div>
-                </button>
-            <!-- fab-chatbot will be changed to chatbot-fab-trigger and styled by the new CSS -->
-            <button id="chatbot-fab-trigger" class="fab"
-                    aria-label="Open Chat" data-aria-label-en="Open Chat" data-aria-label-es="Abrir Chat"
-                    title="Open Chat" data-title-en="Open Chat" data-title-es="Abrir Chat">
-                    <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
-                        <span class="fab-text" data-en="Chat" data-es="Chat">Chat</span>
-                    </div>
-                </button>
-            </div>
-        </section>
-    </main>
-
+<!-- ===== SERVICES POP-UP ===== -->
+<div class="mobile-services-menu" id="mobile-services-menu" aria-hidden="true">
+  <a href="html/business-operations.html" data-en="Business Operations" data-es="Operaciones Empresariales">Business Operations</a>
+  <a href="html/contact-center.html"      data-en="Contact Center"      data-es="Centro de Contacto">Contact Center</a>
+  <a href="html/it-support.html"          data-en="IT Support"          data-es="Soporte IT">IT Support</a>
+  <a href="html/professionals.html"       data-en="Professionals"       data-es="Profesionales">Professionals</a>
+</div>
     <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
 
     <!-- Modal Shells: Content will be loaded dynamically -->
@@ -209,15 +170,22 @@
             </div>
         </div>
     </div>
-
-    <div id="contact-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" style="display: none;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 id="contactModalTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h3>
-          <button class="close-modal" data-close-modal="contact-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
+    <form id="joinForm" autocomplete="off">
+      <div class="form-pairs">
+        <!-- Row 1 -->
+        <div class="form-block"><label for="jn-name" data-en="Name" data-es="Nombre">Name</label><input id="jn-name" name="name" type="text" required placeholder="Enter your name" data-en="Enter your name" data-es="Ingrese su nombre"></div>
+        <div class="form-block"><label for="jn-email" data-en="Email" data-es="Correo">Email</label><input id="jn-email" name="email" type="email" required placeholder="Enter your email" data-en="Enter your email" data-es="Ingrese su correo"></div>
+        <!-- Row 2 -->
+        <div class="form-block"><label for="jn-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="jn-phone" name="phone" type="tel" required placeholder="Enter your phone" data-en="Enter your phone" data-es="Ingrese su teléfono"></div>
+        <div></div>
+        <!-- Row 3+ -->
+        <div class="form-section" data-section="Skills">
+          <div class="section-header"><h2 data-en="Skills" data-es="Habilidades">Skills</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+          <div class="inputs"></div><button type="button" class="accept-btn" data-en="Accept" data-es="Aceptar">Accept</button><button type="button" class="edit-btn" style="display:none;" data-en="Edit" data-es="Editar">Edit</button>
         </div>
-        <div class="modal-body">
-            <!-- Content for Contact Us modal will be loaded here from components/contact-us/contact-us.html -->
+        <div class="form-section" data-section="Education">
+          <div class="section-header"><h2 data-en="Education" data-es="Educación">Education</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+          <div class="inputs"></div><button type="button" class="accept-btn">Accept</button><button type="button" class="edit-btn" style="display:none;">Edit</button>
         </div>
       </div>
     </div>
@@ -257,59 +225,65 @@
             </div>
             <div class="modal-body"></div>
         </div>
-    </div>
-    <!-- Removed old chatbot-modal div -->
+        <div class="form-section" data-section="Experience">
+          <div class="section-header"><h2 data-en="Experience" data-es="Experiencia">Experience</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
+          <div class="inputs"></div><button type="button" class="accept-btn">Accept</button><button type="button" class="edit-btn" style="display:none;">Edit</button>
+        </div>
+        <div class="form-block"><label for="jn-comment" data-en="Tell us about yourself" data-es="Cuéntenos sobre usted">Tell us about yourself</label><textarea id="jn-comment" name="comment" rows="5" placeholder="Tell us about yourself..." data-en="Tell us about yourself..." data-es="Cuéntenos sobre usted..."></textarea></div>
+      </div>
+      <div class="modal-footer"><button type="submit" class="fab-btn" data-en="Submit" data-es="Enviar">Submit</button></div>
+    </form>
+  </div>
+</div>
 
-    <!-- Chatbot placeholder for mychatbot -->
-    <div id="chatbot-placeholder">
-        <!-- The loader script (mychatbot/loader.js) will inject a close button and the iframe here. -->
+<!-- ===== CONTACT MODAL ===== -->
+<div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="contactTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h2>
+      <button class="close-modal" data-close>&times;</button>
     </div>
+    <form id="contactForm">
+      <div class="form-row">
+        <div class="form-cell"><label for="ct-name" data-en="Name" data-es="Nombre">Name</label><input id="ct-name" name="name" type="text" required placeholder="Enter your name" data-en="Enter your name" data-es="Ingrese su nombre"></div>
+        <div class="form-cell"><label for="ct-email" data-en="Email" data-es="Correo Electrónico">Email</label><input id="ct-email" name="email" type="email" required placeholder="Enter your email" data-en="Enter your email" data-es="Ingrese su correo"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-cell"><label for="ct-phone" data-en="Contact Number" data-es="Número de Contacto">Contact Number</label><input id="ct-phone" name="phone" type="tel" required placeholder="Enter your contact number"></div>
+        <div class="form-cell"><label for="ct-date" data-en="Preferred Date" data-es="Fecha Preferida">Preferred Date</label><input id="ct-date" name="date" type="date" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-cell"><label for="ct-time" data-en="Preferred Time" data-es="Hora Preferida">Preferred Time</label><input id="ct-time" name="time" type="time" required></div>
+        <div class="form-cell"><label for="ct-interest" data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</label>
+          <select id="ct-interest" name="interest" required>
+            <option value="" disabled selected>Select an option</option>
+            <option>Business Operations</option><option>Contact Center</option><option>IT Support</option><option>Professionals</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-cell" style="flex:1 1 100%"><label for="ct-comment" data-en="Comments" data-es="Comentarios">Comments</label><textarea id="ct-comment" name="comments" rows="4" placeholder="What service are you interested in?"></textarea></div>
+      </div>
+      <div class="modal-footer"><button type="submit" class="fab-btn" data-en="Send" data-es="Enviar">Send</button></div>
+    </form>
+  </div>
+</div>
 
-    <footer>
-        <p data-en="&copy; 2025 OPS Online Support" data-es="&copy; 2025 OPS Online Support">&copy; 2025 OPS Online Support</p>
-    </footer>
-
-    <!-- Mobile Navigations -->
-    <nav class="mobile-nav" id="mobile-bottom-nav">
-        <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
-        <button class="mobile-nav-item" id="mobile-services-toggle"><i class="fas fa-bars"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <!-- Removed old mobile-chat-link, new one is in #newMobileNav -->
-    </nav>
-    <div class="mobile-services-menu" id="mobile-services-panel">
-        <ul>
-            <li><button data-service-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Gestion">Business Operations</button></li>
-            <li><button data-service-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</button></li>
-            <li><button data-service-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte Tecnico">IT Support</button></li>
-            <li><button data-service-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button></li>
-        </ul>
+<!-- ===== CHATBOT MODAL ===== -->
+<div class="modal-overlay" id="chatbotModal">
+  <div id="chatbot-container">
+    <div id="chatbot-header" data-en="OPS AI Chatbot" data-es="Chatbot OPS AI">OPS AI Chatbot</div>
+    <div id="chat-log"></div>
+    <div id="chatbot-form-container">
+      <form id="chatbot-input-row" autocomplete="off">
+        <input id="chatbot-input" type="text" placeholder="Type your message..." required maxlength="256" data-en="Type your message..." data-es="Escriba su mensaje...">
+        <button id="chatbot-send" type="submit" disabled>Send</button>
+      </form>
+      <label class="human-check"><input type="checkbox" id="human-check"><span data-en="I am human" data-es="Soy humano">I am human</span></label>
     </div>
-    <button class="fab-toggle" id="newFabToggle" aria-label="Toggle Menu" data-aria-label-en="Toggle Menu" data-aria-label-es="Alternar Menú"><i class="fas fa-bars"></i></button>
-    <nav class="mobile-nav" id="newMobileNav">
-        <a href="index.html" class="mobile-nav-item" data-en-text="Home" data-es-text="Inicio"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
-        <button class="mobile-nav-item" id="newMobileServicesToggle" aria-expanded="false" aria-controls="newMobileServicesMenu" data-en-text="Services" data-es-text="Servicios"><i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <button class="mobile-nav-item lang-toggle-btn" id="newMobileLanguageToggle" aria-label="Switch Language" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
-        <button class="mobile-nav-item theme-toggle-btn" id="newMobileThemeToggle" aria-label="Toggle Theme" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button>
-        <button class="mobile-nav-item" id="mobileChatLauncher" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
-    </nav>
-    <div class="mobile-services-menu" id="newMobileServicesMenu" aria-hidden="true">
-        <ul>
-            <li><button data-service-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Operaciones Empresariales">Business Operations</button></li>
-            <li><button data-service-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Contacto">Contact Center</button></li>
-            <li><button data-service-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte IT">IT Support</button></li>
-            <li><button data-service-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button></li>
-        </ul>
-    </div>
-    <!-- JS scripts -->
-    <script src="js/global-toggles.js" defer></script>
-    <script src="js/dynamic-modal-manager.js" defer></script>
-    <script src="js/global-app.js" defer></script>
-    <script src="components/contact-us/contact-us.js" defer></script>
-    <script src="js/mobile-menu.js" defer></script>
-    <script src="js/mobile-fab-nav.js" defer></script>
-    <!-- Component-specific JS will be added here or loaded by dynamic-modal-manager -->
-    <script src="components/join-us/join-us.js" defer></script>
-    <!-- For Join Us, it will be explicitly linked as per plan -->
+  </div>
+</div>
 
-    <script src="mychatbot/loader.js" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>
