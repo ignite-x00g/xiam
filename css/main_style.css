@@ -4,6 +4,9 @@ body {
   background:var(--clr-bg);
   color:var(--clr-text);
   transition:background .3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* body.dark might be used by theme toggles, or body[data-theme="dark"] */
@@ -14,10 +17,63 @@ body.dark {
   /* Ensure components using these variables respond accordingly */
 }
 
+main { /* Assuming 'main' is the primary content wrapper */
+  flex-grow: 1;
+}
+
+footer {
+  text-align: center; /* Center the text within the footer */
+  padding: 1rem; /* Add some padding */
+  background-color: var(--clr-bg); /* Match body background or define a specific footer bg */
+  border-top: 1px solid var(--clr-primary); /* Optional: add a top border */
+}
+
+body.dark footer {
+    background-color: var(--clr-bg-dark);
+    border-top: 1px solid var(--clr-primary-dark);
+}
+
+
 /* Other main styles will be added here */
 
+/************* MODAL STYLES *************/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: flex; /* Use flexbox for centering */
+  align-items: center; /* Vertical center */
+  justify-content: center; /* Horizontal center */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.service-modal-center .modal-content {
+  /* Assuming .modal-content is the direct child of .modal-overlay that needs centering */
+  /* Add any specific styling for the centered modal's content box if needed */
+  /* For example, max-width, background, padding, etc. */
+  background-color: var(--clr-bg); /* Use theme background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  max-width: 90%; /* Max width for responsiveness */
+  max-height: 90vh; /* Max height for responsiveness */
+  overflow-y: auto; /* Allow scrolling for content that overflows */
+}
+
+/* Ensure that the service-modal-center itself (which is an alias for modal-overlay in this case)
+   also uses flex to center its .modal-content child if it's not already covered by .modal-overlay */
+.service-modal-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 /*************  FAB STACK  *************/
-.fab-container { /* Was .fab-stack in sample */
+.fab-stack {
   position:fixed;
   bottom:20px;
   right:20px;
@@ -25,10 +81,10 @@ body.dark {
   flex-direction:column;
   align-items:center;
   gap:10px;
-  z-index:5000; /* Ensure it's high enough */
+  z-index:5000;
 }
 
-.fab { /* Was .fab-btn in sample */
+.fab-btn {
   width:var(--fab-size);
   height:var(--fab-size);
   border:none;
@@ -40,20 +96,20 @@ body.dark {
   justify-content:center;
   font-size:1.25rem;
   cursor:pointer;
-  box-shadow:0 4px 8px rgba(0,0,0,0.37); /* Adjusted alpha for #0006 */
+  box-shadow:0 4px 8px #0006; /* Matched sample */
   position:relative;
-  text-decoration: none; /* If it's an anchor styled as button */
+  text-decoration: none;
 }
 
-.fab:hover {
+.fab-btn:hover {
   background:var(--clr-primary-dark);
 }
 
-/* Tooltip for FABs (assuming title attribute is used as in sample) */
-.fab[title]::after {
+/* Tooltip for FABs */
+.fab-btn[title]::after {
   content:attr(title);
   position:absolute;
-  right:70px; /* Adjust if needed based on fab-text */
+  right:70px;
   background:#333;
   color:#fff;
   padding:4px 8px;
@@ -61,30 +117,15 @@ body.dark {
   font-size:.75rem;
   white-space:nowrap;
   display:none;
-  z-index: 5001; /* Above the FAB itself */
+  z-index: 5001;
 }
 
-.fab:hover::after {
+.fab-btn:hover::after {
   display:block;
 }
 
-.fab .fab-content-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-}
-
-.fab .fab-icon-image-area {
-  /* Styles for icon area if needed, e.g., font size for <i> tags */
-}
-
-.fab .fab-text {
-  font-size: 0.65rem;
-  margin-top: 2px;
-  display: none; /* Initially hidden, theme/component CSS can override */
-}
+/* Removed .fab-content-wrapper and .fab-text as per sample's simpler structure */
+/* Icons are expected to be direct children of .fab-btn */
 
 /*************  MOBILE NAV BASE  *************/
 /* General style for all mobile-nav containers */
