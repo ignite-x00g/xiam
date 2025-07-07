@@ -1,11 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>OPS FAB-Modal Stack</title>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="OPS Online Support" data-es="OPS Soporte en Línea">OPS Online Support</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/main_style.css"> <!-- Added main_style.css -->
+    <link rel="stylesheet" href="css/small-screen.css">
+    <!-- Link to component-specific CSS if/when created, e.g., components/join-us/join-us.css -->
+    <link rel="stylesheet" href="components/join-us/join-us.css"> <!-- Linking join-us.css as it exists -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Chatbot Placeholder and FAB styles */
+        #chatbot-placeholder {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px; /* Increased base width for larger screens */
+            max-width: 90vw; /* Responsive max-width for smaller screens */
+            height: 600px; /* Increased base height for larger screens */
+            max-height: 80vh; /* Responsive max-height, adjusted to 80% target */
+            border: 1px solid #ccc;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            background-color: #fff;
+            z-index: 1000; /* Ensure it's above other content like FABs */
+        }
+        body[data-theme="dark"] #chatbot-placeholder {
+            border-color: #555;
+            background-color: #222;
+        }
+        #chatbot-placeholder.active {
+            display: flex;
+        }
+        /* Media query for smaller screens to center the chatbot */
+        @media (max-width: 768px) {
+            #chatbot-placeholder {
+                bottom: auto;
+                right: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .chatbot-placeholder-close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #f1f1f1;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 26px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 10; /* Above iframe content */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .chatbot-placeholder-close-btn:hover {
+            background: #e0e0e0;
+        }
+        body[data-theme="dark"] .chatbot-placeholder-close-btn {
+            background: #4f4f4f;
+            border-color: #666;
+            color: #f0f0f0;
+        }
+        body[data-theme="dark"] .chatbot-placeholder-close-btn:hover {
+            background: #5a5a5a;
+        }
+
+        /* Styling for the new FAB trigger specifically if not using existing FAB styles */
+        /* This #chatbot-fab-trigger ID is what loader.js looks for by default for desktop */
+        #chatbot-fab-trigger {
+            position: fixed;
+            bottom: 20px; /* Adjust as needed, ensure it doesn't overlap with other FABs if they are kept */
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #007bff; /* Example color */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 999; /* Below placeholder when active, above other content */
+            cursor: pointer;
+            border: none; /* Assuming it's a button, reset border */
+        }
+        body[data-theme="dark"] #chatbot-fab-trigger {
+            background-color: #0069d9; /* Dark theme FAB color */
+        }
+        #chatbot-fab-trigger:hover {
+            background-color: #0056b3;
+        }
+        body[data-theme="dark"] #chatbot-fab-trigger:hover {
+            background-color: #004085;
+        }
+
+        /* Hide FAB if placeholder is active (using :has for modern browsers) */
+        body:has(#chatbot-placeholder.active) #chatbot-fab-trigger {
+            display: none;
+        }
+        /* Fallback for non-:has supporting browsers will be handled by loader.js adding a class to body or similar */
+
+        /* Ensure mobile chat launcher is styled if it's a new button */
+        /* If reusing an existing one, these might not be needed or need adjustment */
+        #mobileChatLauncher { /* This ID is what loader.js looks for by default for mobile */
+            /* Styles might be inherited if it's an existing, styled button. Add specific overrides if needed. */
+            /* Example minimal styling if it were a plain button: */
+            /* padding: 10px 15px; */
+            /* margin: 5px; */
+            /* cursor: pointer; */
+            /* border: 1px solid #007bff; */
+            /* background-color: #007bff; */
+            /* color: white; */
+            /* border-radius: 5px; */
+            /* font-size: 1em; */
+        }
+    </style>
 </head>
 <body>
 
@@ -35,13 +156,19 @@
   <a href="html/it-support.html"          data-en="IT Support"          data-es="Soporte IT">IT Support</a>
   <a href="html/professionals.html"       data-en="Professionals"       data-es="Profesionales">Professionals</a>
 </div>
+    <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
 
-<!-- ===== JOIN MODAL ===== -->
-<div class="modal-overlay" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 id="joinTitle" data-en="Join Us" data-es="Únase">Join Us</h2>
-      <button class="close-modal" data-close>&times;</button>
+    <!-- Modal Shells: Content will be loaded dynamically -->
+    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-labelledby="join-us-modal-title" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="join-us-modal-title" data-en="Join Us" data-es="Únete">Join Us</h3>
+                <button class="close-modal" data-close-modal="join-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Content for Join Us modal will be loaded here from components/join-us/join-us.html -->
+            </div>
+        </div>
     </div>
     <form id="joinForm" autocomplete="off">
       <div class="form-pairs">
@@ -60,24 +187,43 @@
           <div class="section-header"><h2 data-en="Education" data-es="Educación">Education</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
           <div class="inputs"></div><button type="button" class="accept-btn">Accept</button><button type="button" class="edit-btn" style="display:none;">Edit</button>
         </div>
-        <div class="form-section" data-section="Certification">
-          <div class="section-header"><h2 data-en="Certification" data-es="Certificación">Certification</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
-          <div class="inputs"></div><button type="button" class="accept-btn">Accept</button><button type="button" class="edit-btn" style="display:none;">Edit</button>
+      </div>
+    </div>
+
+    <div id="business-operations-modal" class="modal-overlay service-modal-center" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Business Operations" data-es="Gestion">Business Operations</h3>
+                <button class="close-modal" data-close-modal="business-operations-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body"></div>
         </div>
-        <div class="form-section" data-section="Hobbies">
-          <div class="section-header"><h2 data-en="Hobbies" data-es="Pasatiempos">Hobbies</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
-          <div class="inputs"></div><button type="button" class="accept-btn">Accept</button><button type="button" class="edit-btn" style="display:none;">Edit</button>
+    </div>
+    <div id="contact-center-modal" class="modal-overlay service-modal-center" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Contact Center" data-es="Centro de Servicios">Contact Center</h3>
+                <button class="close-modal" data-close-modal="contact-center-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body"></div>
         </div>
-        <div class="form-section">
-          <h2 data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</h2>
-          <select id="jn-interest" required>
-            <option value="" disabled selected>Select an option</option>
-            <option>Business Operations</option><option>Contact Center</option><option>IT Support</option><option>Professionals</option>
-          </select>
+    </div>
+    <div id="it-support-modal" class="modal-overlay service-modal-center" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="IT Support" data-es="Soporte Tecnico">IT Support</h3>
+                <button class="close-modal" data-close-modal="it-support-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body"></div>
         </div>
-        <div class="form-section" data-section="Continued Education">
-          <div class="section-header"><h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
-          <div class="inputs"></div><button type="button" class="accept-btn">Accept</button><button type="button" class="edit-btn" style="display:none;">Edit</button>
+    </div>
+    <div id="professionals-modal" class="modal-overlay service-modal-center" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Professionals" data-es="Profesionales">Professionals</h3>
+                <button class="close-modal" data-close-modal="professionals-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body"></div>
         </div>
         <div class="form-section" data-section="Experience">
           <div class="section-header"><h2 data-en="Experience" data-es="Experiencia">Experience</h2><div><button type="button" class="circle-btn add">+</button><button type="button" class="circle-btn remove">−</button></div></div>
