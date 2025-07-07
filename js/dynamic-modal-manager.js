@@ -8,17 +8,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const backdrop = qs('#modal-backdrop');
 
-    function openModal(modalId) {
+    async function openModal(modalId, button) { // Accept button element
         const modal = qs('#' + modalId);
-        if (modal) {
-            // TODO: Implement dynamic content loading if modal-source is present
-            // const source = button.dataset.modalSource; (if button is passed)
-            // For now, just activating the modal.
-            modal.classList.add('active');
-            modal.style.display = 'flex'; // Or 'block' depending on modal styling
-            if (backdrop) backdrop.style.display = 'block';
-        } else {
+        if (!modal) {
             console.warn(`Modal with ID "${modalId}" not found.`);
+            return;
+        }
+
+        const modalSource = button ? button.dataset.modalSource : null;
+
+        if (modalSource) {
+            try {
+                const response = await fetch(modalSource);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch modal content from ${modalSource}: ${response.status} ${response.statusText}`);
+                }
+                const content = await response.text();
+                const modalBody = modal.querySelector('.modal-body');
+                if (modalBody) {
+                    modalBody.innerHTML = content;
+                } else {
+                    console.warn(`Modal with ID "${modalId}" does not have a .modal-body element to inject content into.`);
+                    // Fallback: inject into modal directly if no .modal-body, though this is less ideal.
+                    // modal.innerHTML = content; // This would overwrite header/close buttons if not careful
+                }
+            } catch (error) {
+                console.error(`Error loading modal content for ${modalId} from ${modalSource}:`, error);
+                const modalBody = modal.querySelector('.modal-body');
+                if (modalBody) {
+                    modalBody.innerHTML = `<p>Error loading content. Please try again later.</p>`;
+                }
+                // Optionally, don't open the modal if content fails to load, or open with error.
+                // For now, we'll proceed to open it with the error message.
+            }
+        }
+
+        // Activate and display the modal
+        modal.classList.add('active');
+        modal.style.display = 'flex'; // Or 'block' depending on modal styling
+        if (backdrop) backdrop.style.display = 'block';
+
+        // Re-apply translations if global function exists, useful for dynamically loaded content
+        if (window.applyTranslations && window.getCurrentLanguage) {
+            setTimeout(() => { // Timeout to ensure content is in DOM
+                window.applyTranslations(window.getCurrentLanguage(), modal);
+            }, 0);
         }
     }
 
@@ -55,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Otherwise, open it
                     // Potentially, ensure other modals are closed before opening a new one, if that's desired behavior.
                     // For now, just opening the targeted one.
-                    openModal(modalId);
+                    openModal(modalId, button); // Pass the button element
                 }
             } else {
                 console.warn(`Modal with ID "${modalId}" not found when toggling.`);
