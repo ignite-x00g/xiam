@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
     // Close modal on window click outside (on the backdrop or overlay itself)
     window.addEventListener('click', e => {
         if (e.target.classList.contains('modal-overlay') && e.target.classList.contains('active')) {
@@ -82,34 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Chatbot specific trigger (placeholder toggle)
-    // loader.js is expected to handle the iframe and more complex interactions.
-    // This is a basic show/hide for the placeholder div.
-    const chatbotFabTrigger = qs('#chatbot-fab-trigger');
-    const chatbotPlaceholder = qs('#chatbot-placeholder');
-
-    if (chatbotFabTrigger && chatbotPlaceholder) {
-        chatbotFabTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            chatbotPlaceholder.classList.add('active');
-            chatbotPlaceholder.style.display = 'flex'; // Ensure it's visible
-            // Potentially hide FAB via JS if :has selector isn't supported/reliable
-            // chatbotFabTrigger.style.display = 'none';
-        });
-    }
-
-    // Attempt to find a close button that might be injected by loader.js
-    // This is speculative as loader.js controls the placeholder's content.
-    // A more robust way would be for loader.js to dispatch an event or provide a callback.
-    if (chatbotPlaceholder) {
-        // This assumes a close button with class 'chatbot-placeholder-close-btn' might be added inside placeholder
-        chatbotPlaceholder.addEventListener('click', (e) => {
-            if (e.target.matches('.chatbot-placeholder-close-btn')) {
-                chatbotPlaceholder.classList.remove('active');
-                chatbotPlaceholder.style.display = 'none';
-                // Potentially show FAB again via JS
-                // if (chatbotFabTrigger) chatbotFabTrigger.style.display = 'flex';
-            }
-        });
-    }
+    // Removed specific JS for old #chatbot-fab-trigger and #chatbot-placeholder.
+    // The new #fab-chatbot and other chat links use data-modal-target="chatbot-modal",
+    // which is handled by the generic modal opening logic above.
 });
