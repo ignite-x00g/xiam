@@ -1,16 +1,24 @@
 /*************  CSS VARIABLES  *************/
 :root{
-  --clr-primary:#007bff;
-  --clr-primary-dark:#005dc9;
-  --clr-accent:#ae7cff;
-  --clr-bg:#fff;
-  --clr-bg-dark:#222;
-  --clr-text:#333;
-  --clr-text-dark:#eee;
+  /* New color scheme from Chatbot snippet */
+  --clr-primary:#00c4ff;
+  --clr-accent :#ff3bdb;
+  --clr-accent-dark:#e000be; /* Added from chatbot styles for completeness */
+  --clr-bg  :#ffffff;
+  --clr-bg-dark:#121212;
+  --clr-tx  :#333333;
+  --clr-tx-dark:#f0f0f0;
+
+  /* Existing variables, check if still needed or can be aliased/removed later */
+  --clr-primary-old:#007bff; /* Renamed for clarity during transition */
+  --clr-primary-dark-old:#005dc9; /* Renamed */
+  --clr-accent-old:#ae7cff; /* Renamed */
+
   --fab-size:56px;
 }
-body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--clr-bg);color:var(--clr-text);transition:background .3s}
-body.dark{--clr-bg:#121212;--clr-text:#eee}
+/* Updated body styles to use new color scheme */
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--clr-bg);color:var(--clr-tx);transition:background .3s, color .3s}
+body.dark{--clr-bg:var(--clr-bg-dark);--clr-tx:var(--clr-tx-dark)}
 
 /*************  FAB STACK  *************/
 .fab-stack{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:5000}
@@ -53,36 +61,385 @@ body.dark{--clr-bg:#121212;--clr-text:#eee}
 .close-modal{font-size:1.5rem;background:none;border:none;cursor:pointer;color:inherit}
 body.dark .modal-content{background:#1e1e1e;color:#eee}
 
-/*************  SHARED INPUT STYLES  *************/
-input,textarea,select{width:100%;padding:.6rem;margin-top:.2rem;border-radius:6px;border:1px solid #ccc;font-size:1rem;background:var(--clr-bg);color:inherit}
+/*************  SHARED INPUT STYLES (Revised - some might be overridden by specific modal styles below) *************/
+input,textarea,select{width:100%;padding:.6rem;margin-top:.2rem;border-radius:6px;border:1px solid #ccc;font-size:1rem;background:var(--clr-bg);color:var(--clr-tx); box-sizing: border-box;}
 textarea{resize:vertical}
+body.dark input, body.dark textarea, body.dark select {
+    background-color: #333; /* General dark input background */
+    color: var(--clr-tx-dark);
+    border-color: #555;
+}
 
-/*************  JOIN MODAL (rich form)  *************/
-.form-pairs{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 2rem}
-@media(max-width:800px){.form-pairs{grid-template-columns:1fr}}
-.form-section{border:1px solid #ddd;padding:1rem;border-radius:8px;background:#f9f9f9;display:flex;flex-direction:column;gap:.6rem}
-.form-section.completed{border-color:#28a745}
-.section-header{display:flex;justify-content:space-between;align-items:center}
-.circle-btn{width:28px;height:28px;border-radius:50%;border:none;background:var(--clr-primary);color:#fff;font-weight:bold;cursor:pointer;font-size:1.2rem;margin-left:.4rem}
-.circle-btn.remove{background:#dc3545}
-.accept-btn,.edit-btn{background:#28a745;color:#fff;padding:.4rem 1rem;border:none;border-radius:4px;font-size:.9rem;cursor:pointer;margin-top:.3rem}
-.edit-btn{background:#ffc107;color:#000}
-.form-section.completed h2::after{content:" ✅";font-size:1rem;color:#28a745}
+/*************  JOIN MODAL (New Styles) *************/
+/* Styles specific to #joinModal content */
+#joinModal .modal-content {
+  /* background: #fff; Replaced by var(--clr-bg) from .modal-content base */
+  padding: 2rem;
+  max-width: 800px;
+  /* border-radius: 10px; from .modal-content base */
+  position: relative; /* Already in .modal-content */
+  overflow-y: auto; /* Already in .modal-content */
+  max-height: 90vh;
+  /* box-shadow: 0 8px 40px rgba(0,0,0,0.18); from .modal-content base */
+}
 
-/*************  CONTACT MODAL  *************/
-.form-row{display:flex;flex-wrap:wrap;gap:1rem}
-.form-cell{flex:1 1 48%;display:flex;flex-direction:column}
-@media(max-width:600px){.form-cell{flex:1 1 100%}}
+#joinModal .modal-header { /* Overrides generic .modal-header for this modal if needed */
+  margin-bottom: 1.2rem;
+}
 
-/*************  CHATBOT  *************/
-#chatbot-container{width:295px;height:540px;background:#2e1852;border-radius:18px;border:2px solid var(--clr-accent);box-shadow:0 8px 32px #0006;display:flex;flex-direction:column;overflow:hidden}
-#chatbot-header{background:var(--clr-accent);color:#fff;padding:1rem;font-weight:bold;font-size:1.25rem;text-align:center}
-#chat-log{flex:1;padding:1rem;overflow-y:auto;background:#1b0e2d;color:#fff;font-size:1rem}
-.chat-msg{margin-bottom:.7rem}.user{text-align:right;color:#e7e7e7}.bot{text-align:left;color:var(--clr-accent)}
-#chatbot-form-container{background:#220f3a;border-top:1px solid var(--clr-accent);padding:.5rem}
-#chatbot-input-row{display:flex;margin-bottom:.5rem}
-#chatbot-input{flex:1;padding:.7rem;border:none;background:transparent;color:#fff;font-size:1rem}
-#chatbot-send{background:var(--clr-accent);border:none;color:#fff;font-weight:bold;padding:0 1.2rem;cursor:pointer}
+#joinModal .lang-toggle, #joinModal #theme-toggle {
+  position: absolute;
+  top: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  color: var(--clr-tx); /* Use text color variable */
+}
+#joinModal .lang-toggle {
+  right: 4rem;
+  font-size: 0.9rem;
+}
+#joinModal #theme-toggle { /* ID for theme toggle within join modal */
+  right: 1rem;
+  font-size: 1.2rem;
+}
+
+#joinModal .form-section {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  background: #f9f9f9; /* Light theme section background */
+  display: flex; /* Added from old styles, useful */
+  flex-direction: column; /* Added from old styles */
+  gap: 0.5rem; /* Added from new snippet's .form-row/.form-section */
+}
+
+#joinModal .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#joinModal .section-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+#joinModal .circle-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--clr-primary); /* Use new primary color */
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+}
+#joinModal .circle-btn.remove { background-color: #dc3545; } /* Standard red for remove */
+
+#joinModal .inputs input { /* Styling for dynamically added inputs */
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
+  background: var(--clr-bg); /* Ensure inputs inside sections also use theme colors */
+  color: var(--clr-tx);
+  border: 1px solid #ccc;
+}
+
+#joinModal .accept-btn,
+#joinModal .edit-btn {
+  background-color: #28a745; /* Standard green for accept */
+  color: white;
+  padding: 0.4rem 1rem;
+  border: none;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+#joinModal .edit-btn {
+  background-color: #ffc107; /* Standard yellow for edit */
+  color: #000;
+}
+
+#joinModal .completed h2 { color: green; }
+#joinModal .completed h2::after { content: " ✅"; font-size: 1rem; }
+
+#joinModal .submit-button { /* Specific submit button for Join Us form */
+  padding: 0.6rem 1.2rem;
+  background: var(--clr-primary); /* Use new primary color */
+  border: none;
+  color: white; /* Text on primary button often white or dark if primary is light */
+  cursor: pointer;
+  border-radius: 4px;
+}
+#joinModal .submit-button:hover {
+    background: var(--clr-accent);
+}
+
+
+#joinModal .form-footer { text-align: right; margin-top: 2rem; }
+
+/* .form-row is a generic class, ensure it's styled correctly for joinModal if used */
+#joinModal .form-row {
+    margin-bottom: 1rem;
+    display: flex; /* Added from new snippet */
+    flex-direction: column; /* Added from new snippet */
+    gap: 0.5rem; /* Added from new snippet */
+}
+#joinModal label { font-weight: bold; } /* General label style within Join modal */
+
+/* Inputs directly under .form-row in #joinModal */
+#joinModal .form-row > input[type="text"],
+#joinModal .form-row > input[type="email"],
+#joinModal .form-row > input[type="tel"],
+#joinModal .form-row > textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  box-sizing: border-box;
+  background: var(--clr-bg);
+  color: var(--clr-tx);
+  border: 1px solid #ccc;
+}
+#joinModal .form-row > textarea { resize: vertical; }
+
+
+/* Responsive tweaks for #joinModal */
+@media (max-width: 600px) {
+  #joinModal .modal-content { padding: 1rem; /* max-width: 98vw; Potentially remove if base modal is ok */ }
+  #joinModal .lang-toggle, #joinModal #theme-toggle {
+    top: 0.8rem;
+    padding: 0.4rem;
+  }
+  #joinModal .lang-toggle {
+    right: 3.8rem;
+    font-size: 0.85rem;
+  }
+  #joinModal #theme-toggle {
+    right: 0.8rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Dark Mode Styles for #joinModal, using body.dark */
+body.dark #joinModal .modal-content {
+  background: #1e1e1e; /* Specific dark background for this modal's content */
+  color: var(--clr-tx-dark);
+  /* box-shadow: 0 8px 40px rgba(255,255,255,0.1); Should be inherited or set on base .modal-content.dark */
+}
+body.dark #joinModal .form-section {
+  background: #2c2c2c;
+  border-color: #444;
+}
+/* Dark mode for inputs within .inputs div and direct .form-row children */
+body.dark #joinModal .inputs input,
+body.dark #joinModal .form-row > input[type="text"],
+body.dark #joinModal .form-row > input[type="email"],
+body.dark #joinModal .form-row > input[type="tel"],
+body.dark #joinModal .form-row > textarea {
+  background-color: #333;
+  color: var(--clr-tx-dark);
+  border-color: #555;
+}
+body.dark #joinModal .circle-btn {
+  background-color: var(--clr-primary); /* Dark mode primary button */
+}
+body.dark #joinModal .circle-btn.remove {
+  background-color: #b22222; /* Dark mode remove button */
+}
+body.dark #joinModal .accept-btn {
+  background-color: #1e7e34; /* Dark mode accept button */
+}
+body.dark #joinModal .edit-btn {
+  background-color: #d39e00; /* Dark mode edit button */
+  color: #121212; /* Text color for edit button in dark mode */
+}
+body.dark #joinModal .submit-button {
+  background-color: var(--clr-primary); /* Dark mode submit button */
+}
+body.dark #joinModal .submit-button:hover {
+  background-color: var(--clr-accent);
+}
+body.dark #joinModal .completed h2 {
+  color: #4caf50; /* Dark mode completed text */
+}
+body.dark #joinModal .lang-toggle, body.dark #joinModal #theme-toggle, body.dark #joinModal .close-modal {
+  color: var(--clr-tx-dark); /* Ensure controls are visible in dark mode */
+}
+
+/* Form Grid specific to Join Us */
+#joinModal .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+#joinModal .full-width { /* Utility class for items spanning full grid width */
+  grid-column: 1 / -1;
+}
+/* Form sections within the grid */
+#joinModal .form-grid .form-section {
+    margin-bottom: 0; /* Remove bottom margin if gap is handled by grid */
+}
+
+@media (max-width: 768px) {
+  #joinModal .form-grid {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+  }
+}
+
+
+/*************  CONTACT MODAL (New Styles) *************/
+/* Styles specific to #contactModal */
+/* Base .modal-overlay and .modal-content are already defined.
+   The new snippet's .modal-content styles will be applied via #contactModal .modal-content if they differ. */
+
+#contactModal .modal-content {
+  /* background: #fff; -- Inherits from base .modal-content */
+  /* border-radius: 12px; -- Inherits */
+  width: 90%; /* Can override base if needed */
+  max-width: 600px; /* Specific max-width for contact modal */
+  padding: 1.5rem; /* Specific padding */
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); -- Inherits or can be overridden */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Specific font stack */
+}
+
+#contactModal .modal-header,
+#contactModal .modal-footer {
+  /* display: flex; justify-content: space-between; align-items: center; -- Inherits from base */
+  margin-bottom: 1rem; /* Consistent margin */
+}
+
+#contactModal .modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--clr-tx); /* Use theme text color */
+}
+
+/* .close-modal is already styled globally. If #contactModal needs a different one, specify here. */
+/* #contactModal .close-modal { ... } */
+
+#contactModal .modal-body {
+  margin-bottom: 1rem;
+}
+
+#contactModal form { /* Styles for the form within #contactModal */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#contactModal .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#contactModal .form-cell {
+  flex: 1 1 48%;
+  display: flex;
+  flex-direction: column;
+}
+
+#contactModal label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: var(--clr-tx); /* Use theme text color */
+}
+
+/* General input, select, textarea styles within #contactModal, inherits from shared but can override */
+#contactModal input,
+#contactModal select,
+#contactModal textarea {
+  padding: 0.6rem;
+  /* border: 1px solid #ccc; -- Inherited from shared input styles */
+  /* border-radius: 6px; -- Inherited */
+  font-size: 1rem; /* Consistent font size */
+  /* background: var(--clr-bg); -- Inherited */
+  /* color: var(--clr-tx); -- Inherited */
+}
+
+#contactModal textarea {
+  resize: vertical; /* Specific to textarea */
+}
+
+#contactModal .submit-button { /* Specific submit button for Contact Us form */
+  padding: 0.75rem 1.5rem;
+  background-color: var(--clr-primary); /* Use new primary color */
+  color: #fff; /* Text color on button */
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#contactModal .submit-button:hover {
+  background-color: var(--clr-accent); /* Use accent for hover */
+}
+
+@media (max-width: 600px) {
+  #contactModal .form-cell {
+    flex: 1 1 100%; /* Full width cells on small screens */
+  }
+}
+
+/* Dark Mode for #contactModal */
+body.dark #contactModal .modal-content {
+  background: #1e1e1e; /* Dark background for contact modal content */
+  color: var(--clr-tx-dark);
+}
+body.dark #contactModal .modal-header h3 {
+  color: var(--clr-tx-dark);
+}
+body.dark #contactModal label {
+  color: var(--clr-tx-dark);
+}
+/* Dark mode for inputs, selects, textareas in #contactModal, inherits from shared dark input styles but can be more specific */
+body.dark #contactModal input,
+body.dark #contactModal select,
+body.dark #contactModal textarea {
+  /* background-color: #333; -- Inherited */
+  /* color: var(--clr-tx-dark); -- Inherited */
+  /* border-color: #555; -- Inherited */
+}
+body.dark #contactModal .submit-button {
+  background-color: var(--clr-primary); /* Primary color for dark mode button */
+}
+body.dark #contactModal .submit-button:hover {
+  background-color: var(--clr-accent); /* Accent color for dark mode button hover */
+}
+
+
+/*************  CHATBOT (New Styles) *************/
+#chatbot-container{width:300px;height:540px;background:#251541;border:2px solid var(--clr-accent);
+  border-radius:18px;box-shadow:0 8px 32px #0006;display:flex;flex-direction:column;overflow:hidden}
+#chatbot-header{display:flex;justify-content:space-between;align-items:center;gap:.5rem;
+  background:linear-gradient(135deg,var(--clr-primary) 0%,var(--clr-accent) 100%);
+  color:#fff;font-weight:600;font-size:1.1rem;padding:.75rem 1rem}
+#chatbot-header .ctrl{cursor:pointer;font-size:.75rem;font-weight:500;user-select:none;opacity:.85}
+#chatbot-header .ctrl:hover{opacity:1}
+#chat-log{flex:1;overflow-y:auto;padding:1rem;background:#1b0e2d;color:#eee;font-size:.94rem}
+.chat-msg{margin:.5rem 0;max-width:90%} /* Applied to both user and bot messages */
+.chat-msg.user{margin-left:auto;background:var(--clr-primary);color:#000;padding:.5rem .7rem;border-radius:14px 14px 0 14px}
+.chat-msg.bot {margin-right:auto;background:#321b53;color:#fff;padding:.5rem .7rem;border-radius:14px 14px 14px 0}
+#chatbot-form-container{background:#220f3a;border-top:1px solid var(--clr-accent);padding:.55rem .7rem}
+#chatbot-input-row{display:flex;gap:.6rem} /* This is the form element in the new HTML */
+#chatbot-input{flex:1;background:transparent;border:none;color:#fff;font-size:.95rem;padding:.55rem .6rem}
+#chatbot-send{display:flex;align-items:center;gap:6px;background:var(--clr-accent);border:none;color:#fff;
+  font-weight:600;padding:.5rem .9rem;border-radius:8px;cursor:pointer;transition:.3s}
+#chatbot-send i{transition:transform .3s}
+#chatbot-send:hover i{transform:rotate(-45deg)}
 #chatbot-send:disabled{background:#555;cursor:not-allowed}
-.human-check{color:#ddd;font-size:.9rem;display:flex;align-items:center}.human-check input{margin-right:.5rem}
-@media(max-width:600px){#chatbot-container{height:45vhvh;width:85%}}
+.human-check{color:#ddd;font-size:.85rem;display:flex;align-items:center;margin-top:.3rem} /* Applied to the label wrapping checkbox and span */
+.human-check input{margin-right:.4rem}
+@media(max-width:480px){#chatbot-container{height:75vh;width:90%}}
