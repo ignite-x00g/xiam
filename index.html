@@ -1,88 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OPS Online Support</title>
-    <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/glow-effects.css">
-    <!-- Add Font Awesome CDN Link -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- ==================================================================
+      Hardened CSP via Meta Tag
+  ================================================================== -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://cdnjs.cloudflare.com 'nonce-<random-value>';
+    style-src 'self' https://cdnjs.cloudflare.com 'nonce-<random-value>';
+    img-src 'self' https://trusted-image-cdn.com;
+    font-src 'self' https://cdnjs.cloudflare.com;
+    connect-src 'self';
+    frame-ancestors 'none';
+    object-src 'none';
+    base-uri 'self';
+  ">
+
+  <!-- ==================================================================
+      SEO Title
+  ================================================================== -->
+  <title>Ops Online Solutions - Secure IT Support & Remote Solutions</title>
+
+  <!-- ==================================================================
+      Meta Description for SEO
+  ================================================================== -->
+  <meta name="description" content="Ops Online Solutions offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
+
+  <!-- ==================================================================
+      Meta Keywords
+  ================================================================== -->
+  <meta name="keywords" content="IT Support, Remote Solutions, Contact Center, Business Operations, Professional Services, Ops Online Solutions, Secure IT Services">
+
+  <!-- ==================================================================
+      Robots Meta Tag (SEO Enhancement)
+  ================================================================== -->
+  <meta name="robots" content="index, follow">
+
+  <!-- ==================================================================
+      Open Graph for Social Media Sharing
+  ================================================================== -->
+  <meta property="og:title" content="Ops Online Solutions - Secure IT Support & Remote Solutions">
+  <meta property="og:description" content="Ops Online Solutions offers secure IT support, remote solutions, and professional services to optimize your business operations. Empowering businesses with cutting-edge strategies.">
+  <meta property="og:image" content="assets/images/hero-image.jpg">
+  <meta property="og:url" content="https://www.opsonlinesolutions.com">
+
+  <!-- ==================================================================
+      Structured Data (Schema Markup) - Organization Schema
+  ================================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Ops Online Solutions",
+    "url": "https://www.opsonlinesolutions.com",
+    "logo": "https://www.opsonlinesolutions.com/assets/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-201-350-7567",
+      "contactType": "Customer Service",
+      "areaServed": "US",
+      "availableLanguage": "English"
+    },
+    "sameAs": [
+      "https://www.facebook.com/yourpage",
+      "https://twitter.com/yourhandle",
+      "https://www.linkedin.com/company/yourcompany"
+    ]
+  }
+  </script>
+
+  <!-- ==================================================================
+      External Stylesheets
+  ================================================================== -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" media="(max-width: 768px)" href="css/small-screens.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
+  <link rel="icon" href="assets/favicon.ico">
+
+  <!-- ==================================================================
+      ReCAPTCHA Script
+  ================================================================== -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <!-- ==================================================================
+      Custom Scripts JavaScript: Main Functionality & Mobile Menu Toggle
+  ================================================================== -->
+  <script src="js/main.js" defer></script>
+  <script src="js/service-worker.js" defer></script>
 </head>
 <body>
-    <div class="glow-effect"></div>
-    <header class="site-header">
-        <div class="header-content">
-            <h1 class="main-header-text" data-translate-key="header.main">OPS</h1>
-            <p class="sub-header-text" data-translate-key="header.sub">OPS Online Support&trade;</p>
-            <!-- Navigation or other header elements like toggles can go here later -->
-        </div>
-        <!-- Placeholder for toggles (theme/language) if they are to be in the header -->
-        <div class="header-toggles">
-            <button id="theme-toggle-button" class="header-toggle-btn" aria-label="Toggle theme">
-                <!-- Text will be set by JS, e.g., [Dark] or [Light] -->
-            </button>
-            <button id="language-toggle-button" class="header-toggle-btn" aria-label="Toggle language">
-                <!-- Text will be set by JS, e.g., [EN] or [ES] -->
-            </button>
-        </div>
+  <!-- ==================================================================
+      Main Content
+  ================================================================== -->
+  <div id="secure-content" style="display:none;">
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="business-operations.html">Business Operations</a></li>
+          <li><a href="contact-center.html">Contact Center</a></li>
+          <li><a href="it-support.html">IT Support</a></li>
+          <li><a href="professionals.html">Professionals</a></li>
+        </ul>
+      </nav>
     </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2>Welcome to Ops Solutions Services</h2>
+      <p>Empowering remote solutions with cutting-edge strategies.</p>
+      <img src="assets/images/hero-image.jpg" alt="Hero Image" class="hero-image" loading="lazy">
+    </section>
 
-    <main>
-        <section id="services" class="services-section">
-            <!-- The H2 "Our Services" might be removed or restyled depending on final look -->
-            <!-- For now, let's keep it and assume it's a section title above the nav -->
-            <h2 class="services-section-title" data-translate-key="services.title">Our Services</h2>
-            <nav aria-label="Main services" class="services-navigation">
-                <div class="service-nav-list">
-                    <a href="#service-business-ops" class="service-nav-item" data-service-target="Business Ops">
-                        <span class="service-nav-item-text" data-translate-key="nav.businessOps">Business Ops</span>
-                    </a>
-                    <a href="#service-contact-center" class="service-nav-item" data-service-target="Contact Center">
-                        <span class="service-nav-item-text" data-translate-key="nav.contactCenter">Contact Center</span>
-                    </a>
-                    <a href="#service-it-support" class="service-nav-item" data-service-target="IT Support">
-                        <span class="service-nav-item-text" data-translate-key="nav.itSupport">IT Support</span>
-                    </a>
-                    <a href="#service-professionals" class="service-nav-item" data-service-target="Professionals">
-                        <span class="service-nav-item-text" data-translate-key="nav.professionals">Professionals</span>
-                    </a>
-                </div>
-            </nav>
-        </section>
+    <!-- Services Section -->
+    <section id="services-preview" class="services">
+      <div class="service-item">
+        <h3>Business Operations</h3>
+        <p>Discover how we optimize your business processes.</p>
+        <a href="business-operations.html" class="btn">Learn More</a>
+      </div>
+      <div class="service-item">
+        <h3>Contact Center</h3>
+        <p>Enhance customer interactions with our contact solutions.</p>
+        <a href="contact-center.html" class="btn">Learn More</a>
+      </div>
+    </section>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 OPS Solutions Services. All rights reserved.</p>
+  </footer>
+  
+  <!-- Floating Icons -->
+  <div class="floating-icons">
+    <button class="floating-icon" data-modal="join-modal" aria-label="Join Us">
+      <i class="fas fa-user-plus"></i>
+    </button>
+    <button class="floating-icon" data-modal="contact-modal" aria-label="Contact Us">
+      <i class="fas fa-envelope-open-text"></i>
+    </button>
+  </div>
 
-        <section id="floating-action-buttons">
-            <div class="fab-container">
-                <button id="fab-join" class="fab" aria-label="Join Us">
-                    <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area"><i class="fas fa-user-plus"></i></div>
-                        <span class="fab-text" data-translate-key="fab.join">Join Us</span>
-                    </div>
-                </button>
-                <button id="fab-contact" class="fab" aria-label="Contact Us">
-                    <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area"><i class="fas fa-envelope"></i></div>
-                        <span class="fab-text" data-translate-key="fab.contact">Contact Us</span>
-                    </div>
-                </button>
-                <button id="fab-chatbot" class="fab" aria-label="Chatbot AI">
-                    <div class="fab-content-wrapper">
-                        <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
-                        <span class="fab-text" data-translate-key="fab.chatbot">Chatbot AI</span>
-                    </div>
-                </button>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <!-- Footer content will go here -->
-        <p data-translate-key="footer.copy">&copy; 2023 OPS Online Support</p>
-    </footer>
-
-    <div id="modal-container-main">
-        <!-- Dynamically added service modals will go here -->
+  <!-- Modals (Join Us, Contact Us) -->
+  <div id="join-modal" class="modal-overlay" role="dialog" aria-labelledby="joinModalTitle" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="joinModalTitle">Join Us</h3>
+        <button class="close-modal" data-close aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="join-form">
+          <label for="join-name">Name</label>
+          <input type="text" id="join-name" placeholder="Enter your name" required>
+        </form>
+      </div>
     </div>
+  </div>
+
 </body>
 </html>
