@@ -1,17 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const langBtn = document.getElementById('language-toggle-button'); // Main language toggle in header
-    const themeBtn = document.getElementById('theme-toggle-button'); // Main theme toggle in header
     const body = document.body;
+    // Use classes to select all theme and language toggle buttons
+    const allLangBtns = document.querySelectorAll('.lang-toggle-btn');
+    const allThemeBtns = document.querySelectorAll('.theme-toggle-btn');
 
     // --- Language Functionality ---
+    // Retrieves the current language preference from localStorage, defaulting to 'en'.
     window.getCurrentLanguage = function() {
         return localStorage.getItem('ops_lang') || 'en'; // Default to English
     }
 
     window.setCurrentLanguage = function(lang) {
         localStorage.setItem('ops_lang', lang);
+        document.documentElement.lang = lang; // Also update the lang attribute on HTML element
     }
 
+    // Applies translations to all elements with relevant data attributes.
+    // Handles text content, placeholders, ARIA labels, and titles.
     window.applyTranslations = function(lang) {
         // Update elements with data-en/data-es attributes for text content
         document.querySelectorAll('[data-en], [data-es]').forEach(el => {
@@ -19,44 +24,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = el.getAttribute(translationKey);
 
             if (text !== null) {
-                let icon = el.querySelector('i.fas');
-                let textNodeToUpdate = null;
-
-                // Find the primary text node, skipping over potential icon nodes or empty text nodes
-                for (let i = 0; i < el.childNodes.length; i++) {
-                    if (el.childNodes[i].nodeType === Node.TEXT_NODE && el.childNodes[i].textContent.trim().length > 0) {
-                        textNodeToUpdate = el.childNodes[i];
-                        break;
-                    }
-                }
-
-                if (el.classList.contains('fab-text') || el.classList.contains('header-toggle-btn') || el.classList.contains('mobile-nav-item') && !icon) {
-                    // For simple text buttons or spans, just set textContent
+                // More robustly handle elements that might contain icons + text
+                if (el.matches('.mobile-nav-item') && el.querySelector('i.fas') && el.querySelector('span')) {
+                    const span = el.querySelector('span');
+                    if (span) span.textContent = text;
+                } else if (el.classList.contains('fab-text') || el.classList.contains('header-toggle-btn') || (el.tagName === 'BUTTON' && !el.querySelector('i.fas'))) {
                     el.textContent = text;
-                } else if (icon) {
-                    // If there's an icon, try to update a text node or append
-                    if (textNodeToUpdate) {
-                        textNodeToUpdate.textContent = text;
-                    } else {
-                        // If no suitable text node, create one. Add a space if icon is first.
-                        let space = "";
-                        if (el.firstChild === icon && icon.nextSibling && icon.nextSibling.nodeType !== Node.TEXT_NODE) {
-                           // Add space only if there isn't already a text node (even empty) after icon
-                        } else if(el.firstChild !== icon){
-                           // If icon is not the first child, text might be before it.
+                } else if (el.querySelector('i.fas')) { // Element with icon
+                    let textNode = null;
+                    for(let child of el.childNodes) {
+                        if(child.nodeType === Node.TEXT_NODE && child.textContent.trim() !== '') {
+                            textNode = child;
+                            break;
                         }
-
-                        // Heuristic: if it's a button-like element, put text after icon with a space
-                        if(el.tagName === 'BUTTON' || el.tagName === 'A'){
-                            let existingTextNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
-                            existingTextNodes.forEach(n => n.remove()); // Remove old text nodes
-                            el.appendChild(document.createTextNode(" " + text)); // Add new text after icon
+                    }
+                    if(textNode) {
+                        textNode.textContent = ` ${text}`; // Add space before text if icon is present
+                    } else {
+                        // If no text node, but it's a button/anchor, append text after icon
+                        if((el.tagName === 'BUTTON' || el.tagName === 'A') && el.querySelector('i.fas')){
+                             // Remove old text nodes first to prevent duplication
+                            Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '').forEach(n => n.remove());
+                            el.appendChild(document.createTextNode(` ${text}`));
                         } else {
-                             el.textContent = text; // Fallback for other cases with icons
+                            // Fallback for other elements, prefer direct text content if no clear text node
+                            // This might overwrite icons if not careful, so specific selectors are better
                         }
                     }
                 } else {
-                    // For other elements without icons, directly set textContent
+                     // For simple elements or those intended to only have text
                     el.textContent = text;
                 }
             }
@@ -85,46 +81,42 @@ document.addEventListener('DOMContentLoaded', () => {
             titleTag.textContent = titleTag.getAttribute(lang === 'es' ? 'data-es' : 'data-en');
         }
 
-        // Sync language toggle button texts (header and mobile)
-        document.querySelectorAll('.lang-toggle-btn').forEach(button => {
+        // Sync all language toggle button texts
+        allLangBtns.forEach(button => {
             button.textContent = lang.toUpperCase();
         });
+
+        // Update ARIA labels on all toggle buttons based on the new language
+        const currentTheme = window.getCurrentTheme ? window.getCurrentTheme() : 'dark';
+        updateAllToggleButtonsAria(newLang = lang, currentTheme);
     }
 
+    // Toggles the language, updates storage, applies translations, and notifies chatbot.
     window.toggleLanguage = function() {
         const newLang = window.getCurrentLanguage() === 'en' ? 'es' : 'en';
         window.setCurrentLanguage(newLang);
-        window.applyTranslations(newLang);
+        window.applyTranslations(newLang); // This also updates ARIA on buttons
+
         // Post message to chatbot iframe about language change
-        const chatbotPlaceholder = document.getElementById('chatbot-placeholder');
-        if (chatbotPlaceholder && chatbotPlaceholder.classList.contains('active')) { // Check if chat placeholder is active
-            const chatbotIframe = chatbotPlaceholder.querySelector('iframe');
-            if (chatbotIframe && chatbotIframe.contentWindow) {
-                try {
+        const chatbotIframe = document.querySelector('#iframeChatbotModal iframe'); // Updated selector
+        if (chatbotIframe && chatbotIframe.contentWindow) {
+            try {
+                // Check if the iframe's parent modal is active
+                const modalIsActive = chatbotIframe.closest('#iframeChatbotModal.active');
+                if(modalIsActive) {
                     chatbotIframe.contentWindow.postMessage({ type: 'languageChange', language: newLang }, window.location.origin);
-                    console.log(`INFO:GlobalToggles/toggleLanguage: Sent languageChange message to chatbot iframe for lang "${newLang}".`);
-                } catch (e) {
-                    console.warn("Could not post languageChange message to chatbot iframe.", e);
+                    // console.log(`INFO:GlobalToggles/toggleLanguage: Sent languageChange to chatbot iframe for lang "${newLang}".`);
                 }
+            } catch (e) {
+                console.warn("Could not post languageChange message to chatbot iframe.", e);
             }
         }
-
-        const currentTheme = window.getCurrentTheme();
-        document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
-            const ariaEn = btn.dataset.enLabel || "Switch to English";
-            const ariaEs = btn.dataset.esLabel || "Cambiar a Español";
-            btn.setAttribute('aria-label', newLang === 'en' ? ariaEs : ariaEn);
-        });
-        document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-            const enLabel = currentTheme === 'dark' ? (btn.dataset.enLabelLight || "Switch to Light Theme") : (btn.dataset.enLabelDark || "Switch to Dark Theme");
-            const esLabel = currentTheme === 'dark' ? (btn.dataset.esLabelLight || "Cambiar a Tema Claro") : (btn.dataset.esLabelDark || "Cambiar a Tema Oscuro");
-            btn.setAttribute('aria-label', newLang === 'es' ? esLabel : enLabel);
-        });
     }
 
     // --- Theme Functionality ---
+    // Retrieves the current theme preference from localStorage, defaulting to 'dark'.
     window.getCurrentTheme = function() {
-        return localStorage.getItem('ops_theme') || 'dark';
+        return localStorage.getItem('ops_theme') || 'dark'; // Default to dark
     }
 
     window.setCurrentTheme = function(theme) {
@@ -133,65 +125,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.applyTheme = function(theme) {
         if (theme === 'light') {
-            body.classList.remove('dark');
-            body.classList.add('light-theme');
-        } else {
+            body.classList.remove('dark'); // Assuming 'dark' is the class for dark theme from theme.css :root
+            body.classList.add('light-theme'); // 'light-theme' is the class that overrides :root
+        } else { // 'dark'
             body.classList.remove('light-theme');
-            body.classList.add('dark');
+            body.classList.add('dark'); // Ensure 'dark' class is present if it drives any specific non-:root dark styles
         }
-        document.querySelectorAll('.theme-toggle-btn').forEach(button => {
-            button.textContent = theme === 'dark' ? 'Dark' : 'Light';
+        // Update text for all theme toggle buttons
+        allThemeBtns.forEach(button => {
+            // Text content should reflect the current state AFTER change
+            const currentLang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
+            if (theme === 'dark') {
+                button.textContent = currentLang === 'es' ? (button.dataset.textDarkEs || 'Oscuro') : (button.dataset.textDarkEn || 'Dark');
+            } else { // light
+                button.textContent = currentLang === 'es' ? (button.dataset.textLightEs || 'Claro') : (button.dataset.textLightEn || 'Light');
+            }
         });
+        const currentLang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
+        updateAllToggleButtonsAria(currentLang, newTheme = theme);
     }
 
+    // Toggles the theme, updates storage, applies theme, and notifies chatbot.
     window.toggleTheme = function() {
         const newTheme = window.getCurrentTheme() === 'dark' ? 'light' : 'dark';
         window.setCurrentTheme(newTheme);
-        window.applyTheme(newTheme);
+        window.applyTheme(newTheme); // This also updates ARIA on buttons
 
         // Post message to chatbot iframe about theme change
-        const chatbotPlaceholder = document.getElementById('chatbot-placeholder');
-        if (chatbotPlaceholder && chatbotPlaceholder.classList.contains('active')) { // Check if chat placeholder is active
-            const chatbotIframe = chatbotPlaceholder.querySelector('iframe');
-            if (chatbotIframe && chatbotIframe.contentWindow) {
-                try {
+        const chatbotIframe = document.querySelector('#iframeChatbotModal iframe'); // Updated selector
+        if (chatbotIframe && chatbotIframe.contentWindow) {
+             try {
+                const modalIsActive = chatbotIframe.closest('#iframeChatbotModal.active');
+                if(modalIsActive){
                     chatbotIframe.contentWindow.postMessage({ type: 'themeChange', theme: newTheme }, window.location.origin);
-                    console.log(`INFO:GlobalToggles/toggleTheme: Sent themeChange message to chatbot iframe for theme "${newTheme}".`);
-                } catch (e) {
-                    console.warn("Could not post themeChange message to chatbot iframe.", e);
+                    // console.log(`INFO:GlobalToggles/toggleTheme: Sent themeChange message to chatbot iframe for theme "${newTheme}".`);
                 }
+            } catch (e) {
+                console.warn("Could not post themeChange message to chatbot iframe.", e);
             }
         }
+    }
 
-        const currentLang = window.getCurrentLanguage();
-        document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-            const enLabel = newTheme === 'dark' ? (btn.dataset.enLabelLight || "Switch to Light Theme") : (btn.dataset.enLabelDark || "Switch to Dark Theme");
-            const esLabel = newTheme === 'dark' ? (btn.dataset.esLabelLight || "Cambiar a Tema Claro") : (btn.dataset.esLabelDark || "Cambiar a Tema Oscuro");
-            btn.setAttribute('aria-label', currentLang === 'es' ? esLabel : enLabel);
+    // Helper function to update ARIA labels on all language and theme toggle buttons.
+    // This is called internally when language or theme changes.
+    function updateAllToggleButtonsAria(currentLang, currentTheme) {
+        allLangBtns.forEach(btn => {
+            const ariaSwitchTo = currentLang === 'en' ? (btn.dataset.ariaEs || 'Switch to Spanish') : (btn.dataset.ariaEn || 'Switch to English');
+            btn.setAttribute('aria-label', ariaSwitchTo);
+        });
+        allThemeBtns.forEach(btn => {
+            const ariaSwitchTo = currentTheme === 'dark' ?
+                (currentLang === 'es' ? (btn.dataset.ariaLightEs || 'Switch to Light Theme') : (btn.dataset.ariaLightEn || 'Switch to Light Theme')) :
+                (currentLang === 'es' ? (btn.dataset.ariaDarkEs || 'Switch to Dark Theme') : (btn.dataset.ariaDarkEn || 'Switch to Dark Theme'));
+            btn.setAttribute('aria-label', ariaSwitchTo);
         });
     }
+
 
     // --- Initialization ---
     const initialLang = window.getCurrentLanguage();
     const initialTheme = window.getCurrentTheme();
 
-    window.applyTheme(initialTheme);
-    window.applyTranslations(initialLang);
+    window.setCurrentLanguage(initialLang); // Ensure HTML lang attribute is set
+    window.applyTheme(initialTheme);    // Applies theme and updates theme button text via updateAllToggleButtonsAria
+    window.applyTranslations(initialLang); // Applies translations and updates all button ARIA/text
 
-    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-        const enLabel = initialTheme === 'dark' ? (btn.dataset.enLabelLight || "Switch to Light Theme") : (btn.dataset.enLabelDark || "Switch to Dark Theme");
-        const esLabel = initialTheme === 'dark' ? (btn.dataset.esLabelLight || "Cambiar a Tema Claro") : (btn.dataset.esLabelDark || "Cambiar a Tema Oscuro");
-        btn.setAttribute('aria-label', initialLang === 'es' ? esLabel : enLabel);
+    // Attach event listeners to all found toggle buttons
+    allThemeBtns.forEach(btn => {
+        btn.addEventListener('click', window.toggleTheme);
+        // Add data attributes for text if not present, for dynamic updates in applyTheme
+        if (!btn.dataset.textDarkEn) btn.dataset.textDarkEn = "Dark";
+        if (!btn.dataset.textLightEn) btn.dataset.textLightEn = "Light";
+        if (!btn.dataset.textDarkEs) btn.dataset.textDarkEs = "Oscuro";
+        if (!btn.dataset.textLightEs) btn.dataset.textLightEs = "Claro";
     });
-    document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
-        const enAriaLabel = initialLang === 'en' ? (btn.dataset.esLabel || "Switch to Spanish") : (btn.dataset.enLabel || "Switch to English");
-        btn.setAttribute('aria-label', enAriaLabel);
+    allLangBtns.forEach(btn => {
+        btn.addEventListener('click', window.toggleLanguage);
     });
 
-    if (themeBtn) {
-        themeBtn.addEventListener('click', window.toggleTheme);
-    }
-    if (langBtn) {
-        langBtn.addEventListener('click', window.toggleLanguage);
-    }
+    // Ensure all buttons have their initial ARIA labels and text correctly set
+    updateAllToggleButtonsAria(initialLang, initialTheme);
+    allLangBtns.forEach(button => { button.textContent = initialLang.toUpperCase(); });
+    allThemeBtns.forEach(button => {
+        if (initialTheme === 'dark') {
+            button.textContent = initialLang === 'es' ? (button.dataset.textDarkEs || 'Oscuro') : (button.dataset.textDarkEn || 'Dark');
+        } else {
+            button.textContent = initialLang === 'es' ? (button.dataset.textLightEs || 'Claro') : (button.dataset.textLightEn || 'Light');
+        }
+    });
 });

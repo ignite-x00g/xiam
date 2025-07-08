@@ -1,45 +1,4 @@
 /* css/small-screen.css */
-
-/* Styles for screens 768px wide or less (typical mobile/tablet portrait) */
-@media(max-width:768px){
-  /* Ensure #mobile-bottom-nav and its toggle are visible */
-  /* #mobile-bottom-nav is styled in main_style.css with position fixed bottom, display flex */
-  /* #mobile-services-toggle is a button within it, so it will be visible if parent is. */
-
-  /* Ensure #newFabToggle and #newMobileNav are visible */
-  /* #newFabToggle is styled in main_style.css with position fixed, display flex */
-  /* #newMobileNav display is handled by its .active class for transform (from scaleY(0) to scaleY(1)) */
-  /* So, these should be visible by default on small screens based on main_style.css, */
-  /* unless overridden by a min-width rule first. */
-
-  /* No specific overrides from the sample's mobile nav section seem necessary here, */
-  /* as base styles in main_style.css and JS .active class toggles should handle appearance. */
-  /* The main purpose of this block is to counteract any min-width styles that might hide them. */
-
-  /* If .fab-container (desktop FABs) should be hidden on mobile: */
-  /*
-  .fab-container {
-    display: none;
-  }
-  */
-
-  /* Hide the main FAB stack on mobile screens */
-  .fab-stack {
-    display: none;
-  }
-}
-
-/* Styles for screens wider than 768px (typical desktop) */
-@media(min-width:769px){
-  /* Hide all mobile-specific navigation elements */
-  #mobile-bottom-nav,
-  #mobile-services-panel,
-  #newFabToggle,
-  #newMobileNav,
-  #newMobileServicesMenu {
-    display:none !important; /* Ensure these are hidden on larger screens */
-  }
-
-  /* #mobile-services-toggle is part of #mobile-bottom-nav, so it's hidden with its parent. */
-  /* #newMobileServicesToggle is part of #newMobileNav, hidden with its parent. */
-}
+/* This file is currently empty after removal of rules for non-existent elements. */
+/* Responsive styles for active elements are primarily within style.css using media queries. */
+/* This file can be used for future specific small-screen overrides if necessary. */

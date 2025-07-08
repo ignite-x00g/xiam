@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // const qs = (sel, ctx = document) => ctx.querySelector(sel);
     // const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-    const backdrop = qs('#modal-backdrop');
+    // const backdrop = qs('#modal-backdrop'); // This element is not used; each .modal-overlay is its own backdrop.
 
     async function openModal(modalId, button) { // Accept button element
         const modal = qs('#' + modalId);
@@ -46,13 +46,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Activate and display the modal
         modal.classList.add('active');
         modal.style.display = 'flex'; // Or 'block' depending on modal styling
-        if (backdrop) backdrop.style.display = 'block';
+        // if (backdrop) backdrop.style.display = 'block'; // Removed backdrop logic
 
         // Re-apply translations if global function exists, useful for dynamically loaded content
         if (window.applyTranslations && window.getCurrentLanguage) {
             setTimeout(() => { // Timeout to ensure content is in DOM
                 window.applyTranslations(window.getCurrentLanguage(), modal);
-            }, 0);
+            }, 0); // Small delay for content to be in DOM
+        }
+
+        // Call component-specific JS initializer if it exists
+        // Handles IDs like 'joinModal', 'contactModal', 'iframeChatbotModal', etc.
+        // Converts 'modal-id-example' to 'init_modal_id_example'
+        const initFunctionName = `init_${modalId.replace(/-/g, '_')}`;
+        if (typeof window[initFunctionName] === 'function') {
+            try {
+                // console.log(`DMM: Calling ${initFunctionName}`);
+                window[initFunctionName](modal); // Pass modal element to initializer
+            } catch (initError) {
+                console.error(`Error calling initializer ${initFunctionName} for modal ${modalId}:`, initError);
+            }
         }
     }
 
@@ -67,10 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modalToClose && modalToClose.classList.contains('active')) {
             modalToClose.classList.remove('active');
             modalToClose.style.display = 'none';
-            // Check if any other modals are active before hiding backdrop
-            if (!qs('.modal-overlay.active')) {
-                if (backdrop) backdrop.style.display = 'none';
-            }
+            // Check if any other modals are active before hiding backdrop (backdrop logic removed)
+            // if (!qs('.modal-overlay.active')) {
+            //     if (backdrop) backdrop.style.display = 'none';
+            // }
         }
     }
 
@@ -116,10 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('click', e => {
         if (e.target.classList.contains('modal-overlay') && e.target.classList.contains('active')) {
             closeModal(e.target);
-        } else if (backdrop && e.target === backdrop && qs('.modal-overlay.active')) {
-            // If backdrop is clicked and a modal is active, close all active modals.
-            qsa('.modal-overlay.active').forEach(activeModal => closeModal(activeModal));
         }
+        // else if (backdrop && e.target === backdrop && qs('.modal-overlay.active')) { // Removed backdrop logic
+            // If backdrop was clicked and a modal is active, close all active modals.
+            // qsa('.modal-overlay.active').forEach(activeModal => closeModal(activeModal));
+        // }
     });
 
     // Close modal on Escape key

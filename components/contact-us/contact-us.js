@@ -7,15 +7,15 @@
         return emailRegex.test(email);
     }
 
-    window.initializeContactForm = function() {
-        const contactUsModal = document.getElementById('contact-us-modal');
+    window.init_contactModal = function() { // Renamed to match DMM convention for 'contactModal' ID
+        const contactUsModal = document.getElementById('contactModal'); // Ensure this targets the correct modal ID from index.html
         if (!contactUsModal) return;
 
-        const contactForm = contactUsModal.querySelector('#contact-form'); // Ensure we select the form within this modal
-        const errorMessageDiv = contactUsModal.querySelector('#contact-form-error-message'); // Error message div within this modal
+        const contactForm = contactUsModal.querySelector('#contactForm'); // ID of the form in index.html
+        const errorMessageDiv = contactUsModal.querySelector('#contact-form-error-message'); // This ID is from the component HTML, ensure it's present
 
         if (contactForm && !contactForm.dataset.handlerInitialized) { // Check if already initialized
-            // console.log("Contact form found, attaching event listeners.");
+            // console.log("Contact form ('contactModal') found, attaching event listeners.");
             contactForm.addEventListener('submit', function(event) {
                 event.preventDefault();
                 let isValid = true;
