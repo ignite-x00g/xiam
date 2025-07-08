@@ -1,7 +1,7 @@
 body {
   margin:0;
   font-family:'Segoe UI',Arial,sans-serif;
-  background:var(--clr-bg);
+  background:transparent;
   color:var(--clr-text);
   transition:background .3s;
   display: flex;
