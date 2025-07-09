@@ -9,7 +9,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-
 /* Theme class will be on body directly, so no need for body.dark here if body.dark in theme.css handles it */
 
 main {
@@ -49,8 +48,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   box-shadow:0 0 0 3px var(--interactive-accent-color-faded); /* Was --ad33 in style.css, using interactive-accent-color-faded */
 }
 /* No specific body.dark input overrides here, theme.css variables handle it */
-
-
 /* MODAL STYLES - Merged from both, preferring style.css structure with theme.css vars */
 .modal-overlay {
   position:fixed;
@@ -93,7 +90,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   align-items: center;
   justify-content: center;
 }
-
 
 .modal-header,.modal-footer {
   display:flex;
@@ -180,8 +176,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   opacity:1;
   transform:none;
 }
-
-
 /* MOBILE NAV (General - from style.css, to be reviewed with nav consolidation) */
 /* This is for the #mobileNav and #mobileServicesMenu in index.html */
 @media(max-width:768px){
@@ -281,7 +275,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   gap:1.3rem 2rem; /* main_style.css had 1.3rem 2rem, style.css had 1.2rem 2rem */
 }
 @media(max-width:800px){.form-pairs{grid-template-columns:1fr}}
-
 .form-section{
   border:1px solid var(--input-border-color); /* theme.css var, was #ddd */
   background:var(--form-section-bg-color);    /* theme.css var, was #f9f9f9 */
@@ -293,7 +286,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   transition: border-color .3s, background-color .3s; /* style.css transition */
 }
 .form-section.completed{border-color:var(--success-color)} /* theme.css var */
-
 .section-header{display:flex;justify-content:space-between;align-items:center}
 .circle-btn{
   width:28px;height:28px;border-radius:50%;border:0;
@@ -304,7 +296,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   margin-left:.4rem; /* main_style.css */
 }
 .circle-btn.remove{background:var(--danger-color)} /* theme.css var */
-
 .accept-btn,.edit-btn{
   background:var(--success-color); /* theme.css var */
   color:var(--button-text-color-on-accent); /* theme.css var */
@@ -323,8 +314,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
 .form-row{display:flex;flex-wrap:wrap;gap:1rem}
 .form-cell{flex:1 1 48%;display:flex;flex-direction:column}
 @media(max-width:600px){.form-cell{flex:1 1 100%}}
-
-
 /* CHATBOT IFRAME MODAL STYLES */
 /* Styles for the modal that will contain the chatbot iframe */
 #iframeChatbotModal .modal-content.chatbot-iframe-container {
@@ -353,8 +342,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
 
 /* Old #chatbotModal and #chatbot-container styles are removed as the direct DOM chatbot is no longer used. */
 /* The iframe itself will have its own internal styling via mychatbot/iframe-style.css */
-
-
 /* FAB MODAL STYLES (80% screen) from main_style.css */
 /* These provide alternative sizing for specific modals. */
 #joinModal .modal-content,
@@ -367,10 +354,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
 }
 /* Specific rule for old #chatbotModal .modal-content is removed. */
 /* New #iframeChatbotModal .modal-content is styled above. */
-
-
 /* Styles for other mobile navs from main_style.css have been removed as the elements do not exist. */
-
 /* General mobile-nav, mobile-nav-item, mobile-services-menu from main_style.css (MOBILE NAV BASE) */
 /* These are generic and might apply to #mobileNav from index.html if specific styles above don't override */
 /* The specific styles for .mobile-nav#mobileNav and .mobile-services-menu#mobileServicesMenu take precedence. */
@@ -386,11 +370,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
 }
 /* .mobile-nav-item is already styled above for #mobileNav specifically. */
 /* .mobile-services-menu is already styled above for #mobileServicesMenu specifically. */
-
-
 /* Styles for #newFabToggle, #mobile-bottom-nav etc. from main_style.css have been removed as elements do not exist. */
-
-
 /* Home-page hero alignment from main_style.css */
 /* These need careful review if they are still relevant and use correct theme vars */
 .header-content {

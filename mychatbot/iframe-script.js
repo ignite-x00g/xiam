@@ -1,5 +1,4 @@
 // mychatbot/iframe-script.js
-
 (function() { // IIFE to scope variables
     // Define qs and qsa locally for full encapsulation within the iframe
     const qs = (sel, ctx = document) => ctx.querySelector(sel);
