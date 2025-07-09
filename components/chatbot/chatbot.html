@@ -1,0 +1,32 @@
+<!-- components/chatbot/chatbot.html -->
+<div class="modal-overlay" id="chatbotModal" role="dialog" aria-modal="true" aria-labelledby="chatbotModalTitle">
+  <div class="modal-content" style="padding:0; background:none; box-shadow:none; border-radius:22px;">
+    <div id="chatbot-container" aria-label="Ops AI – Chattia" tabindex="0">
+      <div id="chatbot-header">
+        <span id="title" data-en="Ops AI – Chattia" data-es="Ops IA – Chattia">Ops AI – Chattia</span>
+        <div>
+          <span id="langCtrl" class="ctrl" style="cursor:pointer;">ES</span>
+          &nbsp;|&nbsp;
+          <span id="themeCtrl" class="ctrl" style="cursor:pointer;">Dark</span>
+        </div>
+      </div>
+      <div id="chat-log" aria-live="polite"></div>
+      <div id="chatbot-form-container">
+        <form id="chatbot-input-row" autocomplete="off">
+          <input id="chatbot-input" type="text"
+                 placeholder="Type your message..."
+                 required maxlength="256"
+                 data-placeholder-en="Type your message..."
+                 data-placeholder-es="Escriba su mensaje...">
+          <button id="chatbot-send" type="submit" disabled aria-label="Send">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+        <label class="human-check">
+          <input type="checkbox" id="human-check">
+          <span id="human-label" data-en="I am human" data-es="Soy humano">I am human</span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
