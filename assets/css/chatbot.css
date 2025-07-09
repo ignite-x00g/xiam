@@ -10,8 +10,21 @@
   box-shadow: 0 8px 32px #0007;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  position: relative;
+  overflow: hidden; /* Ensures no scrollbars on the container itself */
+  position: fixed; /* Changed from relative to fixed */
+  bottom: 22px; /* Align with FABs */
+  right: calc(var(--fab) + 38px + 35px); /* Position next to FABs + margin */
+  z-index: 4000; /* Ensure it's above footer but below FABs */
+}
+#chat-log {
+  flex: 1;
+  overflow-y: auto; /* Allows scrolling within the log */
+  padding: 1rem;
+  background: #1b0e2d;
+  color: #eee;
+  font-size: .95rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-primary, #00c4ff) #1b0e2d;
 }
 #chatbot-header {
   display: flex;
