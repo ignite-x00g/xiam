@@ -1,27 +1,32 @@
 // components/join-us/join-us.js
 
-/**
- * Initializes the interactive sections within the Join Us form.
- * This function should be called after the Join Us modal's HTML content,
- * including the form sections, has been loaded into the DOM.
- */
-window.initializeJoinUsFormSections = function() {
-    const joinUsModal = document.getElementById('join-us-modal');
-    if (!joinUsModal) {
-        // console.warn("Join Us modal not found when trying to initialize sections.");
-        return;
-    }
+(function() { // IIFE to scope the content
 
-    // console.log("Initializing Join Us form sections' interactivity...");
+    /**
+     * Initializes the interactive sections within the Join Us form.
+     * This function should be called after the Join Us modal's HTML content,
+     * including the form sections, has been loaded into the DOM.
+     */
+    window.init_joinModal = function() {
+        const joinUsModal = document.getElementById('joinModal');
+        if (!joinUsModal) {
+            // console.warn("Join Us modal ('joinModal') not found when trying to initialize sections.");
+            return;
+        }
 
-    const formSections = joinUsModal.querySelectorAll('.form-section');
-    if (formSections.length === 0) {
-        // console.warn("No .form-section elements found within the Join Us modal.");
-        // This might happen if the HTML isn't loaded yet, or if there are no such sections.
-    }
+        // console.log("Initializing Join Us form sections' interactivity for 'joinModal'...");
 
-    formSections.forEach(section => {
-        const addBtn = section.querySelector('.add');
+        const formSections = joinUsModal.querySelectorAll('.form-section');
+        if (formSections.length === 0) {
+            // console.warn("No .form-section elements found within the Join Us modal.");
+        }
+
+        formSections.forEach(section => {
+            // Ensure event listeners are not duplicated if init_joinModal is called multiple times
+            if (section.dataset.joinSectionInitialized) return;
+            section.dataset.joinSectionInitialized = 'true';
+
+            const addBtn = section.querySelector('.add');
         const removeBtn = section.querySelector('.remove');
         const acceptBtn = section.querySelector('.accept-btn');
         const editBtn = section.querySelector('.edit-btn');
@@ -131,12 +136,16 @@ window.initializeJoinUsFormSections = function() {
 // then a DOMContentLoaded listener here would be appropriate to call it.
 // Example:
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure the function is available globally or directly call it if it's in the same scope
-    // and this script runs after the function definition.
-    if (typeof window.initializeJoinUsFormSections === 'function' && document.getElementById('join-us-modal')) {
-        // console.log("DOM fully loaded and parsed. Initializing Join Us form sections if modal is present.");
-        window.initializeJoinUsFormSections();
-    } else {
-        // console.log("Join Us modal not found in static DOM on DOMContentLoaded, or initializeJoinUsFormSections not defined yet.");
+    // This ensures that if the modal is part of the initial static DOM,
+    // its JavaScript interactions are set up on page load.
+    // DMM will also call init_joinModal when it opens the modal.
+    // The init_joinModal function has internal checks to prevent re-binding events.
+    if (document.getElementById('joinModal')) { // Correct ID from index.html
+        if (typeof window.init_joinModal === 'function') {
+            // console.log("Join Us modal ('joinModal') found in static DOM, initializing.");
+            window.init_joinModal();
+        } else {
+            // console.warn("init_joinModal function not found on DOMContentLoaded, though 'joinModal' element exists.");
+        }
     }
 });
