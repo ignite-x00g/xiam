@@ -142,3 +142,44 @@
     padding: 0.6rem 0.6rem;
   }
 }
+
+/* Positioning for mobile screens to be left of FABs */
+@media (max-width: 768px) {
+  .modal-overlay#chatbotModal {
+    align-items: flex-end; /* Align to bottom */
+    justify-content: flex-end; /* Align to right */
+    padding: 0; /* Reset padding that might interfere with direct positioning */
+  }
+
+  #chatbot-container {
+    /* Values from .fab-stack and .fab-btn in mobile-fabs.css */
+    --fab-stack-right: 22px;
+    --fab-btn-width: 56px;
+    --fab-stack-bottom: 25px;
+    --spacing-from-fabs: 10px;
+
+    position: absolute; /* Allow direct positioning */
+    right: calc(var(--fab-stack-right) + var(--fab-btn-width) + var(--spacing-from-fabs));
+    bottom: var(--fab-stack-bottom);
+    margin-bottom: 0; /* Override any default centering margins */
+
+    /* Ensure it doesn't exceed screen width too much if screen is very narrow */
+    max-width: calc(100vw - (var(--fab-stack-right) + var(--fab-btn-width) + var(--spacing-from-fabs) + 10px)); /* 10px for some left margin */
+  }
+
+  /* Adjustments for very small screens if the above max-width isn't enough */
+  @media (max-width: 480px) {
+    #chatbot-container {
+      /* On very small screens, the width of 98vw might be too large
+         if we also try to position it next to FABs.
+         Let's make it a bit smaller or adjust right positioning.
+         The max-width from 768px rule should mostly handle it.
+         If #chatbot-container is already 98vw, then positioning it
+         'left of FABs' means it will take up almost the entire screen width
+         minus the FABs. This should be visually acceptable.
+      */
+      /* Re-declare width for clarity if needed, but it's inherited from above rule */
+      /* width: 98vw; */
+    }
+  }
+}

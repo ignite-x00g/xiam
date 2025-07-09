@@ -3,7 +3,7 @@
 /* ===== FAB Stack ===== */
 .fab-stack {
   position: fixed;
-  bottom: 22px;
+  bottom: 25px; /* Adjusted from 22px to 25px */
   right: 22px;
   display: flex;
   flex-direction: column;
