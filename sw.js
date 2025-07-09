@@ -1,20 +1,16 @@
-const CACHE_NAME = 'ops-cache-v3'; // Incremented cache name version due to significant changes
+const CACHE_NAME = 'ops-cache-v4'; // Incremented cache name version due to significant changes
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/style.css', // Root style.css
   '/css/theme.css',
-  '/css/small-screen.css', // Assuming this is still used, was in original list
-  '/css/glow-effects.css', // Was in index.html, should be cached
-  '/css/join-us.css', // Was in index.html, should be cached
+  '/components/join-us/join-us.css', // Was in index.html, should be cached
 
   // Core JS
   '/js/global-app.js',
-  '/js/config.js', // Assuming this is still used
   '/js/global-toggles.js',
   '/js/dynamic-modal-manager.js',
-  '/js/main-mobile-navigation.js', // Assuming this is still used
   '/js/sw-register.js', // Should be cached to register the SW itself if offline first
 
   // Component HTML (modal content)
@@ -29,7 +25,6 @@ const urlsToCache = [
   // Component JS (loaded by DMM, but good to cache if they are static assets)
   '/components/join-us/join-us.js',
   '/components/contact-us/contact-us.js',
-  // mychatbot/loader.js is likely obsolete if chatbot is now via components/chatbot/chatbot.html
 
   // Assets (FontAwesome is CDN, but local assets like webfonts if any are used by it)
   // assets/fontawesome/css/all.min.css (if preferring local copy over CDN)
