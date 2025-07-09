@@ -1,0 +1,123 @@
+/* assets/css/modal.css */
+
+/* ===== Modal Overlay & Content ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+  padding: 1.2rem;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-content {
+  background: #fff;
+  color: #222;
+  border-radius: 15px;
+  width: 96vw;
+  max-width: 600px;
+  max-height: 90vh;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 0 30px rgba(0,0,0,0.18);
+  overflow-y: auto;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  position: relative;
+  animation: modalIn .23s cubic-bezier(.48,1.45,.68,1.02);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95);}
+  to   { opacity: 1; transform: translateY(0) scale(1);}
+}
+.modal-header,
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.modal-header h2, .modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--clr-primary, #00c4ff);
+  font-weight: 600;
+}
+.close-modal {
+  font-size: 1.7rem;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: color .14s;
+}
+.close-modal:hover, .close-modal:focus {
+  color: var(--clr-accent, #ff3bdb);
+}
+.modal-body {
+  margin-bottom: 1rem;
+}
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 1rem 0.5rem;
+    max-width: 98vw;
+  }
+}
+
+/* ===== Simple Form Layout (inside modals) ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.form-cell {
+  flex: 1 1 48%;
+  display: flex;
+  flex-direction: column;
+}
+label {
+  margin-bottom: 0.32rem;
+  font-weight: 600;
+  color: #444;
+}
+input, select, textarea {
+  padding: 0.65rem;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 1.03rem;
+  margin-bottom: 0.3rem;
+}
+textarea {
+  resize: vertical;
+}
+.submit-button,
+.fab-btn[type="submit"] {
+  padding: 0.7rem 1.3rem;
+  background: var(--clr-accent, #ff3bdb);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  font-size: 1.07rem;
+  transition: background .18s;
+}
+.submit-button:hover,
+.fab-btn[type="submit"]:hover {
+  background: var(--clr-accent-dark, #e000be);
+}
+@media (max-width: 600px) {
+  .form-cell {
+    flex: 1 1 100%;
+  }
+}
