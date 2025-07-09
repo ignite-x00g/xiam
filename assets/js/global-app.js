@@ -102,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setLanguage(savedLang);
 });
 
-
 // ===== Chatbot Inline Logic (Ops AI – Chattia) =====
 document.body.addEventListener('click', function(e) {
   if (e.target.closest('#chatbotModal')) {

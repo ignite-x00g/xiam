@@ -132,15 +132,18 @@ body.dark {
 
 /* ===== Footer ===== */
 .site-footer {
+  position: fixed;
+  bottom: 25px;
+  left: 0;
   width: 100%;
   background: #191919;
   color: #fff;
   text-align: center;
-  padding: 1.4rem 0 1.1rem 0;
+  padding: 1rem 0; /* Adjusted padding */
   font-size: 1rem;
   opacity: 0.87;
-  margin-top: 2rem;
   letter-spacing: 0.5px;
+  z-index: 1000; /* Ensure it's above other content */
 }
 
 /* ===== Responsive ===== */
