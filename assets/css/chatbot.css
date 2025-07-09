@@ -12,8 +12,8 @@
   flex-direction: column;
   overflow: hidden; /* Ensures no scrollbars on the container itself */
   position: fixed; /* Changed from relative to fixed */
-  bottom: 22px; /* Align with FABs */
-  right: calc(var(--fab) + 38px + 35px); /* Position next to FABs + margin */
+  bottom: 35px; /* As per requirement "pop up at 35px from the bottom margin" */
+  right: calc(22px + var(--fab-size) + 3px); /* Positions 3px to the left of FAB stack (22px FAB offset + 56px FAB width + 3px gap = 81px) */
   z-index: 4000; /* Ensure it's above footer but below FABs */
 }
 #chat-log {
@@ -145,7 +145,6 @@
 
 @media (max-width: 768px) {
   #chatbot-container {
-    bottom: 57px; /* 22px (original FAB alignment) + 35px upward shift */
     /* Adjust right positioning if it needs to be closer to the edge on mobile */
     /* For example, if FABs also move or change size */
     /* right: 35px; */ /* Example: if you want it 35px from the very edge */

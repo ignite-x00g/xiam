@@ -125,6 +125,21 @@ textarea {
 }
 
 /* ===== Dark Theme Overrides for Modals ===== */
+
+/* Button Stack for Modals */
+.modal-button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Space between stacked buttons */
+  align-items: stretch; /* Makes buttons take full width of container */
+}
+
+.modal-button-stack .fab-btn {
+  /* Ensure buttons in stack don't have conflicting margin if they had it from elsewhere */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 body.dark .modal-content {
   --modal-bg: #2c2c2c; /* Slightly lighter than body's dark background */
   --modal-tx: var(--clr-tx-dark, #f0f0f0);
