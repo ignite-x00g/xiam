@@ -44,22 +44,63 @@ function attachModalHandlers(modal) {
 qsa('.modal-overlay').forEach(attachModalHandlers);
 
 // ===== Theme/Language Toggles =====
-const themeToggle = qs('#theme-toggle-button');
-const langToggle = qs('#language-toggle-button');
-const setTheme = mode => {
-  document.body.classList.toggle('dark', mode === 'dark');
-  themeToggle.textContent = mode === 'dark' ? 'Light' : 'Dark';
+const themeToggleButton = qs('#theme-toggle-button');
+const languageToggleButton = qs('#language-toggle-button');
+
+// Function to set the theme
+const setTheme = (theme) => {
+  document.body.classList.toggle('dark', theme === 'dark');
+  if (themeToggleButton) themeToggleButton.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  localStorage.setItem('theme', theme); // Save theme preference
 };
-const setLang = lang => {
+
+// Function to set the language
+const setLanguage = (lang) => {
   document.documentElement.lang = lang;
-  langToggle.textContent = lang === 'en' ? 'ES' : 'EN';
-  qsa('[data-en]').forEach(el => el.textContent = el.dataset[lang]);
-  qsa('[data-placeholder-en]').forEach(el => {
-    el.placeholder = el.dataset[`placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`];
+  if (languageToggleButton) languageToggleButton.textContent = lang === 'en' ? 'ES' : 'EN';
+
+  // Update text content for elements with data-en/data-es attributes
+  qsa('[data-en]').forEach(el => {
+    el.textContent = el.dataset[lang] || el.dataset.en; // Fallback to English if translation is missing
   });
+
+  // Update placeholders for elements with data-placeholder-en/data-placeholder-es attributes
+  qsa('[data-placeholder-en]').forEach(el => {
+    const placeholderKey = `placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
+    el.placeholder = el.dataset[placeholderKey] || el.dataset.placeholderEn; // Fallback to English placeholder
+  });
+
+  // Update aria-labels for elements with data-aria-label-en/data-aria-label-es attributes
+  qsa('[data-aria-label-en]').forEach(el => {
+    const ariaLabelKey = `ariaLabel${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
+    el.setAttribute('aria-label', el.dataset[ariaLabelKey] || el.dataset.ariaLabelEn); // Fallback to English aria-label
+  });
+
+  localStorage.setItem('language', lang); // Save language preference
 };
-themeToggle.onclick = () => setTheme(themeToggle.textContent === 'Dark' ? 'dark' : 'light');
-langToggle.onclick = () => setLang(langToggle.textContent === 'EN' ? 'es' : 'en');
+
+// Event listeners for global toggle buttons
+if (themeToggleButton) {
+  themeToggleButton.onclick = () => {
+    const currentTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+    setTheme(currentTheme);
+  };
+}
+
+if (languageToggleButton) {
+  languageToggleButton.onclick = () => {
+    const currentLang = document.documentElement.lang === 'en' ? 'es' : 'en';
+    setLanguage(currentLang);
+  };
+}
+
+// Initialize theme and language from localStorage or defaults
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'light'; // Default to light theme
+  const savedLang = localStorage.getItem('language') || 'en';   // Default to English
+  setTheme(savedTheme);
+  setLanguage(savedLang);
+});
 
 // ===== Chatbot Inline Logic (Ops AI – Chattia) =====
 document.body.addEventListener('click', function(e) {
@@ -74,25 +115,32 @@ document.body.addEventListener('click', function(e) {
 }, true);
 
 function chatbotInit(modal) {
-  // Simple EN/ES & Theme toggles inside chatbot
-  const langCtrl = qs('#langCtrl');
-  const themeCtrl = qs('#themeCtrl');
-  const transNodes = qsa('#chatbotModal [data-en]');
-  const phNodes = qsa('#chatbotModal [data-placeholder-en]');
-  const humanLab = qs('#human-label');
-  langCtrl.onclick = () => {
-    const toES = langCtrl.textContent === 'ES';
-    document.documentElement.lang = toES ? 'es' : 'en';
-    langCtrl.textContent = toES ? 'EN' : 'ES';
-    transNodes.forEach(node => node.textContent = toES ? node.dataset.es : node.dataset.en);
-    phNodes.forEach(node => node.placeholder = toES ? node.dataset.placeholderEs : node.dataset.placeholderEn);
-    if (humanLab) humanLab.textContent = toES ? humanLab.dataset.es : humanLab.dataset.en;
-  };
-  themeCtrl.onclick = () => {
-    const dark = themeCtrl.textContent === 'Dark';
-    document.body.classList.toggle('dark', dark);
-    themeCtrl.textContent = dark ? 'Light' : 'Dark';
-  };
+  // Chatbot-specific toggles can now leverage global functions
+  const chatbotLangToggle = modal.querySelector('#langCtrl'); // Assuming #langCtrl is inside the chatbot modal
+  const chatbotThemeToggle = modal.querySelector('#themeCtrl'); // Assuming #themeCtrl is inside the chatbot modal
+
+  if (chatbotLangToggle) {
+    chatbotLangToggle.onclick = () => {
+      const currentLang = document.documentElement.lang === 'en' ? 'es' : 'en';
+      setLanguage(currentLang); // Call global function
+      // The global setLanguage will update the button text if languageToggleButton is the same as chatbotLangToggle
+      // If they are different buttons, update chatbotLangToggle text specifically:
+      chatbotLangToggle.textContent = currentLang === 'en' ? 'ES' : 'EN';
+    };
+    // Sync chatbot toggle text with global language on init
+    chatbotLangToggle.textContent = document.documentElement.lang === 'en' ? 'ES' : 'EN';
+  }
+
+  if (chatbotThemeToggle) {
+    chatbotThemeToggle.onclick = () => {
+      const currentTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+      setTheme(currentTheme); // Call global function
+      // Sync chatbot toggle text:
+      chatbotThemeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
+    };
+    // Sync chatbot toggle text with global theme on init
+    chatbotThemeToggle.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark';
+  }
 
   // Chatbot logic
   const log = qs('#chat-log');

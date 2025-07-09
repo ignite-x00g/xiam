@@ -16,8 +16,8 @@
   display: flex;
 }
 .modal-content {
-  background: #fff;
-  color: #222;
+  background: var(--modal-bg, #fff);
+  color: var(--modal-tx, #222);
   border-radius: 15px;
   width: 96vw;
   max-width: 600px;
@@ -50,7 +50,7 @@
   font-size: 1.7rem;
   background: none;
   border: none;
-  color: #888;
+  color: var(--close-btn-color, #888);
   cursor: pointer;
   margin-left: 10px;
   transition: color .14s;
@@ -87,11 +87,13 @@ form {
 label {
   margin-bottom: 0.32rem;
   font-weight: 600;
-  color: #444;
+  color: var(--label-tx, #444);
 }
 input, select, textarea {
   padding: 0.65rem;
-  border: 1px solid #ccc;
+  background: var(--input-bg, #fff);
+  color: var(--input-tx, #333);
+  border: 1px solid var(--input-border, #ccc);
   border-radius: 7px;
   font-size: 1.03rem;
   margin-bottom: 0.3rem;
@@ -120,4 +122,31 @@ textarea {
   .form-cell {
     flex: 1 1 100%;
   }
+}
+
+/* ===== Dark Theme Overrides for Modals ===== */
+body.dark .modal-content {
+  --modal-bg: #2c2c2c; /* Slightly lighter than body's dark background */
+  --modal-tx: var(--clr-tx-dark, #f0f0f0);
+}
+
+body.dark .close-modal {
+  --close-btn-color: #aaa; /* Lighter than default for dark background */
+}
+
+body.dark label {
+  --label-tx: #ddd; /* Lighter label text for dark mode */
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  --input-bg: #383838;
+  --input-tx: var(--clr-tx-dark, #f0f0f0);
+  --input-border: #555;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+  color: #999; /* Adjust placeholder color for dark inputs */
 }

@@ -34,8 +34,8 @@
   content: attr(title);
   position: absolute;
   right: 70px;
-  background: #333;
-  color: #fff;
+  background: var(--tooltip-bg, #333);
+  color: var(--tooltip-tx, #fff);
   padding: 4px 10px;
   border-radius: 8px;
   font-size: .77rem;
@@ -89,7 +89,7 @@
     bottom: 100px;
     right: 24px;
     background: var(--clr-bg);
-    border: 1px solid #ccc;
+    border: 1px solid var(--menu-border-color, #ccc);
     border-radius: 13px;
     padding: 1.15rem 1.2rem;
     max-height: 52%;
@@ -115,4 +115,14 @@
   .mobile-services-menu {
     display: none !important;
   }
+}
+
+/* ===== Dark Theme Overrides for FABS and Mobile Nav ===== */
+body.dark .fab-btn[title]:after {
+  --tooltip-bg: #f0f0f0;
+  --tooltip-tx: #333;
+}
+
+body.dark .mobile-services-menu {
+  --menu-border-color: #555;
 }
