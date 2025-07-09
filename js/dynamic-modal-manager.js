@@ -36,7 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(`Error loading modal content for ${modalId} from ${modalSource}:`, error);
                 const modalBody = modal.querySelector('.modal-body');
                 if (modalBody) {
-                    modalBody.innerHTML = `<p>Error loading content. Please try again later.</p>`;
+                    // Make the error message localizable
+                    modalBody.innerHTML = `<p data-en="Error loading content. Please try again later." data-es="Error al cargar el contenido. Por favor, inténtelo de nuevo más tarde.">Error loading content. Please try again later.</p>`;
+                    if (window.applyTranslations && window.getCurrentLanguage) {
+                        // Apply translation immediately to this new content
+                        window.applyTranslations(window.getCurrentLanguage(), modalBody);
+                    }
                 }
                 // Optionally, don't open the modal if content fails to load, or open with error.
                 // For now, we'll proceed to open it with the error message.

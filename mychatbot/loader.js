@@ -42,7 +42,8 @@
 
         themeObserver = new MutationObserver((mutationsList) => {
             for (const mutation of mutationsList) {
-                // Using 'class' attribute for theme changes (body.dark / body.light-theme)
+                // Observing 'class' attribute on body because js/global-toggles.js
+                // applies theme by adding/removing 'light-theme' or 'dark' classes.
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const newTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
                     applyThemeToIframe(newTheme);

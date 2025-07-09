@@ -9,7 +9,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-
 /* Theme class will be on body directly, so no need for body.dark here if body.dark in theme.css handles it */
 
 main {
@@ -49,8 +48,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   box-shadow:0 0 0 3px var(--interactive-accent-color-faded); /* Was --ad33 in style.css, using interactive-accent-color-faded */
 }
 /* No specific body.dark input overrides here, theme.css variables handle it */
-
-
 /* MODAL STYLES - Merged from both, preferring style.css structure with theme.css vars */
 .modal-overlay {
   position:fixed;
@@ -93,7 +90,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   align-items: center;
   justify-content: center;
 }
-
 
 .modal-header,.modal-footer {
   display:flex;
@@ -180,8 +176,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   opacity:1;
   transform:none;
 }
-
-
 /* MOBILE NAV (General - from style.css, to be reviewed with nav consolidation) */
 /* This is for the #mobileNav and #mobileServicesMenu in index.html */
 @media(max-width:768px){
@@ -281,7 +275,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   gap:1.3rem 2rem; /* main_style.css had 1.3rem 2rem, style.css had 1.2rem 2rem */
 }
 @media(max-width:800px){.form-pairs{grid-template-columns:1fr}}
-
 .form-section{
   border:1px solid var(--input-border-color); /* theme.css var, was #ddd */
   background:var(--form-section-bg-color);    /* theme.css var, was #f9f9f9 */
@@ -293,7 +286,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   transition: border-color .3s, background-color .3s; /* style.css transition */
 }
 .form-section.completed{border-color:var(--success-color)} /* theme.css var */
-
 .section-header{display:flex;justify-content:space-between;align-items:center}
 .circle-btn{
   width:28px;height:28px;border-radius:50%;border:0;
@@ -304,7 +296,6 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   margin-left:.4rem; /* main_style.css */
 }
 .circle-btn.remove{background:var(--danger-color)} /* theme.css var */
-
 .accept-btn,.edit-btn{
   background:var(--success-color); /* theme.css var */
   color:var(--button-text-color-on-accent); /* theme.css var */
@@ -323,115 +314,47 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
 .form-row{display:flex;flex-wrap:wrap;gap:1rem}
 .form-cell{flex:1 1 48%;display:flex;flex-direction:column}
 @media(max-width:600px){.form-cell{flex:1 1 100%}}
-
-
-/* CHATBOT (Direct DOM version) - Merged from style.css and main_style.css, using theme vars */
-/* This will be reviewed when chatbot strategy is finalized */
-#chatbot-container {
-  width:100%; /* main_style.css, takes width of modal-content */
-  /* style.css had fixed width:300px for #chatbot-container, but if it's inside modal-content, 100% is better */
-  height:540px; /* From style.css (fixed height), main_style also has this */
-  background: var(--card-bg-color); /* theme.css var, was #251541 or #2e1852 */
-  border:2px solid var(--interactive-accent-color); /* theme.css var, was --a or --clr-accent */
-  border-radius:8px; /* Match modal-content or use own. style.css had 18px, main_style 8px */
-  box-shadow:0 8px 32px var(--shadow-color-strong); /* theme.css var, was #0006 */
-  display:flex;flex-direction:column;overflow:hidden;
-}
-#chatbot-header {
-  background:linear-gradient(135deg, var(--interactive-accent-color), var(--interactive-accent-color-darker)); /* style.css, adjusted vars */
-  color:var(--button-text-color-on-accent); /* theme.css var */
-  text-align:center;font-weight:600;padding:1rem; /* style.css */
-  font-size:1.25rem; /* main_style.css */
-}
-#chat-log {
-  flex:1;overflow-y:auto;padding:1rem;
-  background:var(--body-bg-color); /* theme.css var, was #1b0e2d or #121212 */
-  color:var(--text-color-main);    /* theme.css var */
-  font-size:.94rem; /* style.css */
-}
-.chat-msg{margin:.5rem 0;max-width:90%; word-wrap: break-word;} /* style.css, main_style.css had margin-bottom */
-.user { /* from style.css, slightly different from main_style.css */
-  margin-left:auto;
-  background:var(--interactive-accent-color);
-  color:var(--button-text-color-on-accent); /* Was #000 in style.css */
-  padding:.5rem .7rem;
-  border-radius:14px 14px 0 14px;
-}
-.bot { /* from style.css, slightly different from main_style.css */
-  margin-right:auto;
-  background:var(--secondary-color); /* theme.css var, was #321b53 */
-  color:var(--text-color-main); /* Was #fff in style.css */
-  padding:.5rem .7rem;
-  border-radius:14px 14px 14px 0;
-}
-#chatbot-form-container {
-  background:var(--card-bg-hover-color); /* theme.css var, was #220f3a or #171717 */
-  border-top:1px solid var(--interactive-accent-color); /* theme.css var */
-  padding:.55rem .7rem; /* style.css */
-}
-#chatbot-input-row{display:flex;gap:.6rem; margin-bottom: 0.5rem;} /* style.css, main_style.css added margin */
-#chatbot-input{
-  flex:1;background:transparent;border:0;
-  color:var(--text-color-main); /* Was #fff in style.css */
-  font-size:.95rem; /* style.css */
-  padding:.7rem; /* From main_style.css, style.css had no padding here */
-}
-#chatbot-send {
-  display:flex;align-items:center;gap:6px; /* style.css */
-  background:var(--interactive-accent-color); /* theme.css var */
-  border:0;color:var(--button-text-color-on-accent); /* theme.css var */
-  font-weight:600;padding:.5rem .85rem; /* style.css */
-  border-radius:8px;cursor:pointer;
-}
-#chatbot-send i{transition:transform .3s} /* style.css */
-#chatbot-send:hover i{transform:rotate(-45deg)} /* style.css */
-#chatbot-send:disabled{background:#555;cursor:not-allowed}
-
-.human-check{
-  color:var(--text-color-subtle); /* theme.css var, was #ddd */
-  font-size:.85rem; /* style.css */
-  display:flex;align-items:center;margin-top:.3rem; /* style.css */
-}
-.human-check input{margin-right:.4rem} /* style.css */
-
-/* Responsive for Chatbot container (from style.css, also mentioned in main_style.css) */
-/* Note: If chatbot is inside a modal-content that is already responsive, this might not be strictly needed */
-/* Or, it's for when the chatbot modal itself takes a large portion of the screen on mobile */
-@media(max-width:600px){
-  #chatbotModal .modal-content { /* If chatbot is in a modal, size the modal-content */
-      width: 90%;
-      height: 75vh; /* style.css */
-      padding: 0; /* Chatbot container handles its own padding */
-  }
-  /* If #chatbot-container is NOT inside a modal-content but directly in modal-overlay: */
-  /* #chatbot-container{height:75vh;width:90%} */
+/* CHATBOT IFRAME MODAL STYLES */
+/* Styles for the modal that will contain the chatbot iframe */
+#iframeChatbotModal .modal-content.chatbot-iframe-container {
+  /* Sizing for the chatbot modal content area */
+  width: 95%; /* Or a fixed width like 360px */
+  max-width: 400px; /* Max width for the chatbot modal */
+  height: 75vh; /* Adjust as needed, e.g. 550px or 80vh */
+  max-height: 600px; /* Max height */
+  padding: 0; /* The iframe will fill this, padding is handled by modal-header and iframe content */
+  display: flex; /* To make placeholder and header flex column */
+  flex-direction: column; /* Stack header and placeholder */
 }
 
+#iframeChatbotModal .modal-header {
+  /* Style for the header within the iframe chatbot modal */
+  /* background: var(--interactive-accent-color); */ /* Example if header needs specific bg */
+  /* color: var(--button-text-color-on-accent); */
+  padding: 0.75rem 1rem; /* Adjust padding for the header */
+  border-bottom: 1px solid var(--border-color-soft); /* Separator */
+}
 
+#iframeChatbotModal #chatbot-iframe-placeholder {
+  flex-grow: 1; /* Placeholder takes remaining space */
+  overflow: hidden; /* Ensure iframe doesn't cause unexpected scroll on placeholder */
+}
+
+/* Old #chatbotModal and #chatbot-container styles are removed as the direct DOM chatbot is no longer used. */
+/* The iframe itself will have its own internal styling via mychatbot/iframe-style.css */
 /* FAB MODAL STYLES (80% screen) from main_style.css */
 /* These provide alternative sizing for specific modals. */
-/* These might conflict with the general .modal-content if IDs are also on .modal-overlay */
-/* Assuming IDs are on the .modal-overlay element */
-#joinModal .modal-content,   /* Was #join-us-modal */
-#contactModal .modal-content { /* Was #contact-us-modal */
+#joinModal .modal-content,
+#contactModal .modal-content {
   width: 80vw;
   height: 80vh;
   max-width: 80vw; /* Ensure these don't exceed viewport */
   max-height: 80vh;
   padding: 20px;
 }
-#chatbotModal .modal-content { /* ID for the main chatbot modal in index.html */
-  /* If using the direct DOM chatbot, its container is #chatbot-container, not modal-content directly */
-  /* This rule is for when the modal-content of #chatbotModal itself needs specific sizing */
-  width: auto; /* Let content (#chatbot-container) define width, up to modal-content max-width */
-  max-width: 350px; /* Example: constrain width of chatbot modal */
-  height: auto; /* Let content define height */
-  padding: 0; /* Chatbot container has its own padding */
-}
-
-
+/* Specific rule for old #chatbotModal .modal-content is removed. */
+/* New #iframeChatbotModal .modal-content is styled above. */
 /* Styles for other mobile navs from main_style.css have been removed as the elements do not exist. */
-
 /* General mobile-nav, mobile-nav-item, mobile-services-menu from main_style.css (MOBILE NAV BASE) */
 /* These are generic and might apply to #mobileNav from index.html if specific styles above don't override */
 /* The specific styles for .mobile-nav#mobileNav and .mobile-services-menu#mobileServicesMenu take precedence. */
@@ -447,11 +370,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
 }
 /* .mobile-nav-item is already styled above for #mobileNav specifically. */
 /* .mobile-services-menu is already styled above for #mobileServicesMenu specifically. */
-
-
 /* Styles for #newFabToggle, #mobile-bottom-nav etc. from main_style.css have been removed as elements do not exist. */
-
-
 /* Home-page hero alignment from main_style.css */
 /* These need careful review if they are still relevant and use correct theme vars */
 .header-content {
@@ -564,6 +483,27 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   background: var(--modal-content-bg);
   color: var(--text-color-main);
   border: 1px solid var(--interactive-accent-color);
+}
+
+/* Service Modal Placeholders & Footer */
+.service-placeholder {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px dashed var(--input-border-color);
+}
+.service-image-placeholder { /* Extends service-placeholder */
+  background-color: var(--input-bg-color);
+}
+.service-video-placeholder { /* Extends service-placeholder */
+  margin-top: 1rem; /* Specific to video placeholder in original inline style */
+  background-color: var(--secondary-color);
+  color: var(--text-color-emphasis);
+}
+.service-modal-footer { /* Replaces .modal-content-footer inline style */
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
 /* Visually hidden class for accessibility */
