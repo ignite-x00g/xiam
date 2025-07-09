@@ -3,198 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-en="OPS Online Support" data-es="OPS Soporte en Línea">OPS Online Support</title>
+    <title>OPS Online Support</title>
     <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/main_style.css"> <!-- Added main_style.css -->
-    <link rel="stylesheet" href="css/small-screen.css">
-    <!-- Link to component-specific CSS if/when created, e.g., components/join-us/join-us.css -->
-    <link rel="stylesheet" href="components/join-us/join-us.css"> <!-- Linking join-us.css as it exists -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glow-effects.css">
+    <link rel="stylesheet" href="css/join-us.css">
+    <!-- Add Font Awesome CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Chatbot Placeholder and FAB styles moved to css/main_style.css -->
 </head>
-<body class="dark"> <!-- Default to dark, global-toggles.js will adjust -->
-
-    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" data-en="Skip to main content" data-es="Saltar al contenido principal">Skip to main content</a>
-
+<body>
+    <div class="glow-effect"></div>
     <header class="site-header">
         <div class="header-content">
-            <h1 class="main-header-text" data-en="OPS" data-es="OPS">OPS</h1>
-            <p class="sub-header-text" data-en="OPS Online Support&trade;" data-es="OPS Online Support&trade;">OPS Online Support&trade;</p>
+            <h1 class="main-header-text" data-translate-key="header.main">OPS</h1>
+            <p class="sub-header-text" data-translate-key="header.sub">OPS Online Support&trade;</p>
+            <!-- Navigation or other header elements like toggles can go here later -->
         </div>
+        <!-- Placeholder for toggles (theme/language) if they are to be in the header -->
         <div class="header-toggles">
-         <button id="theme-toggle-button" class="header-toggle-btn theme-toggle-btn"
-                 aria-label="Toggle theme"
-                 data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro"
-                 data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro"
-                 title="Toggle Theme">Dark</button>
-         <button id="language-toggle-button" class="header-toggle-btn lang-toggle-btn"
-                 aria-label="Toggle language"
-                 data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés"
-                 title="Toggle Language"
-                 data-en="EN" data-es="ES">EN</button>
+            <button id="theme-toggle-button" class="header-toggle-btn" aria-label="Toggle theme">
+                <!-- Text will be set by JS, e.g., [Dark] or [Light] -->
+            </button>
+            <button id="language-toggle-button" class="header-toggle-btn" aria-label="Toggle language">
+                <!-- Text will be set by JS, e.g., [EN] or [ES] -->
+            </button>
         </div>
     </header>
 
-    <main id="main-content">
+    <main>
         <section id="services" class="services-section">
-            <h2 class="services-section-title" data-en="Our Services" data-es="Nuestros Servicios">Our Services</h2>
+            <!-- The H2 "Our Services" might be removed or restyled depending on final look -->
+            <!-- For now, let's keep it and assume it's a section title above the nav -->
+            <h2 class="services-section-title" data-translate-key="services.title">Our Services</h2>
             <nav aria-label="Main services" class="services-navigation">
                 <div class="service-nav-list">
-                    <button class="service-nav-item" data-modal-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Gestion">Business Operations</button>
-                    <button class="service-nav-item" data-modal-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</button>
-                    <button class="service-nav-item" data-modal-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte Tecnico">IT Support</button>
-                    <button class="service-nav-item" data-modal-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button>
+                    <a href="#service-business-ops" class="service-nav-item" data-service-target="Business Ops">
+                        <span class="service-nav-item-text" data-translate-key="nav.businessOps">Business Ops</span>
+                    </a>
+                    <a href="#service-contact-center" class="service-nav-item" data-service-target="Contact Center">
+                        <span class="service-nav-item-text" data-translate-key="nav.contactCenter">Contact Center</span>
+                    </a>
+                    <a href="#service-it-support" class="service-nav-item" data-service-target="IT Support">
+                        <span class="service-nav-item-text" data-translate-key="nav.itSupport">IT Support</span>
+                    </a>
+                    <a href="#service-professionals" class="service-nav-item" data-service-target="Professionals">
+                        <span class="service-nav-item-text" data-translate-key="nav.professionals">Professionals</span>
+                    </a>
                 </div>
             </nav>
         </section>
 
         <section id="floating-action-buttons">
             <div class="fab-container">
-            <button id="fab-join" class="fab" data-modal-target="join-us-modal" data-modal-source="components/join-us/join-us.html"
-                    aria-label="Join Us" data-aria-label-en="Join Us" data-aria-label-es="Únete"
-                    title="Join Us" data-title-en="Join Us" data-title-es="Únete">
+                <button id="fab-join" class="fab" aria-label="Join Us">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-user-plus"></i></div>
-                        <span class="fab-text" data-en="Join Us" data-es="Únete">Join Us</span>
+                        <span class="fab-text" data-translate-key="fab.join">Join Us</span>
                     </div>
                 </button>
-            <button id="fab-contact" class="fab" data-modal-target="contact-us-modal" data-modal-source="components/contact-us/contact-us.html"
-                    aria-label="Contact Us" data-aria-label-en="Contact Us" data-aria-label-es="Comuníquese con nosotros"
-                    title="Contact Us" data-title-en="Contact Us" data-title-es="Comuníquese">
+                <button id="fab-contact" class="fab" aria-label="Contact Us">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-envelope"></i></div>
-                        <span class="fab-text" data-en="Contact Us" data-es="Comuníquese">Contact Us</span>
+                        <span class="fab-text" data-translate-key="fab.contact">Contact Us</span>
                     </div>
                 </button>
-            <!-- fab-chatbot will be changed to chatbot-fab-trigger and styled by the new CSS -->
-            <button id="chatbot-fab-trigger" class="fab"
-                    aria-label="Open Chat" data-aria-label-en="Open Chat" data-aria-label-es="Abrir Chat"
-                    title="Open Chat" data-title-en="Open Chat" data-title-es="Abrir Chat">
+                <button id="fab-chatbot" class="fab" aria-label="Chatbot AI">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
-                        <span class="fab-text" data-en="Chat" data-es="Chat">Chat</span>
+                        <span class="fab-text" data-translate-key="fab.chatbot">Chatbot AI</span>
                     </div>
                 </button>
             </div>
         </section>
     </main>
 
-    <div id="modal-backdrop" class="modal-backdrop" style="display: none;"></div>
-
-    <!-- Modal Shells: Content will be loaded dynamically -->
-    <div id="join-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="join-us-modal-title" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="join-us-modal-title" data-en="Join Us" data-es="Únete">Join Us</h3>
-                <button class="close-modal" data-close-modal="join-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Content for Join Us modal will be loaded here from components/join-us/join-us.html -->
-            </div>
-        </div>
-    </div>
-
-    <div id="contact-us-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" style="display: none;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 id="contactModalTitle" data-en="Contact Us" data-es="Contáctenos">Contact Us</h3>
-          <button class="close-modal" data-close-modal="contact-us-modal" aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
-        </div>
-        <div class="modal-body">
-            <!-- Content for Contact Us modal will be loaded here from components/contact-us/contact-us.html -->
-        </div>
-      </div>
-    </div>
-
-    <div id="business-operations-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="bo-modal-title" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="bo-modal-title" data-en="Business Operations" data-es="Gestion">Business Operations</h3>
-                <button class="close-modal" data-close-modal="business-operations-modal" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body"></div>
-        </div>
-    </div>
-    <div id="contact-center-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="cc-modal-title" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="cc-modal-title" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</h3>
-                <button class="close-modal" data-close-modal="contact-center-modal" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body"></div>
-        </div>
-    </div>
-    <div id="it-support-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="it-modal-title" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="it-modal-title" data-en="IT Support" data-es="Soporte Tecnico">IT Support</h3>
-                <button class="close-modal" data-close-modal="it-support-modal" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body"></div>
-        </div>
-    </div>
-    <div id="professionals-modal" class="modal-overlay service-modal-center" role="dialog" aria-modal="true" aria-labelledby="prof-modal-title" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="prof-modal-title" data-en="Professionals" data-es="Profesionales">Professionals</h3>
-                <button class="close-modal" data-close-modal="professionals-modal" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body"></div>
-        </div>
-    </div>
-    <!-- Removed old chatbot-modal div -->
-
-    <!-- Chatbot placeholder for mychatbot -->
-    <div id="chatbot-placeholder">
-        <!-- The loader script (mychatbot/loader.js) will inject a close button and the iframe here. -->
-    </div>
-
     <footer>
-        <p data-en="&copy; 2025 OPS Online Support" data-es="&copy; 2025 OPS Online Support">&copy; 2025 OPS Online Support</p>
+        <!-- Footer content will go here -->
+        <p data-translate-key="footer.copy">&copy; 2023 OPS Online Support</p>
     </footer>
-
-    <!-- Mobile Navigations -->
-    <nav class="mobile-nav" id="mobile-bottom-nav">
-        <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
-        <button class="mobile-nav-item" id="mobile-services-toggle"><i class="fas fa-bars"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <!-- Removed old mobile-chat-link, new one is in #newMobileNav -->
-    </nav>
-    <div class="mobile-services-menu" id="mobile-services-panel">
-        <ul>
-            <li><button data-service-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Gestion">Business Operations</button></li>
-            <li><button data-service-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Servicios">Contact Center</button></li>
-            <li><button data-service-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte Tecnico">IT Support</button></li>
-            <li><button data-service-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button></li>
-        </ul>
-    </div>
-    <button class="fab-toggle" id="newFabToggle" aria-label="Toggle Menu" data-aria-label-en="Toggle Menu" data-aria-label-es="Alternar Menú"><i class="fas fa-bars"></i></button>
-    <nav class="mobile-nav" id="newMobileNav">
-        <a href="index.html" class="mobile-nav-item" data-en-text="Home" data-es-text="Inicio"><i class="fas fa-home"></i><span data-en="Home" data-es="Inicio">Home</span></a>
-        <button class="mobile-nav-item" id="newMobileServicesToggle" aria-expanded="false" aria-controls="newMobileServicesMenu" data-en-text="Services" data-es-text="Servicios"><i class="fas fa-cogs"></i><span data-en="Services" data-es="Servicios">Services</span></button>
-        <button class="mobile-nav-item lang-toggle-btn" id="newMobileLanguageToggle" aria-label="Switch Language" title="Switch Language" data-en-label="Switch to Spanish" data-es-label="Cambiar a Inglés">EN</button>
-        <button class="mobile-nav-item theme-toggle-btn" id="newMobileThemeToggle" aria-label="Toggle Theme" title="Toggle Theme" data-en-label-dark="Switch to Dark Theme" data-es-label-dark="Cambiar a Tema Oscuro" data-en-label-light="Switch to Light Theme" data-es-label-light="Cambiar a Tema Claro">Light</button>
-        <button class="mobile-nav-item" id="mobileChatLauncher" aria-label="Open Chat" title="Open Chat" data-en-text="Chat" data-es-text="Chat"><i class="fas fa-comment-alt"></i><span data-en="Chat" data-es="Chat">Chat</span></button>
-    </nav>
-    <div class="mobile-services-menu" id="newMobileServicesMenu" aria-hidden="true">
-        <ul>
-            <li><button data-service-target="business-operations-modal" data-modal-source="components/service-modals/business-operations.html" data-en="Business Operations" data-es="Operaciones Empresariales">Business Operations</button></li>
-            <li><button data-service-target="contact-center-modal" data-modal-source="components/service-modals/contact-center.html" data-en="Contact Center" data-es="Centro de Contacto">Contact Center</button></li>
-            <li><button data-service-target="it-support-modal" data-modal-source="components/service-modals/it-support.html" data-en="IT Support" data-es="Soporte IT">IT Support</button></li>
-            <li><button data-service-target="professionals-modal" data-modal-source="components/service-modals/professionals.html" data-en="Professionals" data-es="Profesionales">Professionals</button></li>
-        </ul>
-    </div>
-    <!-- JS scripts -->
-    <script src="js/global-toggles.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/join-us.js" defer></script>
+    <script src="js/cursor-glow-effect.js" defer></script>
     <script src="js/dynamic-modal-manager.js" defer></script>
-    <script src="js/global-app.js" defer></script>
-    <script src="components/contact-us/contact-us.js" defer></script>
-    <script src="js/mobile-menu.js" defer></script>
-    <script src="js/mobile-fab-nav.js" defer></script>
-    <!-- Component-specific JS will be added here or loaded by dynamic-modal-manager -->
-    <script src="components/join-us/join-us.js" defer></script>
-    <!-- For Join Us, it will be explicitly linked as per plan -->
-
-    <script src="mychatbot/loader.js" defer></script>
+    <script src="js/theme-switcher.js" defer></script>
+    <script src="js/language-switcher.js" defer></script>
+    <script src="js/contact-form.js" defer></script> <!-- Added this line -->
 </body>
 </html>
