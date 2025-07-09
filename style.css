@@ -340,8 +340,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   overflow: hidden; /* Ensure iframe doesn't cause unexpected scroll on placeholder */
 }
 
-/* Old #chatbotModal and #chatbot-container styles are removed as the direct DOM chatbot is no longer used. */
-/* The iframe itself will have its own internal styling via mychatbot/iframe-style.css */
+/* Old #chatbotModal and #chatbot-container styles are removed. */
+/* The iframe includes its own styles inside components/chatbot/chatbot.html */
 /* FAB MODAL STYLES (80% screen) from main_style.css */
 /* These provide alternative sizing for specific modals. */
 #joinModal .modal-content,
