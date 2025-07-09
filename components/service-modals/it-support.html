@@ -1,38 +1,56 @@
-<!-- components/service-modals/business-operations.html -->
-<div class="modal-overlay" id="businessOpsModal" role="dialog" aria-modal="true" aria-labelledby="businessOpsModalTitle">
+<!-- components/service-modals/it-support.html -->
+<div class="modal-overlay" id="itSupportModal" role="dialog" aria-modal="true" aria-labelledby="itSupportModalTitle">
   <div class="modal-content" style="max-width:720px; padding:0;">
-    <div class="c-suite-modal-header" style="background:linear-gradient(90deg,#00c4ff,#ff3bdb);color:#fff;padding:2rem 2rem 1.2rem 2rem;border-radius:14px 14px 0 0;">
-      <h2 id="businessOpsModalTitle" data-en="Business Operations" data-es="Operaciones Empresariales">Business Operations</h2>
-      <p data-en="Strategic. Reliable. Scalable." data-es="Estratégico. Confiable. Escalable." style="margin-top:.3em;font-size:1.15rem;opacity:.93;font-weight:400"></p>
+    <div class="c-suite-modal-header" style="background:linear-gradient(90deg,#7b2cbf,#00c4ff);color:#fff;padding:2rem 2rem 1.2rem 2rem;border-radius:14px 14px 0 0;">
+      <h2 id="itSupportModalTitle" data-en="IT Support" data-es="Soporte IT"></h2>
+      <p data-en="Secure. Fast. Proactive." data-es="Seguro. Rápido. Proactivo."></p>
     </div>
     <div class="c-suite-modal-body" style="display:flex;gap:2.2rem;flex-wrap:wrap;padding:2.2rem; background:var(--clr-bg,#fff);">
-      <!-- Visual Left Column -->
       <div style="flex:1 1 260px;min-width:230px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
-        <div class="c-suite-img-placeholder" style="width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;box-shadow:0 4px 18px #0001;background:#f2f8fd;display:flex;align-items:center;justify-content:center;">
-          <img src="https://placehold.co/400x225/business" alt="Business Operations" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">
+        <div class="c-suite-img-placeholder" style="width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;box-shadow:0 4px 18px #0001;background:#f2f8fd;">
+          <img src="https://placehold.co/400x225/it" alt="IT Support" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">
         </div>
-        <div class="c-suite-video-placeholder" style="width:100%;aspect-ratio:16/9;background:#e8e8ef;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 2px 8px #00c4ff22;">
+        <div class="c-suite-video-placeholder" style="width:100%;aspect-ratio:16/9;background:#e8e8ef;border-radius:13px;position:relative;box-shadow:0 2px 8px #00c4ff22;">
           <span style="font-size:2.8rem;color:#ad30c0;opacity:.24;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">🎬</span>
-          <video controls poster="https://placehold.co/400x225/business?text=Business+Ops+Video" style="width:100%;height:100%;border-radius:13px;display:none;">
+          <video controls poster="https://placehold.co/400x225/it?text=IT+Support+Video" style="width:100%;height:100%;border-radius:13px;display:none;">
             <source src="#" type="video/mp4">
-            <!-- Placeholder, real video source to be added -->
           </video>
         </div>
       </div>
-      <!-- Content Right Column -->
-      <div style="flex:2 1 320px;min-width:260px;display:flex;flex-direction:column;justify-content:center;">
-        <h3 style="font-size:1.22rem;margin-bottom:.7em;" data-en="Transform the way you operate." data-es="Transforme la manera en que opera.">Transform the way you operate.</h3>
+      <div style="flex:2 1 320px;min-width:260px;">
+        <h3 style="font-size:1.22rem;margin-bottom:.7em;" data-en="Stay protected. Stay productive." data-es="Manténgase protegido. Mantenga la productividad."></h3>
         <ul style="margin:0 0 1.4em 1em;font-size:1.04rem;line-height:1.65;">
-          <li data-en="Streamline processes with automation and AI." data-es="Optimice procesos con automatización e IA.">Streamline processes with automation and AI.</li>
-          <li data-en="Gain full visibility and control over your operations." data-es="Obtenga visibilidad y control total de sus operaciones.">Gain full visibility and control over your operations.</li>
-          <li data-en="Scale up securely, cost-efficiently, and globally." data-es="Escale de forma segura, eficiente y global.">Scale up securely, cost-efficiently, and globally.</li>
+          <li data-en="24/7 remote and onsite support." data-es="Soporte remoto y presencial 24/7."></li>
+          <li data-en="Cybersecurity built-in from day one." data-es="Ciberseguridad incorporada desde el inicio."></li>
+          <li data-en="Asset management, helpdesk & more." data-es="Gestión de activos, mesa de ayuda y más."></li>
         </ul>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-          <button class="fab-btn" style="background:var(--clr-primary);" data-en="Learn More" data-es="Ver Más" onclick="window.open('https://ops-onlinesupport.com/business-operations','_blank')">Learn More</button>
+          <button class="fab-btn" style="background:var(--clr-primary);" data-modal="descItSupportModal" data-en="Learn More" data-es="Ver Más">Learn More</button>
           <button class="fab-btn" style="background:var(--clr-accent);" data-modal="contactModal" data-en="Contact" data-es="Contacto">Contact</button>
           <button class="fab-btn" style="background:var(--clr-accent-dark);" data-modal="chatbotModal" data-en="Ask Chattia" data-es="Preguntar a Chattia">Ask Chattia</button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Description Modal -->
+<div class="modal-overlay" id="descItSupportModal" role="dialog" aria-modal="true" aria-labelledby="descItSupportTitle">
+  <div class="modal-content" style="max-width:470px">
+    <div class="modal-header">
+      <h3 id="descItSupportTitle" data-en="About IT Support" data-es="Sobre Soporte IT"></h3>
+      <button class="close-modal" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p data-en="OPS IT Support keeps your organization running 24/7 with world-class protection and fast resolution, so you can focus on your business." data-es="OPS Soporte IT mantiene su organización funcionando 24/7 con protección de clase mundial y soluciones rápidas, para que pueda concentrarse en su negocio."></p>
+      <ul>
+        <li data-en="Certified cybersecurity professionals" data-es="Profesionales certificados en ciberseguridad"></li>
+        <li data-en="Remote monitoring & rapid onsite response" data-es="Monitoreo remoto y respuesta rápida presencial"></li>
+        <li data-en="Managed endpoint, network & cloud" data-es="Gestión de endpoint, red y nube"></li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="fab-btn" data-close data-en="Close" data-es="Cerrar">Close</button>
     </div>
   </div>
 </div>
