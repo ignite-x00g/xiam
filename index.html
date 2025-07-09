@@ -63,7 +63,7 @@
                 <!-- Join Us -->
                 <button class="fab-btn"
                         title="Join Us"
-                        data-modal="joinModal"
+                        data-modal-target="joinModal"
                         data-modal-source="components/join-us/join-us.html">
                     <i class="fas fa-user-plus"></i>
                 </button>
@@ -71,7 +71,7 @@
                 <!-- Contact Us -->
                 <button class="fab-btn"
                         title="Contact"
-                        data-modal="contactModal"
+                        data-modal-target="contactModal"
                         data-modal-source="components/contact-us/contact-us.html">
                     <i class="fas fa-envelope"></i>
                 </button>
@@ -79,7 +79,7 @@
                 <!-- Chatbot -->
                 <button class="fab-btn"
                         title="Ops AI – Chattia"
-                        data-modal="chatbotModal"
+                        data-modal-target="chatbotModal"
                         data-modal-source="components/chatbot/chatbot.html">
                     <i class="fas fa-robot"></i>
                 </button>
@@ -90,6 +90,41 @@
                 </button>
             </div>
         </section>
+
+        <!-- ===== Mobile Navigation ===== -->
+        <nav class="mobile-nav" aria-label="Mobile navigation">
+            <button class="mobile-nav-item" id="mobile-services-toggle">
+                <i class="fas fa-th-large"></i>
+                <span data-en="Services" data-es="Servicios">Services</span>
+            </button>
+            <button class="mobile-nav-item" data-modal-target="contactModal" data-modal-source="components/contact-us/contact-us.html">
+                <i class="fas fa-envelope"></i>
+                <span data-en="Contact" data-es="Contacto">Contact</span>
+            </button>
+            <button class="mobile-nav-item" data-modal-target="joinModal" data-modal-source="components/join-us/join-us.html">
+                <i class="fas fa-user-plus"></i>
+                <span data-en="Join" data-es="Unirse">Join</span>
+            </button>
+            <button class="mobile-nav-item" data-modal-target="chatbotModal" data-modal-source="components/chatbot/chatbot.html">
+                <i class="fas fa-robot"></i>
+                <span data-en="Chat" data-es="Chat">Chat</span>
+            </button>
+        </nav>
+
+        <div class="mobile-services-menu" aria-label="Mobile services">
+            <a href="#" class="service-nav-item" data-modal-target="businessOpsModal" data-modal-source="components/service-modals/business-operations.html">
+                <span data-en="Business Ops" data-es="Operaciones">Business Ops</span>
+            </a>
+            <a href="#" class="service-nav-item" data-modal-target="contactCenterModal" data-modal-source="components/service-modals/contact-center.html">
+                <span data-en="Contact Center" data-es="Centro de Contacto">Contact Center</span>
+            </a>
+            <a href="#" class="service-nav-item" data-modal-target="itSupportModal" data-modal-source="components/service-modals/it-support.html">
+                <span data-en="IT Support" data-es="Soporte IT">IT Support</span>
+            </a>
+            <a href="#" class="service-nav-item" data-modal-target="professionalsModal" data-modal-source="components/service-modals/professionals.html">
+                <span data-en="Professionals" data-es="Profesionales">Professionals</span>
+            </a>
+        </div>
     </main>
 
     <!-- ===== Footer ===== -->
