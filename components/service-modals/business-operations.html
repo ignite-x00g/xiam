@@ -3,36 +3,56 @@
   <div class="modal-content" style="max-width:720px; padding:0;">
     <div class="c-suite-modal-header" style="background:linear-gradient(90deg,#00c4ff,#ff3bdb);color:#fff;padding:2rem 2rem 1.2rem 2rem;border-radius:14px 14px 0 0;">
       <h2 id="businessOpsModalTitle" data-en="Business Operations" data-es="Operaciones Empresariales">Business Operations</h2>
-      <p data-en="Strategic. Reliable. Scalable." data-es="Estratégico. Confiable. Escalable." style="margin-top:.3em;font-size:1.15rem;opacity:.93;font-weight:400"></p>
+      <p data-en="Strategic. Reliable. Scalable." data-es="Estratégico. Confiable. Escalable."></p>
     </div>
     <div class="c-suite-modal-body" style="display:flex;gap:2.2rem;flex-wrap:wrap;padding:2.2rem; background:var(--clr-bg,#fff);">
-      <!-- Visual Left Column -->
+      <!-- Visuals -->
       <div style="flex:1 1 260px;min-width:230px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
-        <div class="c-suite-img-placeholder" style="width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;box-shadow:0 4px 18px #0001;background:#f2f8fd;display:flex;align-items:center;justify-content:center;">
+        <div class="c-suite-img-placeholder" style="width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;box-shadow:0 4px 18px #0001;background:#f2f8fd;">
           <img src="https://placehold.co/400x225/business" alt="Business Operations" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">
         </div>
-        <div class="c-suite-video-placeholder" style="width:100%;aspect-ratio:16/9;background:#e8e8ef;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 2px 8px #00c4ff22;">
+        <div class="c-suite-video-placeholder" style="width:100%;aspect-ratio:16/9;background:#e8e8ef;border-radius:13px;position:relative;box-shadow:0 2px 8px #00c4ff22;">
           <span style="font-size:2.8rem;color:#ad30c0;opacity:.24;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">🎬</span>
           <video controls poster="https://placehold.co/400x225/business?text=Business+Ops+Video" style="width:100%;height:100%;border-radius:13px;display:none;">
             <source src="#" type="video/mp4">
-            <!-- Placeholder, real video source to be added -->
           </video>
         </div>
       </div>
-      <!-- Content Right Column -->
-      <div style="flex:2 1 320px;min-width:260px;display:flex;flex-direction:column;justify-content:center;">
-        <h3 style="font-size:1.22rem;margin-bottom:.7em;" data-en="Transform the way you operate." data-es="Transforme la manera en que opera.">Transform the way you operate.</h3>
+      <!-- Content -->
+      <div style="flex:2 1 320px;min-width:260px;">
+        <h3 style="font-size:1.22rem;margin-bottom:.7em;" data-en="Transform the way you operate." data-es="Transforme la manera en que opera."></h3>
         <ul style="margin:0 0 1.4em 1em;font-size:1.04rem;line-height:1.65;">
-          <li data-en="Streamline processes with automation and AI." data-es="Optimice procesos con automatización e IA.">Streamline processes with automation and AI.</li>
-          <li data-en="Gain full visibility and control over your operations." data-es="Obtenga visibilidad y control total de sus operaciones.">Gain full visibility and control over your operations.</li>
-          <li data-en="Scale up securely, cost-efficiently, and globally." data-es="Escale de forma segura, eficiente y global.">Scale up securely, cost-efficiently, and globally.</li>
+          <li data-en="Streamline processes with automation and AI." data-es="Optimice procesos con automatización e IA."></li>
+          <li data-en="Gain full visibility and control over your operations." data-es="Obtenga visibilidad y control total de sus operaciones."></li>
+          <li data-en="Scale up securely, cost-efficiently, and globally." data-es="Escale de forma segura, eficiente y global."></li>
         </ul>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-          <button class="fab-btn" style="background:var(--clr-primary);" data-en="Learn More" data-es="Ver Más" onclick="window.open('https://ops-onlinesupport.com/business-operations','_blank')">Learn More</button>
+          <button class="fab-btn" style="background:var(--clr-primary);" data-modal="descBusinessOpsModal" data-en="Learn More" data-es="Ver Más">Learn More</button>
           <button class="fab-btn" style="background:var(--clr-accent);" data-modal="contactModal" data-en="Contact" data-es="Contacto">Contact</button>
           <button class="fab-btn" style="background:var(--clr-accent-dark);" data-modal="chatbotModal" data-en="Ask Chattia" data-es="Preguntar a Chattia">Ask Chattia</button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Description Modal (popup on Learn More) -->
+<div class="modal-overlay" id="descBusinessOpsModal" role="dialog" aria-modal="true" aria-labelledby="descBusinessOpsTitle">
+  <div class="modal-content" style="max-width:470px">
+    <div class="modal-header">
+      <h3 id="descBusinessOpsTitle" data-en="About Business Operations" data-es="Sobre Operaciones Empresariales">About Business Operations</h3>
+      <button class="close-modal" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p data-en="OPS Business Operations brings world-class efficiency, transparency, and automation to your organization. We empower leaders to focus on growth while we streamline the processes that matter most." data-es="OPS Operaciones Empresariales lleva eficiencia, transparencia y automatización de clase mundial a su organización. Le permitimos enfocarse en el crecimiento mientras optimizamos los procesos más críticos."></p>
+      <ul>
+        <li data-en="AI-driven workflow automation" data-es="Automatización de flujo de trabajo con IA"></li>
+        <li data-en="Compliance & Security by design" data-es="Cumplimiento y seguridad por diseño"></li>
+        <li data-en="Real-time analytics dashboards" data-es="Paneles de análisis en tiempo real"></li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="fab-btn" data-close data-en="Close" data-es="Cerrar">Close</button>
     </div>
   </div>
 </div>
