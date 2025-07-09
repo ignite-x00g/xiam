@@ -164,6 +164,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize any modals that are already in the DOM and active (e.g. if page was reloaded with a modal hash)
   // qsa('.modal-overlay.active').forEach(attachModalHandlers); // Covered by openModal if they are re-triggered
+
+  // ===== FAB Chatbot Panel Toggle =====
+  const chatbotFabButton = qs('#chatbotFabButton');
+  const chatbotPanel = qs('#chatbot-container');
+  const fabStack = qs('.fab-stack');
+  const mobileNavChatButton = qs('#mobileNavChatButton'); // Selector for mobile nav chat button
+
+  function toggleChatbotPanel(event) {
+    if (event) event.stopPropagation(); // Prevent click from bubbling
+
+    if (chatbotPanel && fabStack) { // Ensure panel and stack exist
+      const isChatbotPanelHidden = chatbotPanel.style.display === 'none' || chatbotPanel.style.display === '';
+
+      if (isChatbotPanelHidden) { // Chatbot is about to be shown
+        chatbotPanel.style.display = 'flex';
+        fabStack.style.bottom = '35px'; // Move FAB stack up
+        // Initialize chatbot if not already done for FAB context
+        if (!chatbotPanel.classList.contains('__fab_chatbot_ready')) {
+          chatbotInit(chatbotPanel);
+          chatbotPanel.classList.add('__fab_chatbot_ready');
+        }
+      } else { // Chatbot is about to be hidden
+        chatbotPanel.style.display = 'none';
+        fabStack.style.bottom = ''; // Revert FAB stack to its CSS-defined bottom (should be 25px)
+      }
+    }
+  }
+
+  if (chatbotFabButton && chatbotPanel && fabStack) {
+    chatbotFabButton.addEventListener('click', toggleChatbotPanel);
+  }
+
+  if (mobileNavChatButton && chatbotPanel && fabStack) {
+    mobileNavChatButton.addEventListener('click', toggleChatbotPanel);
+  }
 });
 
 
