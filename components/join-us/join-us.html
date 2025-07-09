@@ -1,0 +1,60 @@
+<!-- components/join-us/join-us.html -->
+<div class="modal-overlay" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="joinModalTitle" data-en="Join Us" data-es="Únete">Join Us</h2>
+      <button class="close-modal" data-close aria-label="Close">&times;</button>
+    </div>
+    <form id="joinForm" autocomplete="off">
+      <div class="form-pairs">
+        <div class="form-cell">
+          <label data-en="Name" data-es="Nombre">Name</label>
+          <input name="name" required placeholder="Enter your name"
+            data-placeholder-en="Enter your name" data-placeholder-es="Ingresa tu nombre">
+        </div>
+        <div class="form-cell">
+          <label data-en="Email" data-es="Correo">Email</label>
+          <input type="email" name="email" required placeholder="Enter your email"
+            data-placeholder-en="Enter your email" data-placeholder-es="Ingresa tu correo">
+        </div>
+        <div class="form-cell">
+          <label data-en="Phone" data-es="Teléfono">Phone</label>
+          <input type="tel" name="phone" required placeholder="Enter your phone"
+            data-placeholder-en="Enter your phone" data-placeholder-es="Ingresa tu teléfono">
+        </div>
+        <!-- Dynamic Section Containers -->
+        <div class="form-section" data-section="Skills"></div>
+        <div class="form-section" data-section="Education"></div>
+        <div class="form-section" data-section="Certification"></div>
+        <div class="form-section" data-section="Hobbies"></div>
+        <div class="form-section">
+          <h2 data-en="What are you interested about?" data-es="¿En qué está interesado?">What are you interested about?</h2>
+          <select id="jn-interest" required>
+            <option value="" disabled selected>Select an option</option>
+            <option>Business Operations</option>
+            <option>Contact Center</option>
+            <option>IT Support</option>
+            <option>Professionals</option>
+          </select>
+        </div>
+        <div class="form-section">
+          <h2 data-en="Continued Education" data-es="Educación Continua">Continued Education</h2>
+          <div class="inputs"></div>
+          <button type="button" class="circle-btn add">+</button>
+        </div>
+        <div class="form-section">
+          <h2 data-en="Experience" data-es="Experiencia">Experience</h2>
+          <div class="inputs"></div>
+          <button type="button" class="circle-btn add">+</button>
+        </div>
+        <div class="form-cell" style="grid-column:1/3">
+          <label data-en="Tell us about yourself" data-es="Cuéntanos sobre ti">Tell us about yourself</label>
+          <textarea rows="4" placeholder="Tell us about yourself..." data-placeholder-en="Tell us about yourself..." data-placeholder-es="Cuéntanos sobre ti..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="fab-btn" data-en="Submit" data-es="Enviar">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
