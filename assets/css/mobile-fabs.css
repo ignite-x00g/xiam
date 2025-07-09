@@ -61,7 +61,7 @@
     background: var(--clr-bg);
     border-radius: 30px;
     box-shadow: 0 4px 14px #0003;
-    z-index: 3000;
+    z-index: 4000;
     transform: scaleX(0);
     transform-origin: right;
     transition: .3s;
@@ -95,7 +95,7 @@
     max-height: 52%;
     overflow-y: auto;
     display: none;
-    z-index: 2100;
+    z-index: 4100;
     box-shadow: 0 2px 18px #0002;
   }
   .mobile-services-menu.active {

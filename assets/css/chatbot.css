@@ -14,7 +14,7 @@
   position: fixed; /* Changed from relative to fixed */
   bottom: 22px; /* Align with FABs */
   right: calc(var(--fab) + 38px + 35px); /* Position next to FABs + margin */
-  z-index: 4000; /* Ensure it's above footer but below FABs */
+  z-index: 4100; /* Ensure it's above mobile nav but below FABs */
 }
 #chat-log {
   flex: 1;
