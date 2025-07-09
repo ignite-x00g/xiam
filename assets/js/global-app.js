@@ -4,44 +4,97 @@
 const qs = s => document.querySelector(s);
 const qsa = s => [...document.querySelectorAll(s)];
 
-// === Modal Loader (Dynamic) ===
-qsa('[data-modal-target]').forEach(btn => {
-  btn.addEventListener('click', async e => {
-    e.preventDefault();
-    const modalId = btn.dataset.modalTarget;
-    const src = btn.dataset.modalSource;
-    // If modal exists in DOM, just open
-    let modal = qs(`#${modalId}`);
-    if (!modal && src) {
+// === Modal Open Function ===
+async function openModal(modalId, src) {
+  let modal = qs(`#${modalId}`);
+  if (!modal && src) {
+    try {
       const resp = await fetch(src);
+      if (!resp.ok) throw new Error(`Failed to fetch modal: ${src} (${resp.status})`);
       const html = await resp.text();
       document.body.insertAdjacentHTML('beforeend', html);
       modal = qs(`#${modalId}`);
-      attachModalHandlers(modal);
+      if (modal) {
+        attachModalHandlers(modal);
+        // Potentially initialize specific modal content if needed
+        if (modalId === 'joinModal') initJoinForm(modal);
+        // Chatbot is initialized on click, so not here
+      } else {
+        console.error(`Modal HTML for ${modalId} loaded, but ID not found in fetched content.`);
+        return;
+      }
+    } catch (error) {
+      console.error(`Error fetching modal content for ${modalId} from ${src}:`, error);
+      return; // Don't try to activate a modal that failed to load
     }
-    if (modal) modal.classList.add('active');
-  });
+  } else if (modal && !src) {
+    // Modal already in DOM, no source provided (e.g. sub-modal)
+    // Ensure handlers are attached if it was hidden and re-shown
+    attachModalHandlers(modal);
+  } else if (!modal && !src) {
+    console.error(`Modal ${modalId} not found in DOM and no source URL provided.`);
+    return;
+  }
+
+  if (modal) {
+    modal.classList.add('active');
+    // Re-apply language settings to newly loaded modal content
+    const currentLang = document.documentElement.lang || 'en';
+    updateTextContent(modal, currentLang);
+    updatePlaceholders(modal, currentLang);
+    updateAriaLabels(modal, currentLang);
+  }
+}
+
+// === Global Modal Trigger Setup ===
+// Use event delegation on the body for dynamically added modal triggers
+document.body.addEventListener('click', e => {
+  const trigger = e.target.closest('[data-modal-target], [data-modal]');
+  if (trigger) {
+    e.preventDefault();
+    const modalId = trigger.dataset.modalTarget || trigger.dataset.modal;
+    const src = trigger.dataset.modalSource; // Will be undefined if only data-modal is used for existing DOM modal
+    if (modalId) {
+      openModal(modalId, src);
+    }
+  }
 });
 
 // === Modal Close / Dismiss ===
 function attachModalHandlers(modal) {
-  // Close via [X] button
-  qsa('.close-modal', modal).forEach(btn => {
-    btn.onclick = e => {
+  if (!modal) return;
+  // Close via [X] button or any button with data-close
+  qsa('.close-modal, [data-close]', modal).forEach(btn => { // MODIFIED SELECTOR
+    // Remove old listener before adding new one to prevent duplicates if called multiple times
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    newBtn.addEventListener('click', e => {
       e.stopPropagation();
       modal.classList.remove('active');
-    };
+    });
   });
-  // Close via overlay click
-  modal.onclick = e => { if (e.target === modal) modal.classList.remove('active'); };
-  // Close via Escape key
+
+  // Close via overlay click (only if the modal itself is the direct target)
+  // Ensure this listener is only added once or is idempotent
+  if (!modal.dataset.overlayListenerAttached) {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+    modal.dataset.overlayListenerAttached = 'true';
+  }
+
+  // Close via Escape key - this is a window listener, should be managed carefully
+  // To prevent multiple listeners, we can name it and remove/re-add, or use a flag.
+  // For simplicity, we'll assume it's okay for now, but in a larger app, manage this.
   window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') modal.classList.remove('active');
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+    }
   });
 }
 
-// Attach modal close handlers to any pre-existing modals
-qsa('.modal-overlay').forEach(attachModalHandlers);
+// Attach modal close handlers to any pre-existing modals on initial load
+// qsa('.modal-overlay').forEach(attachModalHandlers); // This might be redundant if openModal handles it
 
 // ===== Theme/Language Toggles =====
 const themeToggleButton = qs('#theme-toggle-button');
@@ -55,26 +108,34 @@ const setTheme = (theme) => {
 };
 
 // Function to set the language
+const updateTextContent = (container, lang) => {
+  qsa('[data-en]', container).forEach(el => {
+    el.textContent = el.dataset[lang] || el.dataset.en;
+  });
+};
+
+const updatePlaceholders = (container, lang) => {
+  qsa('[data-placeholder-en]', container).forEach(el => {
+    const placeholderKey = `placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
+    el.placeholder = el.dataset[placeholderKey] || el.dataset.placeholderEn;
+  });
+};
+
+const updateAriaLabels = (container, lang) => {
+  qsa('[data-aria-label-en]', container).forEach(el => {
+    const ariaLabelKey = `ariaLabel${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
+    el.setAttribute('aria-label', el.dataset[ariaLabelKey] || el.dataset.ariaLabelEn);
+  });
+};
+
 const setLanguage = (lang) => {
   document.documentElement.lang = lang;
   if (languageToggleButton) languageToggleButton.textContent = lang === 'en' ? 'ES' : 'EN';
 
-  // Update text content for elements with data-en/data-es attributes
-  qsa('[data-en]').forEach(el => {
-    el.textContent = el.dataset[lang] || el.dataset.en; // Fallback to English if translation is missing
-  });
-
-  // Update placeholders for elements with data-placeholder-en/data-placeholder-es attributes
-  qsa('[data-placeholder-en]').forEach(el => {
-    const placeholderKey = `placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
-    el.placeholder = el.dataset[placeholderKey] || el.dataset.placeholderEn; // Fallback to English placeholder
-  });
-
-  // Update aria-labels for elements with data-aria-label-en/data-aria-label-es attributes
-  qsa('[data-aria-label-en]').forEach(el => {
-    const ariaLabelKey = `ariaLabel${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
-    el.setAttribute('aria-label', el.dataset[ariaLabelKey] || el.dataset.ariaLabelEn); // Fallback to English aria-label
-  });
+  // Update all relevant attributes in the entire document
+  updateTextContent(document, lang);
+  updatePlaceholders(document, lang);
+  updateAriaLabels(document, lang);
 
   localStorage.setItem('language', lang); // Save language preference
 };
@@ -100,21 +161,82 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedLang = localStorage.getItem('language') || 'en';   // Default to English
   setTheme(savedTheme);
   setLanguage(savedLang);
+
+  // Initialize any modals that are already in the DOM and active (e.g. if page was reloaded with a modal hash)
+  // qsa('.modal-overlay.active').forEach(attachModalHandlers); // Covered by openModal if they are re-triggered
 });
 
+
+// ===== Form Handling =====
+
+// --- Join Us Form ---
+function initJoinForm(modal) {
+  const form = modal.querySelector('#joinForm');
+  if (!form) return;
+
+  // Handle dynamic field additions
+  qsa('.circle-btn.add', form).forEach(addBtn => {
+    addBtn.addEventListener('click', () => {
+      const inputsContainer = addBtn.previousElementSibling; // Should be a div with class .inputs
+      if (inputsContainer && inputsContainer.classList.contains('inputs')) {
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        // Could make placeholder more specific based on section if needed
+        newInput.placeholder = 'Enter detail';
+        newInput.name = `${inputsContainer.parentElement.dataset.section || 'additional'}_${inputsContainer.children.length + 1}`;
+        inputsContainer.appendChild(newInput);
+      }
+    });
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    console.log('Join Us Form Submitted:', data);
+    alert('Thank you for your interest! (Data logged to console)');
+    // Potentially close modal and reset form
+    // modal.classList.remove('active');
+    // form.reset();
+  });
+}
+
+// --- Contact Us Form ---
+// Attaching to body via event delegation for forms loaded dynamically
+document.body.addEventListener('submit', e => {
+  if (e.target.id === 'contactForm') {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    console.log('Contact Us Form Submitted:', data);
+    alert('Thank you for contacting us! (Data logged to console)');
+    // Potentially close modal and reset form
+    // const modal = form.closest('.modal-overlay');
+    // if (modal) modal.classList.remove('active');
+    // form.reset();
+  }
+});
+
+
 // ===== Chatbot Inline Logic (Ops AI – Chattia) =====
+// Chatbot initialization is triggered when its modal is opened and interacted with.
+// The openModal function now calls attachModalHandlers, which is sufficient for basic setup.
+// Chatbot-specific JS (like its toggles, message sending) is in chatbotInit.
+
 document.body.addEventListener('click', function(e) {
-  if (e.target.closest('#chatbotModal')) {
-    // Only initialize once
-    if (!qs('#chatbotModal.__ready')) {
-      const modal = qs('#chatbotModal');
+  const chatbotModalContent = e.target.closest('#chatbotModal .modal-content'); // Check click is inside chatbot content
+  if (chatbotModalContent) {
+    const modal = chatbotModalContent.closest('#chatbotModal');
+    if (modal && !modal.classList.contains('__ready')) { // Initialize only once
       modal.classList.add('__ready');
       chatbotInit(modal);
     }
   }
 }, true);
 
-function chatbotInit(modal) {
+
+function chatbotInit(modal) { // modal here is the #chatbotModal element
   // Chatbot-specific toggles can now leverage global functions
   const chatbotLangToggle = modal.querySelector('#langCtrl'); // Assuming #langCtrl is inside the chatbot modal
   const chatbotThemeToggle = modal.querySelector('#themeCtrl'); // Assuming #themeCtrl is inside the chatbot modal
