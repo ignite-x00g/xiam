@@ -5,10 +5,10 @@ const qs = s => document.querySelector(s);
 const qsa = s => [...document.querySelectorAll(s)];
 
 // === Modal Loader (Dynamic) ===
-qsa('[data-modal]').forEach(btn => {
+qsa('[data-modal-target]').forEach(btn => {
   btn.addEventListener('click', async e => {
     e.preventDefault();
-    const modalId = btn.dataset.modal;
+    const modalId = btn.dataset.modalTarget;
     const src = btn.dataset.modalSource;
     // If modal exists in DOM, just open
     let modal = qs(`#${modalId}`);
