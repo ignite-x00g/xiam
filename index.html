@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OPS Online Support</title>
     <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Corrected path -->
     <link rel="stylesheet" href="css/glow-effects.css">
     <link rel="stylesheet" href="css/join-us.css">
     <!-- Add Font Awesome CDN Link -->
@@ -37,16 +37,16 @@
             <h2 class="services-section-title" data-translate-key="services.title">Our Services</h2>
             <nav aria-label="Main services" class="services-navigation">
                 <div class="service-nav-list">
-                    <a href="#service-business-ops" class="service-nav-item" data-service-target="Business Ops">
+                    <a href="#" class="service-nav-item" data-modal-target="businessOpsModal" data-modal-source="components/service-modals/business-operations.html">
                         <span class="service-nav-item-text" data-translate-key="nav.businessOps">Business Ops</span>
                     </a>
-                    <a href="#service-contact-center" class="service-nav-item" data-service-target="Contact Center">
+                    <a href="#" class="service-nav-item" data-modal-target="contactCenterModal" data-modal-source="components/service-modals/contact-center.html">
                         <span class="service-nav-item-text" data-translate-key="nav.contactCenter">Contact Center</span>
                     </a>
-                    <a href="#service-it-support" class="service-nav-item" data-service-target="IT Support">
+                    <a href="#" class="service-nav-item" data-modal-target="itSupportModal" data-modal-source="components/service-modals/it-support.html">
                         <span class="service-nav-item-text" data-translate-key="nav.itSupport">IT Support</span>
                     </a>
-                    <a href="#service-professionals" class="service-nav-item" data-service-target="Professionals">
+                    <a href="#" class="service-nav-item" data-modal-target="professionalsModal" data-modal-source="components/service-modals/professionals.html">
                         <span class="service-nav-item-text" data-translate-key="nav.professionals">Professionals</span>
                     </a>
                 </div>
@@ -55,19 +55,20 @@
 
         <section id="floating-action-buttons">
             <div class="fab-container">
-                <button id="fab-join" class="fab" aria-label="Join Us">
+                <button id="fab-join" class="fab" aria-label="Join Us" data-modal-target="joinModal" data-modal-source="components/join-us/join-us.html">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-user-plus"></i></div>
                         <span class="fab-text" data-translate-key="fab.join">Join Us</span>
                     </div>
                 </button>
-                <button id="fab-contact" class="fab" aria-label="Contact Us">
+                <button id="fab-contact" class="fab" aria-label="Contact Us" data-modal-target="contactModal" data-modal-source="components/contact-us/contact-us.html">
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-envelope"></i></div>
                         <span class="fab-text" data-translate-key="fab.contact">Contact Us</span>
                     </div>
                 </button>
-                <button id="fab-chatbot" class="fab" aria-label="Chatbot AI">
+                <button id="fab-chatbot" class="fab" aria-label="Chatbot AI" data-modal-target="iframeChatbotModal" data-modal-source="">
+                    <!-- data-modal-source is empty as content (iframe) will be injected by init_iframeChatbotModal -->
                     <div class="fab-content-wrapper">
                         <div class="fab-icon-image-area"><i class="fas fa-robot"></i></div>
                         <span class="fab-text" data-translate-key="fab.chatbot">Chatbot AI</span>
@@ -77,16 +78,23 @@
         </section>
     </main>
 
+    <div class="modal-overlay" id="iframeChatbotModal" aria-labelledby="iframeChatbotModalTitle" aria-hidden="true" role="dialog">
+        <div class="modal-content chatbot-iframe-container"> <!-- Use class from style.css -->
+            <div class="modal-header">
+                <h2 id="iframeChatbotModalTitle" data-translate-key="chatbot.title">Chatbot AI</h2>
+                <button class="close-modal" data-close-modal="iframeChatbotModal" aria-label="Close Chatbot">&times;</button>
+            </div>
+            <div id="chatbot-iframe-placeholder" class="modal-body">
+                <!-- Iframe will be loaded here by DMM or an init function -->
+            </div>
+        </div>
+    </div>
+
     <footer>
         <!-- Footer content will go here -->
         <p data-translate-key="footer.copy">&copy; 2023 OPS Online Support</p>
     </footer>
-    <script src="js/script.js" defer></script>
-    <script src="js/join-us.js" defer></script>
-    <script src="js/cursor-glow-effect.js" defer></script>
     <script src="js/dynamic-modal-manager.js" defer></script>
-    <script src="js/theme-switcher.js" defer></script>
-    <script src="js/language-switcher.js" defer></script>
-    <script src="js/contact-form.js" defer></script> <!-- Added this line -->
+    <!-- Removed script.js, join-us.js, cursor-glow-effect.js, theme-switcher.js, language-switcher.js, contact-form.js as they are redundant or functionality is handled elsewhere -->
 </body>
 </html>
