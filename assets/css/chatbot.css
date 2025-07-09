@@ -10,8 +10,21 @@
   box-shadow: 0 8px 32px #0007;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  position: relative;
+  overflow: hidden; /* Ensures no scrollbars on the container itself */
+  position: fixed; /* Changed from relative to fixed */
+  bottom: 22px; /* Align with FABs */
+  right: calc(var(--fab) + 38px + 35px); /* Position next to FABs + margin */
+  z-index: 4000; /* Ensure it's above footer but below FABs */
+}
+#chat-log {
+  flex: 1;
+  overflow-y: auto; /* Allows scrolling within the log */
+  padding: 1rem;
+  background: #1b0e2d;
+  color: #eee;
+  font-size: .95rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-primary, #00c4ff) #1b0e2d;
 }
 #chatbot-header {
   display: flex;
@@ -127,5 +140,18 @@
   #chatbot-header {
     font-size: 1.03rem;
     padding: 0.6rem 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #chatbot-container {
+    bottom: 57px; /* 22px (original FAB alignment) + 35px upward shift */
+    /* Adjust right positioning if it needs to be closer to the edge on mobile */
+    /* For example, if FABs also move or change size */
+    /* right: 35px; */ /* Example: if you want it 35px from the very edge */
+
+    /* To make it more responsive on smaller mobile screens, let's ensure its width is constrained */
+    /* The existing max-width: 480px rule already handles width and height well for very small screens */
+    /* We might not need additional width/height adjustments here unless specifically requested */
   }
 }
