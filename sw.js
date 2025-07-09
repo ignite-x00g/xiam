@@ -1,34 +1,42 @@
-const CACHE_NAME = 'ops-cache-v2'; // Increment cache name version
+const CACHE_NAME = 'ops-cache-v3'; // Incremented cache name version due to significant changes
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/style.css',
+  '/style.css', // Root style.css
   '/css/theme.css',
-  '/css/small-screen.css',
+  '/css/small-screen.css', // Assuming this is still used, was in original list
+  '/css/glow-effects.css', // Was in index.html, should be cached
+  '/css/join-us.css', // Was in index.html, should be cached
 
+  // Core JS
   '/js/global-app.js',
-  '/js/config.js',
+  '/js/config.js', // Assuming this is still used
   '/js/global-toggles.js',
   '/js/dynamic-modal-manager.js',
-  '/js/main-mobile-navigation.js',
+  '/js/main-mobile-navigation.js', // Assuming this is still used
+  '/js/sw-register.js', // Should be cached to register the SW itself if offline first
+
+  // Component HTML (modal content)
+  '/components/join-us/join-us.html',
+  '/components/contact-us/contact-us.html',
+  '/components/chatbot/chatbot.html', // New iframe source
+  '/components/service-modals/business-operations.html',
+  '/components/service-modals/contact-center.html',
+  '/components/service-modals/it-support.html',
+  '/components/service-modals/professionals.html',
+
+  // Component JS (loaded by DMM, but good to cache if they are static assets)
   '/components/join-us/join-us.js',
   '/components/contact-us/contact-us.js',
-  '/mychatbot/loader.js',
-  '/js/main_script.js',
-  // Not caching sw-register.js itself typically
+  // mychatbot/loader.js is likely obsolete if chatbot is now via components/chatbot/chatbot.html
 
-  // Chatbot iframe assets - assuming iframe-content.html is the entry point for the iframe
-  '/mychatbot/iframe-content.html',
-  // If iframe-content.html uses iframe-style.css and iframe-script.js, they should be cached too.
-  // The current iframe-content.html is not in the file listing, but chatbot.html has inline css/js.
-  // For robustness, let's assume iframe-content.html exists and might link to external files.
-  // If iframe-script.js and iframe-style.css are separate and used by iframe-content.html:
-  '/mychatbot/iframe-script.js',
-  '/mychatbot/iframe-style.css', // This was grepped earlier, so it exists
+  // Assets (FontAwesome is CDN, but local assets like webfonts if any are used by it)
+  // assets/fontawesome/css/all.min.css (if preferring local copy over CDN)
+  // assets/fontawesome/webfonts/* (if local FA is used)
+  // For now, keeping FA as CDN as per index.html.
 
-  // Main font awesome CSS is CDN, but if local webfonts are used by it, they are under assets/
-  // However, the primary CSS is CDN. For simplicity, not caching FontAwesome assets via SW.
+  // Main font awesome CSS is CDN. Local assets folder exists.
   // Local assets like images if any critical ones existed would go here.
   // e.g. '/assets/logo.png'
 ];
