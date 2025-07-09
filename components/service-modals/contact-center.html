@@ -1,0 +1,56 @@
+<!-- components/service-modals/contact-center.html -->
+<div class="modal-overlay" id="contactCenterModal" role="dialog" aria-modal="true" aria-labelledby="contactCenterModalTitle">
+  <div class="modal-content" style="max-width:720px; padding:0;">
+    <div class="c-suite-modal-header" style="background:linear-gradient(90deg,#ff3bdb,#00c4ff);color:#fff;padding:2rem 2rem 1.2rem 2rem;border-radius:14px 14px 0 0;">
+      <h2 id="contactCenterModalTitle" data-en="Contact Center" data-es="Centro de Contacto">Contact Center</h2>
+      <p data-en="Connected. Responsive. Customer-first." data-es="Conectado. Ágil. Orientado al Cliente."></p>
+    </div>
+    <div class="c-suite-modal-body" style="display:flex;gap:2.2rem;flex-wrap:wrap;padding:2.2rem; background:var(--clr-bg,#fff);">
+      <div style="flex:1 1 260px;min-width:230px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
+        <div class="c-suite-img-placeholder" style="width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;box-shadow:0 4px 18px #0001;background:#f2f8fd;">
+          <img src="https://placehold.co/400x225/callcenter" alt="Contact Center" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">
+        </div>
+        <div class="c-suite-video-placeholder" style="width:100%;aspect-ratio:16/9;background:#e8e8ef;border-radius:13px;position:relative;box-shadow:0 2px 8px #00c4ff22;">
+          <span style="font-size:2.8rem;color:#ad30c0;opacity:.24;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">🎬</span>
+          <video controls poster="https://placehold.co/400x225/callcenter?text=Contact+Center+Video" style="width:100%;height:100%;border-radius:13px;display:none;">
+            <source src="#" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div style="flex:2 1 320px;min-width:260px;">
+        <h3 style="font-size:1.22rem;margin-bottom:.7em;" data-en="Deliver exceptional experiences." data-es="Brinde experiencias excepcionales."></h3>
+        <ul style="margin:0 0 1.4em 1em;font-size:1.04rem;line-height:1.65;">
+          <li data-en="Omnichannel communication for every customer." data-es="Comunicación omnicanal para cada cliente."></li>
+          <li data-en="Fast, personalized support 24/7." data-es="Soporte rápido y personalizado 24/7."></li>
+          <li data-en="Seamless integration with your systems." data-es="Integración perfecta con sus sistemas."></li>
+        </ul>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <button class="fab-btn" style="background:var(--clr-primary);" data-modal="descContactCenterModal" data-en="Learn More" data-es="Ver Más">Learn More</button>
+          <button class="fab-btn" style="background:var(--clr-accent);" data-modal="contactModal" data-en="Contact" data-es="Contacto">Contact</button>
+          <button class="fab-btn" style="background:var(--clr-accent-dark);" data-modal="chatbotModal" data-en="Ask Chattia" data-es="Preguntar a Chattia">Ask Chattia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Description Modal -->
+<div class="modal-overlay" id="descContactCenterModal" role="dialog" aria-modal="true" aria-labelledby="descContactCenterTitle">
+  <div class="modal-content" style="max-width:470px">
+    <div class="modal-header">
+      <h3 id="descContactCenterTitle" data-en="About Contact Center" data-es="Sobre el Centro de Contacto">About Contact Center</h3>
+      <button class="close-modal" data-close aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p data-en="OPS Contact Center solutions empower you to build lasting relationships, optimize response, and measure satisfaction at every touchpoint." data-es="Las soluciones OPS Contact Center le permiten crear relaciones duraderas, optimizar la respuesta y medir la satisfacción en cada punto de contacto."></p>
+      <ul>
+        <li data-en="Inbound & outbound voice, chat, and video" data-es="Voz, chat y video entrante y saliente"></li>
+        <li data-en="AI-powered customer analytics" data-es="Analítica de clientes impulsada por IA"></li>
+        <li data-en="Real-time escalation & reporting" data-es="Escalamiento y reportes en tiempo real"></li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="fab-btn" data-close data-en="Close" data-es="Cerrar">Close</button>
+    </div>
+  </div>
+</div>

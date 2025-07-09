@@ -1,0 +1,56 @@
+<!-- components/service-modals/professionals.html -->
+<div class="modal-overlay" id="professionalsModal" role="dialog" aria-modal="true" aria-labelledby="professionalsModalTitle">
+  <div class="modal-content" style="max-width:720px; padding:0;">
+    <div class="c-suite-modal-header" style="background:linear-gradient(90deg,#00c4ff,#ad30c0);color:#fff;padding:2rem 2rem 1.2rem 2rem;border-radius:14px 14px 0 0;">
+      <h2 id="professionalsModalTitle" data-en="Professionals" data-es="Profesionales"></h2>
+      <p data-en="Expertise. Integrity. Results." data-es="Experticia. Integridad. Resultados."></p>
+    </div>
+    <div class="c-suite-modal-body" style="display:flex;gap:2.2rem;flex-wrap:wrap;padding:2.2rem; background:var(--clr-bg,#fff);">
+      <div style="flex:1 1 260px;min-width:230px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
+        <div class="c-suite-img-placeholder" style="width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;box-shadow:0 4px 18px #0001;background:#f2f8fd;">
+          <img src="https://placehold.co/400x225/professionals" alt="Professionals" style="width:100%;height:100%;object-fit:cover;border-radius:13px;">
+        </div>
+        <div class="c-suite-video-placeholder" style="width:100%;aspect-ratio:16/9;background:#e8e8ef;border-radius:13px;position:relative;box-shadow:0 2px 8px #00c4ff22;">
+          <span style="font-size:2.8rem;color:#ad30c0;opacity:.24;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">🎬</span>
+          <video controls poster="https://placehold.co/400x225/professionals?text=Professionals+Video" style="width:100%;height:100%;border-radius:13px;display:none;">
+            <source src="#" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div style="flex:2 1 320px;min-width:260px;">
+        <h3 style="font-size:1.22rem;margin-bottom:.7em;" data-en="Access world-class talent, on demand." data-es="Acceda a talento de clase mundial bajo demanda."></h3>
+        <ul style="margin:0 0 1.4em 1em;font-size:1.04rem;line-height:1.65;">
+          <li data-en="Certified experts in every field." data-es="Expertos certificados en cada área."></li>
+          <li data-en="Transparent engagement, real results." data-es="Contratación transparente, resultados reales."></li>
+          <li data-en="Flexible, contract or full-time." data-es="Flexible, por contrato o tiempo completo."></li>
+        </ul>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <button class="fab-btn" style="background:var(--clr-primary);" data-modal="descProfessionalsModal" data-en="Learn More" data-es="Ver Más">Learn More</button>
+          <button class="fab-btn" style="background:var(--clr-accent);" data-modal="contactModal" data-en="Contact" data-es="Contacto">Contact</button>
+          <button class="fab-btn" style="background:var(--clr-accent-dark);" data-modal="chatbotModal" data-en="Ask Chattia" data-es="Preguntar a Chattia">Ask Chattia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Description Modal -->
+<div class="modal-overlay" id="descProfessionalsModal" role="dialog" aria-modal="true" aria-labelledby="descProfessionalsTitle">
+  <div class="modal-content" style="max-width:470px">
+    <div class="modal-header">
+      <h3 id="descProfessionalsTitle" data-en="About Professionals" data-es="Sobre Profesionales">About Professionals</h3>
+      <button class="close-modal" data-close aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p data-en="OPS Professionals connect you with the exact expertise you need—when you need it. From IT to legal, finance to operations: we deliver results." data-es="OPS Profesionales le conecta con la experticia exacta que necesita, cuando la necesita. De IT a legal, finanzas a operaciones: entregamos resultados."></p>
+      <ul>
+        <li data-en="On-demand teams or individuals" data-es="Equipos o individuos bajo demanda"></li>
+        <li data-en="Screened, certified, ready-to-work" data-es="Seleccionados, certificados y listos para trabajar"></li>
+        <li data-en="Confidentiality & compliance guaranteed" data-es="Confidencialidad y cumplimiento garantizados"></li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="fab-btn" data-close data-en="Close" data-es="Cerrar">Close</button>
+    </div>
+  </div>
+</div>
