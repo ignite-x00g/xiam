@@ -23,3 +23,7 @@ A sample Nginx configuration snippet:
 add_header Content-Security-Policy "default-src 'self';";
 add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
 ```
+
+## Example Screens
+
+The `examples` folder includes standalone pages demonstrating UI components such as the Join Us and Contact forms, a simple chatbot, and a mobile FAB navigation layout. These pages can be opened directly in the browser for quick testing without affecting the main site.
