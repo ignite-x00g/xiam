@@ -12,8 +12,8 @@
   flex-direction: column;
   overflow: hidden; /* Ensures no scrollbars on the container itself */
   position: fixed; /* Changed from relative to fixed */
-  bottom: 35px; /* As per requirement "pop up at 35px from the bottom margin" */
-  right: calc(22px + var(--fab-size) + 3px); /* Positions 3px to the left of FAB stack (22px FAB offset + 56px FAB width + 3px gap = 81px) */
+  bottom: 30px; /* 8px above the mobile nav bar */
+  right: calc(5px + var(--fab-size) + 3px); /* Align with new FAB position */
   z-index: 4000; /* Ensure it's above footer but below FABs */
 }
 #chat-log {
