@@ -53,7 +53,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 100%; /* May need adjustment if body itself isn't the primary scroller */
 }
 body {
   min-height: 100vh;
@@ -61,6 +61,9 @@ body {
   color: var(--clr-tx);
   font-family: 'Segoe UI', Arial, sans-serif;
   transition: background .3s, color .3s;
+  position: relative; /* Needed for absolute positioning of FAB stack if body is the main wrapper */
+  display: flex; /* To help footer stick to bottom if content is short */
+  flex-direction: column; /* To help footer stick to bottom */
 }
 body.dark {
   --clr-bg: var(--clr-bg-dark);
@@ -178,9 +181,10 @@ body.dark {
 
 /* ===== Footer ===== */
 .site-footer {
-  position: fixed;
-  bottom: 25px;
-  left: 0;
+  /* position: fixed; */ /* Changed from fixed to allow scrolling with page */
+  /* bottom: 25px; */ /* Removed fixed positioning */
+  /* left: 0; */ /* Removed fixed positioning */
+  position: relative; /* Or static, default */
   width: 100%;
   background: #191919;
   color: #fff;
@@ -189,7 +193,8 @@ body.dark {
   font-size: 1rem;
   opacity: 0.87;
   letter-spacing: 0.5px;
-  z-index: 1000; /* Ensure it's above other content */
+  /* z-index: 1000; */ /* May not be needed if not fixed */
+  margin-top: auto; /* Helps push to bottom if content is short in a flex container */
 }
 
 /* ===== Responsive ===== */

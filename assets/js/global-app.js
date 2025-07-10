@@ -199,6 +199,106 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileNavChatButton && chatbotPanel && fabStack) {
     mobileNavChatButton.addEventListener('click', toggleChatbotPanel);
   }
+
+  // ===== FAB Stack Positioning relative to Footer =====
+  const siteFooter = qs('.site-footer');
+  // const fabStack = qs('.fab-stack'); // Already defined above if chatbotFabButton exists
+
+  function adjustFabPosition() {
+    if (!fabStack || !siteFooter) return;
+
+    // Check if fabStack is displayed (it's hidden on wider screens by CSS)
+    const fabStackStyle = window.getComputedStyle(fabStack);
+    if (fabStackStyle.display === 'none') {
+      // If FABs are not displayed, no need to adjust position.
+      // Reset any inline style that might have been applied if it becomes visible again.
+      fabStack.style.bottom = '';
+      return;
+    }
+
+    const footerRect = siteFooter.getBoundingClientRect();
+    const bodyRect = document.body.getBoundingClientRect(); // FABs are absolute to body
+
+    // Calculate space from bottom of viewport to top of footer
+    // This is how much of the footer is visible or how far it is from bottom of viewport
+    const spaceBelowFooter = window.innerHeight - footerRect.top;
+
+    let fabBottomPosition;
+
+    if (footerRect.bottom <= window.innerHeight) {
+      // Footer is fully or partially visible at the bottom of the viewport
+      // Position FABs 15px above the footer's top edge
+      // The 'bottom' style for an absolutely positioned element is relative to its container's (body) bottom padding edge.
+      // We want the FABs' bottom edge to be 'window.innerHeight - footerRect.top + 15px' from the body's bottom.
+      // This can be simplified: distance from body bottom = (body height - footer top) + 15px
+      // fabBottomPosition = (bodyRect.height - footerRect.top) + 15; // This might be too complex
+
+      // Simpler: distance from viewport bottom to where FABs bottom should be:
+      // (distance from viewport bottom to footer top) + footer height + 15px
+      // fabBottomPosition = (window.innerHeight - footerRect.top) + siteFooter.offsetHeight + 15;
+
+      // Let's try a different approach for absolute positioning:
+      // The distance from the bottom of the body to the top of the footer is:
+      // body.scrollHeight - footer.offsetTop
+      // We want the FABs to be 15px above the footer.
+      // So, the bottom of the FABs should be at 'distance from body bottom to footer top' + 15px
+      // This means fabStack.style.bottom = (document.body.scrollHeight - siteFooter.offsetTop + 15) + 'px';
+      // This is for if fabStack is absolute to a container that has footer as last child.
+      // Since fabStack is absolute to body, and footer is also child of body:
+      // We want the fabStack's bottom edge to be X pixels from the body's bottom edge.
+      // X = (distance from body bottom to footer bottom) + footer height + 15px
+      // X = (document.body.scrollHeight - siteFooter.offsetTop - siteFooter.offsetHeight) + siteFooter.offsetHeight + 15
+      // X = (document.body.scrollHeight - siteFooter.offsetTop) + 15px;
+      // This value is the distance from the bottom of the document.
+      // The CSS `bottom` for absolute positioning refers to distance from containing block's bottom edge.
+      // If body is the container, and body can scroll, then this is simpler:
+      // bottom edge of fab-stack should be window.innerHeight - (footerRect.top - 15) from viewport top.
+      // So, fab-stack bottom from container bottom:
+      // container_height - (viewport_scroll_Y + footerRect.top - 15)
+      // This is getting complicated. Let's use the initial CSS `bottom: 15px` for the fab-stack
+      // which means it's 15px from the bottom of the body.
+      // The JS should only intervene if this isn't visually 15px from the *top* of the footer.
+
+      // If the footer is at the very bottom of the body, and fab-stack is bottom:15px (CSS),
+      // it means it's 15px from the bottom of the footer.
+      // To make it 15px from the *top* of the footer, its bottom should be:
+      // (CSS bottom relative to body) + footer.offsetHeight + 15px.
+      // So, if CSS sets it to 15px from body bottom:
+      fabBottomPosition = (15 + siteFooter.offsetHeight + 15) + 'px';
+      // This interpretation is: static CSS puts FAB 15px from body bottom.
+      // If footer is at body bottom, FAB is 15px from footer bottom.
+      // To be 15px from footer *top*, we need to lift it by footer height + another 15px.
+      // This seems the most direct interpretation of making the CSS `bottom:15px` (from body)
+      // relate to "15px from the top of the footer element".
+
+    } else {
+      // Footer is scrolled out of view (above the viewport bottom)
+      // In this case, the FABs should probably stick to a minimum distance from viewport bottom,
+      // similar to how they were with fixed positioning.
+      // Or, they continue to be 15px + footer.offsetHeight + 15px from document bottom.
+      // The current CSS `bottom:15px` (absolute to body) will handle this naturally as scrolling occurs.
+      // So, the JS adjustment is primarily for when the footer is visible.
+      // If footer is not visible at bottom, the CSS `bottom:15px` (relative to body) is fine.
+      // The problem is when body is taller than viewport.
+      // Let's always calculate based on footer position relative to document.
+      // Distance from bottom of document to top of footer: document.body.scrollHeight - siteFooter.offsetTop
+      // We want FABs bottom to be 15px above this.
+      // So, fabStack.style.bottom = (document.body.scrollHeight - siteFooter.offsetTop + 15) + 'px';
+      // This positions bottom of FABs 15px above the footer's top edge, relative to document bottom.
+       fabBottomPosition = (document.body.scrollHeight - siteFooter.offsetTop + 15) + 'px';
+    }
+     // Only apply if fabStack is visible (i.e., on mobile screens)
+    if (fabStack.offsetParent !== null) { // A simple check for visibility
+        fabStack.style.bottom = fabBottomPosition;
+    }
+  }
+
+  // Initial adjustment
+  adjustFabPosition();
+
+  // Adjust on scroll and resize
+  window.addEventListener('scroll', adjustFabPosition);
+  window.addEventListener('resize', adjustFabPosition);
 });
 
 
