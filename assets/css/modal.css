@@ -64,9 +64,25 @@
 @media (max-width: 600px) { /* This 600px could also be a variable, e.g., --modal-breakpoint, if frequent changes are expected */
   .modal-content {
     padding: 1rem 0.5rem;
-    max-width: var(--modal-small-screen-max-width-vw);
+    /* max-width: var(--modal-small-screen-max-width-vw); */ /* Overridden by new rules */
+    width: 85vw;
+    height: 85vh;
+    max-width: 85vw;
+    max-height: 85vh;
   }
 }
+
+/* Apply to a wider range of adaptable screens, e.g., up to 768px if not covered by max-width: 600px */
+/* Or adjust the existing 600px media query if 85vw/85vh should apply there too */
+@media (min-width: 601px) and (max-width: 768px) { /* Example for tablets or larger phones */
+  .modal-content {
+    width: 85vw;
+    height: 85vh;
+    max-width: 85vw; /* Ensure desktop max-width is overridden */
+    max-height: 85vh; /* Ensure desktop max-height is overridden */
+  }
+}
+
 
 /* ===== Simple Form Layout (inside modals) ===== */
 form {

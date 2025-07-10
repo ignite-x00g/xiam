@@ -3,13 +3,16 @@
 /* ===== FAB Stack ===== */
 @media (max-width: 768px) {
   .fab-stack {
-    position: fixed;
-    bottom: var(--fab-stack-inset-bottom);
-    right: var(--fab-stack-inset-right);
+    /* position: fixed; */ /* Changed from fixed to absolute */
+    position: absolute;
+    /* bottom: var(--fab-stack-inset-bottom); */ /* Will be set to 15px */
+    bottom: 15px; /* Relative to positioned ancestor (body or a wrapper) */
+    /* right: var(--fab-stack-inset-right); */ /* Will be set to 5px */
+    right: 5px;
     display: flex;
     flex-direction: column;
     gap: var(--fab-stack-gap);
-    z-index: 5000;
+    z-index: 5000; /* Keep high z-index */
   }
 }
 .fab-btn {
@@ -54,21 +57,29 @@
 /* ===== Mobile Nav Bar ===== */
 @media (max-width: 768px) {
   .mobile-nav {
-    position: fixed;
-    bottom: var(--mobile-nav-inset-bottom);
-    right: calc(var(--fab-size) + var(--mobile-nav-base-offset)); /* Uses the new variable */
+    /* position: fixed; */ /* Changed to absolute to align with scrolling FABs */
+    position: absolute;
+    /* bottom: var(--mobile-nav-inset-bottom); */ /* Now 15px, same as FABs */
+    bottom: 15px; /* Aligns with the bottom of the FAB stack */
+    /* right: calc(var(--fab-size) + var(--mobile-nav-base-offset)); */ /* Old positioning */
+    /* New positioning: right edge aligns with FAB stack's right edge (5px from screen) */
+    right: 5px;
+    width: 0; /* Initial width, expands to 85vw when active */
     display: flex;
-    gap: 13px; /* This gap could also be a variable if desired, e.g., --mobile-nav-item-gap */
+    gap: 13px;
     padding: .55rem 1.2rem;
     background: var(--clr-bg);
     border-radius: 30px;
     box-shadow: 0 4px 14px #0003;
-    z-index: 3000;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: .3s;
+    /* z-index: 3000; */ /* Old z-index */
+    z-index: 4100; /* New z-index: Above modals (4000), below FABs (5000) */
+    transform: scaleX(0); /* Still use transform for animation */
+    transform-origin: right; /* Expand from the right */
+    transition: transform .3s, width .3s; /* Added width to transition */
+    overflow: hidden; /* Hide content when scaled to 0 */
   }
   .mobile-nav.active {
+    width: 85vw; /* Expand to 85% of mobile screen width */
     transform: scaleX(1);
   }
   .mobile-nav-item {

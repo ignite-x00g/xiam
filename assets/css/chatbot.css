@@ -130,27 +130,40 @@
 .human-check input[type="checkbox"] {
   margin-right: .38rem;
 }
-@media (max-width: 480px) {
+@media (max-width: 480px) { /* Styles for very small screens */
   #chatbot-container {
-    width: 98vw;
-    height: 74vh;
-    min-height: 340px;
-    max-width: 98vw;
+    width: 85vw; /* Changed from 98vw */
+    height: 85vh; /* Changed from 74vh */
+    max-width: 85vw; /* Ensure it overrides desktop defaults */
+    max-height: 85vh; /* Ensure it overrides desktop defaults */
+    min-height: 0; /* Remove min-height if it conflicts with 85vh */
   }
   #chatbot-header {
-    font-size: 1.03rem;
+    font-size: 1.03rem; /* Keep existing header font adjustment */
     padding: 0.6rem 0.6rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* General mobile/adaptable screens */
   #chatbot-container {
-    /* Adjust right positioning if it needs to be closer to the edge on mobile */
-    /* For example, if FABs also move or change size */
-    /* right: 35px; */ /* Example: if you want it 35px from the very edge */
+    /* This media query will apply unless overridden by a more specific one like (max-width: 480px) */
+    /* Apply 85vw/85vh here if it's not covered by the 480px rule, or if 480px has different values */
+    /* Assuming the 480px rule already sets it to 85vw/85vh, we might only need this for larger tablets if different */
+    /* If 480px is the primary target for 85vw/85vh, this rule might not need width/height changes if it inherits correctly */
+    /* However, to be safe and ensure it applies up to 768px if not caught by 480px: */
+    width: 85vw;
+    height: 85vh;
+    max-width: 85vw;
+    max-height: 85vh;
+    min-height: 0; /* Reset min-height */
 
-    /* To make it more responsive on smaller mobile screens, let's ensure its width is constrained */
-    /* The existing max-width: 480px rule already handles width and height well for very small screens */
-    /* We might not need additional width/height adjustments here unless specifically requested */
+    /* Positioning of chatbot panel itself might need to be reviewed if FABs are now absolute/scrolling */
+    /* The 'right' positioning was relative to fixed FABs. */
+    /* If FABs are now absolute to body, this panel should also be positioned absolutely or fixed appropriately. */
+    /* For now, assuming its fixed positioning is still desired for the panel itself, relative to viewport. */
+    /* Its 'right' value might need to use the new 5px FAB right margin as a base. */
+    /* right: calc(5px + var(--fab-size) + var(--chatbot-horizontal-offset-from-fab-stack)); */
+    /* This needs to be considered with the new FAB positioning. */
+    /* For now, the primary goal is size. Positioning will be re-evaluated in testing. */
   }
 }
