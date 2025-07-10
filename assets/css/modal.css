@@ -19,9 +19,9 @@
   background: var(--modal-bg, #fff);
   color: var(--modal-tx, #222);
   border-radius: 15px;
-  width: 96vw;
-  max-width: 600px;
-  max-height: 90vh;
+  width: var(--modal-width-vw);
+  max-width: var(--modal-max-width);
+  max-height: var(--modal-max-height);
   padding: 2rem 1.5rem;
   box-shadow: 0 0 30px rgba(0,0,0,0.18);
   overflow-y: auto;
@@ -61,10 +61,10 @@
 .modal-body {
   margin-bottom: 1rem;
 }
-@media (max-width: 600px) {
+@media (max-width: 600px) { /* This 600px could also be a variable, e.g., --modal-breakpoint, if frequent changes are expected */
   .modal-content {
     padding: 1rem 0.5rem;
-    max-width: 98vw;
+    max-width: var(--modal-small-screen-max-width-vw);
   }
 }
 

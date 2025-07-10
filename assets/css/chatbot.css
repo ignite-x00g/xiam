@@ -2,8 +2,8 @@
 
 /* ===== Chatbot Modal & Container ===== */
 #chatbot-container {
-  width: 310px;
-  height: 540px;
+  width: var(--chatbot-width);
+  height: var(--chatbot-height);
   background: #251541;
   border: 2px solid var(--clr-accent, #ff3bdb);
   border-radius: 18px;
@@ -12,8 +12,8 @@
   flex-direction: column;
   overflow: hidden; /* Ensures no scrollbars on the container itself */
   position: fixed; /* Changed from relative to fixed */
-  bottom: 30px; /* 8px above the mobile nav bar */
-  right: calc(5px + var(--fab-size) + 3px); /* Align with new FAB position */
+  bottom: var(--chatbot-inset-bottom);
+  right: calc(var(--fab-stack-inset-right) + var(--fab-size) + var(--chatbot-horizontal-offset-from-fab-stack));
   z-index: 4000; /* Ensure it's above footer but below FABs */
 }
 #chat-log {

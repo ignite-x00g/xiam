@@ -9,9 +9,39 @@
   --clr-bg-dark: #121212;
   --clr-tx: #333;
   --clr-tx-dark: #f0f0f0;
+  /* ===== Sizes & Layout ===== */
   --fab-size: 56px;
-  --fab: 56px; /* legacy variable */
   --header-height: 64px;
+
+  /* FAB Stack */
+  --fab-stack-inset-right: 22px;
+  --fab-stack-inset-bottom: 25px;
+  --fab-stack-gap: 12px;
+
+  /* Chatbot Panel */
+  --chatbot-width: 310px;
+  --chatbot-height: 540px;
+  --chatbot-inset-bottom: 35px; /* Also used for fab-stack upward movement */
+  --chatbot-horizontal-offset-from-fab-stack: 3px; /* Gap between FAB stack and Chatbot panel */
+
+  /* Mobile Nav Bar */
+  --mobile-nav-inset-bottom: 22px;
+  --mobile-nav-horizontal-offset-from-fab-stack-edge: 16px; /* (Original 38px total offset from screen edge for nav's left side = fab-size + this value) */
+                                                          /* More precisely, this is the space between the right edge of the menu FAB and the right edge of mobile-nav */
+                                                          /* Original right was calc(var(--fab-size) + 38px). If fab-stack is at 22px, fab is 56px wide, total 78px from right for fab right edge. */
+                                                          /* Mobile nav right was calc(56px + 38px) = 94px. So its right edge is 94px from screen right. */
+                                                          /* Let's define it as the total offset for its right edge for clarity. */
+  --mobile-nav-inset-right-calculated: calc(var(--fab-stack-inset-right) + var(--fab-size) + var(--mobile-nav-horizontal-offset-from-fab-stack-edge)); /* This is where the right edge of mobile nav will be */
+                                                          /* The value in mobile-fabs.css is `right: calc(var(--fab-size) + 38px);` this is the distance from the *left* of mobile-nav to the *right* of the screen */
+                                                          /* Let's keep it simple and define the parts of the original calc more clearly */
+  --mobile-nav-base-offset: 38px; /* This was the value added to fab-size in the original calc for .mobile-nav right */
+
+
+  /* Modals */
+  --modal-max-width: 600px;
+  --modal-max-height: 90vh;
+  --modal-width-vw: 96vw;
+  --modal-small-screen-max-width-vw: 98vw;
 }
 
 /* ===== CSS Reset & Base ===== */
