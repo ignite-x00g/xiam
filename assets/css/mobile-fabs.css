@@ -84,7 +84,16 @@
     outline: none;
   }
   .mobile-nav-item i {
-    font-size: 1.4rem;
+    width: var(--fab-size);
+    height: var(--fab-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--clr-primary);
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 4px;
   }
   .mobile-services-menu {
     position: fixed;
@@ -104,7 +113,9 @@
     display: block;
   }
   .mobile-services-menu a {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 13px;
     color: var(--clr-tx);
     text-decoration: none;

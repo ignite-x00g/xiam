@@ -9,8 +9,8 @@
   --clr-bg-dark: #121212;
   --clr-tx: #333;
   --clr-tx-dark: #f0f0f0;
-  --fab: 56px;
-  --fab-size: var(--fab);
+  --fab-size: 56px;
+  --fab: 56px; /* legacy variable */
   --header-height: 64px;
 }
 
@@ -125,6 +125,21 @@ body.dark {
   cursor: pointer;
   border: none;
   outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+.service-nav-item i {
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: 50%;
+  background: var(--clr-accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fff;
 }
 .service-nav-item:hover, .service-nav-item:focus {
   background: var(--clr-accent);
