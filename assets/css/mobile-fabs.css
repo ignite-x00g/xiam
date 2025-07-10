@@ -4,11 +4,11 @@
 @media (max-width: 768px) {
   .fab-stack {
     position: fixed;
-    bottom: 25px; /* Adjusted from 22px to 25px */
-    right: 22px;
+    bottom: var(--fab-stack-inset-bottom);
+    right: var(--fab-stack-inset-right);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--fab-stack-gap);
     z-index: 5000;
   }
 }
@@ -55,10 +55,10 @@
 @media (max-width: 768px) {
   .mobile-nav {
     position: fixed;
-    bottom: 22px;
-    right: calc(var(--fab-size) + 38px); /* Corrected to --fab-size */
+    bottom: var(--mobile-nav-inset-bottom);
+    right: calc(var(--fab-size) + var(--mobile-nav-base-offset)); /* Uses the new variable */
     display: flex;
-    gap: 13px;
+    gap: 13px; /* This gap could also be a variable if desired, e.g., --mobile-nav-item-gap */
     padding: .55rem 1.2rem;
     background: var(--clr-bg);
     border-radius: 30px;
