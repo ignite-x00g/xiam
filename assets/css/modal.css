@@ -147,13 +147,24 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 0.75rem; /* Space between stacked buttons */
-  align-items: stretch; /* Makes buttons take full width of container */
+  align-items: flex-start; /* Align text buttons to start */
 }
 
-.modal-button-stack .fab-btn {
-  /* Ensure buttons in stack don't have conflicting margin if they had it from elsewhere */
-  margin-top: 0;
-  margin-bottom: 0;
+.modal-button-stack .modal-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--clr-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .18s;
+}
+
+.modal-button-stack .modal-link:hover,
+.modal-button-stack .modal-link:focus {
+  color: var(--clr-accent);
+  outline: none;
 }
 
 body.dark .modal-content {
