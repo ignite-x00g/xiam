@@ -10,6 +10,7 @@
   --clr-tx: #333;
   --clr-tx-dark: #f0f0f0;
   --fab: 56px;
+  --fab-size: var(--fab);
   --header-height: 64px;
 }
 
