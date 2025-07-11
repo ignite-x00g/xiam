@@ -1,28 +1,28 @@
 <!-- components/chatbot/chatbot.html -->
 <div class="modal-overlay" id="chatbotModal" role="dialog" aria-modal="true" aria-labelledby="chatbotModalTitle">
   <div class="modal-content" style="padding:0; background:none; box-shadow:none; border-radius:22px;">
-    <div id="chatbot-container" aria-label="Ops AI – Chattia" tabindex="0">
-      <div id="chatbot-header">
-        <span id="title" data-en="Ops AI – Chattia" data-es="Ops IA – Chattia">OpsAI Chattia</span>
+    <div id="chatbot-modal-container" aria-label="Ops AI – Chattia" tabindex="0">
+      <div id="chatbot-modal-header">
+        <span id="chatbot-modal-title" data-en="Ops AI – Chattia" data-es="Ops IA – Chattia">OpsAI Chattia</span>
         <div>
-          <span id="langCtrl" class="ctrl" style="cursor:pointer;">ES</span>
+          <span id="chatbot-modal-langCtrl" class="ctrl" style="cursor:pointer;">ES</span>
           &nbsp;|&nbsp;
-          <span id="themeCtrl" class="ctrl" style="cursor:pointer;">Dark</span>
+          <span id="chatbot-modal-themeCtrl" class="ctrl" style="cursor:pointer;">Dark</span>
         </div>
       </div>
-      <div id="chat-log" aria-live="polite"></div>
-      <div id="chatbot-form-container">
-        <form id="chatbot-input-row" autocomplete="off">
-          <input id="chatbot-input" type="text"
+      <div id="chatbot-modal-log" aria-live="polite"></div>
+      <div id="chatbot-modal-form-container">
+        <form id="chatbot-modal-input-row" autocomplete="off">
+          <input id="chatbot-modal-input" type="text"
                  placeholder="Type your message..."
                  required maxlength="200"
                  data-placeholder-en="Type your message..."
                  data-placeholder-es="Escriba su mensaje...">
           <label class="human-check">
-            <input type="checkbox" id="human-check">
-            <span id="human-label" data-en="I am human" data-es="Soy humano">I am human</span>
+            <input type="checkbox" id="chatbot-modal-human-check">
+            <span id="chatbot-modal-human-label" data-en="I am human" data-es="Soy humano">I am human</span>
           </label>
-          <button id="chatbot-send" type="submit" disabled aria-label="Send">SEND</button>
+          <button id="chatbot-modal-send" type="submit" disabled aria-label="Send">SEND</button>
         </form>
       </div>
     </div>
