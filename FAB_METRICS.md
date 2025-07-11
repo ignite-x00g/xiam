@@ -13,7 +13,7 @@ This document outlines the positioning and dimension metrics for Floating Action
 - **`--fab-stack-gap`**: `12px`
 - **`--chatbot-width`**: `310px`
 - **`--chatbot-height`**: `540px`
-- **`--chatbot-inset-bottom`**: `35px` (Also FAB stack bottom when chatbot is open)
+- **`--chatbot-inset-bottom`**: `35px` (Base offset for the chatbot panel. FAB stack uses `calc(var(--chatbot-inset-bottom) - 5px)` when open)
 - **`--chatbot-horizontal-offset-from-fab-stack`**: `3px`
 - **`--mobile-nav-inset-bottom`**: `22px`
 - **`--mobile-nav-base-offset`**: `38px` (Used in `calc(var(--fab-size) + var(--mobile-nav-base-offset))` for `right` positioning of mobile nav)
@@ -28,7 +28,7 @@ This document outlines the positioning and dimension metrics for Floating Action
 - **Positioning Context:** `position: fixed;`
 - **`right`:** `var(--fab-stack-inset-right)` (resolves to `22px`)
 - **`bottom`:** `var(--fab-stack-inset-bottom)` (resolves to `25px`)
-    - *Dynamic Behavior:* JavaScript in `assets/js/global-app.js` changes `.fab-stack` `bottom` to `var(--chatbot-inset-bottom)` (i.e., `35px`) when Chatbot AI panel is open.
+    - *Dynamic Behavior:* JavaScript sets `.fab-stack` `bottom` to `calc(var(--chatbot-inset-bottom) - 5px)` when the Chatbot AI panel opens, keeping the stack slightly above the panel.
 - **Spacing between FABs:** `gap: var(--fab-stack-gap);` (resolves to `12px`)
 
 ## 3. Individual FAB Buttons (General Styling)

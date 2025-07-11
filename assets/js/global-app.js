@@ -179,7 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (isChatbotPanelHidden) { // Chatbot is about to be shown
         chatbotPanel.style.display = 'flex';
-        fabStack.style.bottom = '30px'; // Keep 8px above mobile nav
+        // Shift FAB stack upward while chatbot is visible
+        // Use CSS variable to maintain consistent spacing
+        fabStack.style.bottom = 'calc(var(--chatbot-inset-bottom) - 5px)';
         // Initialize chatbot if not already done for FAB context
         if (!chatbotPanel.classList.contains('__fab_chatbot_ready')) {
           chatbotInit(chatbotPanel);
@@ -187,7 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } else { // Chatbot is about to be hidden
         chatbotPanel.style.display = 'none';
-        fabStack.style.bottom = ''; // Revert FAB stack to CSS value (30px)
+        // Revert FAB stack position to its default from CSS
+        fabStack.style.bottom = '';
       }
     }
   }
