@@ -19,7 +19,7 @@
   --fab-stack-gap: 12px;
 
   /* Chatbot Panel */
-  --chatbot-width: 310px;
+  --chatbot-width: 305px;
   --chatbot-height: 540px;
   --chatbot-inset-bottom: 35px; /* Also used for fab-stack upward movement */
   --chatbot-horizontal-offset-from-fab-stack: 3px; /* Gap between FAB stack and Chatbot panel */
