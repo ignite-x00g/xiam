@@ -371,10 +371,10 @@ document.body.addEventListener('click', function(e) {
 }, true);
 
 
-function chatbotInit(modal) { // modal here is the #chatbotModal element
+function chatbotInit(container) { // container is the chatbot panel or modal overlay
   // Chatbot-specific toggles can now leverage global functions
-  const chatbotLangToggle = modal.querySelector('#langCtrl'); // Assuming #langCtrl is inside the chatbot modal
-  const chatbotThemeToggle = modal.querySelector('#themeCtrl'); // Assuming #themeCtrl is inside the chatbot modal
+  const chatbotLangToggle = container.querySelector('#langCtrl, #chatbot-modal-langCtrl');
+  const chatbotThemeToggle = container.querySelector('#themeCtrl, #chatbot-modal-themeCtrl');
 
   if (chatbotLangToggle) {
     chatbotLangToggle.onclick = () => {
@@ -399,12 +399,12 @@ function chatbotInit(modal) { // modal here is the #chatbotModal element
     chatbotThemeToggle.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark';
   }
 
-  // Chatbot logic
-  const log = qs('#chat-log');
-  const form = qs('#chatbot-input-row');
-  const input = qs('#chatbot-input');
-  const send = qs('#chatbot-send');
-  const guard = qs('#human-check');
+  // Chatbot logic scoped to the container
+  const log = container.querySelector('#chat-log, #chatbot-modal-log');
+  const form = container.querySelector('#chatbot-input-row, #chatbot-modal-input-row');
+  const input = container.querySelector('#chatbot-input, #chatbot-modal-input');
+  const send = container.querySelector('#chatbot-send, #chatbot-modal-send');
+  const guard = container.querySelector('#human-check, #chatbot-modal-human-check');
   if (!log || !form || !input || !send || !guard) return;
   guard.onchange = () => send.disabled = !guard.checked;
   function addMsg(txt, cls) {

@@ -1,7 +1,8 @@
 /* assets/css/chatbot.css */
 
 /* ===== Chatbot Modal & Container ===== */
-#chatbot-container {
+#chatbot-container,
+#chatbot-modal-container {
   width: var(--chatbot-width);
   height: var(--chatbot-height);
   background: #251541;
@@ -16,7 +17,8 @@
   right: calc(var(--fab-stack-inset-right) + var(--fab-size) + var(--chatbot-horizontal-offset-from-fab-stack));
   z-index: 4000; /* Ensure it's above footer but below FABs */
 }
-#chat-log {
+#chat-log,
+#chatbot-modal-log {
   flex: 1;
   overflow-y: auto; /* Allows scrolling within the log */
   padding: 1rem;
@@ -26,7 +28,8 @@
   scrollbar-width: thin;
   scrollbar-color: var(--clr-primary, #00c4ff) #1b0e2d;
 }
-#chatbot-header {
+#chatbot-header,
+#chatbot-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,7 +40,8 @@
   padding: 0.8rem 1rem;
   letter-spacing: 1px;
 }
-#chatbot-header .ctrl {
+#chatbot-header .ctrl,
+#chatbot-modal-header .ctrl {
   cursor: pointer;
   font-size: .81rem;
   font-weight: 500;
@@ -45,17 +49,8 @@
   opacity: .85;
   margin-left: 1.2em;
 }
-#chatbot-header .ctrl:hover { opacity: 1; }
-#chat-log {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-  background: #1b0e2d;
-  color: #eee;
-  font-size: .95rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--clr-primary, #00c4ff) #1b0e2d;
-}
+#chatbot-header .ctrl:hover,
+#chatbot-modal-header .ctrl:hover { opacity: 1; }
 .chat-msg {
   margin: .52rem 0;
   max-width: 89%;
@@ -77,17 +72,20 @@
   border-radius: 14px 14px 14px 0;
   font-weight: 500;
 }
-#chatbot-form-container {
+#chatbot-form-container,
+#chatbot-modal-form-container {
   background: #220f3a;
   border-top: 1px solid var(--clr-accent, #ff3bdb);
   padding: .52rem .73rem;
 }
-#chatbot-input-row {
+#chatbot-input-row,
+#chatbot-modal-input-row {
   display: flex;
   gap: .6rem;
   align-items: center;
 }
-#chatbot-input {
+#chatbot-input,
+#chatbot-modal-input {
   flex: 1;
   background: transparent;
   border: none;
@@ -97,7 +95,8 @@
   border-radius: 6px;
   outline: none;
 }
-#chatbot-send {
+#chatbot-send,
+#chatbot-modal-send {
   background: var(--clr-accent, #ff3bdb);
   border: none;
   color: #fff;
@@ -109,7 +108,8 @@
   font-size: .9rem;
   margin-left: .4rem;
 }
-#chatbot-send:disabled {
+#chatbot-send:disabled,
+#chatbot-modal-send:disabled {
   background: #555;
   cursor: not-allowed;
 }
@@ -124,21 +124,24 @@
   margin-right: .38rem;
 }
 @media (max-width: 480px) { /* Styles for very small screens */
-  #chatbot-container {
+  #chatbot-container,
+  #chatbot-modal-container {
     width: 85vw; /* Changed from 98vw */
     height: 85vh; /* Changed from 74vh */
     max-width: 85vw; /* Ensure it overrides desktop defaults */
     max-height: 85vh; /* Ensure it overrides desktop defaults */
     min-height: 0; /* Remove min-height if it conflicts with 85vh */
   }
-  #chatbot-header {
+  #chatbot-header,
+  #chatbot-modal-header {
     font-size: 1.03rem; /* Keep existing header font adjustment */
     padding: 0.6rem 0.6rem;
   }
 }
 
 @media (max-width: 768px) { /* General mobile/adaptable screens */
-  #chatbot-container {
+  #chatbot-container,
+  #chatbot-modal-container {
     /* This media query will apply unless overridden by a more specific one like (max-width: 480px) */
     /* Apply 85vw/85vh here if it's not covered by the 480px rule, or if 480px has different values */
     /* Assuming the 480px rule already sets it to 85vw/85vh, we might only need this for larger tablets if different */
