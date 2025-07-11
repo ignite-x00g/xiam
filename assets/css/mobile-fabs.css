@@ -64,7 +64,7 @@
     /* right: calc(var(--fab-size) + var(--mobile-nav-base-offset)); */ /* Old positioning */
     /* New positioning: right edge aligns with FAB stack's right edge (5px from screen) */
     right: 5px;
-    width: 0; /* Initial width, expands to 85vw when active */
+    width: 0; /* Initial width, expands to 92vw when active */
     display: flex;
     gap: 13px;
     padding: .55rem 1.2rem;
@@ -79,7 +79,7 @@
     overflow: hidden; /* Hide content when scaled to 0 */
   }
   .mobile-nav.active {
-    width: 85vw; /* Expand to 85% of mobile screen width */
+    width: 92vw; /* Expand to 92% of mobile screen width */
     transform: scaleX(1);
   }
   .mobile-nav-item {
@@ -114,7 +114,7 @@
     border: 1px solid var(--menu-border-color, #ccc);
     border-radius: 13px;
     padding: 1.15rem 1.2rem;
-    max-height: 52%;
+    max-height: 30%;
     overflow-y: auto;
     display: none;
     z-index: 2100;
