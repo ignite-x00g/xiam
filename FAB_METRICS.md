@@ -11,7 +11,7 @@ This document outlines the positioning and dimension metrics for Floating Action
 - **`--fab-stack-inset-right`**: `22px`
 - **`--fab-stack-inset-bottom`**: `25px`
 - **`--fab-stack-gap`**: `12px`
-- **`--chatbot-width`**: `310px`
+ - **`--chatbot-width`**: `305px`
 - **`--chatbot-height`**: `540px`
 - **`--chatbot-inset-bottom`**: `35px` (Also FAB stack bottom when chatbot is open)
 - **`--chatbot-horizontal-offset-from-fab-stack`**: `3px`
@@ -72,11 +72,11 @@ This document outlines the positioning and dimension metrics for Floating Action
     - Resolves to: `calc(22px + 56px + 3px) = 81px`
 - **`bottom`:** `var(--chatbot-inset-bottom)` (resolves to `35px`)
 - **`width` (of `#chatbot-container`):**
-    - Default: `var(--chatbot-width)` (resolves to `310px`)
-    - Small screens (`@media (max-width: 480px)`): `width: 98vw;` (This specific value is not currently variable-driven but could be if needed)
+    - Default: `var(--chatbot-width)` (resolves to `305px`)
+    - Small screens (`@media (max-width: 480px)`): `width: 85vw;` (reflects mobile rule in `chatbot.css`)
 - **`height` (of `#chatbot-container`):**
     - Default: `var(--chatbot-height)` (resolves to `540px`)
-    - Small screens (`@media (max-width: 480px)`): `height: 74vh; min-height: 340px;` (Not currently variable-driven)
+    - Small screens (`@media (max-width: 480px)`): `height: 85vh;` (matches mobile rule)
 
 ## 7. "Horizontal Nav menu bar" Pop-up (`.mobile-nav`)
 - **Triggered by:** "Menu Toggle" FAB.
