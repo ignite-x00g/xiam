@@ -18,14 +18,12 @@
                  required maxlength="200"
                  data-placeholder-en="Type your message..."
                  data-placeholder-es="Escriba su mensaje...">
-          <button id="chatbot-send" type="submit" disabled aria-label="Send">
-            <i class="fas fa-paper-plane">SEND</i>
-          </button>
+          <label class="human-check">
+            <input type="checkbox" id="human-check">
+            <span id="human-label" data-en="I am human" data-es="Soy humano">I am human</span>
+          </label>
+          <button id="chatbot-send" type="submit" disabled aria-label="Send">SEND</button>
         </form>
-        <label class="human-check">
-          <input type="checkbox" id="human-check">
-          <span id="human-label" data-en="I am human" data-es="Soy humano">I am human</span>
-        </label>
       </div>
     </div>
   </div>
