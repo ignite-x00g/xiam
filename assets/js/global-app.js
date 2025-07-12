@@ -43,7 +43,8 @@ async function openModal(modalId, src) {
     if (modalContent && modalContent.classList.contains('modal-draggable')) {
         bringToFront(modalContent);
         modalContent.addEventListener('mousedown', () => bringToFront(modalContent));
-        // Center the modal
+
+      // Center the modal
         modalContent.style.left = `calc(50% - ${modalContent.offsetWidth / 2}px)`;
         modalContent.style.top = `calc(50% - ${modalContent.offsetHeight / 2}px)`;
 
@@ -80,7 +81,6 @@ document.body.addEventListener('click', e => {
 
 // === Modal Close / Dismiss ===
 // Refactored to be more robust and prevent duplicate listeners.
-
 // 1. Centralized handler for closing any active modal
 function closeActiveModal() {
   const activeModal = qs('.modal-overlay.active');
@@ -134,7 +134,6 @@ function attachModalHandlers(modal) {
 
 // Attach modal close handlers to any pre-existing modals on initial load
 // qsa('.modal-overlay').forEach(attachModalHandlers); // This might be redundant if openModal handles it
-
 // ===== Theme/Language Toggles =====
 const themeToggleButton = qs('#theme-toggle-button');
 const languageToggleButton = qs('#language-toggle-button');
@@ -395,7 +394,6 @@ document.body.addEventListener('submit', e => {
   }
 });
 
-
 // ===== Draggable and Resizable Modals =====
 let zIndexCounter = 4001;
 
@@ -447,7 +445,6 @@ function makeDraggable(modalContent, handle) {
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
-
         let newTop = modalContent.offsetTop - pos2;
         let newLeft = modalContent.offsetLeft - pos1;
 
