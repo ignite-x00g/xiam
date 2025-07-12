@@ -1,0 +1,15 @@
+.fab-btn.link-style {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    color: var(--clr-primary);
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.fab-btn.link-style:hover, .fab-btn.link-style:focus {
+    background: transparent;
+    color: var(--clr-accent);
+    outline: none;
+}
