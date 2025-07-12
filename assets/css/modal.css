@@ -81,6 +81,16 @@
   }
 }
 
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    background: #ccc;
+    cursor: nwse-resize;
+}
+
 
 /* ===== Simple Form Layout (inside modals) ===== */
 form {
