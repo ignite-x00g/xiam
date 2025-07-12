@@ -38,6 +38,24 @@ async function openModal(modalId, src) {
 
   if (modal) {
     modal.classList.add('active');
+    const modalContent = modal.querySelector('.modal-content');
+
+    if (modalContent && modalContent.classList.contains('modal-draggable')) {
+        bringToFront(modalContent);
+        modalContent.addEventListener('mousedown', () => bringToFront(modalContent));
+        // Center the modal
+        modalContent.style.left = `calc(50% - ${modalContent.offsetWidth / 2}px)`;
+        modalContent.style.top = `calc(50% - ${modalContent.offsetHeight / 2}px)`;
+
+        const dragHandle = modalContent.querySelector('.drag-handle') || modalContent;
+        makeDraggable(modalContent, dragHandle);
+
+        const resizeHandle = modalContent.querySelector('.resize-handle');
+        if (resizeHandle) {
+            makeResizable(modalContent, resizeHandle);
+        }
+    }
+
     // Re-apply language settings to newly loaded modal content
     const currentLang = document.documentElement.lang || 'en';
     updateTextContent(modal, currentLang);
@@ -378,6 +396,77 @@ document.body.addEventListener('submit', e => {
 });
 
 
+// ===== Draggable and Resizable Modals =====
+let zIndexCounter = 4001;
+
+function bringToFront(modalContent) {
+    modalContent.style.zIndex = zIndexCounter++;
+}
+
+function makeResizable(modalContent, resizeHandle) {
+    let startX, startY, startWidth, startHeight;
+
+    resizeHandle.onmousedown = function(e) {
+        e.preventDefault();
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = parseInt(document.defaultView.getComputedStyle(modalContent).width, 10);
+        startHeight = parseInt(document.defaultView.getComputedStyle(modalContent).height, 10);
+        document.onmousemove = doDrag;
+        document.onmouseup = stopDrag;
+    }
+
+    function doDrag(e) {
+        modalContent.style.width = (startWidth + e.clientX - startX) + 'px';
+        modalContent.style.height = (startHeight + e.clientY - startY) + 'px';
+    }
+
+    function stopDrag(e) {
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
+}
+
+function makeDraggable(modalContent, handle) {
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    handle.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+
+        let newTop = modalContent.offsetTop - pos2;
+        let newLeft = modalContent.offsetLeft - pos1;
+
+        // Constrain to viewport
+        if (newTop < 0) newTop = 0;
+        if (newLeft < 0) newLeft = 0;
+        if (newTop + modalContent.offsetHeight > window.innerHeight) newTop = window.innerHeight - modalContent.offsetHeight;
+        if (newLeft + modalContent.offsetWidth > window.innerWidth) newLeft = window.innerWidth - modalContent.offsetWidth;
+
+        modalContent.style.top = newTop + "px";
+        modalContent.style.left = newLeft + "px";
+    }
+
+    function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+
 // ===== Chatbot Inline Logic (Ops AI – Chattia) =====
 // Chatbot initialization is triggered when its modal is opened and interacted with.
 // The openModal function now calls attachModalHandlers, which is sufficient for basic setup.
@@ -396,6 +485,13 @@ document.body.addEventListener('click', function(e) {
 
 
 function chatbotInit(container) { // container is the chatbot panel or modal overlay
+  // Make the chatbot draggable
+  const modalContent = container.querySelector('.modal-content');
+  const dragHandle = container.querySelector('#chatbot-modal-header');
+  if (modalContent && dragHandle) {
+    makeDraggable(modalContent, dragHandle);
+  }
+
   // Chatbot-specific toggles can now leverage global functions
   const chatbotLangToggle = container.querySelector('#langCtrl, #chatbot-modal-langCtrl');
   const chatbotThemeToggle = container.querySelector('#themeCtrl, #chatbot-modal-themeCtrl');

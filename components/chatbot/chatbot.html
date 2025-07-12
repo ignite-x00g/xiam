@@ -1,8 +1,8 @@
 <!-- components/chatbot/chatbot.html -->
 <div class="modal-overlay" id="chatbotModal" role="dialog" aria-modal="true" aria-labelledby="chatbotModalTitle">
-  <div class="modal-content" style="padding:0; background:none; box-shadow:none; border-radius:22px;">
+  <div class="modal-content modal-draggable" style="padding:0; background:none; box-shadow:none; border-radius:22px;">
     <div id="chatbot-modal-container" aria-label="Ops AI – Chattia" tabindex="0">
-      <div id="chatbot-modal-header">
+      <div id="chatbot-modal-header" class="drag-handle">
         <span id="chatbot-modal-title" data-en="Ops AI – Chattia" data-es="Ops IA – Chattia">OpsAI Chattia</span>
         <div>
           <span id="chatbot-modal-langCtrl" class="ctrl" style="cursor:pointer;">ES</span>
@@ -26,5 +26,6 @@
         </form>
       </div>
     </div>
+    <div class="resize-handle"></div>
   </div>
 </div>
