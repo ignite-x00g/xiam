@@ -39,6 +39,7 @@
   font-size: 1.12rem;
   padding: 0.8rem 1rem;
   letter-spacing: 1px;
+  cursor: move;
 }
 #chatbot-header .ctrl,
 #chatbot-modal-header .ctrl {
