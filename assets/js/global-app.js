@@ -61,36 +61,57 @@ document.body.addEventListener('click', e => {
 });
 
 // === Modal Close / Dismiss ===
-function attachModalHandlers(modal) {
-  if (!modal) return;
-  // Close via [X] button or any button with data-close
-  qsa('.close-modal, [data-close]', modal).forEach(btn => { // MODIFIED SELECTOR
-    // Remove old listener before adding new one to prevent duplicates if called multiple times
-    const newBtn = btn.cloneNode(true);
-    btn.parentNode.replaceChild(newBtn, btn);
-    newBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      modal.classList.remove('active');
-    });
-  });
+// Refactored to be more robust and prevent duplicate listeners.
 
-  // Close via overlay click (only if the modal itself is the direct target)
-  // Ensure this listener is only added once or is idempotent
-  if (!modal.dataset.overlayListenerAttached) {
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-    modal.dataset.overlayListenerAttached = 'true';
+// 1. Centralized handler for closing any active modal
+function closeActiveModal() {
+  const activeModal = qs('.modal-overlay.active');
+  if (activeModal) {
+    activeModal.classList.remove('active');
+  }
+}
+
+// 2. Keydown listener attached once globally
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeActiveModal();
+  }
+});
+
+// 3. Click listener on the body to handle all modal closing scenarios
+document.body.addEventListener('click', e => {
+  // Close via [X] button or any button with [data-close]
+  if (e.target.closest('[data-close]')) {
+    e.stopPropagation();
+    // The button might be inside a modal that isn't the one to close (e.g., a sub-modal's close button)
+    // so we find the closest modal overlay to the button and close it.
+    const modalToClose = e.target.closest('.modal-overlay');
+    if (modalToClose) {
+      modalToClose.classList.remove('active');
+    } else {
+      // Fallback for cases where the structure is unexpected
+      closeActiveModal();
+    }
   }
 
-  // Close via Escape key - this is a window listener, should be managed carefully
-  // To prevent multiple listeners, we can name it and remove/re-add, or use a flag.
-  // For simplicity, we'll assume it's okay for now, but in a larger app, manage this.
-  window.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      modal.classList.remove('active');
-    }
-  });
+  // Close via overlay click
+  // Check if the direct click target is a modal overlay
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('active');
+  }
+}, true); // Use capture phase to catch clicks on overlay reliably
+
+
+function attachModalHandlers(modal) {
+  // The global listeners on window and body now handle all closing logic.
+  // This function is now primarily for any modal-specific setup
+  // that ISN'T related to closing, which in this case is nothing.
+  // We keep the function for potential future use and to maintain the call structure in openModal.
+
+  // Example of what could go here:
+  // if (modal.id === 'someSpecialModal') {
+  //   console.log('Special modal is being set up!');
+  // }
 }
 
 // Attach modal close handlers to any pre-existing modals on initial load
